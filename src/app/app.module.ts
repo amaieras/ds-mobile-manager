@@ -11,12 +11,10 @@ import { AppComponent } from './app.component';
 import { AppToolbarService } from './app-toolbar/app-toolbar.service';
 import { ClientnModule } from "./client/client.module"
 import { ClientRoutingModule } from "./client/client-routing.module"
-import { TripModule } from './trip/trip.module';
-import { TripRoutingModule } from './trip/trip-routing.module';
-import { PersonModule } from './person/person.module';
-import { PersonRoutingModule } from './person/person-routing.module';
 
 import 'hammerjs';
+import {RepairModule} from "./repair/repair.module";
+import {RepairRoutingModule} from "./repair/repair-routing.module";
 
 @NgModule({
     declarations: [
@@ -31,10 +29,8 @@ import 'hammerjs';
         AppRoutingModule,
         ClientnModule,
         ClientRoutingModule,
-        TripModule,
-        TripRoutingModule,
-        PersonModule,
-        PersonRoutingModule,
+        RepairModule,
+        RepairRoutingModule,
         RouterModule.forRoot([{
             path: '', redirectTo: '/client', pathMatch: 'full'
         }])

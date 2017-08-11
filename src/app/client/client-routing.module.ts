@@ -9,7 +9,7 @@ const routes: Routes = [{
     title: 'Client'
   }
 }];
-
+ 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]

@@ -8,7 +8,7 @@ import 'rxjs/add/operator/map';
 export class MenuItem {
     path: string;
     title: string;
-    icon?: string;
+    icon: string;
 }
 
 @Injectable()
