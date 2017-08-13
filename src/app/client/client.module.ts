@@ -2,13 +2,24 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ClientRoutingModule } from './client-routing.module';
-import { ClientPageComponent } from './client-page/client-page.component';
+import { ClientDetailComponent } from './client-page/client-detail.component';
+import { ClientTypeListComponent } from "./client-type-list/client-type-list.component"
+import { ClientTypeService } from "./client-type-list/client-type.service"
 
 @NgModule({
+  exports: [
+    ClientTypeListComponent
+  ],
   imports: [
     CommonModule,
     ClientRoutingModule
   ],
-  declarations: [ClientPageComponent]
+  declarations: [
+    ClientDetailComponent,
+    ClientTypeListComponent
+  ],
+  providers: [
+    ClientTypeService
+  ]
 })
-export class ClientnModule { }
+export class ClientModule { }

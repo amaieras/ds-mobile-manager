@@ -1,0 +1,8 @@
+<div class="container">
+    <h3 *ngIf="isLoading"><i>Se incarca tipurile de clienti ... </i></h3>
+    <h3 *ngIf="!isLoading">Alege tipul de client:</h3>
+
+    <nav>
+      <a *ngFor="let clientType of clientTypes | async" (click)="select(clientType)">{{clientType.type}}</a>
+    </nav>
+</div>

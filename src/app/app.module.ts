@@ -9,9 +9,10 @@ import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AppToolbarService } from './app-toolbar/app-toolbar.service';
-import { ClientnModule } from "./client/client.module"
+import { ClientModule } from "./client/client.module"
 import { ClientRoutingModule } from "./client/client-routing.module"
 
+import { ClientTypeService } from "./client/client-type-list/client-type.service"
 import 'hammerjs';
 import {RepairModule} from "./repair/repair.module";
 import {RepairRoutingModule} from "./repair/repair-routing.module";
@@ -27,7 +28,7 @@ import {RepairRoutingModule} from "./repair/repair-routing.module";
         BrowserAnimationsModule,
         AppCommonModule,
         AppRoutingModule,
-        ClientnModule,
+        ClientModule,
         ClientRoutingModule,
         RepairModule,
         RepairRoutingModule,
@@ -35,7 +36,7 @@ import {RepairRoutingModule} from "./repair/repair-routing.module";
             path: '', redirectTo: '/client', pathMatch: 'full'
         }])
     ],
-    providers: [AppToolbarService],
+    providers: [AppToolbarService, ClientTypeService],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
