@@ -6,11 +6,11 @@ export class ClientType {
 export const clientTypes: ClientType[] = [
   {
     id: 1,
-    type: 'Client'
+    type: 'PF'
   },
   {
     id: 2,
-    type: 'Depozit'
+    type: 'GSM'
   }
 ];
 

@@ -5,4 +5,10 @@
     <nav>
       <a *ngFor="let clientType of clientTypes | async" (click)="select(clientType)">{{clientType.type}}</a>
     </nav>
+  <div *ngIf="selectedClientType">
+    <hr>
+    <h2>Adauga client</h2>
+    <h3>{{selectedClientType.type}}</h3>
+    <client-detail [selectedClientType]="selectedClientType"></client-detail>
+  </div>
 </div>

@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { of }         from 'rxjs/observable/of';
 import 'rxjs/add/operator/delay';
 
-import { Client, clients} from "../data-mode-client"
+import { Client, clients} from "../data-model-client"
 
 @Injectable()
 export class ClientService {

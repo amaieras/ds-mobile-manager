@@ -1,0 +1,107 @@
+<form [formGroup]="clientForm" (ngSubmit)="onSubmit()" novalidate>
+  <div *ngIf="selectedClientType.type == 'PF'; else gsm">
+      <div style="margin-left: 1em;">
+          <div class="form-group">
+            <label class="center-block">Nume:
+              <input class="form-control" formControlName="lastname">
+            </label>
+          </div>
+          <div class="form-group">
+            <label class="center-block">Prenume:
+              <input class="form-control" formControlName="firstname">
+            </label>
+          </div>
+          <div class="form-group">
+            <label class="center-block">Numar de telefon:
+              <input class="form-control" formControlName="firm">
+            </label>
+          </div>
+          <div class="form-group">
+            <label class="center-block">Firma:
+              <input class="form-control" formControlName="phone">
+            </label>
+          </div>
+          <div class="form-group">
+            <label class="center-block">Model telefon:
+              <input class="form-control" formControlName="modelPhone">
+            </label>
+          </div>
+          <div class="form-group">
+            <label class="center-block">IMEI:
+              <input class="form-control" formControlName="imei">
+            </label>
+          </div>
+          <div class="form-group">
+            <label class="center-block">Solicitare/Problema:
+              <input class="form-control" formControlName="problem">
+            </label>
+          </div>
+          <div class="form-group">
+            <label class="center-block">Oferta pret:
+              <input class="form-control" formControlName="price">
+            </label>
+          </div>
+          <div class="form-group">
+            <label class="center-block">Programare:
+              <input class="form-control" formControlName="appointment">
+            </label>
+          </div>
+          <div class="form-group">
+            <label class="center-block">De unde ai aflat de noi:
+              <input class="form-control" formControlName="where">
+            </label>
+          </div>
+        </div>
+  </div>
+  <ng-template #gsm>
+    <div style="margin-left: 1em;">
+      <div class="form-group">
+        <label class="center-block">Nume:
+          <input class="form-control" formControlName="lastname">
+        </label>
+      </div>
+      <div class="form-group">
+        <label class="center-block">Prenume:
+          <input class="form-control" formControlName="firstname">
+        </label>
+      </div>
+
+      <div class="form-group">
+        <label class="center-block">Numar de telefon:
+          <input class="form-control" formControlName="firm">
+        </label>
+      </div>
+      <div class="form-group">
+        <label class="center-block">Firma:
+          <input class="form-control" formControlName="phone">
+        </label>
+      </div>
+      <div class="form-group">
+        <label class="center-block">E-mail:
+          <input class="form-control" formControlName="email">
+        </label>
+      </div>
+      <div class="form-group">
+        <label class="center-block">Tara:
+          <input class="form-control" formControlName="country">
+        </label>
+      </div>
+      <div class="form-group">
+        <label class="center-block">Oras:
+          <input class="form-control" formControlName="city">
+        </label>
+      </div>
+      <div class="form-group">
+        <label class="center-block">Adresa facturare:
+          <input class="form-control" formControlName="addressPaper">
+        </label>
+      </div>
+      <div class="form-group">
+        <label class="center-block">Adresa livrare:
+          <input class="form-control" formControlName="addressDeliver">
+        </label>
+      </div>
+    </div>
+  </ng-template>
+  <button  class="btn btn-success" type="submit">Salveaza</button>
+</form>

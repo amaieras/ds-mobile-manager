@@ -2,7 +2,7 @@ import {Component, Input, OnChanges, Output} from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 
 import { ClientType } from "../data-model";
-import { Client } from "../data-mode-client"
+import { Client } from "../data-model-client"
 import { ClientService }           from './client-detail.service';
 
 @Component({
@@ -10,30 +10,43 @@ import { ClientService }           from './client-detail.service';
   templateUrl: './client-detail.component.html'
 })
 export class ClientDetailComponent implements OnChanges {
-  @Input() clientType: ClientType;
-  @Output() client: Client;
+  @Input() selectedClientType: ClientType;
+  client: Client;
+
   clientForm: FormGroup;
-  nameChangeLog: string[] = [];
+  // nameChangeLog: string[] = [];
 
   constructor(
     private fb: FormBuilder,
     private clientService: ClientService) {
-
+    this.selectedClientType = undefined;
     this.createForm();
-    this.logNameChange();
+    // this.logNameChange();
   }
 
   createForm() {
     this.clientForm = this.fb.group({
       firstname: '',
       lastname: '',
-      phone: ''
+      firm: '',
+      phone: '',
+      modelPhone: '',
+      imei: '',
+      problem: '',
+      price: '',
+      appointment: '',
+      where: '',
+      email: '',
+      country: '',
+      city: '',
+      addressPaper: '',
+      addressDeliver: ''
     });
   }
 
   ngOnChanges() {
     this.clientForm.reset({
-      name: this.clientType.type
+      name: this.selectedClientType.type
     });
   }
 
@@ -57,20 +70,14 @@ export class ClientDetailComponent implements OnChanges {
     };
     return saveClient;
   }
+  select(clientType: ClientType) { this.selectedClientType = clientType; }
+  // revert() { this.ngOnChanges(); }
 
-  revert() { this.ngOnChanges(); }
-
-  logNameChange() {
-    const nameControl = this.clientForm.get('name');
-    nameControl.valueChanges.forEach(
-      (value: string) => this.nameChangeLog.push(value)
-    );
-  }
+  // logNameChange() {
+  //   const nameControl = this.clientForm.get('name');
+  //   nameControl.valueChanges.forEach(
+  //     (value: string) => this.nameChangeLog.push(value)
+  //   );
+  // }
 }
 
-
-/*
-Copyright 2017 Google Inc. All Rights Reserved.
-Use of this source code is governed by an MIT-style license that
-can be found in the LICENSE file at http://angular.io/license
-*/

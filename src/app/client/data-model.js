@@ -10,11 +10,11 @@ exports.ClientType = ClientType;
 exports.clientTypes = [
     {
         id: 1,
-        type: 'Client'
+        type: 'PF'
     },
     {
         id: 2,
-        type: 'Depszit'
+        type: 'GSM'
     }
 ];
 //# sourceMappingURL=data-model.js.map
