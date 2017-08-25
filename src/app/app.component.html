@@ -24,7 +24,7 @@
             <!--<md-icon *ngIf="navItem.icon">{{navItem.icon}}</md-icon>-->
             {{(activeMenuItem$ | async)?.title}}
             <span fxFlex></span>
-
+          <router-outlet></router-outlet>
             <button md-icon-button [mdMenuTriggerFor]="themeMenu">
                 <md-icon>more_vert</md-icon>
             </button>

@@ -1,0 +1,73 @@
+<div class="container">
+  <h1>PF</h1>
+  <form [formGroup]="clientPFForm" (ngSubmit)="onSubmit()" novalidate #formPf="ngForm">
+
+    <div [hidden] = "formPf.submitted">
+      <div class="form-group">
+        <label for="lastname">Nume</label>
+          <input id="lastname" class="form-control" formControlName="lastname" required>
+
+        <div *ngIf="lastname.invalid && (lastname.dirty || lastname.touched)"
+             class="alert alert-danger">
+          <div *ngIf="lastname.errors.required">
+            Numele nu este completat.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="firstname">Prenume</label>
+        <input id="firstname" class="form-control" formControlName="firstname" required>
+
+        <div *ngIf="firstname.invalid && (firstname.dirty || firstname.touched)"
+             class="alert alert-danger">
+          <div *ngIf="firstname.errors.required">
+            Prenumele nu este completat.
+          </div>
+        </div>
+      </div>
+      <!--<div class="form-group">-->
+        <!--<label class="center-block">Numar de telefon:-->
+          <!--<input class="form-control" formControlName="firm">-->
+        <!--</label>-->
+      <!--</div>-->
+      <!--<div class="form-group">-->
+        <!--<label class="center-block">Firma:-->
+          <!--<input class="form-control" formControlName="phone">-->
+        <!--</label>-->
+      <!--</div>-->
+      <!--<div class="form-group">-->
+        <!--<label class="center-block">Model telefon:-->
+          <!--<input class="form-control" formControlName="modelPhone">-->
+        <!--</label>-->
+      <!--</div>-->
+      <!--<div class="form-group">-->
+        <!--<label class="center-block">IMEI:-->
+          <!--<input class="form-control" formControlName="imei">-->
+        <!--</label>-->
+      <!--</div>-->
+      <!--<div class="form-group">-->
+        <!--<label class="center-block">Solicitare/Problema:-->
+          <!--<input class="form-control" formControlName="problem">-->
+        <!--</label>-->
+      <!--</div>-->
+      <!--<div class="form-group">-->
+        <!--<label class="center-block">Oferta pret:-->
+          <!--<input class="form-control" formControlName="price">-->
+        <!--</label>-->
+      <!--</div>-->
+      <!--<div class="form-group">-->
+        <!--<label class="center-block">Programare:-->
+          <!--<input class="form-control" formControlName="appointment">-->
+        <!--</label>-->
+      <!--</div>-->
+      <!--<div class="form-group">-->
+        <!--<label class="center-block">De unde ai aflat de noi:-->
+          <!--<input class="form-control" formControlName="where">-->
+        <!--</label>-->
+      <!--</div>-->
+      <button type="submit" class="btn btn-default"
+              [disabled]="clientPFForm.invalid">Salveaza</button>
+    </div>
+  </form>
+</div>

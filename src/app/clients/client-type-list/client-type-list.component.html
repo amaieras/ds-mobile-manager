@@ -3,12 +3,13 @@
     <h3 *ngIf="!isLoading">Alege tipul de client:</h3>
 
     <nav>
-      <a *ngFor="let clientType of clientTypes | async" (click)="select(clientType)">{{clientType.type}}</a>
+      <a *ngFor="let clientType of clientTypes | async"
+         [routerLink]="[clientType.type]">{{clientType.type}}</a>
     </nav>
   <div *ngIf="selectedClientType">
     <hr>
     <h2>Adauga client</h2>
-    <h3>{{selectedClientType.type}}</h3>
-    <client-detail [selectedClientType]="selectedClientType"></client-detail>
+    <h3>{{selectedClientType.id}}</h3>
   </div>
 </div>
+<router-outlet></router-outlet>

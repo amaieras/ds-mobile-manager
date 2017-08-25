@@ -8,12 +8,29 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var core_1 = require("@angular/core");
 var of_1 = require("rxjs/observable/of");
 require("rxjs/add/operator/delay");
-var data_model_1 = require("../data-model");
+var ClientType = (function () {
+    function ClientType(id, type) {
+        this.id = id;
+        this.type = type;
+    }
+    return ClientType;
+}());
+exports.ClientType = ClientType;
+exports.clientTypes = [
+    {
+        id: 1,
+        type: 'PF'
+    },
+    {
+        id: 2,
+        type: 'GSM'
+    }
+];
 var ClientTypeService = (function () {
     function ClientTypeService() {
     }
     ClientTypeService.prototype.getClientTypes = function () {
-        return of_1.of(data_model_1.clientTypes);
+        return of_1.of(exports.clientTypes);
     };
     return ClientTypeService;
 }());

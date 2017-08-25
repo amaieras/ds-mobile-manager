@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable }        from 'rxjs/Observable';
 import 'rxjs/add/operator/finally';
-
-import { ClientType }        from '../data-model';
-import { ClientTypeService } from './client-type.service';
+import { ActivatedRoute, Router } from "@angular/router";
+import { ClientType, ClientTypeService } from './client-type.service';
 
 @Component({
   selector: 'client-type-list',
@@ -13,10 +12,14 @@ export class ClientTypeListComponent implements OnInit {
   clientTypes: Observable<ClientType[]>;
   isLoading = false;
   selectedClientType: ClientType;
+  selectedId: number;
 
-  constructor(private clientTypeService: ClientTypeService) { }
+  constructor(private clientTypeService: ClientTypeService,  private route: ActivatedRoute, private router: Router) { }
 
-  ngOnInit() { this.getClientTypes(); }
+  ngOnInit() {
+    this.getClientTypes();
+    this.selectedClientType = null;
+  }
 
   getClientTypes() {
     this.isLoading = true;
@@ -26,5 +29,10 @@ export class ClientTypeListComponent implements OnInit {
     this.selectedClientType = undefined;
   }
 
-  select(clientType: ClientType) { this.selectedClientType = clientType; }
+  select(clientType: ClientType) {
+    this.selectedId = clientType.id;
+    this.router.navigate([clientType.id], { relativeTo: this.route });
+  }
+
+
 }

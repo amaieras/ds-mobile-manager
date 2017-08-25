@@ -6,7 +6,7 @@ const routes: Routes = [{
   path: 'repair',
   component: RepairPageComponent,
   data: {
-     title: 'Repairs'
+     title: 'Reparatii'
   }
 }];
 
