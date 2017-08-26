@@ -1,3 +1,10 @@
+# Prerequisites
+Run from home directory the following commands:                                              
+`npm install`                                                                 
+`npm install angularfire2 firebase --save`                                         
+`npm install promise-polyfill --save-exact`                                                          
+`npm install amexio-ng-extensions --save`                                                 
+
 # CandorSampleNgCli
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.0.
