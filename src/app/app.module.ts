@@ -15,13 +15,13 @@ import { AppComponent } from './app.component';
 import { AppToolbarService } from './app-toolbar/app-toolbar.service';
 import { ClientModule } from "./clients/client.module"
 import { ClientCenterRoutingModule } from "./clients/client-center-routing.module";
-
 import { ClientTypeService } from "./clients/client-type-list/client-type.service"
 import 'hammerjs';
 import {RepairModule} from "./repair/repair.module";
 import {RepairRoutingModule} from "./repair/repair-routing.module";
 
 export const firebaseConfig = {
+
   apiKey: "AIzaSyBgjig5r7-UpbJhtjhS37FaP1X5d6Hk6YA",
   authDomain: "dsmobile-526c1.firebaseapp.com",
   databaseURL: "https://dsmobile-526c1.firebaseio.com",
@@ -52,7 +52,7 @@ export const firebaseConfig = {
         //firebase
         AngularFireModule.initializeApp(firebaseConfig),
         AngularFireDatabaseModule,
-        AngularFireAuthModule
+        AngularFireAuthModule,
     ],
     providers: [AppToolbarService, ClientTypeService],
     bootstrap: [AppComponent]

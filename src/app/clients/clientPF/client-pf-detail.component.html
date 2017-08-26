@@ -1,24 +1,22 @@
+<p-growl [(value)]="msgs"></p-growl>
 <div class="container">
   <h1>PF</h1>
-  <form [formGroup]="clientPFForm" (ngSubmit)="onSubmit()" novalidate #formPf="ngForm">
-
-    <div [hidden] = "formPf.submitted">
+  <form [formGroup]="clientPFForm" (ngSubmit)="onSubmit($event)" novalidate #formPF="ngForm">
+    <!--<div [hidden] = "formPf.submitted">-->
       <div class="form-group">
         <label for="lastname">Nume</label>
-          <input id="lastname" class="form-control" formControlName="lastname" required>
-
-        <div *ngIf="lastname.invalid && (lastname.dirty || lastname.touched)"
-             class="alert alert-danger">
-          <div *ngIf="lastname.errors.required">
-            Numele nu este completat.
+          <input placeholder="Nume" id="lastname" class="form-control" formControlName="lastname" required>
+          <div *ngIf="lastname.invalid && (lastname.dirty || lastname.touched)"
+               class="alert alert-danger">
+            <div *ngIf="lastname.errors.required">
+              Numele nu este completat.
+            </div>
           </div>
-        </div>
       </div>
 
       <div class="form-group">
         <label for="firstname">Prenume</label>
-        <input id="firstname" class="form-control" formControlName="firstname" required>
-
+        <input placeholder="Prenume" id="firstname" class="form-control" formControlName="firstname" required>
         <div *ngIf="firstname.invalid && (firstname.dirty || firstname.touched)"
              class="alert alert-danger">
           <div *ngIf="firstname.errors.required">
@@ -26,48 +24,74 @@
           </div>
         </div>
       </div>
-      <!--<div class="form-group">-->
-        <!--<label class="center-block">Numar de telefon:-->
-          <!--<input class="form-control" formControlName="firm">-->
-        <!--</label>-->
-      <!--</div>-->
-      <!--<div class="form-group">-->
-        <!--<label class="center-block">Firma:-->
-          <!--<input class="form-control" formControlName="phone">-->
-        <!--</label>-->
-      <!--</div>-->
-      <!--<div class="form-group">-->
-        <!--<label class="center-block">Model telefon:-->
-          <!--<input class="form-control" formControlName="modelPhone">-->
-        <!--</label>-->
-      <!--</div>-->
-      <!--<div class="form-group">-->
-        <!--<label class="center-block">IMEI:-->
-          <!--<input class="form-control" formControlName="imei">-->
-        <!--</label>-->
-      <!--</div>-->
-      <!--<div class="form-group">-->
-        <!--<label class="center-block">Solicitare/Problema:-->
-          <!--<input class="form-control" formControlName="problem">-->
-        <!--</label>-->
-      <!--</div>-->
-      <!--<div class="form-group">-->
-        <!--<label class="center-block">Oferta pret:-->
-          <!--<input class="form-control" formControlName="price">-->
-        <!--</label>-->
-      <!--</div>-->
-      <!--<div class="form-group">-->
-        <!--<label class="center-block">Programare:-->
-          <!--<input class="form-control" formControlName="appointment">-->
-        <!--</label>-->
-      <!--</div>-->
-      <!--<div class="form-group">-->
-        <!--<label class="center-block">De unde ai aflat de noi:-->
-          <!--<input class="form-control" formControlName="where">-->
-        <!--</label>-->
-      <!--</div>-->
-      <button type="submit" class="btn btn-default"
-              [disabled]="clientPFForm.invalid">Salveaza</button>
+    <div class="form-group">
+      <label for="firm">Firma</label>
+      <input placeholder="Firma" id="firm" class="form-control" formControlName="firm">
     </div>
+    <div class="form-group">
+      <label for="phone">Numar de telefon</label>
+      <input placeholder="Numar de telefon" id="phone" class="form-control" formControlName="phone" required>
+      <div *ngIf="phone.invalid && (phone.dirty || phone.touched)"
+           class="alert alert-danger">
+        <div *ngIf="phone.errors.required">
+          Numarul de telefon nu este completat.
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="phoneModel">Model telefon</label>
+      <input placeholder="Model telefon" id="phoneModel" class="form-control" formControlName="phoneModel" required>
+      <div *ngIf="phoneModel.invalid && (phoneModel.dirty || phoneModel.touched)"
+           class="alert alert-danger">
+        <div *ngIf="phoneModel.errors.required">
+          Modelul de telefon nu este completat.
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="problem" style="display: block">Solicitare/Problema</label>
+      <p-dropdown id="problem" [options]="problems" formControlName="problem" [style]="{'width':'150px'}" filter="filter">
+        <ng-template let-car pTemplate="item">
+          <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+            <!--<img src="assets/showcase/images/demo/car/{{car.label}}.png" style="width:24px;position:absolute;top:1px;left:5px"/>-->
+            <div style="font-size:14px;float:right;margin-top:4px">{{car.label}}</div>
+          </div>
+        </ng-template>
+      </p-dropdown>
+    </div>
+    <div class="form-group">
+      <label for="priceOffer">Oferta pret</label>
+      <input placeholder="Oferta pret" id="priceOffer" class="form-control" formControlName="priceOffer" required>
+      <div *ngIf="priceOffer.invalid && (priceOffer.dirty || priceOffer.touched)"
+           class="alert alert-danger">
+        <div *ngIf="priceOffer.errors.required">
+         Oferta de pret nu este completata.
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+        <label for="appointment" style="display: block">Data si ora programarii</label>
+        <p-calendar id="appointment" formControlName="appointment" [showTime]="true" [showIcon]="true"></p-calendar> {{dateAppointment}}
+    </div>
+    <div class="form-group">
+      <label for="aboutUs">Cum a aflat de noi?</label>
+      <input placeholder="Cum a aflat de noi?" id="aboutUs" class="form-control" formControlName="aboutUs" required>
+      <div *ngIf="aboutUs.invalid && (aboutUs.dirty || aboutUs.touched)"
+           class="alert alert-danger">
+        <div *ngIf="aboutUs.errors.required">
+          Cum a aflat de noi nu este completat.
+        </div>
+      </div>
+    </div>
+
+
+    <button type="submit" class="btn btn-default"
+            [disabled]="clientPFForm.invalid">Salveaza</button>
+    <!--</div>-->
   </form>
+
+
+
+  <!--<button class="button is-primary" [disabled]="!lastname.valid" (click)='addPFClient()' >Salveaza</button>-->
 </div>
+

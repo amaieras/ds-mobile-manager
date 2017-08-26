@@ -24,7 +24,7 @@ export class ClientTypeListComponent implements OnInit {
   getClientTypes() {
     this.isLoading = true;
     this.clientTypes = this.clientTypeService.getClientTypes()
-    // Todo: error handling
+      // Todo: error handling
       .finally(() => this.isLoading = false);
     this.selectedClientType = undefined;
   }
