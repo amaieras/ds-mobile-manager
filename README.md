@@ -3,7 +3,8 @@ Run from home directory the following commands:
 `npm install`                                                                 
 `npm install angularfire2 firebase --save`                                         
 `npm install promise-polyfill --save-exact`                                                          
-`npm install amexio-ng-extensions --save`                                                 
+`npm install amexio-ng-extensions --save`
+`npm install primeng --save`
 
 # CandorSampleNgCli
 
