@@ -1,26 +1,34 @@
 import { Injectable } from '@angular/core';
 import {AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable} from "angularfire2/database";
-import { AngularFireAuth } from "angularfire2/auth";
-import { Observable } from "rxjs/Observable";
-import { of } from "rxjs/observable/of";
-import * as firebase from "firebase/app";
+
 
 export class ClientPF {
-  constructor() { }
+  constructor(
+  ) { }
+  addedDate: AppointmentDate
   lastname: string;
   firstname: string;
   firm: string;
   phone: string;
   phoneModel: string;
   problem: string;
+  imei: string;
   priceOffer: string;
-  appointment: string;
+  appointment: AppointmentDate;
   aboutUs: string;
+
+
+}
+
+export class AppointmentDate {
+  day: string;
+  month: string;
+  year: string;
+  timestamp: string;
 }
 
 export class problemTypes {
   constructor() { }
-
 }
 
 
@@ -28,17 +36,20 @@ export class problemTypes {
 export class ClientPFService {
 
   constructor(db: AngularFireDatabase) {
-    this.clientsPF = db.list('/clients');
+    this.clientsPF = db.list('/clients/pf');
   }
+
   clientsPF: FirebaseListObservable<ClientPF[]> = null;
   clientPf: FirebaseObjectObservable<ClientPF> = null;
 
   addPFClient(clientPF: ClientPF): void {
     this.clientsPF.push(clientPF)
-      .catch ( error => this.handleError(error))
+      .catch(error => this.handleError(error));
   }
 
   private handleError(error) {
     console.log(error);
   }
 }
+
+

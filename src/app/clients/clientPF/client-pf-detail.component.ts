@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { ClientPF, ClientPFService } from "./client-pf-detail.service";
+import { ClientPF, ClientPFService, AppointmentDate } from "./client-pf-detail.service";
 import {Message, SelectItem} from "primeng/primeng";
 
 @Component({
@@ -12,8 +12,8 @@ export class ClientPfDetailComponent implements OnInit{
   msgs: Message[] = [];
   problems: SelectItem[];
   clientPFForm: FormGroup;
-  selectedProblem: string = 'Altele';
-  dateAppointment: Date;
+  selectedProblem: string = 'Sticla';
+  defaultDate: Date = new Date();
 
   constructor( private clientPFService: ClientPFService) {
     this.problems = [];
@@ -22,8 +22,8 @@ export class ClientPfDetailComponent implements OnInit{
     this.problems.push({label:'Altele', value: 'Altele' });
   }
 
-
   ngOnInit(): void {
+    this.defaultDate.setHours(12,0);
     this.clientPFForm = new FormGroup({
       'lastname': new FormControl('', [
         Validators.required
@@ -39,6 +39,7 @@ export class ClientPfDetailComponent implements OnInit{
         Validators.required
       ]),
       'problem': new FormControl('', [ ]),
+      'imei': new FormControl('', []),
       'priceOffer': new FormControl('', [
         Validators.required
       ]),
@@ -59,24 +60,37 @@ export class ClientPfDetailComponent implements OnInit{
   }
   prepareSaveClientPF(){
     const formModel = this.clientPFForm.value;
+
     const saveClientPF: ClientPF = {
+      addedDate: new AppointmentDate() as AppointmentDate,
       lastname: formModel.lastname as  string,
       firstname: formModel.firstname as  string,
       firm: formModel.firm as string,
       phone: formModel.phone as string,
       phoneModel: formModel.phoneModel as string,
       problem: formModel.problem as string,
+      imei: '',
       priceOffer: formModel.priceOffer as string,
-      appointment: formModel.appointment as string,
+      appointment: new AppointmentDate() as AppointmentDate,
       aboutUs: formModel.aboutUs as string
     }
+    saveClientPF.problem = this.selectedProblem;
+    saveClientPF.appointment.day = this.defaultDate.getUTCDate().toString();
+    saveClientPF.appointment.month = (this.defaultDate.getUTCMonth() + 1).toString();
+    saveClientPF.appointment.year = this.defaultDate.getUTCFullYear().toString();
+    saveClientPF.appointment.timestamp = this.defaultDate.getTime().toString();
+
+    saveClientPF.addedDate.day = new Date().getUTCDate().toString();
+    saveClientPF.addedDate.month = (new Date().getUTCMonth() + 1) .toString();
+    saveClientPF.addedDate.year = new Date().getUTCFullYear().toString();
+    saveClientPF.addedDate.timestamp = new Date().getTime().toString();
 
     return saveClientPF;
   }
 
   successMessage() {
     this.msgs = [];
-    this.msgs.push({severity:'success', summary:'Adauga Client', detail:'Client adaugat cu success.'});
+    this.msgs.push({severity:'success', summary:'Adauga Client PF', detail:'Client adaugat cu success.'});
   }
   get lastname() { return this.clientPFForm.get('lastname'); }
   get firstname() { return this.clientPFForm.get('firstname'); }
@@ -84,6 +98,7 @@ export class ClientPfDetailComponent implements OnInit{
   get phone() { return this.clientPFForm.get('phone'); }
   get phoneModel() { return this.clientPFForm.get('phoneModel'); }
   get problem() { return this.clientPFForm.get('problem'); }
+  get imei() { return this.clientPFForm.get('imei'); }
   get priceOffer() { return this.clientPFForm.get('priceOffer'); }
   get appointment() { return this.clientPFForm.get('appointment'); }
   get aboutUs() { return this.clientPFForm.get('aboutUs'); }

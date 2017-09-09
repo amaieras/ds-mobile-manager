@@ -1,0 +1,2 @@
+email -> ds.mobile.manager@gmail.com	
+password -> ds.mobile.manager

@@ -17,17 +17,24 @@ import { ClientModule } from "./clients/client.module"
 import { ClientCenterRoutingModule } from "./clients/client-center-routing.module";
 import { ClientTypeService } from "./clients/client-type-list/client-type.service"
 import 'hammerjs';
-import {RepairModule} from "./repair/repair.module";
-import {RepairRoutingModule} from "./repair/repair-routing.module";
+import {RepairModule} from "./repairs/repair.module";
+import {RepairCenterRoutingModule} from "./repairs/repair-center-routing.module";
 
+export const firebaseConfigProd = {
+  apiKey: "AIzaSyAexP1Haz3RsxHqPX--XncgC1Rxef_wMDA",
+  authDomain: "ds-mobile-prod.firebaseapp.com",
+  databaseURL: "https://ds-mobile-prod.firebaseio.com",
+  projectId: "ds-mobile-prod",
+  storageBucket: "",
+  messagingSenderId: "662623055885"
+}
 export const firebaseConfig = {
-
-  apiKey: "AIzaSyBgjig5r7-UpbJhtjhS37FaP1X5d6Hk6YA",
-  authDomain: "dsmobile-526c1.firebaseapp.com",
-  databaseURL: "https://dsmobile-526c1.firebaseio.com",
-  projectId: "dsmobile-526c1",
-  storageBucket: "dsmobile-526c1.appspot.com",
-  messagingSenderId: "351194951974"
+  apiKey: "AIzaSyDL-_f_lQb4dnkx6GRrL7O7L7sp2A1Kj1w",
+  authDomain: "ds-mobile-dev.firebaseapp.com",
+  databaseURL: "https://ds-mobile-dev.firebaseio.com",
+  projectId: "ds-mobile-dev",
+  storageBucket: "ds-mobile-dev.appspot.com",
+  messagingSenderId: "931169905269"
 }
 
 @NgModule({
@@ -43,9 +50,10 @@ export const firebaseConfig = {
         AppRoutingModule,
         RouterModule,
         ClientModule,
+        RepairModule,
         ClientCenterRoutingModule,
         RepairModule,
-        RepairRoutingModule,
+        RepairCenterRoutingModule,
         RouterModule.forRoot([{
             path: '', redirectTo: '/client', pathMatch: 'full'
         }]),

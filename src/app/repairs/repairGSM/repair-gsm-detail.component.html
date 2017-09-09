@@ -1,0 +1,29 @@
+<div class="content">
+  <div class="ui-widget-header" style="padding:4px 10px;border-bottom: 0 none">
+    <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+    <input #gb type="text" pInputText size="50" placeholder="Cauta peste tot">
+  </div>
+
+  <p-dataTable [value]="repairsGSM | async" [editable]="true" [paginator]="true" rows="10" [globalFilter]="gb" [responsive]="true" >
+    <p-header>
+      <div style="text-align:left">
+        <p-multiSelect [options]="columnOptions" [(ngModel)]="cols"></p-multiSelect>
+      </div>
+      Reparatii pentru clientii GSM</p-header>
+    <!--<p-column *ngFor="let col of cols" [field]="col.field" [header]="col.header" [sortable]="col.filter" [filter]="col.filter" [editable]="col.filter"></p-column>-->
+    <p-column field="addedDate" header="Data si ora introducerii" [sortable]="true" [filter]="true">
+      <ng-template let-col let-addedDate="rowData" pTemplate="body">
+        <span [style.color]="addedDate[col.field]">{{addedDate[col.field].timestamp | date:"dd-MM-yyyy HH:mm"}}</span>
+      </ng-template>
+    </p-column>
+    <p-column field="lastname" header="Nume" [sortable]="true" [filter]="true" [editable]="true"></p-column>
+    <p-column field="firstname" header="Prenume" [sortable]="true" [filter]="true" [editable]="true"></p-column>
+    <p-column field="firm" header="Firma" [sortable]="true" [filter]="true" [editable]="true"></p-column>
+    <p-column field="phone" header="Numar telefon" [sortable]="true" [filter]="true" [editable]="true"></p-column>
+    <p-column field="email" header="E-mail" [sortable]="true" [filter]="true" [editable]="true"></p-column>
+    <p-column field="country" header="Tara" [sortable]="true" [filter]="true" [editable]="true"></p-column>
+    <p-column field="city" header="Orasul" [sortable]="true" [filter]="true" [editable]="true"></p-column>
+    <p-column field="billingAddress.0.country" header="Adresa de facturare" [sortable]="true" [filter]="true" [editable]="true"></p-column>
+    <p-column field="shipmentAddress.0.country" header="Adresa de livrare" [sortable]="true" [filter]="true" [editable]="true"></p-column>
+  </p-dataTable>
+</div>

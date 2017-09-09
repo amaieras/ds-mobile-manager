@@ -2,21 +2,25 @@
 <div class="container">
   <h1>PF</h1>
   <form [formGroup]="clientPFForm" (ngSubmit)="onSubmit($event)" novalidate #formPF="ngForm">
-    <!--<div [hidden] = "formPf.submitted">-->
       <div class="form-group">
-        <label for="lastname">Nume</label>
-          <input placeholder="Nume" id="lastname" class="form-control" formControlName="lastname" required>
-          <div *ngIf="lastname.invalid && (lastname.dirty || lastname.touched)"
-               class="alert alert-danger">
-            <div *ngIf="lastname.errors.required">
-              Numele nu este completat.
-            </div>
+          <label for="lastname">Nume</label>
+          <div class="ui-inputgroup">
+            <span class="ui-inputgroup-addon"><i class="fa fa-user"></i></span>
+            <input placeholder="Nume" id="lastname" class="form-control" formControlName="lastname" required>
           </div>
+        <div *ngIf="lastname.invalid && (lastname.dirty || lastname.touched)"
+             class="alert alert-danger">
+          <div *ngIf="lastname.errors.required">
+            Numele nu este completat.
+          </div>
+        </div>
       </div>
-
       <div class="form-group">
         <label for="firstname">Prenume</label>
-        <input placeholder="Prenume" id="firstname" class="form-control" formControlName="firstname" required>
+        <div class="ui-inputgroup">
+          <span class="ui-inputgroup-addon"><i class="fa fa-user"></i></span>
+          <input placeholder="Prenume" id="firstname" class="form-control" formControlName="firstname" required>
+        </div>
         <div *ngIf="firstname.invalid && (firstname.dirty || firstname.touched)"
              class="alert alert-danger">
           <div *ngIf="firstname.errors.required">
@@ -50,18 +54,21 @@
     </div>
     <div class="form-group">
       <label for="problem" style="display: block">Solicitare/Problema</label>
-      <p-dropdown id="problem" [options]="problems" formControlName="problem" [style]="{'width':'150px'}" filter="filter">
-        <ng-template let-car pTemplate="item">
+      <p-dropdown id="problem" [options]="problems" [(ngModel)]="selectedProblem" [ngModelOptions]="{standalone: true}" [style]="{'width':'150px'}" filter="filter">
+        <ng-template let-problem pTemplate="item">
           <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
-            <!--<img src="assets/showcase/images/demo/car/{{car.label}}.png" style="width:24px;position:absolute;top:1px;left:5px"/>-->
-            <div style="font-size:14px;float:right;margin-top:4px">{{car.label}}</div>
+            <div style="font-size:14px;float:right;margin-top:4px">{{problem.label}}</div>
           </div>
         </ng-template>
       </p-dropdown>
     </div>
     <div class="form-group">
       <label for="priceOffer">Oferta pret</label>
-      <input placeholder="Oferta pret" id="priceOffer" class="form-control" formControlName="priceOffer" required>
+      <div class="ui-inputgroup">
+        <span class="ui-inputgroup-addon">RON</span>
+        <!--<p-spinner size="30" id="priceOffer" [(ngModel)]="price" [ngModelOptions]="{standalone: true}" ></p-spinner>-->
+        <input placeholder="Oferta Pret" id="priceOffer" class="form-control" formControlName="priceOffer" required>
+      </div>
       <div *ngIf="priceOffer.invalid && (priceOffer.dirty || priceOffer.touched)"
            class="alert alert-danger">
         <div *ngIf="priceOffer.errors.required">
@@ -71,7 +78,7 @@
     </div>
     <div class="form-group">
         <label for="appointment" style="display: block">Data si ora programarii</label>
-        <p-calendar id="appointment" formControlName="appointment" [showTime]="true" [showIcon]="true"></p-calendar> {{dateAppointment}}
+        <p-calendar id="appointment" [(ngModel)]="defaultDate" [ngModelOptions]="{standalone: true}" [defaultDate]="defaultDate" [showTime]="true" [showIcon]="true" readonlyInput="readonlyInput" [stepMinute]="15" ></p-calendar>
     </div>
     <div class="form-group">
       <label for="aboutUs">Cum a aflat de noi?</label>
@@ -87,11 +94,6 @@
 
     <button type="submit" class="btn btn-default"
             [disabled]="clientPFForm.invalid">Salveaza</button>
-    <!--</div>-->
   </form>
-
-
-
-  <!--<button class="button is-primary" [disabled]="!lastname.valid" (click)='addPFClient()' >Salveaza</button>-->
 </div>
 
