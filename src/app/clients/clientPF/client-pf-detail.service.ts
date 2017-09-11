@@ -5,7 +5,8 @@ import {AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable} f
 export class ClientPF {
   constructor(
   ) { }
-  addedDate: AppointmentDate
+  $key: string;
+  addedDate: string;
   lastname: string;
   firstname: string;
   firm: string;
@@ -14,7 +15,7 @@ export class ClientPF {
   problem: string;
   imei: string;
   priceOffer: string;
-  appointment: AppointmentDate;
+  appointmentDate: string;
   aboutUs: string;
 
 
@@ -25,6 +26,7 @@ export class AppointmentDate {
   month: string;
   year: string;
   timestamp: string;
+
 }
 
 export class problemTypes {
@@ -47,6 +49,10 @@ export class ClientPFService {
       .catch(error => this.handleError(error));
   }
 
+  updateItem(key: string, value: any): void {
+    this.clientsPF.update(key, value)
+      .catch(error => this.handleError(error))
+  }
   private handleError(error) {
     console.log(error);
   }

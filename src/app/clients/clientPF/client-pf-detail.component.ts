@@ -1,19 +1,21 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { ClientPF, ClientPFService, AppointmentDate } from "./client-pf-detail.service";
-import {Message, SelectItem} from "primeng/primeng";
+import { Message, SelectItem } from "primeng/primeng";
 
 @Component({
   selector: 'client-pf-detail',
   templateUrl: './client-pf-detail.component.html'
 })
 export class ClientPfDetailComponent implements OnInit{
+
   clientPF: ClientPF = new ClientPF();
   msgs: Message[] = [];
   problems: SelectItem[];
   clientPFForm: FormGroup;
   selectedProblem: string = 'Sticla';
   defaultDate: Date = new Date();
+  saveClientPF: ClientPF = new ClientPF();
 
   constructor( private clientPFService: ClientPFService) {
     this.problems = [];
@@ -51,46 +53,39 @@ export class ClientPfDetailComponent implements OnInit{
   }
 
   onSubmit(event: Event) {
-     this.clientPF = this.prepareSaveClientPF();
-     event.preventDefault();
-     this.clientPFService.addPFClient(this.clientPF);
-     this.clientPFForm.reset();
-     this.clientPF = new ClientPF();
-     this.successMessage();
-  }
-  prepareSaveClientPF(){
-    const formModel = this.clientPFForm.value;
-
-    const saveClientPF: ClientPF = {
-      addedDate: new AppointmentDate() as AppointmentDate,
-      lastname: formModel.lastname as  string,
-      firstname: formModel.firstname as  string,
-      firm: formModel.firm as string,
-      phone: formModel.phone as string,
-      phoneModel: formModel.phoneModel as string,
-      problem: formModel.problem as string,
-      imei: '',
-      priceOffer: formModel.priceOffer as string,
-      appointment: new AppointmentDate() as AppointmentDate,
-      aboutUs: formModel.aboutUs as string
+    this.clientPF = this.saveClientPF;
+    this.clientPF.appointmentDate = this.defaultDate.getTime().toString();
+    this.clientPF.addedDate = new Date().getTime().toString();
+    this.clientPF.problem = this.selectedProblem;
+    event.preventDefault();
+    if (!this.check(this.clientPF.firm)) {
+      this.clientPF.firm = null;
     }
-    saveClientPF.problem = this.selectedProblem;
-    saveClientPF.appointment.day = this.defaultDate.getUTCDate().toString();
-    saveClientPF.appointment.month = (this.defaultDate.getUTCMonth() + 1).toString();
-    saveClientPF.appointment.year = this.defaultDate.getUTCFullYear().toString();
-    saveClientPF.appointment.timestamp = this.defaultDate.getTime().toString();
-
-    saveClientPF.addedDate.day = new Date().getUTCDate().toString();
-    saveClientPF.addedDate.month = (new Date().getUTCMonth() + 1) .toString();
-    saveClientPF.addedDate.year = new Date().getUTCFullYear().toString();
-    saveClientPF.addedDate.timestamp = new Date().getTime().toString();
-
-    return saveClientPF;
+    this.clientPFService.addPFClient(this.clientPF);
+    this.clientPFForm.reset();
+    this.clientPF = new ClientPF();
+    this.successMessage();
   }
+
+
 
   successMessage() {
     this.msgs = [];
     this.msgs.push({severity:'success', summary:'Adauga Client PF', detail:'Client adaugat cu success.'});
+  }
+  check(x) {
+    if (x == null) {
+      return false;
+    }
+
+    if (x === null) {
+      return false;
+    }
+
+    if (typeof x === 'undefined') {
+      return false;
+    }
+    return true;
   }
   get lastname() { return this.clientPFForm.get('lastname'); }
   get firstname() { return this.clientPFForm.get('firstname'); }

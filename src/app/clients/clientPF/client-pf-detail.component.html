@@ -6,7 +6,7 @@
           <label for="lastname">Nume</label>
           <div class="ui-inputgroup">
             <span class="ui-inputgroup-addon"><i class="fa fa-user"></i></span>
-            <input placeholder="Nume" id="lastname" class="form-control" formControlName="lastname" required>
+            <input placeholder="Nume" id="lastname" class="form-control" formControlName="lastname" [(ngModel)]="saveClientPF.lastname" required>
           </div>
         <div *ngIf="lastname.invalid && (lastname.dirty || lastname.touched)"
              class="alert alert-danger">
@@ -19,7 +19,7 @@
         <label for="firstname">Prenume</label>
         <div class="ui-inputgroup">
           <span class="ui-inputgroup-addon"><i class="fa fa-user"></i></span>
-          <input placeholder="Prenume" id="firstname" class="form-control" formControlName="firstname" required>
+          <input placeholder="Prenume" id="firstname" class="form-control" formControlName="firstname" [(ngModel)]="saveClientPF.firstname" required>
         </div>
         <div *ngIf="firstname.invalid && (firstname.dirty || firstname.touched)"
              class="alert alert-danger">
@@ -30,11 +30,11 @@
       </div>
     <div class="form-group">
       <label for="firm">Firma</label>
-      <input placeholder="Firma" id="firm" class="form-control" formControlName="firm">
+      <input placeholder="Firma" id="firm" class="form-control" formControlName="firm" [(ngModel)]="saveClientPF.firm">
     </div>
     <div class="form-group">
       <label for="phone">Numar de telefon</label>
-      <input placeholder="Numar de telefon" id="phone" class="form-control" formControlName="phone" required>
+      <input placeholder="Numar de telefon" id="phone" class="form-control" formControlName="phone" [(ngModel)]="saveClientPF.phone" required>
       <div *ngIf="phone.invalid && (phone.dirty || phone.touched)"
            class="alert alert-danger">
         <div *ngIf="phone.errors.required">
@@ -44,7 +44,7 @@
     </div>
     <div class="form-group">
       <label for="phoneModel">Model telefon</label>
-      <input placeholder="Model telefon" id="phoneModel" class="form-control" formControlName="phoneModel" required>
+      <input placeholder="Model telefon" id="phoneModel" class="form-control" formControlName="phoneModel" [(ngModel)]="saveClientPF.phoneModel" required>
       <div *ngIf="phoneModel.invalid && (phoneModel.dirty || phoneModel.touched)"
            class="alert alert-danger">
         <div *ngIf="phoneModel.errors.required">
@@ -67,7 +67,7 @@
       <div class="ui-inputgroup">
         <span class="ui-inputgroup-addon">RON</span>
         <!--<p-spinner size="30" id="priceOffer" [(ngModel)]="price" [ngModelOptions]="{standalone: true}" ></p-spinner>-->
-        <input placeholder="Oferta Pret" id="priceOffer" class="form-control" formControlName="priceOffer" required>
+        <input placeholder="Oferta Pret" id="priceOffer" class="form-control" formControlName="priceOffer" [(ngModel)]="saveClientPF.priceOffer" required>
       </div>
       <div *ngIf="priceOffer.invalid && (priceOffer.dirty || priceOffer.touched)"
            class="alert alert-danger">
@@ -77,12 +77,12 @@
       </div>
     </div>
     <div class="form-group">
-        <label for="appointment" style="display: block">Data si ora programarii</label>
-        <p-calendar id="appointment" [(ngModel)]="defaultDate" [ngModelOptions]="{standalone: true}" [defaultDate]="defaultDate" [showTime]="true" [showIcon]="true" readonlyInput="readonlyInput" [stepMinute]="15" ></p-calendar>
+        <label for="appointmentDate" style="display: block">Data si ora programarii</label>
+        <p-calendar id="appointmentDate" [(ngModel)]="defaultDate" [ngModelOptions]="{standalone: true}" [defaultDate]="defaultDate" [showTime]="true" [showIcon]="true" readonlyInput="readonlyInput" [stepMinute]="15" ></p-calendar>
     </div>
     <div class="form-group">
       <label for="aboutUs">Cum a aflat de noi?</label>
-      <input placeholder="Cum a aflat de noi?" id="aboutUs" class="form-control" formControlName="aboutUs" required>
+      <input placeholder="Cum a aflat de noi?" id="aboutUs" class="form-control" formControlName="aboutUs" [(ngModel)]="saveClientPF.aboutUs" required>
       <div *ngIf="aboutUs.invalid && (aboutUs.dirty || aboutUs.touched)"
            class="alert alert-danger">
         <div *ngIf="aboutUs.errors.required">

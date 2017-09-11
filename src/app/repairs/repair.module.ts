@@ -6,7 +6,7 @@ import { RouterModule } from "@angular/router";
 import { RepairTypeListComponent } from "./repair-type-list/repair-type-list.component";
 import { RepairPFDetailComponent } from "./repairPF/repair-pf-detail.component";
 import { RepairGSMDetailComponent } from "./repairGSM/repair-gsm-detail.component"
-import { DataTableModule, MultiSelectModule, SharedModule } from "primeng/primeng"
+import {DataTableModule, GrowlModule, MultiSelectModule, SharedModule} from "primeng/primeng"
 import { DialogModule } from "primeng/primeng";
 import { RepairPFDetailService } from "./repairPF/repair-pf-detail.service";
 import { RepairGSMDetailService } from "./repairGSM/repair-gsm-detail.service";
@@ -20,7 +20,9 @@ import { RepairGSMDetailService } from "./repairGSM/repair-gsm-detail.service";
     DataTableModule,
     SharedModule,
     DialogModule,
-    MultiSelectModule
+    MultiSelectModule,
+    //primeng
+    GrowlModule
   ],
   declarations: [
     RepairTypeListComponent,

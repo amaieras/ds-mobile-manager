@@ -45,6 +45,9 @@ export class ClientGSMDetailComponent implements OnInit {
   onSubmit(event: Event) {
     this.clientGSM = this.prepareSaveClientGSM();
     event.preventDefault();
+    if (!this.check(this.clientGSM.firm)) {
+      this.clientGSM.firm = null;
+    }
     this.clientGSMService.addGSMClient(this.clientGSM);
     this.clientGSMForm.reset();
     this.clientGSM = new ClientGSM();
@@ -94,7 +97,20 @@ export class ClientGSMDetailComponent implements OnInit {
 
     return saveClientGSM;
   }
+  check(x) {
+    if (x == null) {
+      return false;
+    }
 
+    if (x === null) {
+      return false;
+    }
+
+    if (typeof x === 'undefined') {
+      return false;
+    }
+    return true;
+  }
   get lastname() { return this.clientGSMForm.get('lastname'); }
   get firstname() { return this.clientGSMForm.get('firstname'); }
   get firm() { return this.clientGSMForm.get('firm'); }

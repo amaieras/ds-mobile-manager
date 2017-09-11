@@ -1,10 +1,12 @@
+<p-growl [(value)]="msgs"></p-growl>
 <div class="content">
   <div class="ui-widget-header" style="padding:4px 10px;border-bottom: 0 none">
     <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
     <input #gb type="text" pInputText size="50" placeholder="Cauta peste tot">
   </div>
 
-  <p-dataTable [value]="repairsGSM | async" [editable]="true" [paginator]="true" rows="10" [globalFilter]="gb" [responsive]="true" >
+  <p-dataTable [value]="repairsGSM | async" [editable]="true" [paginator]="true" rows="10" [globalFilter]="gb" [responsive]="true"
+               (onEditComplete)="updateField($event)">
     <p-header>
       <div style="text-align:left">
         <p-multiSelect [options]="columnOptions" [(ngModel)]="cols"></p-multiSelect>

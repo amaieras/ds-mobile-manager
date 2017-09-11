@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FirebaseListObservable } from 'angularfire2/database';
 import { ClientPF } from "../../clients/clientPF/client-pf-detail.service";
 import { RepairPFDetailService } from "./repair-pf-detail.service"
-import { SelectItem } from "primeng/primeng";
+import { SelectItem, Message } from "primeng/primeng";
 
 @Component({
   selector: 'repair-pf-detail',
@@ -11,8 +11,8 @@ import { SelectItem } from "primeng/primeng";
 export class RepairPFDetailComponent implements OnInit {
   repairsPF: FirebaseListObservable<ClientPF[]>;
   cols: any[];
+  msgs: Message[] = [];
   columnOptions: SelectItem[];
-
   constructor(private repairPFService: RepairPFDetailService) { }
 
   ngOnInit() {
@@ -28,7 +28,7 @@ export class RepairPFDetailComponent implements OnInit {
         {field: 'problem', header: 'Solicitare/Problema', filter: true},
         {field: 'imei', header: 'IMEI', filter: true},
         {field: 'priceOffer', header: 'Oferta pret', filter: true},
-        {field: 'appointment.timestamp', header: 'Data si ora programarii', filter: true},
+        {field: 'appointmentDate', header: 'Data si ora programarii', filter: true},
         {field: 'aboutUs', header: 'Cum a aflat de noi', filter: true}
       ];
 
@@ -38,9 +38,43 @@ export class RepairPFDetailComponent implements OnInit {
         this.columnOptions.push({label: this.cols[i].header, value: this.cols[i]});
       }
   }
-
+  updateField(event) {
+    this.repairPFService.updateItem(event.data.$key, { lastname: event.data.lastname});
+    this.repairPFService.updateItem(event.data.$key, { firstname: event.data.firstname});
+    if (this.check(event.data.firm)) {
+      this.repairPFService.updateItem(event.data.$key, {firm: event.data.firm});
+    }
+    this.repairPFService.updateItem(event.data.$key, { phone: event.data.phone});
+    this.repairPFService.updateItem(event.data.$key, { phoneModel: event.data.phoneModel});
+    this.repairPFService.updateItem(event.data.$key, { problem: event.data.problem});
+    if (this.check(event.data.imei)) {
+      this.repairPFService.updateItem(event.data.$key, { imei: event.data.imei});
+    }
+    this.repairPFService.updateItem(event.data.$key, { priceOffer: event.data.priceOffer});
+    this.repairPFService.updateItem(event.data.$key, { aboutUs: event.data.aboutUs});
+    this.successMessage(event.data.lastname, event.data.firstname)
+  }
   getClientsPFList() {
       this.repairsPF = this.repairPFService
         .getClientsPFList({limitToLast: 5});
   }
+  successMessage(lastname, firstname) {
+    this.msgs = [];
+    this.msgs.push({severity:'success', summary:'Valoare modificata pentru clientul: ' + lastname + ' ' + firstname, detail:'Date modificate.'});
+  }
+  check(x) {
+    if (x == null) {
+      return false;
+    }
+
+    if (x === null) {
+      return false;
+    }
+
+    if (typeof x === 'undefined') {
+      return false;
+    }
+    return true;
+  }
+
 }
