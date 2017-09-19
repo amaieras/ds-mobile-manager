@@ -9,10 +9,12 @@ export class ClientPF {
   addedDate: string;
   lastname: string;
   firstname: string;
+  email: string;
   firm: string;
   phone: string;
-  phoneModel: string;
+  phoneList: PhoneList[];
   problem: string;
+  tested: string;
   imei: string;
   priceOffer: string;
   appointmentDate: string;
@@ -21,18 +23,13 @@ export class ClientPF {
 
 }
 
-export class AppointmentDate {
-  day: string;
-  month: string;
-  year: string;
-  timestamp: string;
-
+export class PhoneList {
+  phoneBrand = '';
+  phoneModel = '';
+  phoneColor = '';
+  phoneQuantity = 1;
+  observation = '';
 }
-
-export class problemTypes {
-  constructor() { }
-}
-
 
 @Injectable()
 export class ClientPFService {

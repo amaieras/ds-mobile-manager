@@ -39,13 +39,19 @@ export class RepairPFDetailComponent implements OnInit {
       }
   }
   updateField(event) {
-    this.repairPFService.updateItem(event.data.$key, { lastname: event.data.lastname});
-    this.repairPFService.updateItem(event.data.$key, { firstname: event.data.firstname});
+    if (this.check(event.data.lastname)) {
+      this.repairPFService.updateItem(event.data.$key, {lastname: event.data.lastname});
+    }
+    if (this.check(event.data.firstname)) {
+      this.repairPFService.updateItem(event.data.$key, {firstname: event.data.firstname});
+    }
     if (this.check(event.data.firm)) {
       this.repairPFService.updateItem(event.data.$key, {firm: event.data.firm});
     }
     this.repairPFService.updateItem(event.data.$key, { phone: event.data.phone});
-    this.repairPFService.updateItem(event.data.$key, { phoneModel: event.data.phoneModel});
+    if (this.check(event.data.phoneModel)) {
+      this.repairPFService.updateItem(event.data.$key, {phoneModel: event.data.phoneModel});
+    }
     this.repairPFService.updateItem(event.data.$key, { problem: event.data.problem});
     if (this.check(event.data.imei)) {
       this.repairPFService.updateItem(event.data.$key, { imei: event.data.imei});

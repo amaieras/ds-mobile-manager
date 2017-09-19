@@ -1,33 +1,39 @@
 <p-growl [(value)]="msgs"></p-growl>
 <div class="container">
-  <h1>PF</h1>
+  <h1>Client - PF</h1>
   <form [formGroup]="clientPFForm" (ngSubmit)="onSubmit($event)" novalidate #formPF="ngForm">
-      <div class="form-group">
-          <label for="lastname">Nume</label>
-          <div class="ui-inputgroup">
-            <span class="ui-inputgroup-addon"><i class="fa fa-user"></i></span>
-            <input placeholder="Nume" id="lastname" class="form-control" formControlName="lastname" [(ngModel)]="saveClientPF.lastname" required>
-          </div>
-        <div *ngIf="lastname.invalid && (lastname.dirty || lastname.touched)"
-             class="alert alert-danger">
-          <div *ngIf="lastname.errors.required">
-            Numele nu este completat.
-          </div>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="firstname">Prenume</label>
+    <div class="form-group">
+        <label for="lastname">Nume</label>
         <div class="ui-inputgroup">
           <span class="ui-inputgroup-addon"><i class="fa fa-user"></i></span>
-          <input placeholder="Prenume" id="firstname" class="form-control" formControlName="firstname" [(ngModel)]="saveClientPF.firstname" required>
+          <input placeholder="Nume" id="lastname" class="form-control" formControlName="lastname" [(ngModel)]="saveClientPF.lastname">
         </div>
-        <div *ngIf="firstname.invalid && (firstname.dirty || firstname.touched)"
-             class="alert alert-danger">
-          <div *ngIf="firstname.errors.required">
-            Prenumele nu este completat.
-          </div>
-        </div>
+        <!--<div *ngIf="lastname.invalid && (lastname.dirty || lastname.touched)"-->
+             <!--class="alert alert-danger">-->
+          <!--<div *ngIf="lastname.errors.required">-->
+            <!--Numele nu este completat.-->
+          <!--</div>-->
+        <!--</div>-->
+    </div>
+    <div class="form-group">
+      <label for="firstname">Prenume</label>
+      <div class="ui-inputgroup">
+        <span class="ui-inputgroup-addon"><i class="fa fa-user"></i></span>
+        <input placeholder="Prenume" id="firstname" class="form-control" formControlName="firstname" [(ngModel)]="saveClientPF.firstname">
       </div>
+      <!--<div *ngIf="firstname.invalid && (firstname.dirty || firstname.touched)"-->
+      <!--class="alert alert-danger">-->
+      <!--<div *ngIf="firstname.errors.required">-->
+      <!--Prenumele nu este completat.-->
+      <!--</div>-->
+      <!--</div>-->
+    </div>
+    <div class="form-group">
+      <label for="email">E-mail</label>
+      <div class="ui-inputgroup">
+        <input placeholder="E-mail" id="email" class="form-control" formControlName="email" [(ngModel)]="saveClientPF.email">
+      </div>
+    </div>
     <div class="form-group">
       <label for="firm">Firma</label>
       <input placeholder="Firma" id="firm" class="form-control" formControlName="firm" [(ngModel)]="saveClientPF.firm">
@@ -42,15 +48,57 @@
         </div>
       </div>
     </div>
-    <div class="form-group">
-      <label for="phoneModel">Model telefon</label>
-      <input placeholder="Model telefon" id="phoneModel" class="form-control" formControlName="phoneModel" [(ngModel)]="saveClientPF.phoneModel" required>
-      <div *ngIf="phoneModel.invalid && (phoneModel.dirty || phoneModel.touched)"
-           class="alert alert-danger">
-        <div *ngIf="phoneModel.errors.required">
-          Modelul de telefon nu este completat.
+      <div formArrayName="phoneList" class="well well-lg">
+        <div *ngFor="let pList of phoneList.controls; let i=index" [formGroupName]="i" >
+          <h3>Lista numarul: #{{i + 1}}</h3>
+          <div style="margin-left: 1em;">
+              <div class="container-fluid example-wrapper">
+                <div class="row">
+                  <div class="form-group">
+                    <div class="col-md-3">
+                      <label for="problem" style="display: block">Telefon</label>
+                      <p-dropdown id="phoneBrand" [options]="dataPhones" formControlName="phoneBrand"
+                                  [style]="{'width':'150px'}" filter="filter" (onChange)="onSelect()">
+                        <ng-template let-phone pTemplate="item">
+                          <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+                            <div style="font-size:14px;float:right;margin-top:4px">{{phone.label}}</div>
+                          </div>
+                        </ng-template>
+                      </p-dropdown>
+                    </div>
+                    <div class="col-md-3  pull-left">
+                      <label for="problem" style="display: block">Model</label>
+                      <p-dropdown id="model" [options]="dataModels" [style]="{'width':'150px'}" filter="filter">
+                        <ng-template let-model pTemplate="item">
+                          <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+                            <div style="font-size:14px;float:right;margin-top:4px">{{model.label}}</div>
+                          </div>
+                        </ng-template>
+                      </p-dropdown>
+                    </div>
+                    <div class="col-md-3">
+                      <label for="phoneColor">Culoare</label>
+                      <input placeholder="Culoare" id="phoneColor" class="form-control" formControlName="phoneColor">
+                    </div>
+                    <div class="col-md-3">
+                      <label for="phoneQuantity">Cantitate</label>
+                      <input placeholder="Cantitate" id="phoneQuantity" class="form-control" formControlName="phoneQuantity">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="observation">Observatii</label>
+                    <textarea class="form-control" id="observation" rows="3" formControlName="observation"></textarea>
+                  </div>
+                </div>
+              </div>
+          </div>
+          <br>
         </div>
+        <button type="button" (click)="addPhoneInPhoneList()">Adauga alt telefon</button>
       </div>
+    <div class="form-group">
+      <label for="imei">IMEI</label>
+      <input placeholder="IMEI" id="imei" class="form-control" formControlName="imei" [(ngModel)]="saveClientPF.imei">
     </div>
     <div class="form-group">
       <label for="problem" style="display: block">Solicitare/Problema</label>
@@ -81,6 +129,16 @@
         <p-calendar id="appointmentDate" [(ngModel)]="defaultDate" [ngModelOptions]="{standalone: true}" [defaultDate]="defaultDate" [showTime]="true" [showIcon]="true" readonlyInput="readonlyInput" [stepMinute]="15" ></p-calendar>
     </div>
     <div class="form-group">
+      <label for="tested" style="display: block">Testat?</label>
+      <p-dropdown id="tested" [options]="tests" [(ngModel)]="isTested" [ngModelOptions]="{standalone: true}" [style]="{'width':'150px'}" filter="filter">
+        <ng-template let-test pTemplate="item">
+          <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+            <div style="font-size:14px;float:right;margin-top:4px">{{test.label}}</div>
+          </div>
+        </ng-template>
+      </p-dropdown>
+    </div>
+    <div class="form-group">
       <label for="aboutUs">Cum a aflat de noi?</label>
       <input placeholder="Cum a aflat de noi?" id="aboutUs" class="form-control" formControlName="aboutUs" [(ngModel)]="saveClientPF.aboutUs" required>
       <div *ngIf="aboutUs.invalid && (aboutUs.dirty || aboutUs.touched)"
@@ -91,9 +149,12 @@
       </div>
     </div>
 
-
-    <button type="submit" class="btn btn-default"
-            [disabled]="clientPFForm.invalid">Salveaza</button>
+    <div class="form-group">
+      <button type="submit" class="btn btn-default"
+              [disabled]="clientPFForm.invalid">Salveaza</button>
+      <button type="submit" class="btn btn-default"
+              [disabled]="true">Printeaza</button>
+    </div>
   </form>
 </div>
 

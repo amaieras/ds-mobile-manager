@@ -10,6 +10,8 @@ import { ClientPfDetailComponent } from "./clientPF/client-pf-detail.component";
 import { ClientPFService } from "./clientPF/client-pf-detail.service";
 import { ClientGSMDetailComponent } from "./clientGSM/client-gsm-detail.component";
 import { ClientGSMService } from "./clientGSM/client-gsm-detail.service";
+import {PhoneModelService} from "./phone-models/phone-model.service";
+import {UtilService} from "../utils/util.service";
 
 
 @NgModule({
@@ -33,7 +35,9 @@ import { ClientGSMService } from "./clientGSM/client-gsm-detail.service";
   providers: [
     ClientTypeService,
     ClientPFService,
-    ClientGSMService
+    ClientGSMService,
+    PhoneModelService,
+    UtilService
   ]
 })
 export class ClientModule { }
