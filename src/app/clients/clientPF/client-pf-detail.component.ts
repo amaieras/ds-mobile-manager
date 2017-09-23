@@ -2,8 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {ClientPF, ClientPFService, PhoneList} from "./client-pf-detail.service";
 import { Message, SelectItem } from "primeng/primeng";
-import {PhoneModelService} from "../phone-models/phone-model.service";
 import {UtilService} from "../../utils/util.service";
+import {isUndefined} from "util";
 
 @Component({
   selector: 'client-pf-detail',
@@ -14,30 +14,29 @@ export class ClientPfDetailComponent implements OnInit{
   msgs: Message[] = [];
   problems: SelectItem[];
   tests: SelectItem[];
-  isTested: string = '-';
   clientPFForm: FormGroup;
-  selectedProblem: string = 'Sticla';
-  selectedPhone: string = 'Samsung';
   defaultDate: Date = new Date();
   saveClientPF: ClientPF = new ClientPF();
-  dataModels: Array<{}> = this.phoneModelService.dataModel.filter((item) => item.phoneId == 1);
+  mainArray: Array<any>;
+  newItem: any;
 
-  constructor( private clientPFService: ClientPFService, private fb: FormBuilder,
-               private phoneModelService: PhoneModelService, private utilService: UtilService) {
+  constructor( private clientPFService: ClientPFService, private fb: FormBuilder, private utilService: UtilService) {
     this.problems = [];
     this.tests = [];
+    this.mainArray = [];
     this.problems.push({label:'Sticla', value: 'Sticla' });
     this.problems.push({label:'Display', value: 'Display' });
     this.problems.push({label:'Altele', value: 'Altele' });
+
+    this.tests.push({label:'-', value: '-' });
     this.tests.push({label:'DA', value: 'DA' });
     this.tests.push({label:'NU', value: 'NU' });
-    this.tests.push({label:'-', value: '-' });
-  }
 
-  dataPhones: Array<{}> = this.phoneModelService.dataPhone;
+  }
 
   ngOnInit(): void {
     this.defaultDate.setHours(12,0);
+    this.saveClientPF.tested = '-';
     this.clientPFForm = this.fb.group({
       'lastname': new FormControl('', [
           // Validators.required
@@ -51,7 +50,6 @@ export class ClientPfDetailComponent implements OnInit{
           Validators.required
         ]),
       'phoneList': this.fb.array([]),
-      'problem': new FormControl('', [ ]),
       'tested': new FormControl('', [ ]),
       'imei': new FormControl('', []),
       'priceOffer': new FormControl('', [
@@ -62,24 +60,27 @@ export class ClientPfDetailComponent implements OnInit{
           Validators.required
         ])
     })
-     this.phoneList.push(this.fb.group(new PhoneList()));
-  }
-
-  onSelect(){
-    this.dataModels = this.phoneModelService.dataModel.filter((item) => item.phoneId.toString() == this.selectedPhone);
+    this.phoneList.push(this.fb.group(new PhoneList()));
+    this.newItem = {
+      phoneId: 1,
+      modelId: 1
+    }
+    this.mainArray.push((this.newItem));
   }
   onSubmit(event: Event) {
     this.prepareSavePhoneList();
     this.clientPF = this.saveClientPF;
     this.clientPF.appointmentDate = this.defaultDate.getTime().toString();
     this.clientPF.addedDate = new Date().getTime().toString();
-    this.clientPF.problem = this.selectedProblem;
     event.preventDefault();
     if (!this.utilService.check(this.clientPF.imei)) {
       this.clientPF.imei = null;
     }
     if (!this.utilService.check(this.clientPF.firm)) {
       this.clientPF.firm = null;
+    }
+    if (!this.utilService.check(this.clientPF.email)) {
+      this.clientPF.email = null;
     }
     if(!this.utilService.check(this.clientPF.firstname)) {
       this.clientPF.firstname = null;
@@ -90,11 +91,19 @@ export class ClientPfDetailComponent implements OnInit{
     this.clientPFService.addPFClient(this.clientPF);
     this.clientPFForm.reset();
     this.clientPF = new ClientPF();
+    this.clientPFForm.controls['phoneList'] = this.fb.array([]);
+
+    this.mainArray = [];
     this.successMessage();
   }
-
   addPhoneInPhoneList() {
       this.phoneList.push(this.fb.group(new PhoneList()));
+      let obj = {
+        phoneId: 1,
+        modelId: 1
+      }
+      this.newItem = obj;
+      this.mainArray.push(this.newItem);
   }
   prepareSavePhoneList(){
     const formModel = this.clientPFForm.value;
@@ -102,6 +111,13 @@ export class ClientPfDetailComponent implements OnInit{
       (phoneList: PhoneList) => Object.assign({}, phoneList)
     );
     this.saveClientPF.phoneList = PhoneListDeepCopy;
+    this.mainArray.forEach((item, index) => {
+      if (isUndefined(this.saveClientPF.phoneList[index])) {
+        this.saveClientPF.phoneList[index] = {phoneModel:'1',phoneBrand:'2',problem:'Sticla',phoneColor:'',pricePerPart:0,phoneQuantity:1,observation:''}
+      }
+      this.saveClientPF.phoneList[index].phoneBrand = item.phoneId;
+      this.saveClientPF.phoneList[index].phoneModel = item.modelId;
+    })
   }
   successMessage() {
     this.msgs = [];
@@ -113,7 +129,6 @@ export class ClientPfDetailComponent implements OnInit{
   get email() { return this.clientPFForm.get('email'); }
   get firm() { return this.clientPFForm.get('firm'); }
   get phone() { return this.clientPFForm.get('phone'); }
-  get problem() { return this.clientPFForm.get('problem'); }
   get tested() { return this.clientPFForm.get('tested'); }
   get imei() { return this.clientPFForm.get('imei'); }
   get priceOffer() { return this.clientPFForm.get('priceOffer'); }
@@ -122,8 +137,4 @@ export class ClientPfDetailComponent implements OnInit{
   get phoneList(): FormArray {
     return this.clientPFForm.get('phoneList') as FormArray;
   }
-  get phoneBrand() { return this.clientPFForm.get('phoneBrand'); }
-  get phoneModel() { return this.clientPFForm.get('phoneModel'); }
-  get phoneColor() { return this.clientPFForm.get('phoneColor'); }
-  get phoneQuantity() { return this.clientPFForm.get('phoneQuantity'); }
 }

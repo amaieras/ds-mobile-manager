@@ -13,7 +13,6 @@ export class ClientPF {
   firm: string;
   phone: string;
   phoneList: PhoneList[];
-  problem: string;
   tested: string;
   imei: string;
   priceOffer: string;
@@ -28,7 +27,14 @@ export class PhoneList {
   phoneModel = '';
   phoneColor = '';
   phoneQuantity = 1;
+  problem = 'Sticla';
+  pricePerPart = 0;
   observation = '';
+}
+
+
+export class ProblemComputePrice {
+
 }
 
 @Injectable()

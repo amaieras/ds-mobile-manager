@@ -55,27 +55,7 @@
               <div class="container-fluid example-wrapper">
                 <div class="row">
                   <div class="form-group">
-                    <div class="col-md-3">
-                      <label for="problem" style="display: block">Telefon</label>
-                      <p-dropdown id="phoneBrand" [options]="dataPhones" formControlName="phoneBrand"
-                                  [style]="{'width':'150px'}" filter="filter" (onChange)="onSelect()">
-                        <ng-template let-phone pTemplate="item">
-                          <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
-                            <div style="font-size:14px;float:right;margin-top:4px">{{phone.label}}</div>
-                          </div>
-                        </ng-template>
-                      </p-dropdown>
-                    </div>
-                    <div class="col-md-3  pull-left">
-                      <label for="problem" style="display: block">Model</label>
-                      <p-dropdown id="model" [options]="dataModels" [style]="{'width':'150px'}" filter="filter">
-                        <ng-template let-model pTemplate="item">
-                          <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
-                            <div style="font-size:14px;float:right;margin-top:4px">{{model.label}}</div>
-                          </div>
-                        </ng-template>
-                      </p-dropdown>
-                    </div>
+                    <phone-model-cascading-list [inputModel]="newItem"></phone-model-cascading-list>
                     <div class="col-md-3">
                       <label for="phoneColor">Culoare</label>
                       <input placeholder="Culoare" id="phoneColor" class="form-control" formControlName="phoneColor">
@@ -85,7 +65,21 @@
                       <input placeholder="Cantitate" id="phoneQuantity" class="form-control" formControlName="phoneQuantity">
                     </div>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group col-md-3">
+                    <label for="problem" style="display: block">Solicitare/Problema</label>
+                    <p-dropdown id="problem" [options]="problems" formControlName="problem" [style]="{'width':'150px'}" filter="filter">
+                      <ng-template let-problem pTemplate="item">
+                        <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+                          <div style="font-size:14px;float:right;margin-top:4px">{{problem.label}}</div>
+                        </div>
+                      </ng-template>
+                    </p-dropdown>
+                  </div>
+                  <div class="col-md-3">
+                      <label for="pricePerPart">Pret piesa</label>
+                      <input placeholder="Pret piesa" id="pricePerPart" class="form-control" formControlName="pricePerPart">
+                  </div>
+                  <div class="form-group col-md-12">
                     <label for="observation">Observatii</label>
                     <textarea class="form-control" id="observation" rows="3" formControlName="observation"></textarea>
                   </div>
@@ -100,16 +94,7 @@
       <label for="imei">IMEI</label>
       <input placeholder="IMEI" id="imei" class="form-control" formControlName="imei" [(ngModel)]="saveClientPF.imei">
     </div>
-    <div class="form-group">
-      <label for="problem" style="display: block">Solicitare/Problema</label>
-      <p-dropdown id="problem" [options]="problems" [(ngModel)]="selectedProblem" [ngModelOptions]="{standalone: true}" [style]="{'width':'150px'}" filter="filter">
-        <ng-template let-problem pTemplate="item">
-          <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
-            <div style="font-size:14px;float:right;margin-top:4px">{{problem.label}}</div>
-          </div>
-        </ng-template>
-      </p-dropdown>
-    </div>
+
     <div class="form-group">
       <label for="priceOffer">Oferta pret</label>
       <div class="ui-inputgroup">
@@ -130,7 +115,7 @@
     </div>
     <div class="form-group">
       <label for="tested" style="display: block">Testat?</label>
-      <p-dropdown id="tested" [options]="tests" [(ngModel)]="isTested" [ngModelOptions]="{standalone: true}" [style]="{'width':'150px'}" filter="filter">
+      <p-dropdown id="tested" [options]="tests" [(ngModel)]="saveClientPF.tested" [ngModelOptions]="{standalone: true}" [style]="{'width':'150px'}" filter="filter">
         <ng-template let-test pTemplate="item">
           <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
             <div style="font-size:14px;float:right;margin-top:4px">{{test.label}}</div>

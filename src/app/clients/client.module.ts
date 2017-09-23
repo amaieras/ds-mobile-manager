@@ -12,6 +12,9 @@ import { ClientGSMDetailComponent } from "./clientGSM/client-gsm-detail.componen
 import { ClientGSMService } from "./clientGSM/client-gsm-detail.service";
 import {PhoneModelService} from "./phone-models/phone-model.service";
 import {UtilService} from "../utils/util.service";
+import {
+  PhoneModelCascadingListComponent
+} from "./phone-models/phone-model-cascading-list.component";
 
 
 @NgModule({
@@ -29,7 +32,8 @@ import {UtilService} from "../utils/util.service";
   declarations: [
     ClientTypeListComponent,
     ClientPfDetailComponent,
-    ClientGSMDetailComponent
+    ClientGSMDetailComponent,
+    PhoneModelCascadingListComponent
 
   ],
   providers: [
