@@ -1,0 +1,38 @@
+
+  <div [formGroup]="phoneListGroup">
+    <div style="margin-left: 1em;">
+      <div class="container-fluid example-wrapper">
+        <div class="row">
+          <div class="form-group">
+            <phone-model-cascading-list [inputModel]="newItem"></phone-model-cascading-list>
+            <div class="col-md-3">
+              <label for="phoneColor">Culoare</label>
+              <input placeholder="Culoare" id="phoneColor" class="form-control" formControlName="phoneColor">
+            </div>
+            <div class="col-md-3">
+              <label for="phoneQuantity">Cantitate</label>
+              <input placeholder="Cantitate" id="phoneQuantity" class="form-control" formControlName="phoneQuantity">
+            </div>
+          </div>
+          <div formArrayName="problems" class="col-md-12">
+            <div *ngFor="let email of phoneListGroup.controls['problems']['controls']; let i=index" class="panel panel-default">
+              <div class="panel-heading">
+                <span>Lista piese: {{i + 1}}</span>
+                <span class="glyphicon glyphicon-remove pull-right" *ngIf="phoneListGroup.controls.problems.controls.length > 1" (click)="removeProblem(i)"></span>
+              </div>
+              <div class="panel-body" [formGroupName]="i">
+                <problem-gsm-list [group]="phoneListGroup.controls['problems']['controls'][i]"></problem-gsm-list>
+              </div>
+            </div>
+          </div>
+          <div class="form-group col-md-12">
+            <button type="button" class="btn btn-primary" (click)="addProblem()">Adauga alta piesa +</button>
+          </div>
+          <div class="form-group col-md-12">
+            <label for="observation">Observatii</label>
+            <textarea placeholder="Observatii" class="form-control" id="observation" rows="3" formControlName="observation"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

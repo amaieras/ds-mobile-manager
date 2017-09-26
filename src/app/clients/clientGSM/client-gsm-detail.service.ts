@@ -9,13 +9,26 @@ export class ClientGSM {
   firm: string;
   phone: string;
   email: string;
+  phoneList: PhoneList[];
+  priceOffer: string;
   country: string;
   city: string;
   billingAddress: Address[];
   shipmentAddress: Address[];
 }
 
-
+export class PhoneList {
+  phoneBrand = '';
+  phoneModel = '';
+  phoneColor = '';
+  phoneQuantity = 1;
+  problemList: ProblemList[]  = [];
+  observation = '';
+}
+export class ProblemList {
+  problem = 'Sticla';
+  pricePerPart = 0;
+}
 export class AppointmentDate {
   day: string;
   month: string;
@@ -24,11 +37,17 @@ export class AppointmentDate {
 }
 
 export class Address {
+  cif = '';
+  denomination = '';
+  regcom = '';
+  clientCode = '';
+  address = '';
+  county = '';
   country = '';
   city = '';
-  street = '';
-  no = '';
-  zip = '';
+  iban = '';
+  bank = '';
+  contactPerson = '';
 }
 @Injectable()
 export class ClientGSMService {

@@ -27,12 +27,14 @@ export class PhoneList {
   phoneModel = '';
   phoneColor = '';
   phoneQuantity = 1;
-  problem = 'Sticla';
-  pricePerPart = 0;
+  problemList: ProblemList[]  = [];
   observation = '';
 }
 
-
+export class ProblemList {
+  problem = 'Sticla';
+  pricePerPart = 0;
+}
 export class ProblemComputePrice {
 
 }

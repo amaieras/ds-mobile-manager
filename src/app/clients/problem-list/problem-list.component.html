@@ -1,0 +1,16 @@
+<div [formGroup]="problemListGroup">
+  <div class="form-group col-md-3">
+    <label for="problem" style="display: block">Solicitare/Problema</label>
+    <p-dropdown id="problem" [options]="problems" formControlName="problem" [style]="{'width':'150px'}" filter="filter">
+      <ng-template let-problem pTemplate="item">
+        <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+          <div style="font-size:14px;float:right;margin-top:4px">{{problem.label}}</div>
+        </div>
+      </ng-template>
+    </p-dropdown>
+  </div>
+  <div class="col-md-3">
+    <label for="pricePerPart">Pret piesa</label>
+    <input placeholder="Pret piesa" id="pricePerPart" class="form-control" formControlName="pricePerPart">
+  </div>
+</div>

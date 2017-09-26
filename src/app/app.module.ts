@@ -58,7 +58,7 @@ export const firebaseConfig = {
             path: '', redirectTo: '/client', pathMatch: 'full'
         }]),
         //firebase
-        AngularFireModule.initializeApp(firebaseConfig),
+        AngularFireModule.initializeApp(firebaseConfigProd),
         AngularFireDatabaseModule,
         AngularFireAuthModule,
     ],
