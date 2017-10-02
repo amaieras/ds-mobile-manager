@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {ClientPF, ClientPFService, PhoneList, ProblemList} from "./client-pf-detail.service";
+import {ClientPF, ClientPFService, PhoneList} from "./client-pf-detail.service";
 import { Message, SelectItem } from "primeng/primeng";
 import {UtilService} from "../../utils/util.service";
+import {isOkPhoneFormat} from "../../shared/phone-validator.directive";
 import {isUndefined} from "util";
-import {phoneNumberValidator} from "../../shared/phone-validator.directive";
+
 
 @Component({
   selector: 'client-pf-detail',
@@ -21,9 +22,14 @@ export class ClientPfDetailComponent implements OnInit{
   saveClientPF: ClientPF = new ClientPF();
   phoneList: FormGroup;
   aboutUsList: SelectItem[];
+  problem: string = 'Sticla';
+  newItem: any;
+  mainArray: Array<any>;
+
   constructor( private clientPFService: ClientPFService, private fb: FormBuilder, private utilService: UtilService) {
     this.tests = [];
     this.aboutUsList = [];
+    this.mainArray = [];
     this.aboutUsList.push({label:'FACEBOOK', value: 'FACEBOOK' });
     this.aboutUsList.push({label:'GOOGLE', value: 'GOOGLE' });
     this.aboutUsList.push({label:'OLX', value: 'OLX' });
@@ -49,11 +55,11 @@ export class ClientPfDetailComponent implements OnInit{
       'email': new FormControl('', [ ]),
       'firm': new FormControl('', [ ]),
       'phone': new FormControl('', [
-          // Validators.required,
-        // Validators.pattern('\\(?([0-9]{3})\\)?([ .-]?)([0-9]{3})\\2([0-9]{4})')
-          phoneNumberValidator(/\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/i)
+          Validators.required,
+          isOkPhoneFormat
         ]),
-      phoneList: this.fb.array([ ]),
+      phoneList: this.fb.array([
+      ]),
       'tested': new FormControl('', [ ]),
       'imei': new FormControl('', []),
       'priceOffer': new FormControl('', [
@@ -64,6 +70,7 @@ export class ClientPfDetailComponent implements OnInit{
     })
     this.addInPhoneList();
   }
+
   addInPhoneList(): any {
     const phoneListArray = <FormArray>this.clientPFForm.controls['phoneList'];
     const newPhone = this.initPhoneList();
@@ -103,7 +110,7 @@ export class ClientPfDetailComponent implements OnInit{
 
   initPhoneList() {
     return this.fb.group({
-      // phoneBrand: '',
+      phoneBrand: '',
       phoneModel: '',
       phoneColor: '',
       phoneQuantity: '',
@@ -117,6 +124,8 @@ export class ClientPfDetailComponent implements OnInit{
       (phoneList: PhoneList) => Object.assign({}, phoneList)
     );
     this.saveClientPF.phoneList = PhoneListDeepCopy;
+    this.saveClientPF.phone = formModel.phone;
+    this.saveClientPF.aboutUs = formModel.aboutUs;
     // this.mainArray.forEach((item, index) => {
     //   if (isUndefined(this.saveClientPF.phoneList[index])) {
     //     this.saveClientPF.phoneList[index] = {phoneModel:'1',phoneBrand:'2',problemList:[] ,phoneColor:'',phoneQuantity:1,observation:''}
@@ -124,6 +133,14 @@ export class ClientPfDetailComponent implements OnInit{
     //   this.saveClientPF.phoneList[index].phoneBrand = item.phoneId;
     //   this.saveClientPF.phoneList[index].phoneModel = item.modelId;
     // })
+}
+  getPhoneItem(val, indx){
+    this.newItem = {
+      phoneId: val.phoneId,
+      modelId: val.modelId
+    }
+    this.mainArray.push(this.newItem)
+    this.prepareSavePhoneList()
   }
   successMessage() {
     this.msgs = [];

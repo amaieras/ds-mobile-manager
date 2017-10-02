@@ -1,8 +1,6 @@
-import {AbstractControl, ValidatorFn} from "@angular/forms";
+import {FormControl} from "@angular/forms";
 
-export function phoneNumberValidator(nameRe: RegExp): ValidatorFn {
-  return (control: AbstractControl): {[key: string]: any} => {
-    const forbidden = nameRe.test(control.value);
-    return forbidden ? {'forbiddenPhone': {value: control.value}} : null;
-  };
+export function isOkPhoneFormat(input: FormControl) {
+  const isOkPhoneFormat = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})$/.test(input.value);
+  return isOkPhoneFormat ? null : {formatIsOk: true};
 }

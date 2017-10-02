@@ -40,16 +40,16 @@
     </div>
     <div class="form-group">
       <label for="phone">Numar de telefon</label>
-      <input placeholder="Numar de telefon" id="phone" class="form-control" formControlName="phone" [(ngModel)]="saveClientPF.phone" required>
-      <div *ngIf="phone.invalid && (phone.dirty || phone.touched)"
+      <input placeholder="Numar de telefon" id="phone" class="form-control" formControlName="phone" required>
+      <div *ngIf="phone.invalid && (phone.dirty || phone.touched) && phone.errors.required"
            class="alert alert-danger">
         <div *ngIf="phone.errors.required">
           Numarul de telefon nu este completat.
         </div>
       </div>
-      <div *ngIf="phone.phoneNumberValidator"
+      <div *ngIf="phone.invalid && (phone.dirty || phone.touched)"
            class="alert alert-danger">
-        <div *ngIf="phone.phoneNumberValidator">
+        <div *ngIf="phone.hasError('formatIsOk')">
           Numarul de telefon nu are formatul corect.
         </div>
       </div>
@@ -61,7 +61,7 @@
              <span class="glyphicon glyphicon-remove pull-right" *ngIf="clientPFForm.controls.phoneList.controls.length > 1" (click)="removeFromPhoneList(i)"></span>
            </div>
           <div class="panel-body" [formGroupName]="i">
-            <phone-list [group]="clientPFForm.controls['phoneList']['controls'][i]"></phone-list>
+            <phone-list [group]="clientPFForm.controls['phoneList']['controls'][i]" (change)="getPhoneItem($event, i)" [pIndex]="i"></phone-list>
           </div>
           <br>
         </div>

@@ -11,7 +11,8 @@
 </div>
 <div class="col-md-3">
   <label for="model" style="display: block">Model</label>
-  <p-dropdown id="model" [(ngModel)]="newModel.modelId" [options]="cascadedModels" [style]="{'width':'150px'}" filter="filter">
+  <p-dropdown id="model" [(ngModel)]="newModel.modelId" [options]="cascadedModels" [style]="{'width':'150px'}" filter="filter"
+              (onChange)="onModelSelect($event.value)">
     <ng-template let-model pTemplate="item">
       <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
         <div style="font-size:14px;float:right;margin-top:4px">{{model.label}}</div>

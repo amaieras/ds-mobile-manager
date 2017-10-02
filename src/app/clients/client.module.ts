@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
-import { GrowlModule, DropdownModule, CalendarModule, SpinnerModule } from "primeng/primeng";
+import {GrowlModule, DropdownModule, CalendarModule, SpinnerModule, TooltipModule} from "primeng/primeng";
 
 import { ClientTypeListComponent } from "./client-type-list/client-type-list.component";
 import { ClientTypeService } from "./client-type-list/client-type.service";
@@ -31,7 +31,8 @@ import {PhoneGSMListComponent} from "./phone-gsm-list/phone-gsm-list.component";
     GrowlModule,
     DropdownModule,
     CalendarModule,
-    SpinnerModule
+    SpinnerModule,
+    TooltipModule
   ],
   declarations: [
     ClientTypeListComponent,

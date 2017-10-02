@@ -37,7 +37,8 @@ export class PhoneGSMListComponent implements OnInit {
   private initProblem() {
     return this.fb.group({
       problem:'',
-      pricePerPart: ''
+      pricePerPart: '',
+      partName: ''
     })
   }
 }

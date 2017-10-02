@@ -4,7 +4,7 @@
       <div class="container-fluid example-wrapper">
         <div class="row">
           <div class="form-group">
-            <phone-model-cascading-list [inputModel]="newItem"></phone-model-cascading-list>
+            <phone-model-cascading-list [inputModel]="newItem" (update)="updateModel($event)" [pIndex]="phoneIndex" ></phone-model-cascading-list>
             <div class="col-md-3">
               <label for="phoneColor">Culoare</label>
               <input placeholder="Culoare" id="phoneColor" class="form-control" formControlName="phoneColor">

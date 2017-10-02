@@ -1,6 +1,6 @@
 
 
-import {Component, Input, OnInit} from "@angular/core";
+import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
 import {FormArray, FormBuilder, FormGroup} from "@angular/forms";
 
 @Component({
@@ -9,13 +9,17 @@ import {FormArray, FormBuilder, FormGroup} from "@angular/forms";
 })
 export class PhoneListComponent implements OnInit {
   @Input('group') phoneListGroup: FormGroup;
+  @Input('pIndex') phoneIndex: string;
+  @Output('change') phoneItem = new EventEmitter<any>();
   newItem: any;
   mainArray: Array<any>;
-
   constructor(private fb: FormBuilder) {
     this.mainArray = [];
   }
 
+  updateModel(val) {
+    this.phoneItem.emit(val);
+  }
   ngOnInit() {
     this.newItem = {
       phoneId: 1,
@@ -37,7 +41,8 @@ export class PhoneListComponent implements OnInit {
   private initProblem() {
     return this.fb.group({
       problem:'',
-      pricePerPart: ''
+      pricePerPart: '',
+      partName: ''
     })
   }
 }
