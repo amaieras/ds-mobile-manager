@@ -4,7 +4,7 @@ Run from home directory the following commands:
 `npm install angularfire2 firebase --save`                                         
 `npm install promise-polyfill --save-exact`                                                          
 `npm install amexio-ng-extensions --save`                                                   
-`npm install primeng --save`
+`npm install primeng --save`                                                      
 `npm install @angular/flex-layout@latest --save`         
 
 # CandorSampleNgCli
