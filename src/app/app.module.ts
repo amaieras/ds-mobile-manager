@@ -19,6 +19,7 @@ import { ClientTypeService } from "./clients/client-type-list/client-type.servic
 import 'hammerjs';
 import {RepairModule} from "./repairs/repair.module";
 import {RepairCenterRoutingModule} from "./repairs/repair-center-routing.module";
+import {PhoneCascadeService} from "./shared/phone-cascade.service";
 
 export const firebaseConfigProd = {
   apiKey: "AIzaSyAexP1Haz3RsxHqPX--XncgC1Rxef_wMDA",
@@ -62,7 +63,7 @@ export const firebaseConfig = {
         AngularFireDatabaseModule,
         AngularFireAuthModule,
     ],
-    providers: [AppToolbarService, ClientTypeService],
+    providers: [AppToolbarService, ClientTypeService, PhoneCascadeService],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

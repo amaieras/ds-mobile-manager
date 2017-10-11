@@ -1,3 +1,3 @@
 export class PhoneModel {
-  constructor(public value: number, public label: string,  public phoneid: number) { }
+  constructor(public id: number, public name: string,  public phoneId: number) { }
 }

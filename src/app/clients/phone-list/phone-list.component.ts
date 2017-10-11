@@ -2,10 +2,12 @@
 
 import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
 import {FormArray, FormBuilder, FormGroup} from "@angular/forms";
+import {PhoneCascadeService} from "../../shared/phone-cascade.service";
 
 @Component({
   selector: 'phone-list',
-  templateUrl: 'phone-list.component.html'
+  templateUrl: 'phone-list.component.html',
+  providers: [PhoneCascadeService]
 })
 export class PhoneListComponent implements OnInit {
   @Input('group') phoneListGroup: FormGroup;
@@ -13,12 +15,13 @@ export class PhoneListComponent implements OnInit {
   @Output('change') phoneItem = new EventEmitter<any>();
   newItem: any;
   mainArray: Array<any>;
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private _phoneCascadeService: PhoneCascadeService) {
     this.mainArray = [];
   }
 
   updateModel(val) {
-    this.phoneItem.emit(val);
+    // console.log(this._phoneCascadeService.getArr());
+    // this.phoneItem.emit(val);
   }
   ngOnInit() {
     this.newItem = {

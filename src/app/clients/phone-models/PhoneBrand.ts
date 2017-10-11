@@ -1,4 +1,4 @@
 
 export class PhoneBrand {
-  constructor(public value: number, public label: string) { }
+  constructor(public id: string, public name: string) { }
 }
