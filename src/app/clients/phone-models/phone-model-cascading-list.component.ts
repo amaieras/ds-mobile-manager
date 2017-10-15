@@ -4,6 +4,7 @@ import {PhoneModel} from "./PhoneModel";
 import {Observable} from "rxjs/Observable";
 import {PhoneBrand} from "./PhoneBrand";
 import {PhoneCascadeService} from "../../shared/phone-cascade.service";
+import {FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'phone-model-cascading-list',
@@ -14,7 +15,7 @@ export class PhoneModelCascadingListComponent implements OnInit {
   @Input() inputModel: any;
   @Input() pIndex: string;
   @Output('update') updateModel = new EventEmitter<any>();
-
+  @Input('group') phoneListGroup: FormGroup;
   phoneBrandsArray: any = [];
   phoneModelsArray: any = [];
   newModel: any;

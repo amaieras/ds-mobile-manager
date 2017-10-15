@@ -5,15 +5,17 @@ import { Message, SelectItem } from "primeng/primeng";
 import {UtilService} from "../../utils/util.service";
 import {isOkPhoneFormat} from "../../shared/phone-validator.directive";
 import {isUndefined} from "util";
+import {Observable} from "rxjs/Observable";
+import {PhoneBrand} from 'app/clients/phone-models/PhoneBrand';
+import {PhoneModel} from "../phone-models/PhoneModel";
+import {PhoneModelService} from "../phone-models/phone-model.service";
 
 
 @Component({
   selector: 'client-pf-detail',
   templateUrl: './client-pf-detail.component.html',
 })
-export class ClientPfDetailComponent implements OnInit{
-
-
+export class ClientPfDetailComponent implements OnInit {
   clientPF: ClientPF = new ClientPF();
   msgs: Message[] = [];
   tests: SelectItem[];
@@ -26,7 +28,7 @@ export class ClientPfDetailComponent implements OnInit{
   newItem: any;
   mainArray: Array<any>;
 
-  constructor( private clientPFService: ClientPFService, private fb: FormBuilder, private utilService: UtilService) {
+  constructor( private _clientPFService: ClientPFService, private fb: FormBuilder, private _utilService: UtilService) {
     this.tests = [];
     this.aboutUsList = [];
     this.mainArray = [];
@@ -69,6 +71,7 @@ export class ClientPfDetailComponent implements OnInit{
       'aboutUs': new FormControl('FACEBOOK', [ ])
     })
     this.addInPhoneList();
+
   }
 
   addInPhoneList(): any {
@@ -86,22 +89,22 @@ export class ClientPfDetailComponent implements OnInit{
     this.clientPF.appointmentDate = this.defaultDate.getTime().toString();
     this.clientPF.addedDate = new Date().getTime().toString();
     event.preventDefault();
-    if (!this.utilService.check(this.clientPF.imei)) {
+    if (!this._utilService.check(this.clientPF.imei)) {
       this.clientPF.imei = null;
     }
-    if (!this.utilService.check(this.clientPF.firm)) {
+    if (!this._utilService.check(this.clientPF.firm)) {
       this.clientPF.firm = null;
     }
-    if (!this.utilService.check(this.clientPF.email)) {
+    if (!this._utilService.check(this.clientPF.email)) {
       this.clientPF.email = null;
     }
-    if(!this.utilService.check(this.clientPF.firstname)) {
+    if(!this._utilService.check(this.clientPF.firstname)) {
       this.clientPF.firstname = null;
     }
-    if(!this.utilService.check(this.clientPF.lastname)) {
+    if(!this._utilService.check(this.clientPF.lastname)) {
       this.clientPF.lastname = null;
     }
-    this.clientPFService.addPFClient(this.clientPF);
+    this._clientPFService.addPFClient(this.clientPF);
     this.clientPFForm.reset();
     this.clientPF = new ClientPF();
     this.clientPFForm.controls['phoneList'] = this.fb.array([]);
@@ -123,24 +126,23 @@ export class ClientPfDetailComponent implements OnInit{
     const PhoneListDeepCopy: PhoneList[] = formModel.phoneList.map(
       (phoneList: PhoneList) => Object.assign({}, phoneList)
     );
+    formModel.phoneList.forEach(item => {
+    item.problems.forEach( snapshot => {
+      if (snapshot.partName != '') {
+        this._clientPFService.addNewProblem(snapshot);
+      }
+    })
+  })
     this.saveClientPF.phoneList = PhoneListDeepCopy;
     this.saveClientPF.phone = formModel.phone;
     this.saveClientPF.aboutUs = formModel.aboutUs;
-    // this.mainArray.forEach((item, index) => {
-    //   if (isUndefined(this.saveClientPF.phoneList[index])) {
-    //     this.saveClientPF.phoneList[index] = {phoneModel:'1',phoneBrand:'2',problemList:[] ,phoneColor:'',phoneQuantity:1,observation:''}
-    //   }
-    //   this.saveClientPF.phoneList[index].phoneBrand = item.phoneId;
-    //   this.saveClientPF.phoneList[index].phoneModel = item.modelId;
-    // })
 }
-  getPhoneItem(val, indx){
+  getPhoneItem(val){
     this.newItem = {
       phoneId: val.phoneId,
       modelId: val.modelId
     }
     this.mainArray.push(this.newItem)
-    this.prepareSavePhoneList()
   }
   successMessage() {
     this.msgs = [];

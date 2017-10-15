@@ -19,15 +19,31 @@ export class UtilService {
     }
     return true;
   }
-
-  addOrUpdateArr(arr, newElement, arrIndex) {
-    var index = arrIndex[newElement.pIndex];
-    if(isUndefined(index)) {
-      index = arr.length;
+  checkIsOther(part) {
+    if(part === 3) {
+      return true;
     }
-    arrIndex[newElement.pIndex] = index;
-    arr[index] = newElement;
-    console.log(arr)
-    //return arr;
+    else{
+      return false;
+    }
+  }
+
+  containsObject(obj, list){
+    var fireArr = [];
+    var arr = [];
+    var maxId = '';
+    list.subscribe(items =>{
+      items.forEach(snapshot => {
+        fireArr.push({partName: snapshot.name, id: snapshot.id})
+      })
+      maxId = Math.max.apply(Math,fireArr.map(function(o){return o.id;}))
+      arr = fireArr;
+    })
+    if (arr.filter(function(e) {
+        return e.partName.trim().toUpperCase() === obj.partName.trim().toUpperCase();
+      })) {
+      return maxId;
+    }
+    return null;
   }
 }

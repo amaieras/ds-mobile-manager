@@ -2,7 +2,7 @@
   <div class="form-group col-md-3">
     <label for="problem" style="display: block">Solicitare/Problema</label>
     <p-dropdown id="problem" [options]="problems" formControlName="problem" [(ngModel)]="selectedProblem" [style]="{'width':'150px'}"
-                (onChange)="getIsOther()" filter="filter">
+                 filter="filter" (onChange)="checkIsOther()">
       <ng-template let-problem pTemplate="item">
         <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
           <div style="font-size:14px;float:right;margin-top:4px">{{problem.label}}</div>
@@ -10,9 +10,9 @@
       </ng-template>
     </p-dropdown>
   </div>
-  <div class="col-md-3" *ngIf="!isOther">
+  <div class="col-md-3" *ngIf="isRequired">
     <label for="partName">Denumire piesa</label>
-    <input placeholder="Denumire piesa" id="partName" class="form-control" formControlName="partName">
+    <input placeholder="Denumire piesa" id="partName" [(ngModel)]="newPartName" class="form-control" formControlName="partName" >
   </div>
   <div class="col-md-3">
     <label for="pricePerPart">Pret piesa</label>

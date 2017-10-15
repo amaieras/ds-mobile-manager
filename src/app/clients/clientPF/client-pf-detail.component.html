@@ -61,7 +61,7 @@
              <span class="glyphicon glyphicon-remove pull-right" *ngIf="clientPFForm.controls.phoneList.controls.length > 1" (click)="removeFromPhoneList(i)"></span>
            </div>
           <div class="panel-body" [formGroupName]="i">
-            <phone-list [group]="clientPFForm.controls['phoneList']['controls'][i]" (change)="getPhoneItem($event, i)" [pIndex]="i"></phone-list>
+            <phone-list [group]="clientPFForm.controls['phoneList']['controls'][i]" (change)="getPhoneItem($event)"></phone-list>
           </div>
           <br>
         </div>

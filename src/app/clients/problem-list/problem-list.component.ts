@@ -1,8 +1,8 @@
-
-
 import {FormGroup} from "@angular/forms";
-import {Component, Input} from "@angular/core";
-import {SelectItem} from "primeng/primeng";
+import {ChangeDetectorRef, Component, Input} from "@angular/core";
+import {ClientPFService} from "../clientPF/client-pf-detail.service";
+import {Observable} from "rxjs/Observable";
+import {UtilService} from "../../utils/util.service";
 
 @Component({
   selector: 'problem-list',
@@ -10,30 +10,30 @@ import {SelectItem} from "primeng/primeng";
 })
 export class ProblemListComponent {
   @Input('group') problemListGroup: FormGroup;
-  problems: SelectItem[];
-  problemsGSM: SelectItem[];
+  problemsList: any = [];
+  problems: Observable<any[]>;
   selectedProblem: string = 'Sticla';
-  isOther: boolean = true;
-  constructor() {
-    this.problems = [];
-    this.problemsGSM = [];
-    this.problems.push({label:'Sticla', value: 'Sticla' });
-    this.problems.push({label:'Display', value: 'Display' });
-    this.problems.push({label:'Altele', value: 'Altele' });
+  newPartName: string = '';
+  private isRequired: boolean = false;
 
-    this.problemsGSM.push({label:'Sticla', value: 'Sticla' });
-    this.problemsGSM.push({label:'Display', value: 'Display' });
-    this.problemsGSM.push({label:'Vanzare Display', value: 'Vanzare Display' });
-    this.problemsGSM.push({label:'Altele', value: 'Altele' });
-
-
+  constructor(private _clientPFService: ClientPFService, private _utilService: UtilService, private changeDetector: ChangeDetectorRef) {
+    this._clientPFService.getProblemList().subscribe(problemsList => {
+      problemsList.forEach(snapshot => {
+        this.problemsList.push({label: snapshot.name, value: snapshot.id})
+      })
+      this.problems = this.problemsList;
+    });
   }
-  getIsOther() {
-    if(this.selectedProblem === 'Altele') {
-      this.isOther = false;
+  checkIsOther() {
+    var fieldElement = <HTMLInputElement>document.getElementById('partName');
+    if (fieldElement !== null && this.isRequired) {
+      this.newPartName = '';
     }
-    else{
-      this.isOther = true;
+    if (fieldElement !== null) {
+      fieldElement.required = this.isRequired;
     }
+
+    this.isRequired = this._utilService.checkIsOther(this.selectedProblem);
+    this.changeDetector.detectChanges();
   }
 }

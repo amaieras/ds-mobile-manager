@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import {AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable} from "angularfire2/database";
+import {UtilService} from "../../utils/util.service";
+import {isNull} from "util";
 
 
 export class ClientPF {
@@ -42,22 +44,31 @@ export class ProblemComputePrice {
 
 @Injectable()
 export class ClientPFService {
-
-  constructor(db: AngularFireDatabase) {
+  problemList: FirebaseListObservable<any[]> = null;
+  constructor(private db: AngularFireDatabase, private _utilService: UtilService) {
     this.clientsPF = db.list('/clients/pf');
   }
 
   clientsPF: FirebaseListObservable<ClientPF[]> = null;
-  clientPf: FirebaseObjectObservable<ClientPF> = null;
 
   addPFClient(clientPF: ClientPF): void {
     this.clientsPF.push(clientPF)
       .catch(error => this.handleError(error));
   }
 
-  updateItem(key: string, value: any): void {
-    this.clientsPF.update(key, value)
-      .catch(error => this.handleError(error))
+  getProblemList() : FirebaseListObservable<any[]>  {
+    this.problemList = this.db.list('problems-list',);
+    return this.problemList;
+  }
+
+  addNewProblem(prbl){
+    var maxId = this._utilService.containsObject(prbl, this.problemList);
+    if (maxId === null){
+      console.log('Problem exists');
+    }
+    else{
+      this.problemList.push({id: maxId + 1, name: prbl.partName});
+    }
   }
   private handleError(error) {
     console.log(error);

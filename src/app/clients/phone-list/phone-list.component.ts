@@ -1,8 +1,10 @@
-
-
 import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
 import {FormArray, FormBuilder, FormGroup} from "@angular/forms";
 import {PhoneCascadeService} from "../../shared/phone-cascade.service";
+import {Observable} from "rxjs/Observable";
+import {PhoneBrand} from "app/clients/phone-models/PhoneBrand";
+import {PhoneModel} from "../phone-models/PhoneModel";
+import {PhoneModelService} from "app/clients/phone-models/phone-model.service";
 
 @Component({
   selector: 'phone-list',
@@ -14,15 +16,15 @@ export class PhoneListComponent implements OnInit {
   @Input('pIndex') phoneIndex: string;
   @Output('change') phoneItem = new EventEmitter<any>();
   newItem: any;
-  mainArray: Array<any>;
-  constructor(private fb: FormBuilder, private _phoneCascadeService: PhoneCascadeService) {
-    this.mainArray = [];
+  mainArray: Array<any> = [];
+  cascadedModels: Observable<PhoneModel[]>;
+  cascadedBrands: Observable<PhoneBrand[]>;
+  phoneBrandsArray: any = [];
+  phoneModelsArray: any = [];
+
+  constructor(private fb: FormBuilder, private _phoneModelService: PhoneModelService) {
   }
 
-  updateModel(val) {
-    // console.log(this._phoneCascadeService.getArr());
-    // this.phoneItem.emit(val);
-  }
   ngOnInit() {
     this.newItem = {
       phoneId: 1,
@@ -30,6 +32,19 @@ export class PhoneListComponent implements OnInit {
     }
     this.mainArray.push((this.newItem));
     this.addProblem();
+
+    this._phoneModelService.getPhoneBrands().subscribe(phoneModels => {
+      phoneModels.forEach(snapshot => {
+        this.phoneBrandsArray.push({label: snapshot.name, value: snapshot.id})
+      })
+      this.cascadedBrands = this.phoneBrandsArray;
+    });
+    this._phoneModelService.getPhoneModels().subscribe(phoneBrands => {
+      phoneBrands.forEach(snapshot => {
+        this.phoneModelsArray.push({label: snapshot.name, value: snapshot.id, phoneId: snapshot.phoneId})
+      })
+      this.cascadedModels = this.phoneModelsArray.filter((item) => item.phoneId == 1);
+    });
   }
   addProblem() {
     const problemArray = <FormArray>this.phoneListGroup.controls['problems'];
@@ -47,5 +62,14 @@ export class PhoneListComponent implements OnInit {
       pricePerPart: '',
       partName: ''
     })
+  }
+
+  onSelect(phoneId) {
+    this._phoneModelService.getPhoneModels().subscribe(phoneBrands => {
+      phoneBrands.forEach(snapshot => {
+        this.phoneModelsArray.push({label: snapshot.name, value: snapshot.id, phoneId: snapshot.phoneId})
+      })
+      this.cascadedModels = this.phoneModelsArray.filter((item) => item.phoneId == phoneId);
+    });
   }
 }
