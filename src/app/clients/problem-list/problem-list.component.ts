@@ -1,4 +1,4 @@
-import {FormGroup} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ChangeDetectorRef, Component, Input} from "@angular/core";
 import {ClientPFService} from "../clientPF/client-pf-detail.service";
 import {Observable} from "rxjs/Observable";
@@ -24,15 +24,18 @@ export class ProblemListComponent {
       this.problems = this.problemsList;
     });
   }
+  checkIfPartExists(newValue){
+    if(this._clientPFService.addNewProblem(newValue)) {
+      console.log('Problema nu exista')
+    }
+  }
   checkIsOther() {
     var fieldElement = <HTMLInputElement>document.getElementById('partName');
+    this.problemListGroup.addControl('partName',new FormControl('', [ Validators.required ]));
     if (fieldElement !== null && this.isRequired) {
       this.newPartName = '';
+      this.problemListGroup.removeControl('partName');
     }
-    if (fieldElement !== null) {
-      fieldElement.required = this.isRequired;
-    }
-
     this.isRequired = this._utilService.checkIsOther(this.selectedProblem);
     this.changeDetector.detectChanges();
   }

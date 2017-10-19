@@ -12,8 +12,9 @@
   </div>
   <div class="col-md-3" *ngIf="isRequired">
     <label for="partName">Denumire piesa</label>
-    <input placeholder="Denumire piesa" id="partName" [(ngModel)]="newPartName" class="form-control" formControlName="partName" >
+    <input placeholder="Denumire piesa" id="partName" (ngModelChange)="checkIfPartExists($event)" [(ngModel)]="newPartName" class="form-control" formControlName="partName" [required]="isRequired ? true : null">
   </div>
+
   <div class="col-md-3">
     <label for="pricePerPart">Pret piesa</label>
     <input placeholder="Pret piesa" id="pricePerPart" class="form-control" formControlName="pricePerPart">

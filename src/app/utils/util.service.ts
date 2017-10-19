@@ -28,7 +28,7 @@ export class UtilService {
     }
   }
 
-  containsObject(obj, list){
+  containsObject(partName, list){
     var fireArr = [];
     var arr = [];
     var maxId = '';
@@ -39,9 +39,11 @@ export class UtilService {
       maxId = Math.max.apply(Math,fireArr.map(function(o){return o.id;}))
       arr = fireArr;
     })
-    if (arr.filter(function(e) {
-        return e.partName.trim().toUpperCase() === obj.partName.trim().toUpperCase();
-      })) {
+    var found = arr.some(function (el) {
+      return el.partName === partName;
+
+    })
+    if(!found) {
       return maxId;
     }
     return null;

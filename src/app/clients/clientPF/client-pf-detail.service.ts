@@ -64,10 +64,11 @@ export class ClientPFService {
   addNewProblem(prbl){
     var maxId = this._utilService.containsObject(prbl, this.problemList);
     if (maxId === null){
-      console.log('Problem exists');
+      return false;
     }
     else{
-      this.problemList.push({id: maxId + 1, name: prbl.partName});
+      this.problemList.push({id: maxId + 1, name: prbl});
+      return true;
     }
   }
   private handleError(error) {

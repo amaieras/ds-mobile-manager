@@ -129,7 +129,7 @@ export class ClientPfDetailComponent implements OnInit {
     formModel.phoneList.forEach(item => {
     item.problems.forEach( snapshot => {
       if (snapshot.partName != '') {
-        this._clientPFService.addNewProblem(snapshot);
+        this._clientPFService.addNewProblem(snapshot.partName);
       }
     })
   })
