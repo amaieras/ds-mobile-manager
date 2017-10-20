@@ -91,5 +91,7 @@ nav a.active {
 .ng-invalid:not(form)  {
   border-left: 5px solid #a94442; /* red */
 }
-
+mat-sidenav-content {
+  margin-left: 180px !important;
+}
 

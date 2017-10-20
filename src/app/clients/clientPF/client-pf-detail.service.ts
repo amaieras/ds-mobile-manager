@@ -56,9 +56,11 @@ export class ClientPFService {
     this.clientsPF.push(clientPF);
   }
 
-  getProblemList() : AngularFireList<any[]>  {
+  getProblemList() {
     this.problemList = this.db.list('problems-list',);
-    return this.problemList;
+    return this.problemList.snapshotChanges().map(arr => {
+      return arr.map(snap => Object.assign(snap.payload.val(), { $key: snap.key}))
+    });;
   }
 
   addNewProblem(prbl){

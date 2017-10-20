@@ -17,12 +17,12 @@ export class ProblemListComponent {
   private isRequired: boolean = false;
 
   constructor(private _clientPFService: ClientPFService, private _utilService: UtilService, private changeDetector: ChangeDetectorRef) {
-    // this._clientPFService.getProblemList().subscribe(problemsList => {
-    //   problemsList.forEach(snapshot => {
-    //     this.problemsList.push({label: snapshot.name, value: snapshot.id})
-    //   })
-    //   this.problems = this.problemsList;
-    // });
+    this._clientPFService.getProblemList().subscribe(problemsList => {
+      problemsList.forEach(snapshot => {
+        this.problemsList.push({label: snapshot.name, value: snapshot.id})
+      })
+      this.problems = this.problemsList;
+    });
   }
   checkIfPartExists(newValue){
     if(this._clientPFService.addNewProblem(newValue)) {

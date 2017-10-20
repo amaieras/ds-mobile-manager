@@ -12,9 +12,11 @@ export class RepairGSMDetailService {
     this.repairsGSM = db.list('/clients/gsm');
   }
 
-  getClientsGSMList(): AngularFireList<ClientGSM[]> {
+  getClientsGSMList() {
     this.repairsGSM = this.db.list('/clients/gsm');
-    return this.repairsGSM;
+    return this.repairsGSM.snapshotChanges().map(arr => {
+      return arr.map(snap => Object.assign(snap.payload.val(), { $key: snap.key}))
+    });;
   }
 
   updateItem(key: string, value: any): void {

@@ -11,9 +11,11 @@ export class RepairPFDetailService {
     this.repairsPF = db.list('/clients/pf');
   }
 
-  getClientsPFList(query={}): AngularFireList<ClientPF[]> {
+  getClientsPFList(){
     this.repairsPF = this.db.list('/clients/pf');
-    return this.repairsPF;
+    return this.repairsPF.snapshotChanges().map(arr => {
+      return arr.map(snap => Object.assign(snap.payload.val(), { $key: snap.key}))
+    });
   }
   updateItem(key: string, value: any): void {
     this.repairsPF.update(key, value)

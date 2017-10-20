@@ -3,13 +3,14 @@ import { AngularFireList } from 'angularfire2/database';
 import { ClientGSM } from "../../clients/clientGSM/client-gsm-detail.service"
 import { SelectItem,Message } from "primeng/primeng";
 import { RepairGSMDetailService } from "./repair-gsm-detail.service";
+import {Observable} from "rxjs/Observable";
 
 @Component({
   selector: 'repair-gsm-detail',
   templateUrl: './repair-gsm-detail.component.html'
 })
 export class RepairGSMDetailComponent implements OnInit{
-  repairsGSM: AngularFireList<ClientGSM[]>;
+  repairsGSM: Observable<ClientGSM[]>;
   cols: any[];
   columnOptions: SelectItem[];
   msgs: Message[] = [];

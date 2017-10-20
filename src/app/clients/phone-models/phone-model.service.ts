@@ -11,13 +11,17 @@ export class PhoneModelService {
   phoneBrands: AngularFireList<PhoneBrand[]> = null;
   phoneModels: AngularFireList<PhoneModel[]> = null;
 
-  getPhoneBrands(): AngularFireList<PhoneBrand[]> {
+  getPhoneBrands(){
     this.phoneBrands = this.db.list('phones/phoneBrands',);
-    return this.phoneBrands;
+    return this.phoneBrands.snapshotChanges().map(arr => {
+      return arr.map(snap => Object.assign(snap.payload.val(), { $key: snap.key}))
+    });
   }
 
-  getPhoneModels(): AngularFireList<PhoneModel[]> {
+  getPhoneModels() {
   this.phoneModels = this.db.list('phones/phoneModels');
-  return this.phoneModels;
+  return this.phoneModels.snapshotChanges().map(arr => {
+    return arr.map(snap => Object.assign(snap.payload.val(), { $key: snap.key}))
+  });;
   }
 }
