@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FirebaseListObservable } from 'angularfire2/database';
+import { AngularFireList } from 'angularfire2/database';
 import { ClientPF } from "../../clients/clientPF/client-pf-detail.service";
 import { RepairPFDetailService } from "./repair-pf-detail.service"
 import { SelectItem, Message } from "primeng/primeng";
@@ -9,7 +9,7 @@ import { SelectItem, Message } from "primeng/primeng";
   templateUrl: './repair-pf-detail.component.html'
 })
 export class RepairPFDetailComponent implements OnInit {
-  repairsPF: FirebaseListObservable<ClientPF[]>;
+  repairsPF: AngularFireList<ClientPF[]>;
   cols: any[];
   msgs: Message[] = [];
   columnOptions: SelectItem[];
@@ -62,7 +62,7 @@ export class RepairPFDetailComponent implements OnInit {
   }
   getClientsPFList() {
       this.repairsPF = this.repairPFService
-        .getClientsPFList({limitToLast: 5});
+        .getClientsPFList();
   }
   successMessage(lastname, firstname) {
     this.msgs = [];

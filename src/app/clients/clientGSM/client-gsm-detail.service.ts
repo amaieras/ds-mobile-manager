@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import {AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable} from "angularfire2/database";
+import {AngularFireDatabase, AngularFireList, AngularFireObject} from "angularfire2/database";
 
 export class ClientGSM {
   constructor() { }
@@ -52,15 +52,15 @@ export class Address {
 @Injectable()
 export class ClientGSMService {
 
+  clientsGSM: AngularFireList<ClientGSM> = null;
+  clientGSM: AngularFireObject<ClientGSM> = null;
+
   constructor(db: AngularFireDatabase) {
     this.clientsGSM = db.list('/clients/gsm');
   }
-  clientsGSM: FirebaseListObservable<ClientGSM[]> = null;
-  clientGSM: FirebaseObjectObservable<ClientGSM> = null;
 
   addGSMClient(clientGSM: ClientGSM): void {
-    this.clientsGSM.push(clientGSM)
-      .catch ( error => this.handleError(error));
+    this.clientsGSM.push(clientGSM);
   }
 
   private handleError(error) {

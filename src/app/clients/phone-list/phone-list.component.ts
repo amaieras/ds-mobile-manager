@@ -33,18 +33,18 @@ export class PhoneListComponent implements OnInit {
     this.mainArray.push((this.newItem));
     this.addProblem();
 
-    this._phoneModelService.getPhoneBrands().subscribe(phoneModels => {
-      phoneModels.forEach(snapshot => {
-        this.phoneBrandsArray.push({label: snapshot.name, value: snapshot.id})
-      })
-      this.cascadedBrands = this.phoneBrandsArray;
-    });
-    this._phoneModelService.getPhoneModels().subscribe(phoneBrands => {
-      phoneBrands.forEach(snapshot => {
-        this.phoneModelsArray.push({label: snapshot.name, value: snapshot.id, phoneId: snapshot.phoneId})
-      })
-      this.cascadedModels = this.phoneModelsArray.filter((item) => item.phoneId == 1);
-    });
+    // this._phoneModelService.getPhoneBrands().subscribe(phoneModels => {
+    //   phoneModels.forEach(snapshot => {
+    //     this.phoneBrandsArray.push({label: snapshot.name, value: snapshot.id})
+    //   })
+    //   this.cascadedBrands = this.phoneBrandsArray;
+    // });
+    // this._phoneModelService.getPhoneModels().subscribe(phoneBrands => {
+    //   phoneBrands.forEach(snapshot => {
+    //     this.phoneModelsArray.push({label: snapshot.name, value: snapshot.id, phoneId: snapshot.phoneId})
+    //   })
+    //   this.cascadedModels = this.phoneModelsArray.filter((item) => item.phoneId == 1);
+    // });
   }
   addProblem() {
     const problemArray = <FormArray>this.phoneListGroup.controls['problems'];
@@ -65,11 +65,11 @@ export class PhoneListComponent implements OnInit {
   }
 
   onSelect(phoneId) {
-    this._phoneModelService.getPhoneModels().subscribe(phoneBrands => {
-      phoneBrands.forEach(snapshot => {
-        this.phoneModelsArray.push({label: snapshot.name, value: snapshot.id, phoneId: snapshot.phoneId})
-      })
-      this.cascadedModels = this.phoneModelsArray.filter((item) => item.phoneId == phoneId);
-    });
+    // this._phoneModelService.getPhoneModels().subscribe(phoneBrands => {
+    //   phoneBrands.forEach(snapshot => {
+    //     this.phoneModelsArray.push({label: snapshot.name, value: snapshot.id, phoneId: snapshot.phoneId})
+    //   })
+    //   this.cascadedModels = this.phoneModelsArray.filter((item) => item.phoneId == phoneId);
+    // });
   }
 }

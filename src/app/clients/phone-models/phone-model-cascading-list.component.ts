@@ -27,18 +27,18 @@ export class PhoneModelCascadingListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this._phoneModelService.getPhoneBrands().subscribe(phoneModels => {
-      phoneModels.forEach(snapshot => {
-        this.phoneBrandsArray.push({label: snapshot.name, value: snapshot.id})
-      })
-      this.cascadedBrands = this.phoneBrandsArray;
-    });
-    this._phoneModelService.getPhoneModels().subscribe(phoneBrands => {
-      phoneBrands.forEach(snapshot => {
-        this.phoneModelsArray.push({label: snapshot.name, value: snapshot.id, phoneId: snapshot.phoneId})
-      })
-      this.cascadedModels = this.phoneModelsArray.filter((item) => item.phoneId == 1);
-    });
+    // this._phoneModelService.getPhoneBrands().subscribe(phoneModels => {
+    //   phoneModels.forEach(snapshot => {
+    //     this.phoneBrandsArray.push({label: snapshot.name, value: snapshot.id})
+    //   })
+    //   this.cascadedBrands = this.phoneBrandsArray;
+    // });
+    // this._phoneModelService.getPhoneModels().subscribe(phoneBrands => {
+    //   phoneBrands.forEach(snapshot => {
+    //     this.phoneModelsArray.push({label: snapshot.name, value: snapshot.id, phoneId: snapshot.phoneId})
+    //   })
+    //   this.cascadedModels = this.phoneModelsArray.filter((item) => item.phoneId == 1);
+    // });
     this.newModel = this.inputModel;
     this.newModel.pIndex = this.pIndex;
     this.mainArray[this.pIndex] = this.newModel;
@@ -47,13 +47,13 @@ export class PhoneModelCascadingListComponent implements OnInit {
   }
 
   onSelect(phoneId) {
-    this._phoneModelService.getPhoneModels().subscribe(phoneBrands => {
-      phoneBrands.forEach(snapshot => {
-        this.phoneModelsArray.push({label: snapshot.name, value: snapshot.id, phoneId: snapshot.phoneId})
-      })
-      this.cascadedModels = this.phoneModelsArray.filter((item) => item.phoneId == phoneId);
-      this.newModel.modelId = this.phoneModelsArray.filter((item) => item.phoneId == phoneId)[0].value
-    });
+    // this._phoneModelService.getPhoneModels().subscribe(phoneBrands => {
+    //   phoneBrands.forEach(snapshot => {
+    //     this.phoneModelsArray.push({label: snapshot.name, value: snapshot.id, phoneId: snapshot.phoneId})
+    //   })
+    //   this.cascadedModels = this.phoneModelsArray.filter((item) => item.phoneId == phoneId);
+    //   this.newModel.modelId = this.phoneModelsArray.filter((item) => item.phoneId == phoneId)[0].value
+    // });
     this.newModel.phoneId = parseInt(phoneId);
     this.newModel.pIndex = this.pIndex;
     this.mainArray[this.pIndex] = this.newModel;

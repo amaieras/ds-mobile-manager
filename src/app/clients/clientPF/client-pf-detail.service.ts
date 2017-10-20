@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable} from "angularfire2/database";
+import {AngularFireDatabase, AngularFireList, AngularFireObject } from 'angularfire2/database';
 import {UtilService} from "../../utils/util.service";
 import {isNull} from "util";
 
@@ -44,19 +44,19 @@ export class ProblemComputePrice {
 
 @Injectable()
 export class ClientPFService {
-  problemList: FirebaseListObservable<any[]> = null;
+  problemList: AngularFireList<any> = null;
+  clientsPF: AngularFireList<ClientPF> = null;
+
   constructor(private db: AngularFireDatabase, private _utilService: UtilService) {
     this.clientsPF = db.list('/clients/pf');
   }
 
-  clientsPF: FirebaseListObservable<ClientPF[]> = null;
 
   addPFClient(clientPF: ClientPF): void {
-    this.clientsPF.push(clientPF)
-      .catch(error => this.handleError(error));
+    this.clientsPF.push(clientPF);
   }
 
-  getProblemList() : FirebaseListObservable<any[]>  {
+  getProblemList() : AngularFireList<any[]>  {
     this.problemList = this.db.list('problems-list',);
     return this.problemList;
   }

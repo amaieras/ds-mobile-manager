@@ -17,12 +17,12 @@ export class ProblemGSMListComponent{
   problemsList: any = [];
   selectedProblem: string = 'Sticla';
   constructor(private _clientPFService: ClientPFService, private _utilService: UtilService) {
-    this._clientPFService.getProblemList().subscribe(problemsList => {
-      problemsList.forEach(snapshot => {
-        this.problemsList.push({label: snapshot.name, value: snapshot.id})
-      })
-      this.problems = this.problemsList;
-    });
+    // this._clientPFService.getProblemList().subscribe(problemsList => {
+    //   problemsList.forEach(snapshot => {
+    //     this.problemsList.push({label: snapshot.name, value: snapshot.id})
+    //   })
+    //   this.problems = this.problemsList;
+    // });
   }
 
   checkIsOther() {

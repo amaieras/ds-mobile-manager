@@ -1,37 +1,37 @@
 <div fxLayout="column" fxFlex  [class.dark-theme]="isDarkTheme">
-    <md-sidenav-container fxFlex>
-        <md-sidenav #mainSideNav mode="side" opened>
-            <md-toolbar>
+    <mat-sidenav-container fxFlex>
+        <mat-sidenav #mainSideNav mode="side" opened>
+            <mat-toolbar>
                 <img src="../assets/logo.png" style="height:80%">
-            </md-toolbar>
-            <md-nav-list>
+            </mat-toolbar>
+            <mat-nav-list>
                 <a *ngFor="let navItem of mainMenuItems"
-                   md-list-item
-                   md-ripple
+                   mat-list-item
+                   mat-ripple
                    [style.position]="'relative'"
                    routerLinkActive="selected"
                    [routerLink]="[navItem.path]">
-                    <!--<md-icon *ngIf="navItem.icon">{{navItem.icon}}</md-icon>-->
+                    <!--<mat-icon *ngIf="navItem.icon">{{navItem.icon}}</mat-icon>-->
                     <span>{{navItem.title}}</span>
                 </a>
-            </md-nav-list>
-        </md-sidenav>
-        <md-toolbar color="primary">
-            <button md-icon-button (click)="mainSideNav.toggle()">
-                <md-icon *ngIf="mainSideNav.opened">chevron_left</md-icon>
-                <md-icon *ngIf="!mainSideNav.opened">menu</md-icon>
+            </mat-nav-list>
+        </mat-sidenav>
+        <mat-toolbar color="primary">
+            <button mat-icon-button (click)="mainSideNav.toggle()">
+                <mat-icon *ngIf="mainSideNav.opened">chevron_left</mat-icon>
+                <mat-icon *ngIf="!mainSideNav.opened">menu</mat-icon>
             </button>
-            <!--<md-icon *ngIf="navItem.icon">{{navItem.icon}}</md-icon>-->
+            <!--<mat-icon *ngIf="navItem.icon">{{navItem.icon}}</mat-icon>-->
             {{(activeMenuItem$ | async)?.title}}
             <span fxFlex></span>
           <router-outlet></router-outlet>
-            <button md-icon-button [mdMenuTriggerFor]="themeMenu">
-                <md-icon>more_vert</md-icon>
+            <button mat-icon-button [matMenuTriggerFor]="themeMenu">
+                <mat-icon>more_vert</mat-icon>
             </button>
-        </md-toolbar>
+        </mat-toolbar>
         <router-outlet></router-outlet>
-    </md-sidenav-container>
-    <md-menu #themeMenu x-position="before">
-        <button md-menu-item (click)="isDarkTheme = !isDarkTheme">Toggle Theme</button>
-    </md-menu>
+    </mat-sidenav-container>
+    <mat-menu #themeMenu x-position="before">
+        <button mat-menu-item (click)="isDarkTheme = !isDarkTheme">Toggle Theme</button>
+    </mat-menu>
 </div>

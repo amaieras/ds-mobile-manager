@@ -1,20 +1,18 @@
 import {Component, Injectable} from '@angular/core';
-import { FirebaseListObservable, AngularFireDatabase } from 'angularfire2/database';
+import { AngularFireList, AngularFireDatabase } from 'angularfire2/database';
 import { ClientPF } from "../../clients/clientPF/client-pf-detail.service";
 
 
 @Injectable()
 export class RepairPFDetailService {
-  repairsPF: FirebaseListObservable<ClientPF[]> = null;
+  repairsPF: AngularFireList<ClientPF[]> = null;
 
   constructor(private db: AngularFireDatabase) {
     this.repairsPF = db.list('/clients/pf');
   }
 
-  getClientsPFList(query={}): FirebaseListObservable<ClientPF[]> {
-    this.repairsPF = this.db.list('/clients/pf', {
-      query: query
-    });
+  getClientsPFList(query={}): AngularFireList<ClientPF[]> {
+    this.repairsPF = this.db.list('/clients/pf');
     return this.repairsPF;
   }
   updateItem(key: string, value: any): void {

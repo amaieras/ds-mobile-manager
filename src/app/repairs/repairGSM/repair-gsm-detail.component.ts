@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { FirebaseListObservable } from 'angularfire2/database';
+import { AngularFireList } from 'angularfire2/database';
 import { ClientGSM } from "../../clients/clientGSM/client-gsm-detail.service"
 import { SelectItem,Message } from "primeng/primeng";
 import { RepairGSMDetailService } from "./repair-gsm-detail.service";
@@ -9,7 +9,7 @@ import { RepairGSMDetailService } from "./repair-gsm-detail.service";
   templateUrl: './repair-gsm-detail.component.html'
 })
 export class RepairGSMDetailComponent implements OnInit{
-  repairsGSM: FirebaseListObservable<ClientGSM[]>;
+  repairsGSM: AngularFireList<ClientGSM[]>;
   cols: any[];
   columnOptions: SelectItem[];
   msgs: Message[] = [];
@@ -51,7 +51,7 @@ export class RepairGSMDetailComponent implements OnInit{
   }
   getClientsGSMList() {
     this.repairsGSM = this.repairGSMService
-      .getClientsGSMList({limitToLast: 5});
+      .getClientsGSMList();
   }
   successMessage(lastname, firstname) {
     this.msgs = [];
