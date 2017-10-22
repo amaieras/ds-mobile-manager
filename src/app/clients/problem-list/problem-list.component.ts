@@ -11,7 +11,7 @@ import {UtilService} from "../../utils/util.service";
 export class ProblemListComponent {
   @Input('group') problemListGroup: FormGroup;
   problemsList: any = [];
-  problems: Observable<any[]>;
+  problems: Array<{}>;
   selectedProblem: string = 'Sticla';
   newPartName: string = '';
   private isRequired: boolean = false;
@@ -25,9 +25,7 @@ export class ProblemListComponent {
     });
   }
   checkIfPartExists(newValue){
-    if(this._clientPFService.addNewProblem(newValue)) {
-      console.log('Problema nu exista')
-    }
+    console.log(this._utilService.containsObject(newValue, this.problemsList));
   }
   checkIsOther() {
     var fieldElement = <HTMLInputElement>document.getElementById('partName');

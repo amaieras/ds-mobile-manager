@@ -38,9 +38,8 @@ export class ClientPfDetailComponent implements OnInit {
     this.aboutUsList.push({label:'RECOMANDARE', value: 'RECOMANDARE' });
     this.aboutUsList.push({label:'Altele', value: 'Altele' });
 
-    this.tests.push({label:'-', value: '-' });
-    this.tests.push({label:'DA', value: 'DA' });
     this.tests.push({label:'NU', value: 'NU' });
+    this.tests.push({label:'DA', value: 'DA' });
 
   }
 
@@ -116,7 +115,6 @@ export class ClientPfDetailComponent implements OnInit {
       phoneBrand: '',
       phoneModel: '',
       phoneColor: '',
-      phoneQuantity: '',
       problems: this.fb.array([]),
       observation: ''
     })

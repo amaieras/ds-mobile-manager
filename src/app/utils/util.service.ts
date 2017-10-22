@@ -1,10 +1,15 @@
 
 import {Injectable} from "@angular/core";
-import {isUndefined} from "util";
 
 @Injectable()
 export class UtilService {
 
+  /**
+   * Check if a given value is null or Undefined
+   * TODO - replace usage with isUndefined and isNull
+   * @param x
+   * @returns {boolean}
+   */
   check(x) {
     if (x == null) {
       return false;
@@ -19,6 +24,12 @@ export class UtilService {
     }
     return true;
   }
+
+  /**
+   * Check if the users selects 'Altele' from the dropdown
+   * @param part
+   * @returns {boolean}
+   */
   checkIsOther(part) {
     if(part === 3) {
       return true;
@@ -28,24 +39,27 @@ export class UtilService {
     }
   }
 
-  containsObject(partName, list){
-    var fireArr = [];
-    var arr = [];
-    var maxId = '';
-    list.subscribe(items =>{
-      items.forEach(snapshot => {
-        fireArr.push({partName: snapshot.name, id: snapshot.id})
-      })
-      maxId = Math.max.apply(Math,fireArr.map(function(o){return o.id;}))
-      arr = fireArr;
-    })
-    var found = arr.some(function (el) {
-      return el.partName === partName;
+  /**
+   * Check if a string is present in a property of a given object
+   * @param partName
+   * @param list
+   * @returns {any}
+   */
 
-    })
-    if(!found) {
-      return maxId;
-    }
-    return null;
+  containsObject(partName, list){
+    var found = list.some(function (el) {
+      return el.label.toUpperCase().trim() === partName.toUpperCase().trim();
+    });
+    return found;
+  }
+
+  /**
+   * Return the max id for a given array of objects
+   * @param itemsList
+   * @returns {any}
+   */
+  getMaxIdNewItems(itemsList) {
+    const maxId = Math.max.apply(Math,itemsList.map(function(o){return o.value;}))
+    return maxId;
   }
 }

@@ -60,11 +60,14 @@ export class ClientPFService {
     this.problemList = this.db.list('problems-list',);
     return this.problemList.snapshotChanges().map(arr => {
       return arr.map(snap => Object.assign(snap.payload.val(), { $key: snap.key}))
-    });;
+    });
   }
 
+  checkIfNewProblemExist(newProb, allProbs) {
+
+  }
   addNewProblem(prbl){
-    var maxId = this._utilService.containsObject(prbl, this.problemList);
+    const maxId = this._utilService.getMaxIdNewItems(this.problemList);
     if (maxId === null){
       return false;
     }

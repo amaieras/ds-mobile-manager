@@ -35,10 +35,6 @@
               <label for="phoneColor">Culoare</label>
               <input placeholder="Culoare" id="phoneColor" class="form-control" formControlName="phoneColor">
             </div>
-            <div class="col-md-3">
-              <label for="phoneQuantity">Cantitate</label>
-              <input placeholder="Cantitate" id="phoneQuantity" class="form-control" formControlName="phoneQuantity">
-            </div>
           </div>
           <div formArrayName="problems" class="col-md-12">
             <div *ngFor="let email of phoneListGroup.controls['problems']['controls']; let i=index" class="panel panel-default">
