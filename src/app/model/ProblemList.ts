@@ -4,5 +4,4 @@
 export class ProblemList {
   problem = 'Sticla';
   pricePerPart = 0;
-  partName = '';
 }

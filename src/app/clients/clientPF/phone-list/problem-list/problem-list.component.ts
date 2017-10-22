@@ -1,7 +1,6 @@
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ChangeDetectorRef, Component, Input} from "@angular/core";
 import {ClientPFService} from "../../../clientPF/client-pf-detail.service";
-import {Observable} from "../../../../../../node_modules/rxjs/Observable.d";
 import {UtilService} from "../../../../utils/util.service";
 import {DropdownModel} from "../../../../model/DropdownModel";
 import {ClientPF} from "../../../../model/ClientPF";
@@ -18,6 +17,7 @@ export class ProblemListComponent {
   selectedProblem:string = 'Sticla';
   newPartName:string = '';
   private isRequired:boolean = false;
+  private isPresent: boolean = false;
 
   constructor(private _clientPFService:ClientPFService, private _utilService:UtilService, private changeDetector:ChangeDetectorRef) {
     this._clientPFService.getProblemList().subscribe(problemsList => {
@@ -29,8 +29,8 @@ export class ProblemListComponent {
   }
 
   checkIfPartExists(newValue) {
-    console.log(this.clientPF);
-    console.log(this._utilService.containsObject(newValue, this.problemsList));
+    this.isPresent = this._utilService.containsObject(newValue, this.problemsList);
+    this._clientPFService.addNewProblem(newValue)
   }
 
   checkIsOther() {

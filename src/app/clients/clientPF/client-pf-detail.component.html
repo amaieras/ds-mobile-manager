@@ -72,10 +72,7 @@
       </div>
       <button type="button" class="btn btn-primary" (click)="addInPhoneList()">Adauga alt telefon +</button>
     </div>
-    <div class="form-group">
-      <label for="imei">IMEI</label>
-      <input placeholder="IMEI" id="imei" class="form-control" formControlName="imei" [(ngModel)]="saveClientPF.imei">
-    </div>
+
 
     <div class="form-group">
       <label for="priceOffer">Total de plata</label>
@@ -83,7 +80,7 @@
         <span class="ui-inputgroup-addon">RON</span>
         <!--<p-spinner size="30" id="priceOffer" [(ngModel)]="price" [ngModelOptions]="{standalone: true}" ></p-spinner>-->
         <input placeholder="Total de plata" id="priceOffer" class="form-control" formControlName="priceOffer"
-               [(ngModel)]="saveClientPF.priceOffer" required>
+               [(ngModel)]="saveClientPF.priceOffer" readonly>
       </div>
       <div *ngIf="priceOffer.invalid && (priceOffer.dirty || priceOffer.touched)"
            class="alert alert-danger">

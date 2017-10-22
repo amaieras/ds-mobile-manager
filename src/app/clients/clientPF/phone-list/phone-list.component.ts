@@ -14,7 +14,6 @@ import {ClientPF} from "../../../model/ClientPF";
 })
 export class PhoneListComponent implements OnInit {
   @Input('group') phoneListGroup:FormGroup;
-  @Input('pIndex') phoneIndex:string;
   @Output('change') phoneItem = new EventEmitter<any>();
   @Input('clientPF') clientPF:ClientPF;
   newItem:any;
@@ -64,7 +63,6 @@ export class PhoneListComponent implements OnInit {
     return this.fb.group({
       problem: '',
       pricePerPart: '',
-      partName: ''
     })
   }
 

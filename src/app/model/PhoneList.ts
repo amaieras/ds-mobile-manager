@@ -5,6 +5,7 @@ import {ProblemList} from "./ProblemList";
 export class PhoneList {
   phoneBrand = '';
   phoneModel = '';
+  imei = '';
   phoneColor = '';
   phoneQuantity = 1;
   problemList: ProblemList[]  = [];

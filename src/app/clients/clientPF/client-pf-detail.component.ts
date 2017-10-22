@@ -62,10 +62,7 @@ export class ClientPfDetailComponent implements OnInit {
       ]),
       phoneList: this.fb.array([]),
       'tested': new FormControl('', []),
-      'imei': new FormControl('', []),
-      'priceOffer': new FormControl('', [
-        Validators.required
-      ]),
+      'priceOffer': new FormControl('0'),
       'appointment': new FormControl('', []),
       'aboutUs': new FormControl('FACEBOOK', [])
     })
@@ -117,6 +114,7 @@ export class ClientPfDetailComponent implements OnInit {
       phoneBrand: '',
       phoneModel: '',
       phoneColor: '',
+      imei: '',
       problems: this.fb.array([]),
       observation: ''
     })
@@ -180,11 +178,6 @@ export class ClientPfDetailComponent implements OnInit {
   get tested() {
     //noinspection TypeScriptUnresolvedFunction
     return this.clientPFForm.get('tested');
-  }
-
-  get imei() {
-    //noinspection TypeScriptUnresolvedFunction
-    return this.clientPFForm.get('imei');
   }
 
   get priceOffer() {

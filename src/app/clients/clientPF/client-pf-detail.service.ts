@@ -3,6 +3,7 @@ import {AngularFireDatabase, AngularFireList, AngularFireObject } from 'angularf
 import {UtilService} from "../../utils/util.service";
 import {ClientPF} from "../../model/ClientPF";
 import {ProblemList} from "../../model/ProblemList";
+import {Observable} from "rxjs/Observable";
 
 
 export class ProblemComputePrice {
@@ -13,6 +14,8 @@ export class ProblemComputePrice {
 export class ClientPFService {
   problemList:AngularFireList<any> = null;
   clientsPF:AngularFireList<ClientPF> = null;
+
+  problems:[{}];
 
   constructor(private db:AngularFireDatabase, private _utilService:UtilService) {
     this.clientsPF = db.list('/clients/pf');
@@ -32,15 +35,21 @@ export class ClientPFService {
   }
 
   public addNewProblem(problem:string) {
-    const maxId = this._utilService.getMaxIdNewItems(this.problemList);
-    if (this._utilService.isNullOrUndefined(maxId)) {
-      this.problemList.push({id: maxId + 1, name: problem});
-    }
+    this.getProblemList().subscribe(item=>{
+      this.problems.push(item);
+      const maxId = this._utilService.getMaxIdNewItems(this.problems);
+      if (!this._utilService.isNullOrUndefined(maxId)) {
+        console.log(problem + ' - ' + maxId)
+        // this.problemList.push({id: maxId + 1, name: problem});
+      }
+    })
+
+
   }
 
 
   private handleError(error) {
-    console.log(error);
+    // console.log(error);
   }
 }
 
