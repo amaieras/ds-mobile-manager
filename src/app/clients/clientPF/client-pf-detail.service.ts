@@ -2,80 +2,49 @@ import { Injectable } from '@angular/core';
 import {AngularFireDatabase, AngularFireList, AngularFireObject } from 'angularfire2/database';
 import {UtilService} from "../../utils/util.service";
 import {isNull} from "util";
+import {ClientPF} from "../../model/ClientPF";
 
 
-export class ClientPF {
-  constructor(
-  ) { }
-  $key: string;
-  addedDate: string;
-  lastname: string;
-  firstname: string;
-  email: string;
-  firm: string;
-  phone: string;
-  phoneList: PhoneList[];
-  tested: string;
-  imei: string;
-  priceOffer: string;
-  appointmentDate: string;
-  aboutUs: string;
-
-
-}
-
-export class PhoneList {
-  phoneBrand = '';
-  phoneModel = '';
-  phoneColor = '';
-  phoneQuantity = 1;
-  problemList: ProblemList[]  = [];
-  observation = '';
-}
-
-export class ProblemList {
-  problem = 'Sticla';
-  pricePerPart = 0;
-  partName = '';
-}
 export class ProblemComputePrice {
 
 }
 
 @Injectable()
 export class ClientPFService {
-  problemList: AngularFireList<any> = null;
-  clientsPF: AngularFireList<ClientPF> = null;
+  problemList:AngularFireList<any> = null;
+  clientsPF:AngularFireList<ClientPF> = null;
 
-  constructor(private db: AngularFireDatabase, private _utilService: UtilService) {
+  constructor(private db:AngularFireDatabase, private _utilService:UtilService) {
     this.clientsPF = db.list('/clients/pf');
   }
 
 
-  addPFClient(clientPF: ClientPF): void {
+  addPFClient(clientPF:ClientPF):void {
     this.clientsPF.push(clientPF);
   }
 
   getProblemList() {
-    this.problemList = this.db.list('problems-list',);
+    this.problemList = this.db.list('problems-list');
     return this.problemList.snapshotChanges().map(arr => {
-      return arr.map(snap => Object.assign(snap.payload.val(), { $key: snap.key}))
+      return arr.map(snap => Object.assign(snap.payload.val(), {$key: snap.key}))
     });
   }
 
   checkIfNewProblemExist(newProb, allProbs) {
 
   }
-  addNewProblem(prbl){
+
+  addNewProblem(prbl) {
     const maxId = this._utilService.getMaxIdNewItems(this.problemList);
-    if (maxId === null){
+    if (maxId === null) {
       return false;
     }
-    else{
+    else {
       this.problemList.push({id: maxId + 1, name: prbl});
       return true;
     }
   }
+
   private handleError(error) {
     console.log(error);
   }

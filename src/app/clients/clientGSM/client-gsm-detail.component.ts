@@ -73,7 +73,7 @@ export class ClientGSMDetailComponent implements OnInit {
   onSubmit(event: Event) {
     this.prepareSaveClientGSM();
     event.preventDefault();
-    if (!this.utilService.check(this.clientGSM.firm)) {
+    if (!this.utilService.isNullOrUndefined(this.clientGSM.firm)) {
       this.clientGSM.firm = null;
     }
     this.clientGSMService.addGSMClient(this.clientGSM);
