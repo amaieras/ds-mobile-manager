@@ -74,7 +74,7 @@ export class ClientPfDetailComponent implements OnInit {
   }
 
   print():void {
-    window.print("<html></html>");
+    window.print();
   }
 
   addInPhoneList():any {
