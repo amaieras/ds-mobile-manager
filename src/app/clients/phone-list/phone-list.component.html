@@ -43,7 +43,7 @@
                 <span class="glyphicon glyphicon-remove pull-right" *ngIf="phoneListGroup.controls.problems.controls.length > 1" (click)="removeProblem(i)"></span>
               </div>
               <div class="panel-body" [formGroupName]="i">
-                <problem-list [group]="phoneListGroup.controls['problems']['controls'][i]"></problem-list>
+                <problem-list [clientPF]="clientPF" [group]="phoneListGroup.controls['problems']['controls'][i]"></problem-list>
               </div>
             </div>
           </div>

@@ -5,6 +5,7 @@ import {Observable} from "rxjs/Observable";
 import {PhoneBrand} from "app/clients/phone-models/PhoneBrand";
 import {PhoneModel} from "../phone-models/PhoneModel";
 import {PhoneModelService} from "app/clients/phone-models/phone-model.service";
+import {ClientPF} from "../../model/ClientPF";
 
 @Component({
   selector: 'phone-list',
@@ -12,17 +13,18 @@ import {PhoneModelService} from "app/clients/phone-models/phone-model.service";
   providers: [PhoneCascadeService]
 })
 export class PhoneListComponent implements OnInit {
-  @Input('group') phoneListGroup: FormGroup;
-  @Input('pIndex') phoneIndex: string;
+  @Input('group') phoneListGroup:FormGroup;
+  @Input('pIndex') phoneIndex:string;
   @Output('change') phoneItem = new EventEmitter<any>();
-  newItem: any;
-  mainArray: Array<any> = [];
-  cascadedModels: Observable<PhoneModel[]>;
-  cascadedBrands: Observable<PhoneBrand[]>;
-  phoneBrandsArray: any = [];
-  phoneModelsArray: any = [];
+  @Input('clientPF') clientPF:ClientPF;
+  newItem:any;
+  mainArray:Array<any> = [];
+  cascadedModels:Observable<PhoneModel[]>;
+  cascadedBrands:Observable<PhoneBrand[]>;
+  phoneBrandsArray:any = [];
+  phoneModelsArray:any = [];
 
-  constructor(private fb: FormBuilder, private _phoneModelService: PhoneModelService) {
+  constructor(private fb:FormBuilder, private _phoneModelService:PhoneModelService) {
   }
 
   ngOnInit() {
@@ -46,19 +48,21 @@ export class PhoneListComponent implements OnInit {
       this.cascadedModels = this.phoneModelsArray.filter((item) => item.phoneId == 1);
     });
   }
+
   addProblem() {
     const problemArray = <FormArray>this.phoneListGroup.controls['problems'];
     const newProblem = this.initProblem();
     problemArray.push(newProblem);
   }
-  removeProblem(idx: number) {
+
+  removeProblem(idx:number) {
     const problemArray = <FormArray>this.phoneListGroup.controls['problems'];
     problemArray.removeAt(idx);
   }
 
   private initProblem() {
     return this.fb.group({
-      problem:'',
+      problem: '',
       pricePerPart: '',
       partName: ''
     })

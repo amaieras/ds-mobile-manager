@@ -1,4 +1,3 @@
-
 import {Injectable} from "@angular/core";
 
 @Injectable()
@@ -6,11 +5,11 @@ export class UtilService {
 
   /**
    * Check if a given value is null or Undefined
-   * TODO - replace usage with isUndefined and isNull
+   * TODO - replace usage with isUndefined and isNullOrUndefined
    * @param x
    * @returns {boolean}
    */
-  check(x) {
+  isNullOrUndefined(x) {
     if (x == null) {
       return false;
     }
@@ -25,16 +24,20 @@ export class UtilService {
     return true;
   }
 
+  isAlteleOption(dropdownOption : string){
+
+  }
+
   /**
    * Check if the users selects 'Altele' from the dropdown
    * @param part
    * @returns {boolean}
    */
   checkIsOther(part) {
-    if(part === 3) {
+    if (part === 3) {
       return true;
     }
-    else{
+    else {
       return false;
     }
   }
@@ -46,7 +49,7 @@ export class UtilService {
    * @returns {any}
    */
 
-  containsObject(partName, list){
+  containsObject(partName, list) {
     var found = list.some(function (el) {
       return el.label.toUpperCase().trim() === partName.toUpperCase().trim();
     });
@@ -59,7 +62,9 @@ export class UtilService {
    * @returns {any}
    */
   getMaxIdNewItems(itemsList) {
-    const maxId = Math.max.apply(Math,itemsList.map(function(o){return o.value;}))
+    const maxId = Math.max.apply(Math, itemsList.map(function (o) {
+      return o.value;
+    }))
     return maxId;
   }
 }
