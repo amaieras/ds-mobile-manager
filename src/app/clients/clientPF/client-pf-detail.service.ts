@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import {AngularFireDatabase, AngularFireList, AngularFireObject } from 'angularfire2/database';
 import {UtilService} from "../../utils/util.service";
-import {isNull} from "util";
 import {ClientPF} from "../../model/ClientPF";
+import {ProblemList} from "../../model/ProblemList";
 
 
 export class ProblemComputePrice {
@@ -19,31 +19,25 @@ export class ClientPFService {
   }
 
 
-  addPFClient(clientPF:ClientPF):void {
+  public addPFClient(clientPF:ClientPF):void {
     this.clientsPF.push(clientPF);
   }
 
-  getProblemList() {
+  public getProblemList() {
     this.problemList = this.db.list('problems-list');
     return this.problemList.snapshotChanges().map(arr => {
+      //noinspection TypeScriptUnresolvedVariable
       return arr.map(snap => Object.assign(snap.payload.val(), {$key: snap.key}))
     });
   }
 
-  checkIfNewProblemExist(newProb, allProbs) {
-
-  }
-
-  addNewProblem(prbl) {
+  public addNewProblem(problem:string) {
     const maxId = this._utilService.getMaxIdNewItems(this.problemList);
-    if (maxId === null) {
-      return false;
-    }
-    else {
-      this.problemList.push({id: maxId + 1, name: prbl});
-      return true;
+    if (this._utilService.isNullOrUndefined(maxId)) {
+      this.problemList.push({id: maxId + 1, name: problem});
     }
   }
+
 
   private handleError(error) {
     console.log(error);

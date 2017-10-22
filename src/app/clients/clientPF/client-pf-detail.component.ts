@@ -73,10 +73,6 @@ export class ClientPfDetailComponent implements OnInit {
     this.prepareSavePhoneList();
   }
 
-  print():void {
-    window.print();
-  }
-
   addInPhoneList():any {
     const phoneListArray = <FormArray>this.clientPFForm.controls['phoneList'];
     const newPhone = this.initPhoneList();
@@ -157,42 +153,52 @@ export class ClientPfDetailComponent implements OnInit {
   }
 
   get lastname() {
+    //noinspection TypeScriptUnresolvedFunction
     return this.clientPFForm.get('lastname');
   }
 
   get firstname() {
+    //noinspection TypeScriptUnresolvedFunction
     return this.clientPFForm.get('firstname');
   }
 
   get email() {
+    //noinspection TypeScriptUnresolvedFunction
     return this.clientPFForm.get('email');
   }
 
   get firm() {
+    //noinspection TypeScriptUnresolvedFunction
     return this.clientPFForm.get('firm');
   }
 
   get phone() {
+    //noinspection TypeScriptUnresolvedFunction
     return this.clientPFForm.get('phone');
   }
 
   get tested() {
+    //noinspection TypeScriptUnresolvedFunction
     return this.clientPFForm.get('tested');
   }
 
   get imei() {
+    //noinspection TypeScriptUnresolvedFunction
     return this.clientPFForm.get('imei');
   }
 
   get priceOffer() {
+    //noinspection TypeScriptUnresolvedFunction
     return this.clientPFForm.get('priceOffer');
   }
 
   get appointment() {
+    //noinspection TypeScriptUnresolvedFunction
     return this.clientPFForm.get('appointment');
   }
 
   get aboutUs() {
+    //noinspection TypeScriptUnresolvedFunction
     return this.clientPFForm.get('aboutUs');
   }
 }

@@ -3,23 +3,25 @@
   <h1>Client - PF</h1>
   <form [formGroup]="clientPFForm" (ngSubmit)="onSubmit($event)" novalidate #formPF="ngForm">
     <div class="form-group">
-        <label for="lastname">Nume</label>
-        <div class="ui-inputgroup">
-          <span class="ui-inputgroup-addon"><i class="fa fa-user"></i></span>
-          <input placeholder="Nume" id="lastname" class="form-control" formControlName="lastname" [(ngModel)]="saveClientPF.lastname">
-        </div>
-        <!--<div *ngIf="lastname.invalid && (lastname.dirty || lastname.touched)"-->
-             <!--class="alert alert-danger">-->
-          <!--<div *ngIf="lastname.errors.required">-->
-            <!--Numele nu este completat.-->
-          <!--</div>-->
-        <!--</div>-->
+      <label for="lastname">Nume</label>
+      <div class="ui-inputgroup">
+        <span class="ui-inputgroup-addon"><i class="fa fa-user"></i></span>
+        <input placeholder="Nume" id="lastname" class="form-control" formControlName="lastname"
+               [(ngModel)]="saveClientPF.lastname">
+      </div>
+      <!--<div *ngIf="lastname.invalid && (lastname.dirty || lastname.touched)"-->
+      <!--class="alert alert-danger">-->
+      <!--<div *ngIf="lastname.errors.required">-->
+      <!--Numele nu este completat.-->
+      <!--</div>-->
+      <!--</div>-->
     </div>
     <div class="form-group">
       <label for="firstname">Prenume</label>
       <div class="ui-inputgroup">
         <span class="ui-inputgroup-addon"><i class="fa fa-user"></i></span>
-        <input placeholder="Prenume" id="firstname" class="form-control" formControlName="firstname" [(ngModel)]="saveClientPF.firstname">
+        <input placeholder="Prenume" id="firstname" class="form-control" formControlName="firstname"
+               [(ngModel)]="saveClientPF.firstname">
       </div>
       <!--<div *ngIf="firstname.invalid && (firstname.dirty || firstname.touched)"-->
       <!--class="alert alert-danger">-->
@@ -31,7 +33,8 @@
     <div class="form-group">
       <label for="email">E-mail</label>
       <div class="ui-inputgroup">
-        <input placeholder="E-mail" id="email" class="form-control" formControlName="email" [(ngModel)]="saveClientPF.email">
+        <input placeholder="E-mail" id="email" class="form-control" formControlName="email"
+               [(ngModel)]="saveClientPF.email">
       </div>
     </div>
     <div class="form-group">
@@ -54,19 +57,21 @@
         </div>
       </div>
     </div>
-      <div formArrayName="phoneList" class="well well-lg">
-        <div *ngFor="let phone of clientPFForm.controls['phoneList']['controls']; let i=index" >
-           <div class="panel-heading">
-             <h3>Lista numarul: #{{i + 1}}</h3>
-             <span class="glyphicon glyphicon-remove pull-right" *ngIf="clientPFForm.controls.phoneList.controls.length > 1" (click)="removeFromPhoneList(i)"></span>
-           </div>
-          <div class="panel-body" [formGroupName]="i">
-            <phone-list [clientPF]="saveClientPF" [group]="clientPFForm.controls['phoneList']['controls'][i]" (change)="getPhoneItem($event)"></phone-list>
-          </div>
-          <br>
+    <div formArrayName="phoneList" class="well well-lg">
+      <div *ngFor="let phone of clientPFForm.controls['phoneList']['controls']; let i=index">
+        <div class="panel-heading">
+          <h3>Lista numarul: #{{i + 1}}</h3>
+          <span class="glyphicon glyphicon-remove pull-right"
+                *ngIf="clientPFForm.controls.phoneList.controls.length > 1" (click)="removeFromPhoneList(i)"></span>
         </div>
-        <button type="button" class="btn btn-primary" (click)="addInPhoneList()">Adauga alt telefon +</button>
+        <div class="panel-body" [formGroupName]="i">
+          <phone-list [clientPF]="saveClientPF" [group]="clientPFForm.controls['phoneList']['controls'][i]"
+                      (change)="getPhoneItem($event)"></phone-list>
+        </div>
+        <br>
       </div>
+      <button type="button" class="btn btn-primary" (click)="addInPhoneList()">Adauga alt telefon +</button>
+    </div>
     <div class="form-group">
       <label for="imei">IMEI</label>
       <input placeholder="IMEI" id="imei" class="form-control" formControlName="imei" [(ngModel)]="saveClientPF.imei">
@@ -77,7 +82,8 @@
       <div class="ui-inputgroup">
         <span class="ui-inputgroup-addon">RON</span>
         <!--<p-spinner size="30" id="priceOffer" [(ngModel)]="price" [ngModelOptions]="{standalone: true}" ></p-spinner>-->
-        <input placeholder="Total de plata" id="priceOffer" class="form-control" formControlName="priceOffer" [(ngModel)]="saveClientPF.priceOffer" required>
+        <input placeholder="Total de plata" id="priceOffer" class="form-control" formControlName="priceOffer"
+               [(ngModel)]="saveClientPF.priceOffer" required>
       </div>
       <div *ngIf="priceOffer.invalid && (priceOffer.dirty || priceOffer.touched)"
            class="alert alert-danger">
@@ -87,12 +93,15 @@
       </div>
     </div>
     <div class="form-group">
-        <label for="appointmentDate" style="display: block">Data si ora programarii</label>
-        <p-calendar id="appointmentDate" [(ngModel)]="defaultDate" [ngModelOptions]="{standalone: true}" [defaultDate]="defaultDate" [showTime]="true" [showIcon]="true" readonlyInput="readonlyInput" [stepMinute]="15" ></p-calendar>
+      <label for="appointmentDate" style="display: block">Data si ora programarii</label>
+      <p-calendar id="appointmentDate" [(ngModel)]="defaultDate" [ngModelOptions]="{standalone: true}"
+                  [defaultDate]="defaultDate" [showTime]="true" [showIcon]="true" readonlyInput="readonlyInput"
+                  [stepMinute]="15"></p-calendar>
     </div>
     <div class="form-group">
       <label for="tested" style="display: block">Testat?</label>
-      <p-dropdown id="tested" [options]="tests" [(ngModel)]="saveClientPF.tested" [ngModelOptions]="{standalone: true}" [style]="{'width':'150px'}" filter="filter">
+      <p-dropdown id="tested" [options]="tests" [(ngModel)]="saveClientPF.tested" [ngModelOptions]="{standalone: true}"
+                  [style]="{'width':'150px'}" filter="filter">
         <ng-template let-test pTemplate="item">
           <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
             <div style="font-size:14px;float:right;margin-top:4px">{{test.label}}</div>
@@ -101,21 +110,24 @@
       </p-dropdown>
     </div>
     <div class="form-group">
-        <label for="aboutUs" style="display: block">Cum a aflat de noi?</label>
-        <p-dropdown id="aboutUs" [options]="aboutUsList" formControlName="aboutUs" [style]="{'width':'150px'}" filter="filter" required>
-          <ng-template let-abUs pTemplate="item">
-            <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
-              <div style="font-size:14px;float:right;margin-top:4px">{{abUs.label}}</div>
-            </div>
-          </ng-template>
-        </p-dropdown>
+      <label for="aboutUs" style="display: block">Cum a aflat de noi?</label>
+      <p-dropdown id="aboutUs" [options]="aboutUsList" formControlName="aboutUs" [style]="{'width':'150px'}"
+                  filter="filter" required>
+        <ng-template let-abUs pTemplate="item">
+          <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+            <div style="font-size:14px;float:right;margin-top:4px">{{abUs.label}}</div>
+          </div>
+        </ng-template>
+      </p-dropdown>
     </div>
 
     <div class="form-group">
       <button type="submit" class="btn btn-default"
-              [disabled]="clientPFForm.invalid">Salveaza</button>
+              [disabled]="clientPFForm.invalid">Salveaza
+      </button>
       <button type="submit" class="btn btn-default"
-              [disabled]="false" (click)="print()">Printeaza</button>
+              [disabled]="true">Printeaza
+      </button>
     </div>
   </form>
 </div>

@@ -15,8 +15,8 @@ import {UtilService} from "../utils/util.service";
 import {
   PhoneModelCascadingListComponent
 } from "./phone-models/phone-model-cascading-list.component";
-import {PhoneListComponent} from "./phone-list/phone-list.component";
-import {ProblemListComponent} from "./problem-list/problem-list.component";
+import {PhoneListComponent} from "./clientPF/phone-list/phone-list.component";
+import {ProblemListComponent} from "./clientPF/phone-list/problem-list/problem-list.component";
 import {ProblemGSMListComponent} from "./problem-gsm-list/problem-gsm-list.component";
 import {PhoneGSMListComponent} from "./phone-gsm-list/phone-gsm-list.component";
 

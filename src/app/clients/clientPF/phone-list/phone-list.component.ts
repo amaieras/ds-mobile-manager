@@ -1,11 +1,11 @@
 import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
 import {FormArray, FormBuilder, FormGroup} from "@angular/forms";
-import {PhoneCascadeService} from "../../shared/phone-cascade.service";
-import {Observable} from "rxjs/Observable";
+import {PhoneCascadeService} from "../../../shared/phone-cascade.service";
+import {Observable} from "../../../../../node_modules/rxjs/Observable.d";
 import {PhoneBrand} from "app/clients/phone-models/PhoneBrand";
-import {PhoneModel} from "../phone-models/PhoneModel";
+import {PhoneModel} from "../../phone-models/PhoneModel";
 import {PhoneModelService} from "app/clients/phone-models/phone-model.service";
-import {ClientPF} from "../../model/ClientPF";
+import {ClientPF} from "../../../model/ClientPF";
 
 @Component({
   selector: 'phone-list',

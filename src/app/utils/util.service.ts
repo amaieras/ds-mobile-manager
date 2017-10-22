@@ -9,7 +9,7 @@ export class UtilService {
    * @param x
    * @returns {boolean}
    */
-  isNullOrUndefined(x) {
+  public isNullOrUndefined(x) {
     if (x == null) {
       return false;
     }

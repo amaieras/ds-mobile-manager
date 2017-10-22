@@ -1,10 +1,10 @@
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ChangeDetectorRef, Component, Input} from "@angular/core";
-import {ClientPFService} from "../clientPF/client-pf-detail.service";
-import {Observable} from "rxjs/Observable";
-import {UtilService} from "../../utils/util.service";
-import {DropdownModel} from "../../model/DropdownModel";
-import {ClientPF} from "../../model/ClientPF";
+import {ClientPFService} from "../../../clientPF/client-pf-detail.service";
+import {Observable} from "../../../../../../node_modules/rxjs/Observable.d";
+import {UtilService} from "../../../../utils/util.service";
+import {DropdownModel} from "../../../../model/DropdownModel";
+import {ClientPF} from "../../../../model/ClientPF";
 
 @Component({
   selector: 'problem-list',
