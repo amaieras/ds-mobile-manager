@@ -30,7 +30,7 @@ export class ClientPFService {
     this.getProblemList().subscribe(item => {
       const maxId = this._utilService.getMaxIdNewItems(item);
       if (!this._utilService.isNullOrUndefined(maxId)) {
-        this.problemList.push({id: maxId + 1, name: problem});
+        //this.problemList.push({id: maxId + 1, name: problem});
       }
     });
   }
