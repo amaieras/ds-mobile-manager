@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable }        from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/finally';
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, Router } from '@angular/router';
 import { ClientType, ClientTypeService } from './client-type.service';
 
 @Component({
-  selector: 'client-type-list',
+  selector: 'app-client-type-list',
   templateUrl: './client-type-list.component.html'
 })
 export class ClientTypeListComponent implements OnInit {
@@ -13,7 +13,7 @@ export class ClientTypeListComponent implements OnInit {
   isLoading = false;
   selectedClientType: ClientType;
   selectedId: number;
-  dsa: number;
+
   constructor(private clientTypeService: ClientTypeService,  private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
@@ -29,7 +29,7 @@ export class ClientTypeListComponent implements OnInit {
     this.clientTypes.subscribe(
       data => '',
       err => console.log(err + ' Error fetching client types.')
-    )
+    );
     this.selectedClientType = undefined;
   }
 

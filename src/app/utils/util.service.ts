@@ -1,4 +1,4 @@
-import {Injectable} from "@angular/core";
+import {Injectable} from '@angular/core';
 
 @Injectable()
 export class UtilService {
@@ -24,7 +24,7 @@ export class UtilService {
     return true;
   }
 
-  isAlteleOption(dropdownOption : string){
+  isAlteleOption(dropdownOption: string) {
 
   }
 
@@ -34,11 +34,10 @@ export class UtilService {
    * @returns {boolean}
    */
   checkIsOther(part) {
-    if (part === 3) {
-      return true;
-    }
-    else {
+    if (part !== 3) {
       return false;
+    } else {
+      return true;
     }
   }
 
@@ -50,7 +49,7 @@ export class UtilService {
    */
 
   containsObject(partName, list) {
-    var found = list.some(function (el) {
+    const found = list.some(function (el) {
       return el.label.toUpperCase().trim() === partName.toUpperCase().trim();
     });
     return found;

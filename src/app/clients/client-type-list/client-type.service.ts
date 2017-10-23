@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
-import { of }         from 'rxjs/observable/of';
+import { of } from 'rxjs/observable/of';
 import 'rxjs/add/operator/delay';
 
 export class ClientType {
@@ -22,7 +22,6 @@ export const clientTypes: ClientType[] = [
 
 @Injectable()
 export class ClientTypeService {
-
   getClientTypes(): Observable<ClientType[]> {
     return of(clientTypes);
   }

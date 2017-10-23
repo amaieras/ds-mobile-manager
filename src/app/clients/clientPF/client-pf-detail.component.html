@@ -65,8 +65,8 @@
                 *ngIf="clientPFForm.controls.phoneList.controls.length > 1" (click)="removeFromPhoneList(i)"></span>
         </div>
         <div class="panel-body" [formGroupName]="i">
-          <phone-list [clientPF]="saveClientPF" [group]="clientPFForm.controls['phoneList']['controls'][i]"
-                      (change)="getPhoneItem($event)"></phone-list>
+          <app-phone-list [clientPF]="saveClientPF" [group]="clientPFForm.controls['phoneList']['controls'][i]"
+                      (change)="getPhoneItem($event)"></app-phone-list>
         </div>
         <br>
       </div>
@@ -79,14 +79,7 @@
       <div class="ui-inputgroup">
         <span class="ui-inputgroup-addon">RON</span>
         <!--<p-spinner size="30" id="priceOffer" [(ngModel)]="price" [ngModelOptions]="{standalone: true}" ></p-spinner>-->
-        <input placeholder="Total de plata" id="priceOffer" class="form-control" formControlName="priceOffer"
-               [(ngModel)]="saveClientPF.priceOffer" readonly>
-      </div>
-      <div *ngIf="priceOffer.invalid && (priceOffer.dirty || priceOffer.touched)"
-           class="alert alert-danger">
-        <div *ngIf="priceOffer.errors.required">
-          Totalul de plata nu este completat.
-        </div>
+        <input placeholder="Total de plata" id="priceOffer" class="form-control" formControlName="priceOffer">
       </div>
     </div>
     <div class="form-group">
