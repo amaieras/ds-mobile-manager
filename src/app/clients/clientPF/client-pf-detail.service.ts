@@ -1,22 +1,15 @@
 import { Injectable } from '@angular/core';
-import {AngularFireDatabase, AngularFireList, AngularFireObject } from 'angularfire2/database';
+import {AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import {UtilService} from '../../utils/util.service';
 import {ClientPF} from '../../model/ClientPF';
-import {ProblemList} from '../../model/ProblemList';
 import {Observable} from 'rxjs/Observable';
 
-
-export class ProblemComputePrice {
-
-}
 
 @Injectable()
 export class ClientPFService {
   problemList: AngularFireList<any> = null;
   clientsPF: AngularFireList<ClientPF> = null;
 
-  problems: [{}];
-  problem:  Observable<any>;   //   single object
   constructor(private db: AngularFireDatabase, private _utilService: UtilService) {
     this.clientsPF = db.list('/clients/pf');
   }
@@ -35,10 +28,8 @@ export class ClientPFService {
   }
   public addNewProblem(problem: string) {
     this.getProblemList().subscribe(item => {
-      this.problems.push(item);
-      const maxId = this._utilService.getMaxIdNewItems(this.problems);
+      const maxId = this._utilService.getMaxIdNewItems(item);
       if (!this._utilService.isNullOrUndefined(maxId)) {
-        console.log(problem + ' - ' + maxId);
         this.problemList.push({id: maxId + 1, name: problem});
       }
     });

@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import {isNull, isUndefined} from "util";
 
 @Injectable()
 export class UtilService {
@@ -10,18 +11,7 @@ export class UtilService {
    * @returns {boolean}
    */
   public isNullOrUndefined(x) {
-    if (x == null) {
-      return false;
-    }
-
-    if (x === null) {
-      return false;
-    }
-
-    if (typeof x === 'undefined') {
-      return false;
-    }
-    return true;
+    return isNull(x) || isUndefined(x);
   }
 
   isAlteleOption(dropdownOption: string) {
@@ -40,7 +30,6 @@ export class UtilService {
       return true;
     }
   }
-
   /**
    * Check if a string is present in a property of a given object
    * @param partName
@@ -61,9 +50,11 @@ export class UtilService {
    * @returns {any}
    */
   getMaxIdNewItems(itemsList) {
-    const maxId = Math.max.apply(Math, itemsList.map(function (o) {
-      return o.value;
-    }))
-    return maxId;
+      const maxId = Math.max.apply(Math, itemsList.map(function (o) {
+        return o.id;
+      }))
+    console.log(maxId)
+      return maxId;
+
   }
 }

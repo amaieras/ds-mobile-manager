@@ -31,21 +31,21 @@ export class ProblemListComponent {
       this.problems = this.problemsList;
     });
   }
-  createValidator() {
+  newPartNameValidator() {
       const problems = this.problemsList;
       return Observable
         .of(this._utilService.containsObject(this.partName.value, problems))
         .map(result => !result ? null : { invalid: true });
   }
   checkIfPartExists(newValue) {
-    this.isPresent = this._utilService.containsObject(this.newPartName, this.problemsList);
-    this._clientPFService.addNewProblem(newValue);
+    this.isPresent = this._utilService.containsObject(newValue, this.problemsList);
+    this._clientPFService.addNewProblem(newValue)
   }
 
   checkIsOther() {
     const fieldElement = <HTMLInputElement>document.getElementById('partName');
     this.problemListGroup.addControl('partName',
-      new FormControl('', Validators.required, this.createValidator.bind(this)
+      new FormControl('', Validators.required, this.newPartNameValidator.bind(this)
       ));
     if (fieldElement !== null && this.isRequired) {
       this.newPartName = '';

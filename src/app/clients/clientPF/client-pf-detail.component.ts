@@ -99,12 +99,11 @@ export class ClientPfDetailComponent implements OnInit {
     if (!this._utilService.isNullOrUndefined(this.clientPF.lastname)) {
       this.clientPF.lastname = null;
     }
-    console.log(this.clientPF)
     this._clientPFService.addPFClient(this.clientPF);
-    this.clientPFForm.reset();
     this.clientPF = new ClientPF();
     this.clientPFForm.controls['phoneList'] = this.fb.array([]);
     this.successMessage();
+    this.clientPFForm.reset();
   }
 
   initPhoneList() {
