@@ -137,9 +137,6 @@ export class ClientPfDetailComponent implements OnInit {
           this._problemListService.addNewProblem(item.problems[i].partName);
         }
       }
-      // item.problems.forEach(snapshot => {
-
-      // });
     });
     this.saveClientPF.phoneList = PhoneListDeepCopy;
     this.saveClientPF.phone = formModel.phone;
