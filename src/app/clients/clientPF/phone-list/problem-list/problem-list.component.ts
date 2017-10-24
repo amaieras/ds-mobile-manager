@@ -5,6 +5,7 @@ import {DropdownModel} from '../../../../model/DropdownModel';
 import {ClientPF} from '../../../../model/ClientPF';
 import {Observable} from 'rxjs/Observable';
 import {ProblemListService} from './problem-list.service';
+import {DataSharedService} from "../../../../shared/data-shared.service";
 
 
 @Component({
@@ -26,6 +27,7 @@ export class ProblemListComponent implements OnInit {
               private changeDetector: ChangeDetectorRef) { }
   ngOnInit() {
     this._problemListService.getProblemList().subscribe(problemsList => {
+      this.problemsList = [];
       problemsList.forEach(snapshot => {
         this.problemsList.push(new DropdownModel(snapshot.name, snapshot.id));
       });

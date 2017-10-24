@@ -3,12 +3,15 @@ import {AngularFireDatabase, AngularFireList} from 'angularfire2/database';
 import {UtilService} from '../../../../utils/util.service';
 import 'rxjs/add/operator/take';
 import {Observable} from 'rxjs/Observable';
+import {DataSharedService} from "../../../../shared/data-shared.service";
 
 @Injectable()
 export class ProblemListService {
 
   problemList: AngularFireList<any> = null;
-  constructor(private db: AngularFireDatabase, private _utilService: UtilService) {
+  newPrblMaxId: string;
+  constructor(private db: AngularFireDatabase, private _utilService: UtilService,
+              private _dataSharedService: DataSharedService) {
     this.problemList = this.db.list('problems-list');
   }
 
@@ -24,11 +27,12 @@ export class ProblemListService {
     });
   }
   public addNewProblem(problem: string) {
-      this.getMaxIdFromProblems().subscribe(item => {
-        if (this._utilService.isNullOrUndefined(item)) {
-           this.problemList.push({id: item + 1 , name: problem});
-        }
-      });
+      // this.getMaxIdFromProblems().subscribe(item => {
+      //   if (this._utilService.isNullOrUndefined(item)) {
+          this._dataSharedService.currentPartId.subscribe(partId => this.newPrblMaxId = partId);
+           this.problemList.push({id: parseInt(this.newPrblMaxId) + 1 , name: problem});
+        // }
+      // });
   }
 
 }

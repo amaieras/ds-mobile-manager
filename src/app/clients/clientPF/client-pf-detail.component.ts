@@ -7,6 +7,7 @@ import {ClientPF} from '../../model/ClientPF';
 import {ClientPFService} from './client-pf-detail.service';
 import {PhoneList} from '../../model/PhoneList';
 import {ProblemListService} from './phone-list/problem-list/problem-list.service';
+import {DataSharedService} from "../../shared/data-shared.service";
 
 
 @Component({
@@ -24,9 +25,10 @@ export class ClientPfDetailComponent implements OnInit {
   aboutUsList: SelectItem[];
   newItem: any;
   mainArray: Array<any>;
-  newPrblMaxId: number;
+  newPrblMaxId: string;
   constructor(private _clientPFService: ClientPFService, private fb: FormBuilder,
-              private _utilService: UtilService, private _problemListService: ProblemListService) {
+              private _utilService: UtilService, private _problemListService: ProblemListService,
+              private _dataSharedService: DataSharedService) {
     this.tests = [];
     this.aboutUsList = [];
     this.mainArray = [];
@@ -43,7 +45,6 @@ export class ClientPfDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.defaultDate.setHours(12, 0);
-    this.saveClientPF.tested = '-';
     this.clientPFForm = this.fb.group({
       'lastname': new FormControl('', [
         // Validators.required
@@ -123,6 +124,7 @@ export class ClientPfDetailComponent implements OnInit {
     this.prepareSavePhoneList();
     this._problemListService.getMaxIdFromProblems().subscribe(partItem => {
       this.newPrblMaxId = partItem;
+      this._dataSharedService.currentPartId.subscribe(partId => this.newPrblMaxId = partId);
     });
   }
   prepareSavePhoneList() {
@@ -133,7 +135,7 @@ export class ClientPfDetailComponent implements OnInit {
     formModel.phoneList.forEach(item => {
       for (let i = 0; i < item.problems.length; i++) {
         if (item.problems[i].partName !== '') {
-          item.problems[i].problem = this.newPrblMaxId + i + 1;
+          item.problems[i].problem = parseInt(this.newPrblMaxId) + i + 1;
           this._problemListService.addNewProblem(item.problems[i].partName);
         }
       }
