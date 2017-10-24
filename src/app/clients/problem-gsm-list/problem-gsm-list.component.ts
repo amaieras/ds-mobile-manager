@@ -1,26 +1,23 @@
-
-
-import {FormGroup} from "@angular/forms";
-import {Component, Input} from "@angular/core";
-import {SelectItem} from "primeng/primeng";
-import {Observable} from "rxjs/Observable";
-import {ClientPFService} from "../clientPF/client-pf-detail.service";
-import {UtilService} from "../../utils/util.service";
+import {FormGroup} from '@angular/forms';
+import {Component, Input} from '@angular/core';
+import {Observable} from 'rxjs/Observable';
+import {UtilService} from '../../utils/util.service';
+import {ProblemListService} from '../clientPF/phone-list/problem-list/problem-list.service';
 
 @Component({
-  selector: 'problem-gsm-list',
+  selector: 'app-problem-gsm-list',
   templateUrl: 'problem-gsm-list.component.html'
 })
-export class ProblemGSMListComponent{
+export class ProblemGSMListComponent {
   @Input('group') problemGSMListGroup: FormGroup;
   problems: Observable<any[]>;
   problemsList: any = [];
-  selectedProblem: string = 'Sticla';
-  constructor(private _clientPFService: ClientPFService, private _utilService: UtilService) {
-    this._clientPFService.getProblemList().subscribe(problemsList => {
+  selectedProblem = 'Sticla';
+  constructor(private _problemListService: ProblemListService, private _utilService: UtilService) {
+    this._problemListService.getProblemList().subscribe(problemsList => {
       problemsList.forEach(snapshot => {
-        this.problemsList.push({label: snapshot.name, value: snapshot.id})
-      })
+        this.problemsList.push({label: snapshot.name, value: snapshot.id});
+      });
       this.problems = this.problemsList;
     });
   }

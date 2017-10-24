@@ -63,7 +63,7 @@ export const firebaseConfig = {
         AngularFireDatabaseModule,
         AngularFireAuthModule,
     ],
-    providers: [AppToolbarService, ClientTypeService, PhoneCascadeService],
+    providers: [AppToolbarService],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

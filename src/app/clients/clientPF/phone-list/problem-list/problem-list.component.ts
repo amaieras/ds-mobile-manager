@@ -1,17 +1,17 @@
-import {FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
-import {ClientPFService} from '../../../clientPF/client-pf-detail.service';
 import {UtilService} from '../../../../utils/util.service';
 import {DropdownModel} from '../../../../model/DropdownModel';
 import {ClientPF} from '../../../../model/ClientPF';
 import {Observable} from 'rxjs/Observable';
+import {ProblemListService} from './problem-list.service';
 
 
 @Component({
   selector: 'app-problem-list',
   templateUrl: 'problem-list.component.html'
 })
-export class ProblemListComponent {
+export class ProblemListComponent implements OnInit {
   @Input('group') problemListGroup: FormGroup;
   @Input('clientPF') clientPF: ClientPF;
   problemsList: any = [];
@@ -22,9 +22,10 @@ export class ProblemListComponent {
   private isRequired = false;
   private isPresent = false;
 
-  constructor(private _clientPFService: ClientPFService, private _utilService: UtilService,
-              private changeDetector: ChangeDetectorRef) {
-    this._clientPFService.getProblemList().subscribe(problemsList => {
+  constructor(private _problemListService: ProblemListService, private _utilService: UtilService,
+              private changeDetector: ChangeDetectorRef) { }
+  ngOnInit() {
+    this._problemListService.getProblemList().subscribe(problemsList => {
       problemsList.forEach(snapshot => {
         this.problemsList.push(new DropdownModel(snapshot.name, snapshot.id));
       });
@@ -32,14 +33,13 @@ export class ProblemListComponent {
     });
   }
   newPartNameValidator() {
-      const problems = this.problemsList;
-      return Observable
-        .of(this._utilService.containsObject(this.partName.value, problems))
-        .map(result => !result ? null : { invalid: true });
+    const problems = this.problemsList;
+    return Observable
+      .of(this._utilService.containsObject(this.partName.value, problems))
+      .map(result => !result ? null : { invalid: true });
   }
   checkIfPartExists(newValue) {
     this.isPresent = this._utilService.containsObject(newValue, this.problemsList);
-    this._clientPFService.addNewProblem(newValue)
   }
 
   checkIsOther() {

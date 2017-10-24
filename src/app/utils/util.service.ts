@@ -11,7 +11,18 @@ export class UtilService {
    * @returns {boolean}
    */
   public isNullOrUndefined(x) {
-    return isNull(x) || isUndefined(x);
+    if (x == null) {
+      return false;
+    }
+
+    if (x === null) {
+      return false;
+    }
+
+    if (typeof x === 'undefined') {
+      return false;
+    }
+    return true;
   }
 
   isAlteleOption(dropdownOption: string) {
@@ -53,7 +64,6 @@ export class UtilService {
       const maxId = Math.max.apply(Math, itemsList.map(function (o) {
         return o.id;
       }))
-    console.log(maxId)
       return maxId;
 
   }
