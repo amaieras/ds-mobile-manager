@@ -135,9 +135,11 @@ export class ClientPfDetailComponent implements OnInit {
         const item = formModel.phoneList[i].problems[j];
         if (item.partName !== '' &&
           this._utilService.isNullOrUndefined(item.partName)) {
-          item.problem = parseInt(this.newPrblMaxId) + j + 1;
+          const auxj = j === 0 ? 1 : j;
+          console.log()
+          item.problem = parseInt(this.newPrblMaxId) + auxj + 1;
           if (formModel.phoneList.length > 1) {
-            item.problem = item.problem + i + 1;
+            item.problem = item.problem + i;
             this._problemListService.addNewProblem(item.problem, item.partName);
           } else {
             this._problemListService.addNewProblem(item.problem, item.partName);
