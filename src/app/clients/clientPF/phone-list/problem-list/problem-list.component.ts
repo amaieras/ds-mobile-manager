@@ -5,7 +5,6 @@ import {DropdownModel} from '../../../../model/DropdownModel';
 import {ClientPF} from '../../../../model/ClientPF';
 import {Observable} from 'rxjs/Observable';
 import {ProblemListService} from './problem-list.service';
-import {DataSharedService} from "../../../../shared/data-shared.service";
 
 
 @Component({
@@ -17,8 +16,7 @@ export class ProblemListComponent implements OnInit {
   @Input('clientPF') clientPF: ClientPF;
   problemsList: any = [];
   problems: Array<{}>;
-  selectedProblem: string;
-  newPartName = '';
+  selectedProblem = '0';
 
   private isRequired = false;
   private isPresent = false;
@@ -44,16 +42,15 @@ export class ProblemListComponent implements OnInit {
     this.isPresent = this._utilService.containsObject(newValue, this.problemsList);
   }
 
-  checkIsOther() {
-    const fieldElement = <HTMLInputElement>document.getElementById('partName');
-    this.problemListGroup.addControl('partName',
-      new FormControl('', Validators.required, this.newPartNameValidator.bind(this)
-      ));
-    if (fieldElement !== null && this.isRequired) {
-      this.newPartName = '';
+  checkIsOther(val) {
+    this.isRequired = this._utilService.checkIsOther(val.selectedProblem);
+    if (this.isRequired) {
+      this.problemListGroup.addControl('partName',
+        new FormControl('', Validators.required, this.newPartNameValidator.bind(this)
+        ));
+    } else {
       this.problemListGroup.removeControl('partName');
     }
-    this.isRequired = this._utilService.checkIsOther(this.selectedProblem);
     this.changeDetector.detectChanges();
   }
 

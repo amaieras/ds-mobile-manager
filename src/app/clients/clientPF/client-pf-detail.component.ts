@@ -7,7 +7,6 @@ import {ClientPF} from '../../model/ClientPF';
 import {ClientPFService} from './client-pf-detail.service';
 import {PhoneList} from '../../model/PhoneList';
 import {ProblemListService} from './phone-list/problem-list/problem-list.service';
-import {DataSharedService} from "../../shared/data-shared.service";
 
 
 @Component({
@@ -27,8 +26,7 @@ export class ClientPfDetailComponent implements OnInit {
   mainArray: Array<any>;
   newPrblMaxId: string;
   constructor(private _clientPFService: ClientPFService, private fb: FormBuilder,
-              private _utilService: UtilService, private _problemListService: ProblemListService,
-              private _dataSharedService: DataSharedService) {
+              private _utilService: UtilService, private _problemListService: ProblemListService) {
     this.tests = [];
     this.aboutUsList = [];
     this.mainArray = [];
@@ -40,7 +38,6 @@ export class ClientPfDetailComponent implements OnInit {
 
     this.tests.push({label: 'NU', value: 'NU'});
     this.tests.push({label: 'DA', value: 'DA'});
-
   }
 
   ngOnInit(): void {
@@ -65,7 +62,6 @@ export class ClientPfDetailComponent implements OnInit {
       'aboutUs': new FormControl('FACEBOOK', [])
     });
     this.initFormAfterSubmit();
-
   }
 
   addInPhoneList(): any {
@@ -106,6 +102,9 @@ export class ClientPfDetailComponent implements OnInit {
     this.successMessage();
     this.clientPFForm.reset();
     this.ngOnInit();
+    this._problemListService.getMaxIdFromProblems().subscribe(partItem => {
+      this.newPrblMaxId = partItem;
+    });
   }
 
   initPhoneList() {
@@ -124,7 +123,6 @@ export class ClientPfDetailComponent implements OnInit {
     this.prepareSavePhoneList();
     this._problemListService.getMaxIdFromProblems().subscribe(partItem => {
       this.newPrblMaxId = partItem;
-      this._dataSharedService.currentPartId.subscribe(partId => this.newPrblMaxId = partId);
     });
   }
   prepareSavePhoneList() {
@@ -132,14 +130,21 @@ export class ClientPfDetailComponent implements OnInit {
     const PhoneListDeepCopy: PhoneList[] = formModel.phoneList.map(
       (phoneList: PhoneList) => Object.assign({}, phoneList)
     );
-    formModel.phoneList.forEach(item => {
-      for (let i = 0; i < item.problems.length; i++) {
-        if (item.problems[i].partName !== '') {
-          item.problems[i].problem = parseInt(this.newPrblMaxId) + i + 1;
-          this._problemListService.addNewProblem(item.problems[i].partName);
+    for (let i = 0; i < formModel.phoneList.length; i++) {
+      for (let j = 0; j < formModel.phoneList[i].problems.length; j++) {
+        const item = formModel.phoneList[i].problems[j];
+        if (item.partName !== '' &&
+          this._utilService.isNullOrUndefined(item.partName)) {
+          item.problem = parseInt(this.newPrblMaxId) + j + 1;
+          if (formModel.phoneList.length > 1) {
+            item.problem = item.problem + i + 1;
+            this._problemListService.addNewProblem(item.problem, item.partName);
+          } else {
+            this._problemListService.addNewProblem(item.problem, item.partName);
+          }
         }
       }
-    });
+    }
     this.saveClientPF.phoneList = PhoneListDeepCopy;
     this.saveClientPF.phone = formModel.phone;
     this.saveClientPF.aboutUs = formModel.aboutUs;

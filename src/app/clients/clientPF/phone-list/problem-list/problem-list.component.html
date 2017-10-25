@@ -2,7 +2,7 @@
   <div class="form-group col-md-3">
     <label for="problem" style="display: block">Solicitare/Problema</label>
     <p-dropdown id="problem" [options]="problems" formControlName="problem" [(ngModel)]="selectedProblem" [style]="{'width':'150px'}"
-                 filter="filter" (onChange)="checkIsOther()">
+                 filter="filter" (onChange)="checkIsOther(this)">
       <ng-template let-problem pTemplate="item">
         <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
           <div style="font-size:14px;float:right;margin-top:4px">{{problem.label}}</div>
@@ -12,7 +12,7 @@
   </div>
   <div class="col-md-3" *ngIf="isRequired">
     <label for="partName">Denumire piesa</label>
-    <input placeholder="Denumire piesa" id="partName" (ngModelChange)="checkIfPartExists($event)" [(ngModel)]="newPartName" class="form-control" formControlName="partName" [required]="isRequired ? true : null">
+    <input placeholder="Denumire piesa" id="partName" (ngModelChange)="checkIfPartExists($event)" class="form-control" formControlName="partName" [required]="isRequired ? true : null">
     <div *ngIf="isPresent" class="alert alert-danger">
       <div *ngIf="isPresent">
         Piesa pe care vrei sa o introduci exista deja in lista Solicitare/Problema.
