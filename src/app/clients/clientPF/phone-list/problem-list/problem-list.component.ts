@@ -16,7 +16,7 @@ export class ProblemListComponent implements OnInit {
   @Input('clientPF') clientPF: ClientPF;
   problemsList: any = [];
   problems: Array<{}>;
-  selectedProblem = '0';
+  selectedProblem = '1';
 
   private isRequired = false;
   private isPresent = false;

@@ -35,7 +35,7 @@ export class UtilService {
    * @returns {boolean}
    */
   checkIsOther(part) {
-    if (part !== 3) {
+    if (part !== 0) {
       return false;
     } else {
       return true;
@@ -48,9 +48,9 @@ export class UtilService {
    * @returns {any}
    */
 
-  containsObject(partName, list) {
+  containsObject(newName, list) {
     const found = list.some(function (el) {
-      return el.label.toUpperCase().trim() === partName.toUpperCase().trim();
+      return el.label.toUpperCase().trim() === newName.toUpperCase().trim();
     });
     return found;
   }

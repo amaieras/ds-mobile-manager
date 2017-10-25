@@ -7,6 +7,9 @@ import {ClientPF} from '../../model/ClientPF';
 import {ClientPFService} from './client-pf-detail.service';
 import {PhoneList} from '../../model/PhoneList';
 import {ProblemListService} from './phone-list/problem-list/problem-list.service';
+import {AboutUsService} from "./phone-list/about-us/about-us.service";
+import {Observable} from "rxjs/Observable";
+import {DropdownModel} from 'app/model/DropdownModel';
 
 
 @Component({
@@ -21,26 +24,31 @@ export class ClientPfDetailComponent implements OnInit {
   defaultDate: Date = new Date();
   saveClientPF: ClientPF = new ClientPF();
   phoneList: FormGroup;
-  aboutUsList: SelectItem[];
   newItem: any;
   mainArray: Array<any>;
   newPrblMaxId: string;
+  newAboutUsMaxId: string;
+  isOtherRequired = false;
+  aboutUsValExists = false;
+  aboutUsList: any = [];
+  selectedAboutUs = '1';
+  selectedOtherName = '';
   constructor(private _clientPFService: ClientPFService, private fb: FormBuilder,
-              private _utilService: UtilService, private _problemListService: ProblemListService) {
+              private _utilService: UtilService, private _problemListService: ProblemListService,
+              private _aboutUsService: AboutUsService) {
     this.tests = [];
-    this.aboutUsList = [];
     this.mainArray = [];
-    this.aboutUsList.push({label: 'FACEBOOK', value: 'FACEBOOK'});
-    this.aboutUsList.push({label: 'GOOGLE', value: 'GOOGLE'});
-    this.aboutUsList.push({label: 'OLX', value: 'OLX'});
-    this.aboutUsList.push({label: 'RECOMANDARE', value: 'RECOMANDARE'});
-    this.aboutUsList.push({label: 'Altele', value: 'Altele'});
-
     this.tests.push({label: 'NU', value: 'NU'});
     this.tests.push({label: 'DA', value: 'DA'});
   }
 
   ngOnInit(): void {
+    this._aboutUsService.getAboutUsList().subscribe(aboutUsList => {
+      this.aboutUsList = [];
+      aboutUsList.forEach(snapshot => {
+        this.aboutUsList.push(new DropdownModel(snapshot.name, snapshot.id));
+      });
+    });
     this.defaultDate.setHours(12, 0);
     this.clientPFForm = this.fb.group({
       'lastname': new FormControl('', [
@@ -61,6 +69,7 @@ export class ClientPfDetailComponent implements OnInit {
       'appointment': new FormControl('', []),
       'aboutUs': new FormControl('FACEBOOK', [])
     });
+    this.aboutUsList.push({label: 'Altele', value: 'Altele'});
     this.initFormAfterSubmit();
   }
 
@@ -81,6 +90,22 @@ export class ClientPfDetailComponent implements OnInit {
     this.clientPF.appointmentDate = this.defaultDate.getTime().toString();
     this.clientPF.addedDate = new Date().getTime().toString();
     event.preventDefault();
+    this.checkInputForNullOrUndefined();
+    this._clientPFService.addPFClient(this.clientPF);
+    this.clientPF = new ClientPF();
+    this.clientPFForm.controls['phoneList'] = this.fb.array([]);
+    this.successMessage();
+    this.clientPFForm.reset();
+    this.ngOnInit();
+    this._problemListService.getMaxIdFromProblems().subscribe(partItem => {
+      this.newPrblMaxId = partItem;
+    });
+    this._aboutUsService.getMaxIdFromAboutUs().subscribe(aboutUsItem => {
+      this.newAboutUsMaxId = aboutUsItem;
+    });
+  }
+
+  private checkInputForNullOrUndefined() {
     if (!this._utilService.isNullOrUndefined(this.clientPF.imei)) {
       this.clientPF.imei = null;
     }
@@ -96,15 +121,6 @@ export class ClientPfDetailComponent implements OnInit {
     if (!this._utilService.isNullOrUndefined(this.clientPF.lastname)) {
       this.clientPF.lastname = null;
     }
-    this._clientPFService.addPFClient(this.clientPF);
-    this.clientPF = new ClientPF();
-    this.clientPFForm.controls['phoneList'] = this.fb.array([]);
-    this.successMessage();
-    this.clientPFForm.reset();
-    this.ngOnInit();
-    this._problemListService.getMaxIdFromProblems().subscribe(partItem => {
-      this.newPrblMaxId = partItem;
-    });
   }
 
   initPhoneList() {
@@ -120,38 +136,74 @@ export class ClientPfDetailComponent implements OnInit {
   initFormAfterSubmit() {
     this.priceOffer.setValue(0);
     this.addInPhoneList();
-    this.prepareSavePhoneList();
+    // this.prepareSavePhoneList();
     this._problemListService.getMaxIdFromProblems().subscribe(partItem => {
       this.newPrblMaxId = partItem;
     });
+    this._aboutUsService.getMaxIdFromAboutUs().subscribe(aboutUsItem => {
+      this.newAboutUsMaxId = aboutUsItem;
+    });
+    this.resetAboutAs();
+
   }
+
+  private resetAboutAs() {
+    this.selectedAboutUs = '1';
+    this.clientPFForm.removeControl('aboutAsName');
+    this.isOtherRequired = false;
+  }
+
   prepareSavePhoneList() {
     const formModel = this.clientPFForm.value;
     const PhoneListDeepCopy: PhoneList[] = formModel.phoneList.map(
       (phoneList: PhoneList) => Object.assign({}, phoneList)
     );
-    for (let i = 0; i < formModel.phoneList.length; i++) {
-      for (let j = 0; j < formModel.phoneList[i].problems.length; j++) {
-        const item = formModel.phoneList[i].problems[j];
-        if (item.partName !== '' &&
-          this._utilService.isNullOrUndefined(item.partName)) {
-          const auxj = j === 0 ? 1 : j;
-          console.log()
-          item.problem = parseInt(this.newPrblMaxId) + auxj + 1;
-          if (formModel.phoneList.length > 1) {
-            item.problem = item.problem + i;
-            this._problemListService.addNewProblem(item.problem, item.partName);
-          } else {
-            this._problemListService.addNewProblem(item.problem, item.partName);
-          }
-        }
-      }
+    this.addNewProblemSynced(formModel);
+    if(this._utilService.isNullOrUndefined(this.newAboutUsMaxId)) {
+      this._aboutUsService.addNewAboutUs(this.newAboutUsMaxId + 1, this.selectedOtherName)
     }
     this.saveClientPF.phoneList = PhoneListDeepCopy;
     this.saveClientPF.phone = formModel.phone;
     this.saveClientPF.aboutUs = formModel.aboutUs;
   }
 
+  private addNewProblemSynced(formModel: any) {
+    //used to increment part id when new part is added
+    let incrVal = 0;
+    for (let i = 0; i < formModel.phoneList.length; i++) {
+      for (let j = 0; j < formModel.phoneList[i].problems.length; j++) {
+        const item = formModel.phoneList[i].problems[j];
+        if (item.partName !== '' && this._utilService.isNullOrUndefined(item.partName)) {
+          incrVal++;
+          item.problem = parseInt(this.newPrblMaxId) + incrVal;
+          this._problemListService.addNewProblem(item.problem, item.partName);
+        }
+      }
+    }
+  }
+  otherAboutUsNameValidator() {
+    const aboutus = this.aboutUsList;
+    return Observable
+      .of(this._utilService.containsObject(this.selectedOtherName, aboutus))
+      .map(result => !result ? null : { invalid: true });
+  }
+
+  checkIsOther(val) {
+    this.isOtherRequired = this._utilService.checkIsOther(val.value);
+    if (this.isOtherRequired) {
+      this.clientPFForm.addControl('aboutAsName',
+        new FormControl('', Validators.required, this.otherAboutUsNameValidator.bind(this)
+        ));
+    } else {
+      this.clientPFForm.removeControl('aboutAsName');
+    }
+    // this.clientPFForm.detectChanges();
+  }
+  checkIfAboutUsExists(newValue) {
+    if(this._utilService.isNullOrUndefined(newValue)) {
+      this.aboutUsValExists = this._utilService.containsObject(newValue, this.aboutUsList);
+    }
+  }
   getPhoneItem(val) {
     this.newItem = {
       phoneId: val.phoneId,

@@ -21,6 +21,7 @@ import {ProblemGSMListComponent} from './problem-gsm-list/problem-gsm-list.compo
 import {PhoneGSMListComponent} from './phone-gsm-list/phone-gsm-list.component';
 import {ProblemListService} from './clientPF/phone-list/problem-list/problem-list.service';
 import {PhoneCascadeService} from '../shared/phone-cascade.service';
+import {AboutUsService} from 'app/clients/clientPF/phone-list/about-us/about-us.service';
 
 
 @NgModule({
@@ -55,7 +56,8 @@ import {PhoneCascadeService} from '../shared/phone-cascade.service';
     UtilService,
     ProblemListService,
     ClientTypeService,
-    PhoneCascadeService
+    PhoneCascadeService,
+    AboutUsService
   ]
 })
 export class ClientModule { }

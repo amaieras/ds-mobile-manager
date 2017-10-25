@@ -6,6 +6,7 @@ import {PhoneBrand} from 'app/clients/phone-models/PhoneBrand';
 import {PhoneModel} from '../../phone-models/PhoneModel';
 import {PhoneModelService} from 'app/clients/phone-models/phone-model.service';
 import {ClientPF} from '../../../model/ClientPF';
+import {AboutUsService} from 'app/clients/clientPF/phone-list/about-us/about-us.service';
 
 @Component({
   selector: 'app-phone-list',
