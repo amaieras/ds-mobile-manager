@@ -3,7 +3,7 @@
     <div style="margin-left: 1em;">
       <div class="container-fluid example-wrapper">
         <div class="row">
-          <div class="form-group">
+          <div class="form-group phone-names">
             <!--<div formArrayName="phoneList">-->
               <!--<div *ngFor="let phoneCascade of phoneListGroup.controls['phoneList']['controls']; let i=index">-->
                 <!--<phone-model-cascading-list [inputModel]="newItem" (update)="updateModel($event)" [pIndex]="phoneIndex"></phone-model-cascading-list>-->
@@ -11,7 +11,7 @@
             <!--</div>-->
             <div class="col-md-3">
               <label for="phoneBrand" style="display: block">Telefon</label>
-              <p-dropdown id="phoneBrand" [(ngModel)]="newItem.phoneId" [options]="cascadedBrands"
+              <p-dropdown id="phoneBrand" [(ngModel)]="newItem.phoneId" [options]="phoneBrandsArray"
                           [style]="{'width':'150px'}" filter="true" (onChange)="onSelect($event.value)" formControlName="phoneBrand">
                 <ng-template let-phone pTemplate="item">
                   <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
@@ -19,11 +19,30 @@
                   </div>
                 </ng-template>
               </p-dropdown>
+              <div *ngIf="isRequired" style="margin-top:5px">
+                <label for="newBrand">Denumire brand</label>
+                <input placeholder="Denumire brand" id="newBrand" (ngModelChange)="checkIfPartExists($event)" class="form-control" formControlName="newBrand" [required]="isRequired ? true : null">
+                <div *ngIf="isPresent" class="alert alert-danger">
+                  <div *ngIf="isPresent">
+                    Noul brand de telefon pe care vrei sa il introduci exista deja in lista `Telefon`.
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="isRequired" style="margin-top:5px">
+                <label for="newModel">Denumire model</label>
+                <input placeholder="Denumire piesa" id="newModel" (ngModelChange)="checkIfPartExists($event)" class="form-control" formControlName="newModel" [required]="isRequired ? true : null">
+                <div *ngIf="isPresent" class="alert alert-danger">
+                  <div *ngIf="isPresent">
+                    Noul model de telefon pe care vrei sa il introduci exista deja in lista `model`.
+                  </div>
+                </div>
+              </div>
             </div>
+
             <div class="col-md-3">
               <label for="phoneModel" style="display: block">Model</label>
-              <p-dropdown id="phoneModel" [(ngModel)]="newItem.modelId" [options]="cascadedModels" [style]="{'width':'150px'}" filter="filter"
-                          formControlName="phoneModel">
+              <p-dropdown id="phoneModel" [(ngModel)]="newItem.modelId" [options]="phoneModelsArray" [style]="{'width':'150px'}"
+                          filter="filter" [disabled]="isRequired" formControlName="phoneModel">
                 <ng-template let-model pTemplate="item">
                   <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
                     <div style="font-size:14px;float:right;margin-top:4px">{{model.label}}</div>
@@ -40,8 +59,8 @@
               <input placeholder="Culoare" id="phoneColor" class="form-control" formControlName="phoneColor">
             </div>
           </div>
-          <div formArrayName="problems" class="col-md-12">
-            <div *ngFor="let email of phoneListGroup.controls['problems']['controls']; let i=index" class="panel panel-default">
+          <div formArrayName="problems">
+            <div *ngFor="let email of phoneListGroup.controls['problems']['controls']; let i=index" class="panel panel-primary">
               <div class="panel-heading">
                 <span>Lista piese: {{i + 1}}</span>
                 <span class="glyphicon glyphicon-remove pull-right" *ngIf="phoneListGroup.controls.problems.controls.length > 1" (click)="removeProblem(i)"></span>

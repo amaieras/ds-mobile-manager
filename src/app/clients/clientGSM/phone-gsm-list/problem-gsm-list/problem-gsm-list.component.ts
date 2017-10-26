@@ -1,8 +1,8 @@
 import {FormGroup} from '@angular/forms';
 import {Component, Input} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-import {UtilService} from '../../utils/util.service';
-import {ProblemListService} from '../clientPF/phone-list/problem-list/problem-list.service';
+import {UtilService} from "../../../../utils/util.service";
+import {ProblemListService} from "../../../clientPF/phone-list/problem-list/problem-list.service";
 
 @Component({
   selector: 'app-problem-gsm-list',

@@ -111,23 +111,18 @@
               <h4>Adresa de facturare</h4>
               <div style="margin-left: 1em;">
                 <div class="form-group">
-                  <label class="center-block">CIF/CNP:
-                    <input placeholder="CIF/CNP" class="form-control" formControlName="cif">
-                  </label>
-                </div>
-                <div class="form-group">
                   <label class="center-block">Denumire:
                     <input placeholder="Denumire" class="form-control" formControlName="denomination">
                   </label>
                 </div>
                 <div class="form-group">
-                  <label class="center-block">Reg com:
-                    <input placeholder="Reg com" class="form-control" formControlName="regcom">
+                  <label class="center-block">CIF/CNP:
+                    <input placeholder="CIF/CNP" class="form-control" formControlName="cif">
                   </label>
                 </div>
                 <div class="form-group">
-                  <label class="center-block">Cod client:
-                    <input placeholder="Cod client" class="form-control" formControlName="clientCode">
+                  <label class="center-block">Reg com:
+                    <input placeholder="Reg com" class="form-control" formControlName="regcom">
                   </label>
                 </div>
                 <div class="form-group">
@@ -160,15 +155,10 @@
                     <input placeholder="Banca" class="form-control" formControlName="bank">
                   </label>
                 </div>
-                <div class="form-group">
-                  <label class="center-block">Persoana contact:
-                    <input placeholder="Persoana contact" class="form-control" formControlName="contactPerson">
-                  </label>
-                </div>
               </div>
               <br>
             </div>
-            <button (click)="addBillingAddress()" type="button">Adauga adresa de livrare</button>
+            <button (click)="addBillingAddress()" type="button">Adauga adresa de facturare</button>
           </div>
         </div>
         <div class="form-group">
@@ -177,23 +167,18 @@
               <h4>Adresa de livrare</h4>
               <div style="margin-left: 1em;">
                 <div class="form-group">
-                  <label class="center-block">CIF/CNP:
-                    <input placeholder="CIF/CNP" class="form-control" formControlName="cif">
-                  </label>
-                </div>
-                <div class="form-group">
                   <label class="center-block">Denumire:
                     <input placeholder="Denumire" class="form-control" formControlName="denomination">
                   </label>
                 </div>
                 <div class="form-group">
-                  <label class="center-block">Reg com:
-                    <input placeholder="Reg com" class="form-control" formControlName="regcom">
+                  <label class="center-block">CIF/CNP:
+                    <input placeholder="CIF/CNP" class="form-control" formControlName="cif">
                   </label>
                 </div>
                 <div class="form-group">
-                  <label class="center-block">Cod client:
-                    <input placeholder="Cod client" class="form-control" formControlName="clientCode">
+                  <label class="center-block">Reg com:
+                    <input placeholder="Reg com" class="form-control" formControlName="regcom">
                   </label>
                 </div>
                 <div class="form-group">
@@ -226,15 +211,10 @@
                     <input placeholder="Banca" class="form-control" formControlName="bank">
                   </label>
                 </div>
-                <div class="form-group">
-                  <label class="center-block">Persoana contact:
-                    <input placeholder="Persoana contact" class="form-control" formControlName="contactPerson">
-                  </label>
-                </div>
               </div>
               <br>
             </div>
-            <button (click)="addShipmentAddress()" type="button">Adauga adresa de facturare</button>
+            <button (click)="addShipmentAddress()" type="button">Adauga adresa de livrare</button>
           </div>
         </div>
         <button type="submit" class="btn btn-default"

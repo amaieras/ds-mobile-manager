@@ -5,7 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ClientTypeListComponent } from "./client-type-list/client-type-list.component"
 import { ClientPfDetailComponent } from "./clientPF/client-pf-detail.component"
 import { ClientGSMDetailComponent } from "./clientGSM/client-gsm-detail.component"
-
+import {ClientGSMDisplayComponent} from "./clientGSMDisplay/client-gsm-display.component";
 
 const clientsCenterRoutes: Routes = [
   {
@@ -18,16 +18,16 @@ const clientsCenterRoutes: Routes = [
           pathMatch: 'full'
         },
         {
-          path: 'PF',
-          component: ClientPfDetailComponent,
-          // canDeactivate: [CanDeactivateGuard],
-          // resolve: {
-          //   crisis: CrisisDetailResolver
-          // }
+          path: 'pf',
+          component: ClientPfDetailComponent
         },
         {
-          path: 'GSM',
+          path: 'gsm',
           component: ClientGSMDetailComponent
+        },
+        {
+          path: 'gsm-display',
+          component: ClientGSMDisplayComponent
         }
       ],
     data: {
@@ -45,7 +45,6 @@ const clientsCenterRoutes: Routes = [
     RouterModule
   ],
   providers: [
-    // CrisisDetailResolver
   ]
 })
 export class ClientCenterRoutingModule { }

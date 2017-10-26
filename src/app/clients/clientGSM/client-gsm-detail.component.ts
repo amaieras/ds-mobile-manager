@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {Message} from "primeng/primeng";
 import {FormControl, FormGroup, Validators, FormBuilder, FormArray} from "@angular/forms";
-import {Address, AppointmentDate, ClientGSM, ClientGSMService} from "./client-gsm-detail.service";
+import { ClientGSMService} from "./client-gsm-detail.service";
 import {UtilService} from "../../utils/util.service";
+import {Address} from "../../model/Address";
+import {ClientGSM} from "../../model/ClientGSM";
 
 @Component({
   selector: 'client-gsm-detail',
@@ -19,7 +21,7 @@ export class ClientGSMDetailComponent implements OnInit {
     private utilService: UtilService
   ) { }
 
-  ngOnInit(){
+  ngOnInit() {
     this.clientGSMForm = new FormGroup({
       'lastname': new FormControl('', [
         Validators.required
@@ -62,7 +64,7 @@ export class ClientGSMDetailComponent implements OnInit {
   }
   initPhoneList() {
     return this.fb.group({
-      // phoneBrand: '',
+      phoneBrand: '',
       phoneModel: '',
       phoneColor: '',
       phoneQuantity: '',
@@ -80,23 +82,8 @@ export class ClientGSMDetailComponent implements OnInit {
     this.clientGSMForm.reset();
     this.clientGSM = new ClientGSM();
     this.successMessage();
-
   }
 
-  addBillingAddress() {
-    if(this.billingAddress.length == 0) {
-      this.billingAddress.push(this.fb.group(new Address()));
-    }
-  }
-  addShipmentAddress() {
-    if(this.shipmentAddress.length == 0) {
-      this.shipmentAddress.push(this.fb.group(new Address()));
-    }
-  }
-  successMessage() {
-    this.msgs = [];
-    this.msgs.push({severity:'success', summary:'Adauga Client GSM', detail:'Client GSM adaugat cu success.'});
-  }
   prepareSaveClientGSM(){
     const formModel = this.clientGSMForm.value;
     const billingAddressDeepCopy: Address[] = formModel.billingAddress.map(
@@ -112,6 +99,24 @@ export class ClientGSMDetailComponent implements OnInit {
     this.saveClientGSM.addedDate.year = new Date().getUTCFullYear().toString();
     this.saveClientGSM.addedDate.timestamp = new Date().getTime().toString();
   }
+
+  addBillingAddress() {
+    if(this.billingAddress.length == 0) {
+      this.billingAddress.push(this.fb.group(new Address()));
+    }
+  }
+
+  addShipmentAddress() {
+    if(this.shipmentAddress.length == 0) {
+      this.shipmentAddress.push(this.fb.group(new Address()));
+    }
+  }
+
+  successMessage() {
+    this.msgs = [];
+    this.msgs.push({severity:'success', summary:'Adauga Client GSM', detail:'Client GSM adaugat cu success.'});
+  }
+
   get lastname() { return this.clientGSMForm.get('lastname'); }
   get firstname() { return this.clientGSMForm.get('firstname'); }
   get firm() { return this.clientGSMForm.get('firm'); }

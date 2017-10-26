@@ -1,9 +1,8 @@
 import { Component, OnInit } from "@angular/core";
-import { AngularFireList } from 'angularfire2/database';
-import { ClientGSM } from "../../clients/clientGSM/client-gsm-detail.service"
 import { SelectItem,Message } from "primeng/primeng";
 import { RepairGSMDetailService } from "./repair-gsm-detail.service";
 import {Observable} from "rxjs/Observable";
+import {ClientGSM} from "../../model/ClientGSM";
 
 @Component({
   selector: 'repair-gsm-detail',

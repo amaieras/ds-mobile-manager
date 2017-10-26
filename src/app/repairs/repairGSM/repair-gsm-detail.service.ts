@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireList, AngularFireDatabase } from 'angularfire2/database';
-import { ClientGSM } from "../../clients/clientGSM/client-gsm-detail.service";
+import {ClientGSM} from "../../model/ClientGSM";
 
 
 @Injectable()

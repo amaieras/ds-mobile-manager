@@ -15,11 +15,9 @@ import { AppComponent } from './app.component';
 import { AppToolbarService } from './app-toolbar/app-toolbar.service';
 import { ClientModule } from './clients/client.module';
 import { ClientCenterRoutingModule } from './clients/client-center-routing.module';
-import { ClientTypeService } from './clients/client-type-list/client-type.service';
 import 'hammerjs';
 import {RepairModule} from './repairs/repair.module';
 import {RepairCenterRoutingModule} from './repairs/repair-center-routing.module';
-import {PhoneCascadeService} from './shared/phone-cascade.service';
 
 export const firebaseConfigProd = {
   apiKey: 'AIzaSyAexP1Haz3RsxHqPX--XncgC1Rxef_wMDA',

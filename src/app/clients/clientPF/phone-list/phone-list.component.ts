@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {PhoneCascadeService} from '../../../shared/phone-cascade.service';
 import {Observable} from '../../../../../node_modules/rxjs/Observable.d';
 import {PhoneBrand} from 'app/clients/phone-models/PhoneBrand';
@@ -7,6 +7,7 @@ import {PhoneModel} from '../../phone-models/PhoneModel';
 import {PhoneModelService} from 'app/clients/phone-models/phone-model.service';
 import {ClientPF} from '../../../model/ClientPF';
 import {AboutUsService} from 'app/clients/clientPF/phone-list/about-us/about-us.service';
+import {UtilService} from "../../../utils/util.service";
 
 @Component({
   selector: 'app-phone-list',
@@ -19,12 +20,11 @@ export class PhoneListComponent implements OnInit {
   @Input('clientPF') clientPF: ClientPF;
   newItem: any;
   mainArray: Array<any> = [];
-  cascadedModels: Observable<PhoneModel[]>;
-  cascadedBrands: Observable<PhoneBrand[]>;
   phoneBrandsArray: any = [];
   phoneModelsArray: any = [];
+  isRequired = false;
 
-  constructor(private fb: FormBuilder, private _phoneModelService: PhoneModelService) {
+  constructor(private fb: FormBuilder, private _phoneModelService: PhoneModelService, private _utilService: UtilService) {
   }
 
   ngOnInit() {
@@ -36,16 +36,17 @@ export class PhoneListComponent implements OnInit {
     this.addProblem();
 
     this._phoneModelService.getPhoneBrands().subscribe(phoneModels => {
+      this.phoneBrandsArray = [];
       phoneModels.forEach(snapshot => {
         this.phoneBrandsArray.push({label: snapshot.name, value: snapshot.id});
       });
-      this.cascadedBrands = this.phoneBrandsArray;
     });
     this._phoneModelService.getPhoneModels().subscribe(phoneBrands => {
+      this.phoneModelsArray = [];
       phoneBrands.forEach(snapshot => {
         this.phoneModelsArray.push({label: snapshot.name, value: snapshot.id, phoneId: snapshot.phoneId});
       });
-      this.cascadedModels = this.phoneModelsArray.filter((item) => item.phoneId === 1);
+      this.phoneModelsArray = this.phoneModelsArray.filter((item) => item.phoneId === 1);
     });
   }
 
@@ -68,11 +69,28 @@ export class PhoneListComponent implements OnInit {
   }
 
   onSelect(phoneId) {
+    this.checkIsOther(phoneId)
     this._phoneModelService.getPhoneModels().subscribe(phoneBrands => {
+      this.phoneModelsArray = [];
       phoneBrands.forEach(snapshot => {
         this.phoneModelsArray.push({label: snapshot.name, value: snapshot.id, phoneId: snapshot.phoneId});
       });
-      this.cascadedModels = this.phoneModelsArray.filter((item) => item.phoneId === phoneId);
+      this.phoneModelsArray = this.phoneModelsArray.filter((item) => item.phoneId === phoneId);
     });
+  }
+
+  checkIsOther(val) {
+    this.isRequired = this._utilService.checkIsOther(val);
+    if (this.isRequired) {
+      this.phoneListGroup.addControl('newBrand',
+        new FormControl('', Validators.required
+        ));
+      this.phoneListGroup.addControl('newModel',
+        new FormControl('', Validators.required
+        ));
+    } else {
+      this.phoneListGroup.removeControl('newBrand');
+      this.phoneListGroup.removeControl('newModel');
+    }
   }
 }

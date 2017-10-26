@@ -9,7 +9,7 @@ import {ClientPF} from '../../model/ClientPF';
 export class ClientPFService {
   clientsPF: AngularFireList<ClientPF> = null;
 
-  constructor(private db: AngularFireDatabase, private _utilService: UtilService) {
+  constructor(private db: AngularFireDatabase) {
     this.clientsPF = db.list('/clients/pf');
   }
 

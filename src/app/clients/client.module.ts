@@ -17,11 +17,12 @@ import {
 } from './phone-models/phone-model-cascading-list.component';
 import {PhoneListComponent} from './clientPF/phone-list/phone-list.component';
 import {ProblemListComponent} from './clientPF/phone-list/problem-list/problem-list.component';
-import {ProblemGSMListComponent} from './problem-gsm-list/problem-gsm-list.component';
-import {PhoneGSMListComponent} from './phone-gsm-list/phone-gsm-list.component';
+import {ProblemGSMListComponent} from './clientGSM/phone-gsm-list/problem-gsm-list/problem-gsm-list.component';
+import {PhoneGSMListComponent} from './clientGSM/phone-gsm-list/phone-gsm-list.component';
 import {ProblemListService} from './clientPF/phone-list/problem-list/problem-list.service';
 import {PhoneCascadeService} from '../shared/phone-cascade.service';
 import {AboutUsService} from 'app/clients/clientPF/phone-list/about-us/about-us.service';
+import {ClientGSMDisplayComponent} from "./clientGSMDisplay/client-gsm-display.component";
 
 
 @NgModule({
@@ -45,7 +46,8 @@ import {AboutUsService} from 'app/clients/clientPF/phone-list/about-us/about-us.
     PhoneListComponent,
     ProblemListComponent,
     ProblemGSMListComponent,
-    PhoneGSMListComponent
+    PhoneGSMListComponent,
+    ClientGSMDisplayComponent
 
   ],
   providers: [

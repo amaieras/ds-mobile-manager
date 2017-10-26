@@ -33,6 +33,7 @@ export class ClientPfDetailComponent implements OnInit {
   aboutUsList: any = [];
   selectedAboutUs = '1';
   selectedOtherName = '';
+
   constructor(private _clientPFService: ClientPFService, private fb: FormBuilder,
               private _utilService: UtilService, private _problemListService: ProblemListService,
               private _aboutUsService: AboutUsService) {
@@ -43,12 +44,7 @@ export class ClientPfDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._aboutUsService.getAboutUsList().subscribe(aboutUsList => {
-      this.aboutUsList = [];
-      aboutUsList.forEach(snapshot => {
-        this.aboutUsList.push(new DropdownModel(snapshot.name, snapshot.id));
-      });
-    });
+    this.populateDropDowns();
     this.defaultDate.setHours(12, 0);
     this.clientPFForm = this.fb.group({
       'lastname': new FormControl('', [
@@ -70,7 +66,36 @@ export class ClientPfDetailComponent implements OnInit {
       'aboutUs': new FormControl('FACEBOOK', [])
     });
     this.aboutUsList.push({label: 'Altele', value: 'Altele'});
-    this.initFormAfterSubmit();
+    this.initForm();
+  }
+  onSubmit(event: Event) {
+    this.prepareSavePhoneList();
+    this.clientPF = this.saveClientPF;
+    this.clientPF.appointmentDate = this.defaultDate.getTime().toString();
+    this.clientPF.addedDate = new Date().getTime().toString();
+    // event.preventDefault();
+    this.checkInputForNullOrUndefined();
+    this._clientPFService.addPFClient(this.clientPF);
+    this.clientPF = new ClientPF();
+    this.clientPFForm.controls['phoneList'] = this.fb.array([]);
+    this.successMessage();
+    this.clientPFForm.reset();
+    this.ngOnInit();
+    this.getMaxIds();
+  }
+
+  prepareSavePhoneList() {
+    const formModel = this.clientPFForm.value;
+    const PhoneListDeepCopy: PhoneList[] = formModel.phoneList.map(
+      (phoneList: PhoneList) => Object.assign({}, phoneList)
+    );
+    this.addNewProblemSynced(formModel);
+    if(this._utilService.isNullOrUndefined(this.newAboutUsMaxId) && this.selectedOtherName !== '') {
+      this._aboutUsService.addNewAboutUs(this.newAboutUsMaxId + 1, this.selectedOtherName)
+    }
+    this.saveClientPF.phoneList = PhoneListDeepCopy;
+    this.saveClientPF.phone = formModel.phone;
+    this.saveClientPF.aboutUs = formModel.aboutUs;
   }
 
   addInPhoneList(): any {
@@ -84,19 +109,62 @@ export class ClientPfDetailComponent implements OnInit {
     phoneListArray.removeAt(idx);
   }
 
-  onSubmit(event: Event) {
-    this.prepareSavePhoneList();
-    this.clientPF = this.saveClientPF;
-    this.clientPF.appointmentDate = this.defaultDate.getTime().toString();
-    this.clientPF.addedDate = new Date().getTime().toString();
-    event.preventDefault();
-    this.checkInputForNullOrUndefined();
-    this._clientPFService.addPFClient(this.clientPF);
-    this.clientPF = new ClientPF();
-    this.clientPFForm.controls['phoneList'] = this.fb.array([]);
-    this.successMessage();
-    this.clientPFForm.reset();
-    this.ngOnInit();
+  private addNewProblemSynced(formModel: any) {
+    //used to increment part id when new part is added
+    let incrVal = 0;
+    for (let i = 0; i < formModel.phoneList.length; i++) {
+      for (let j = 0; j < formModel.phoneList[i].problems.length; j++) {
+        const item = formModel.phoneList[i].problems[j];
+        if (item.partName !== '' && this._utilService.isNullOrUndefined(item.partName)) {
+          incrVal++;
+          item.problem = parseInt(this.newPrblMaxId) + incrVal;
+          this._problemListService.addNewProblem(item.problem, item.partName);
+        }
+      }
+    }
+  }
+
+  initPhoneList() {
+    return this.fb.group({
+      phoneBrand: '',
+      phoneModel: '',
+      phoneColor: '',
+      imei: '',
+      problems: this.fb.array([]),
+      observation: ''
+    });
+  }
+
+  getPhoneItem(val) {
+    this.newItem = {
+      phoneId: val.phoneId,
+      modelId: val.modelId
+    };
+    this.mainArray.push(this.newItem);
+  }
+
+  initForm() {
+    this.priceOffer.setValue(0);
+    this.addInPhoneList();
+    this._problemListService.getMaxIdFromProblems().subscribe(partItem => {
+      this.newPrblMaxId = partItem;
+    });
+    this._aboutUsService.getMaxIdFromAboutUs().subscribe(aboutUsItem => {
+      this.newAboutUsMaxId = aboutUsItem;
+      this.resetAboutAs();
+    });
+  }
+
+  private populateDropDowns() {
+    this._aboutUsService.getAboutUsList().subscribe(aboutUsList => {
+      this.aboutUsList = [];
+      aboutUsList.forEach(snapshot => {
+        this.aboutUsList.push(new DropdownModel(snapshot.name, snapshot.id));
+      });
+    });
+  }
+
+  private getMaxIds() {
     this._problemListService.getMaxIdFromProblems().subscribe(partItem => {
       this.newPrblMaxId = partItem;
     });
@@ -123,68 +191,19 @@ export class ClientPfDetailComponent implements OnInit {
     }
   }
 
-  initPhoneList() {
-    return this.fb.group({
-      phoneBrand: '',
-      phoneModel: '',
-      phoneColor: '',
-      imei: '',
-      problems: this.fb.array([]),
-      observation: ''
-    });
-  }
-  initFormAfterSubmit() {
-    this.priceOffer.setValue(0);
-    this.addInPhoneList();
-    // this.prepareSavePhoneList();
-    this._problemListService.getMaxIdFromProblems().subscribe(partItem => {
-      this.newPrblMaxId = partItem;
-    });
-    this._aboutUsService.getMaxIdFromAboutUs().subscribe(aboutUsItem => {
-      this.newAboutUsMaxId = aboutUsItem;
-    });
-    this.resetAboutAs();
-
-  }
 
   private resetAboutAs() {
-    this.selectedAboutUs = '1';
+    if (this.selectedAboutUs !== '1'){
+      this.selectedAboutUs = '1';
+    }
     this.clientPFForm.removeControl('aboutAsName');
     this.isOtherRequired = false;
   }
 
-  prepareSavePhoneList() {
-    const formModel = this.clientPFForm.value;
-    const PhoneListDeepCopy: PhoneList[] = formModel.phoneList.map(
-      (phoneList: PhoneList) => Object.assign({}, phoneList)
-    );
-    this.addNewProblemSynced(formModel);
-    if(this._utilService.isNullOrUndefined(this.newAboutUsMaxId)) {
-      this._aboutUsService.addNewAboutUs(this.newAboutUsMaxId + 1, this.selectedOtherName)
-    }
-    this.saveClientPF.phoneList = PhoneListDeepCopy;
-    this.saveClientPF.phone = formModel.phone;
-    this.saveClientPF.aboutUs = formModel.aboutUs;
-  }
-
-  private addNewProblemSynced(formModel: any) {
-    //used to increment part id when new part is added
-    let incrVal = 0;
-    for (let i = 0; i < formModel.phoneList.length; i++) {
-      for (let j = 0; j < formModel.phoneList[i].problems.length; j++) {
-        const item = formModel.phoneList[i].problems[j];
-        if (item.partName !== '' && this._utilService.isNullOrUndefined(item.partName)) {
-          incrVal++;
-          item.problem = parseInt(this.newPrblMaxId) + incrVal;
-          this._problemListService.addNewProblem(item.problem, item.partName);
-        }
-      }
-    }
-  }
-  otherAboutUsNameValidator() {
-    const aboutus = this.aboutUsList;
+  aboutUsNameValidator() {
+    const aboutUs = this.aboutUsList;
     return Observable
-      .of(this._utilService.containsObject(this.selectedOtherName, aboutus))
+      .of(this._utilService.containsObject(this.selectedOtherName, aboutUs))
       .map(result => !result ? null : { invalid: true });
   }
 
@@ -192,7 +211,7 @@ export class ClientPfDetailComponent implements OnInit {
     this.isOtherRequired = this._utilService.checkIsOther(val.value);
     if (this.isOtherRequired) {
       this.clientPFForm.addControl('aboutAsName',
-        new FormControl('', Validators.required, this.otherAboutUsNameValidator.bind(this)
+        new FormControl('', Validators.required, this.aboutUsNameValidator.bind(this)
         ));
     } else {
       this.clientPFForm.removeControl('aboutAsName');
@@ -203,13 +222,6 @@ export class ClientPfDetailComponent implements OnInit {
     if(this._utilService.isNullOrUndefined(newValue)) {
       this.aboutUsValExists = this._utilService.containsObject(newValue, this.aboutUsList);
     }
-  }
-  getPhoneItem(val) {
-    this.newItem = {
-      phoneId: val.phoneId,
-      modelId: val.modelId
-    };
-    this.mainArray.push(this.newItem);
   }
 
   successMessage() {
@@ -261,4 +273,10 @@ export class ClientPfDetailComponent implements OnInit {
     //noinspection TypeScriptUnresolvedFunction
     return this.clientPFForm.get('aboutUs');
   }
+
+  get aboutAsName() {
+    //noinspection TypeScriptUnresolvedFunction
+    return this.clientPFForm.get('aboutAsName');
+  }
 }
+
