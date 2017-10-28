@@ -5,6 +5,7 @@ import {DropdownModel} from '../../../../model/DropdownModel';
 import {ClientPF} from '../../../../model/ClientPF';
 import {Observable} from 'rxjs/Observable';
 import {ProblemListService} from './problem-list.service';
+import {ProblemPrice} from "../../../../model/ProblemPrice";
 
 
 @Component({
@@ -17,7 +18,7 @@ export class ProblemListComponent implements OnInit {
   problemsList: any = [];
   problems: Array<{}>;
   selectedProblem = '1';
-
+  problemsPriceList: any = [];
   private isRequired = false;
   private isPresent = false;
 
@@ -43,6 +44,14 @@ export class ProblemListComponent implements OnInit {
   }
 
   checkIsOther(val) {
+    this._problemListService.getProblemPriceList().subscribe(problemsPriceList => {
+      this.problemsPriceList = [];
+      problemsPriceList.forEach(snapshot => {
+        this.problemsPriceList.push(new ProblemPrice(snapshot.id, snapshot.problemId, snapshot.phoneBrand, snapshot.phoneModel, snapshot.price))
+      })
+      this.problemsPriceList = this.problemsPriceList.filter((item) => item._problemId === val.selectedProblem);
+      console.log(this.problemsPriceList)
+    })
     this.isRequired = this._utilService.checkIsOther(val.selectedProblem);
     if (this.isRequired) {
       this.problemListGroup.addControl('partName',

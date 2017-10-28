@@ -77,9 +77,14 @@
     <div class="form-group">
       <label for="priceOffer">Total de plata</label>
       <div class="ui-inputgroup">
-        <span class="ui-inputgroup-addon">RON</span>
+        <span class="ui-inputgroup-addon" style="width: 50px;">RON</span>
         <!--<p-spinner size="30" id="priceOffer" [(ngModel)]="price" [ngModelOptions]="{standalone: true}" ></p-spinner>-->
-        <input placeholder="Total de plata" id="priceOffer" class="form-control" formControlName="priceOffer">
+        <input placeholder="Total de plata" id="priceOffer" class="form-control" [(ngModel)]="totalPrice" formControlName="priceOffer" style="width: auto !important;">
+        <div class="col-md-3">
+          <button type="button" (click)="calculateTotalPrice()" class="btn btn-success">
+            Calculeaza pretul total
+          </button>
+        </div>
       </div>
     </div>
     <div class="form-group">

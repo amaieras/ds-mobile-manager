@@ -1,13 +1,13 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {PhoneCascadeService} from '../../../shared/phone-cascade.service';
-import {Observable} from '../../../../../node_modules/rxjs/Observable.d';
-import {PhoneBrand} from 'app/clients/phone-models/PhoneBrand';
-import {PhoneModel} from '../../phone-models/PhoneModel';
+import {Observable} from 'rxjs/Observable';
 import {PhoneModelService} from 'app/clients/phone-models/phone-model.service';
 import {ClientPF} from '../../../model/ClientPF';
-import {AboutUsService} from 'app/clients/clientPF/phone-list/about-us/about-us.service';
 import {UtilService} from "../../../utils/util.service";
+import {forbiddenStringInput} from "../../../shared/forbiddenStringInput";
+import {ProblemPrice} from "../../../model/ProblemPrice";
+import {ProblemListService} from "./problem-list/problem-list.service";
 
 @Component({
   selector: 'app-phone-list',
@@ -22,9 +22,14 @@ export class PhoneListComponent implements OnInit {
   mainArray: Array<any> = [];
   phoneBrandsArray: any = [];
   phoneModelsArray: any = [];
+  problemsPriceList: any = [];
   isRequired = false;
-
-  constructor(private fb: FormBuilder, private _phoneModelService: PhoneModelService, private _utilService: UtilService) {
+  isRequiredModel = false;
+  newBrandNameExists = false;
+  newModelNameExists = false;
+  selectedModel = '1';
+  constructor(private fb: FormBuilder, private _phoneModelService: PhoneModelService, private _utilService: UtilService,
+              private _problemListService: ProblemListService) {
   }
 
   ngOnInit() {
@@ -47,6 +52,7 @@ export class PhoneListComponent implements OnInit {
         this.phoneModelsArray.push({label: snapshot.name, value: snapshot.id, phoneId: snapshot.phoneId});
       });
       this.phoneModelsArray = this.phoneModelsArray.filter((item) => item.phoneId === 1);
+      this.phoneModelsArray.unshift({label: "Altele", value: "0", phoneId: 0});
     });
   }
 
@@ -54,6 +60,7 @@ export class PhoneListComponent implements OnInit {
     const problemArray = <FormArray>this.phoneListGroup.controls['problems'];
     const newProblem = this.initProblem();
     problemArray.push(newProblem);
+
   }
 
   removeProblem(idx: number) {
@@ -64,33 +71,118 @@ export class PhoneListComponent implements OnInit {
   private initProblem() {
     return this.fb.group({
       problem: '',
-      pricePerPart: '',
+      pricePerPart: new FormControl(650, [
+        Validators.required,
+        forbiddenStringInput(/^\\d+$/)
+      ]),
     });
   }
 
   onSelect(phoneId) {
-    this.checkIsOther(phoneId)
+    this._problemListService.getProblemPriceList().subscribe(problemsPriceList => {
+      this.problemsPriceList = [];
+      problemsPriceList.forEach(snapshot => {
+        this.problemsPriceList.push(new ProblemPrice(snapshot.id, snapshot.problemId, snapshot.phoneBrand, snapshot.phoneModel, snapshot.price))
+      })
+      this.problemsPriceList = this.problemsPriceList.filter((item) => item._phoneBrand === phoneId);
+    })
+    this.checkIsOtherBrandModel(phoneId)
+    if(this.newModel !== null) {
+      this.checkIfNewModelExists(this.newModel.value)
+    }
     this._phoneModelService.getPhoneModels().subscribe(phoneBrands => {
       this.phoneModelsArray = [];
       phoneBrands.forEach(snapshot => {
         this.phoneModelsArray.push({label: snapshot.name, value: snapshot.id, phoneId: snapshot.phoneId});
       });
       this.phoneModelsArray = this.phoneModelsArray.filter((item) => item.phoneId === phoneId);
+      if(!this._utilService.containsObject("Altele", this.phoneModelsArray)) {
+        this.phoneModelsArray.push({label: "Altele", value: "0", phoneId: 0});
+      }
     });
   }
 
-  checkIsOther(val) {
+  onModelSelect(modelId) {
+    this.checkIsOtherModel(modelId);
+  }
+  checkIfNewBrandExists(newBrandName) {
+    if(this._utilService.isNullOrUndefined(newBrandName)) {
+      this.newBrandNameExists = this._utilService.containsObject(newBrandName, this.phoneBrandsArray);
+    }
+  }
+  checkIfNewModelExists(newModelName) {
+    if(this._utilService.isNullOrUndefined(newModelName)) {
+      this._phoneModelService.getPhoneModels().subscribe(phoneBrands => {
+        this.phoneModelsArray = [];
+        phoneBrands.forEach(snapshot => {
+          this.phoneModelsArray.push({label: snapshot.name, value: snapshot.id, phoneId: snapshot.phoneId});
+        });
+        this.newModelNameExists = this._utilService.containsObject(newModelName, this.phoneModelsArray);
+        if(!this.newModelNameExists) {
+          this.phoneModelsArray = this.phoneModelsArray.filter((item) => item.phoneId === 0);
+        }
+      });
+    }
+  }
+  checkIsOtherBrandModel(val) {
     this.isRequired = this._utilService.checkIsOther(val);
     if (this.isRequired) {
+      this.isRequiredModel = false;
       this.phoneListGroup.addControl('newBrand',
-        new FormControl('', Validators.required
+        new FormControl('', Validators.required, this.newBrandNameValidator.bind(this)
         ));
       this.phoneListGroup.addControl('newModel',
-        new FormControl('', Validators.required
+        new FormControl('', Validators.required, this.newModelNameValidator.bind(this)//TODO repiar validation
         ));
     } else {
       this.phoneListGroup.removeControl('newBrand');
       this.phoneListGroup.removeControl('newModel');
     }
+  }
+
+  checkIsOtherModel(val) {
+    this.isRequiredModel = this._utilService.checkIsOther(parseInt(val));
+    if(this.isRequiredModel) {
+      this.phoneListGroup.addControl('newSingleModel',
+        new FormControl('', Validators.required, this.newSingleModelNameValidator.bind(this)//TODO repiar validation
+        ));
+    } else {
+      this.phoneListGroup.removeControl('newSingleModel');
+    }
+  }
+
+  newBrandNameValidator() {
+    const brandNames = this.phoneBrandsArray;
+    return Observable
+      .of(this._utilService.containsObject(this.newBrand.value, brandNames))
+      .map(result => !result ? null : { invalid: true });
+  }
+
+  newModelNameValidator() {
+    const modelNames = this.phoneModelsArray;
+    let modelName = this.newModel.value;
+    return Observable
+      .of(this._utilService.containsObject(modelName, modelNames))
+      .map(result => !result ? null : { invalid: true });
+  }
+
+  newSingleModelNameValidator() {
+    const modelNames = this.phoneModelsArray;
+    let modelName = this.newSingleModel.value;
+    return Observable
+      .of(this._utilService.containsObject(modelName, modelNames))
+      .map(result => !result ? null : { invalid: true });
+  }
+  get newBrand() {
+    //noinspection TypeScriptUnresolvedFunction
+    return this.phoneListGroup.get('newBrand');
+  }
+  get newModel() {
+    //noinspection TypeScriptUnresolvedFunction
+    return this.phoneListGroup.get('newModel');
+  }
+  get newSingleModel() {
+    //noinspection TypeScriptUnresolvedFunction
+    return this.phoneListGroup.get('newSingleModel');
   }
 }
