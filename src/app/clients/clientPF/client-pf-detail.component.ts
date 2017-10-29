@@ -103,12 +103,23 @@ export class ClientPfDetailComponent implements OnInit {
 
   loadPricePerItem() {
     const formModel = this.clientPFForm.value;
+    let totalPrice = 0;
+    for (let i = 0; i < formModel.phoneList.length; i++) {
+      for (let j = 0; j < formModel.phoneList[i].problems.length; j++) {
+        const item = formModel.phoneList[i].problems[j];
+        if(item.pricePerPart !== '') {
+          totalPrice = totalPrice + item.pricePerPart;
+        }
+      }
+    }
+    this.totalPrice = totalPrice;
   }
   prepareSavePhoneList() {
     const formModel = this.clientPFForm.value;
     const PhoneListDeepCopy: PhoneList[] = formModel.phoneList.map(
       (phoneList: PhoneList) => Object.assign({}, phoneList)
     );
+
     this.addNewProblemSynced(formModel);
     this.addNewBrandModelSynced(formModel);
     this.addNewSingleModelSynced(formModel);
@@ -118,6 +129,7 @@ export class ClientPfDetailComponent implements OnInit {
     this.saveClientPF.phoneList = PhoneListDeepCopy;
     this.saveClientPF.phone = formModel.phone;
     this.saveClientPF.aboutUs = formModel.aboutUs;
+    this.saveClientPF.priceOffer = this.totalPrice.toString();
   }
 
   addInPhoneList(): any {
@@ -214,6 +226,7 @@ export class ClientPfDetailComponent implements OnInit {
     });
     this._aboutUsService.getMaxIdFromAboutUs().subscribe(aboutUsItem => {
       this.newAboutUsMaxId = aboutUsItem;
+      this.resetAboutAs();
     });
     this._phoneListService.getMaxIdFromBrands().subscribe(brandMaxId => {
       this.newBrandMaxId = brandMaxId;

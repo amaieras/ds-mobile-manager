@@ -8,9 +8,11 @@ import {Observable} from 'rxjs/Observable';
 export class PhoneListService implements OnInit {
   brandList: AngularFireList<any> = null;
   modelList: AngularFireList<any> = null;
+  partsPrices: AngularFireList<any> = null;
   constructor(private db: AngularFireDatabase, private _utilService: UtilService) {
     this.brandList = this.db.list('phones/phoneBrands');
     this.modelList = this.db.list('phones/phoneModels');
+    this.partsPrices = this.db.list('parts-pf');
   }
   ngOnInit() {
   }
@@ -35,6 +37,14 @@ export class PhoneListService implements OnInit {
     return this.getModelList().take(1).map(item => {
       return this._utilService.getMaxIdNewItems(item);
     });
+  }
+
+  public getPartPrices() {
+    return this.partsPrices.snapshotChanges().map(arr => {
+      //noinspection TypeScriptUnresolvedVariable
+      return arr.map(snap => Object.assign(snap.payload.val(), {$key: snap.key}));
+    });
+
   }
   public addNewBrand(newBrandMaxId: number, brandName: string) {
     this.brandList.push({id: newBrandMaxId , name: brandName});

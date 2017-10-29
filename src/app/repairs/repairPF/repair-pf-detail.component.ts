@@ -66,8 +66,7 @@ export class RepairPFDetailComponent implements OnInit {
   }
 
   getClientsPFList() {
-    this.repairsPF = this.repairPFService
-      .getClientsPFList();
+    this.repairsPF = this.repairPFService.getClientsPFList();
   }
 
   successMessage(lastname, firstname) {

@@ -1,5 +1,5 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {PhoneCascadeService} from '../../../shared/phone-cascade.service';
 import {Observable} from 'rxjs/Observable';
 import {PhoneModelService} from 'app/clients/phone-models/phone-model.service';
@@ -7,7 +7,8 @@ import {ClientPF} from '../../../model/ClientPF';
 import {UtilService} from "../../../utils/util.service";
 import {forbiddenStringInput} from "../../../shared/forbiddenStringInput";
 import {ProblemPrice} from "../../../model/ProblemPrice";
-import {ProblemListService} from "./problem-list/problem-list.service";
+import {PhoneListService} from "./phone-list.service";
+import {ProblemListComponent} from "./problem-list/problem-list.component";
 
 @Component({
   selector: 'app-phone-list',
@@ -17,6 +18,7 @@ import {ProblemListService} from "./problem-list/problem-list.service";
 export class PhoneListComponent implements OnInit {
   @Input('group') phoneListGroup: FormGroup;
   @Output('change') phoneItem = new EventEmitter<any>();
+  @Output() setPartPrice = new EventEmitter();
   @Input('clientPF') clientPF: ClientPF;
   newItem: any;
   mainArray: Array<any> = [];
@@ -28,8 +30,9 @@ export class PhoneListComponent implements OnInit {
   newBrandNameExists = false;
   newModelNameExists = false;
   selectedModel = '1';
+  @ViewChild('problemList') child:ProblemListComponent;
   constructor(private fb: FormBuilder, private _phoneModelService: PhoneModelService, private _utilService: UtilService,
-              private _problemListService: ProblemListService) {
+              private _phoneListService: PhoneListService) {
   }
 
   ngOnInit() {
@@ -54,12 +57,37 @@ export class PhoneListComponent implements OnInit {
       this.phoneModelsArray = this.phoneModelsArray.filter((item) => item.phoneId === 1);
       this.phoneModelsArray.unshift({label: "Altele", value: "0", phoneId: 0});
     });
+    this._phoneListService.getPartPrices().subscribe(parts => {
+      this.problemsPriceList = [];
+      parts.forEach(snapshot => {
+        this.problemsPriceList.push(new ProblemPrice(snapshot.id, snapshot.problemId, snapshot.phoneBrand, snapshot.phoneModel, snapshot.price))
+      })
+
+    })
   }
 
   addProblem() {
     const problemArray = <FormArray>this.phoneListGroup.controls['problems'];
     const newProblem = this.initProblem();
     problemArray.push(newProblem);
+    this._phoneListService.getPartPrices().subscribe(parts => {
+      this.problemsPriceList = [];
+      parts.forEach(snapshot => {
+        this.problemsPriceList.push(new ProblemPrice(snapshot.id, snapshot.problemId, snapshot.phoneBrand, snapshot.phoneModel, snapshot.price))
+      })
+      let firstModelId = this.problemsPriceList.filter(phone =>  phone._phoneBrand.toString() === this.newItem.phoneId.toString()
+        && phone._problemId === 1 )
+      let that = this;
+      const results = this.problemsPriceList.filter(function(part) {
+        return part._phoneBrand.toString() === that.newItem.phoneId.toString()
+          && part._phoneModel === firstModelId[0]._phoneModel
+          && part._problemId === 1
+      })
+      for (let i=0;i< problemArray.length; i++) {
+        const item = <FormGroup>problemArray.at(i)
+        item.patchValue({pricePerPart: results[0]._price})
+      }
+    })
 
   }
 
@@ -79,13 +107,9 @@ export class PhoneListComponent implements OnInit {
   }
 
   onSelect(phoneId) {
-    this._problemListService.getProblemPriceList().subscribe(problemsPriceList => {
-      this.problemsPriceList = [];
-      problemsPriceList.forEach(snapshot => {
-        this.problemsPriceList.push(new ProblemPrice(snapshot.id, snapshot.problemId, snapshot.phoneBrand, snapshot.phoneModel, snapshot.price))
-      })
-      this.problemsPriceList = this.problemsPriceList.filter((item) => item._phoneBrand === phoneId);
-    })
+    const problemArray = this.phoneListGroup.controls['problems'] as FormArray;
+
+    this.setPartPrice.next('calculateTotalPrice');
     this.checkIsOtherBrandModel(phoneId)
     if(this.newModel !== null) {
       this.checkIfNewModelExists(this.newModel.value)
@@ -100,10 +124,47 @@ export class PhoneListComponent implements OnInit {
         this.phoneModelsArray.push({label: "Altele", value: "0", phoneId: 0});
       }
     });
+    let firstModelId = this.problemsPriceList.filter(phone =>  phone._phoneBrand.toString() === this.newItem.phoneId.toString()
+                                                            && phone._problemId === 1 )
+    let that = this;
+    const results = this.problemsPriceList.filter(function(part) {
+      return part._phoneBrand.toString() === that.newItem.phoneId.toString()
+      && part._phoneModel === firstModelId[0]._phoneModel
+      && part._problemId === 1
+    })
+    if(results.length > 0) {
+      for (let i=0;i< problemArray.length; i++) {
+        const item = <FormGroup>problemArray.at(i)
+        if(item.controls['problem'].value.toString() === "1"){
+          item.patchValue({pricePerPart: results[0]._price})
+        } else {
+          item.patchValue({pricePerPart: 0})
+        }
+      }
+    }
+    else {
+      for (let i=0;i< problemArray.length; i++) {
+        const item = <FormGroup>problemArray.at(i)
+        item.patchValue({pricePerPart: 0})
+      }
+    }
   }
 
   onModelSelect(modelId) {
+    const problemArray = this.phoneListGroup.controls['problems'] as FormArray;
     this.checkIsOtherModel(modelId);
+    this.selectedModel = modelId;
+    const items = this.problemsPriceList.filter(phone =>  phone._phoneBrand.toString() === this.newItem.phoneId.toString()
+                                                                  && phone._phoneModel === modelId
+                                                                  && phone._problemId === 1 )
+    for (let i=0;i< problemArray.length; i++) {
+      const item = <FormGroup>problemArray.at(i)
+      if(item.controls['problem'].value.toString() === "1" && items[0] !== undefined){
+        item.patchValue({pricePerPart: items[0]._price})
+      } else {
+        item.patchValue({pricePerPart: 0})
+      }
+    }
   }
   checkIfNewBrandExists(newBrandName) {
     if(this._utilService.isNullOrUndefined(newBrandName)) {

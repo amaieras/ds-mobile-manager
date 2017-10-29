@@ -18,6 +18,7 @@ export class ProblemListComponent implements OnInit {
   problemsList: any = [];
   problems: Array<{}>;
   selectedProblem = '1';
+  partPrice: number;
   problemsPriceList: any = [];
   private isRequired = false;
   private isPresent = false;
@@ -32,6 +33,7 @@ export class ProblemListComponent implements OnInit {
       });
       this.problems = this.problemsList;
     });
+
   }
   newPartNameValidator() {
     const problems = this.problemsList;
@@ -50,7 +52,6 @@ export class ProblemListComponent implements OnInit {
         this.problemsPriceList.push(new ProblemPrice(snapshot.id, snapshot.problemId, snapshot.phoneBrand, snapshot.phoneModel, snapshot.price))
       })
       this.problemsPriceList = this.problemsPriceList.filter((item) => item._problemId === val.selectedProblem);
-      console.log(this.problemsPriceList)
     })
     this.isRequired = this._utilService.checkIsOther(val.selectedProblem);
     if (this.isRequired) {
@@ -63,6 +64,10 @@ export class ProblemListComponent implements OnInit {
     this.changeDetector.detectChanges();
   }
 
+  setPricePart(price){
+    console.log(price + ' child price')
+    this.partPrice = price;
+  }
   get partName() {
     //noinspection TypeScriptUnresolvedFunction
     return this.problemListGroup.get('partName');
