@@ -20,8 +20,8 @@ export class ProblemListComponent implements OnInit {
   selectedProblem = '1';
   partPrice: number;
   problemsPriceList: any = [];
-  private isRequired = false;
-  private isPresent = false;
+  isRequired = false;
+  isPresent = false;
 
   constructor(private _problemListService: ProblemListService, private _utilService: UtilService,
               private changeDetector: ChangeDetectorRef) { }
