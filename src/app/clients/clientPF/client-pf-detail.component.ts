@@ -7,8 +7,8 @@ import {ClientPF} from '../../model/ClientPF';
 import {ClientPFService} from './client-pf-detail.service';
 import {PhoneList} from '../../model/PhoneList';
 import {ProblemListService} from './phone-list/problem-list/problem-list.service';
-import {AboutUsService} from "./phone-list/about-us/about-us.service";
-import {Observable} from "rxjs/Observable";
+import {AboutUsService} from './phone-list/about-us/about-us.service';
+import {Observable} from 'rxjs/Observable';
 import {DropdownModel} from 'app/model/DropdownModel';
 import {PhoneListService} from 'app/clients/clientPF/phone-list/phone-list.service';
 
@@ -31,6 +31,7 @@ export class ClientPfDetailComponent implements OnInit {
   newBrandMaxId: string;
   newModelMaxId: string;
   newAboutUsMaxId: string;
+  partPricesMaxId: string;
   isOtherRequired = false;
   aboutUsValExists = false;
   aboutUsList: any = [];
@@ -93,7 +94,7 @@ export class ClientPfDetailComponent implements OnInit {
     for (let i = 0; i < formModel.phoneList.length; i++) {
       for (let j = 0; j < formModel.phoneList[i].problems.length; j++) {
         const item = formModel.phoneList[i].problems[j];
-        if(item.pricePerPart !== '') {
+        if (item.pricePerPart !== '') {
           totalPrice = totalPrice + item.pricePerPart;
         }
       }
@@ -107,7 +108,7 @@ export class ClientPfDetailComponent implements OnInit {
     for (let i = 0; i < formModel.phoneList.length; i++) {
       for (let j = 0; j < formModel.phoneList[i].problems.length; j++) {
         const item = formModel.phoneList[i].problems[j];
-        if(item.pricePerPart !== '') {
+        if (item.pricePerPart !== '') {
           totalPrice = totalPrice + item.pricePerPart;
         }
       }
@@ -120,16 +121,17 @@ export class ClientPfDetailComponent implements OnInit {
       (phoneList: PhoneList) => Object.assign({}, phoneList)
     );
 
+    this.addNewPartPrice(formModel);
     this.addNewProblemSynced(formModel);
     this.addNewBrandModelSynced(formModel);
     this.addNewSingleModelSynced(formModel);
-    if(this._utilService.isNullOrUndefined(this.newAboutUsMaxId) && this.selectedOtherName !== '') {
-      this._aboutUsService.addNewAboutUs(this.newAboutUsMaxId + 1, this.selectedOtherName)
+    if (this._utilService.isNullOrUndefined(this.newAboutUsMaxId) && this.selectedOtherName !== '') {
+      this._aboutUsService.addNewAboutUs(this.newAboutUsMaxId + 1, this.selectedOtherName);
     }
     this.saveClientPF.phoneList = PhoneListDeepCopy;
     this.saveClientPF.phone = formModel.phone;
     this.saveClientPF.aboutUs = formModel.aboutUs;
-    this.saveClientPF.priceOffer = this.totalPrice.toString();
+    this.saveClientPF.priceOffer = this.totalPrice === null ? '0' : this.totalPrice.toString() ;
   }
 
   addInPhoneList(): any {
@@ -158,6 +160,21 @@ export class ClientPfDetailComponent implements OnInit {
     }
   }
 
+  private addNewPartPrice(formModel: any) {
+    for (let i = 0; i < formModel.phoneList.length; i++) {
+      for (let j = 0; j < formModel.phoneList[i].problems.length; j++) {
+        const phoneItem = formModel.phoneList[i];
+        const problemItem = formModel.phoneList[i].problems[j];
+        if (phoneItem.phoneBrand.toString() === '0' || phoneItem.phoneModel.toString() === '0' || problemItem.problem.toString() === '0') {
+          phoneItem.phoneBrand = phoneItem.phoneBrand === 0 ? this.newBrandMaxId + 1 : phoneItem.phoneBrand;
+          phoneItem.phoneModel = parseInt(phoneItem.phoneModel) === 0 ? this.newModelMaxId + 1 : phoneItem.phoneModel;
+          problemItem.problem = problemItem.problem === 0 ? this.newPrblMaxId + 1 : problemItem.problem;
+          this._clientPFService.addNewPartPrice(this.partPricesMaxId + 1, phoneItem.phoneBrand, parseInt(phoneItem.phoneModel), problemItem.pricePerPart, problemItem.problem)
+        }
+      }
+    }
+  }
+
   private addNewBrandModelSynced(formModel: any) {
     let incrVal = 0;
     for (let i = 0; i < formModel.phoneList.length; i++) {
@@ -165,8 +182,8 @@ export class ClientPfDetailComponent implements OnInit {
         if (item.newBrand !== '' && this._utilService.isNullOrUndefined(item.newBrand)
           && item.newModel !== '' && this._utilService.isNullOrUndefined(item.newModel)) {
           incrVal++;
-          let brandMaxId = parseInt(this.newBrandMaxId) + incrVal;
-          let modelMaxId = parseInt(this.newModelMaxId) + incrVal;
+          const brandMaxId = parseInt(this.newBrandMaxId) + incrVal;
+          const modelMaxId = parseInt(this.newModelMaxId) + incrVal;
           this._phoneListService.addNewBrand(brandMaxId, item.newBrand);
           this._phoneListService.addNewModel(modelMaxId, item.newModel, brandMaxId);
         }
@@ -177,10 +194,10 @@ export class ClientPfDetailComponent implements OnInit {
     let incrVal = 0;
     for (let i = 0; i < formModel.phoneList.length; i++) {
       const item = formModel.phoneList[i];
-      if(item.newSingleModel !== '' && this._utilService.isNullOrUndefined(item.newSingleModel)) {
+      if (item.newSingleModel !== '' && this._utilService.isNullOrUndefined(item.newSingleModel)) {
         incrVal++;
-        let brandId = item.phoneBrand;
-        let modelMaxId = parseInt(this.newModelMaxId) + incrVal;
+        const brandId = item.phoneBrand;
+        const modelMaxId = parseInt(this.newModelMaxId) + incrVal;
         this._phoneListService.addNewModel(modelMaxId, item.newSingleModel, brandId);
       }
     }
@@ -233,7 +250,9 @@ export class ClientPfDetailComponent implements OnInit {
     });
     this._phoneListService.getMaxIdFromModels().subscribe(modelMaxId => {
       this.newModelMaxId = modelMaxId;
-
+    });
+    this._clientPFService.getMaxIdFromPartsList().subscribe(partPriceMaxId => {
+      this.partPricesMaxId = partPriceMaxId;
     });
   }
 
@@ -282,7 +301,7 @@ export class ClientPfDetailComponent implements OnInit {
     }
   }
   checkIfAboutUsExists(newValue) {
-    if(this._utilService.isNullOrUndefined(newValue)) {
+    if (this._utilService.isNullOrUndefined(newValue)) {
       this.aboutUsValExists = this._utilService.containsObject(newValue, this.aboutUsList);
     }
   }

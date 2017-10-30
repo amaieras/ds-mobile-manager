@@ -30,7 +30,6 @@ export class PhoneListComponent implements OnInit {
   newBrandNameExists = false;
   newModelNameExists = false;
   selectedModel = '1';
-  @ViewChild('problemList') child:ProblemListComponent;
   constructor(private fb: FormBuilder, private _phoneModelService: PhoneModelService, private _utilService: UtilService,
               private _phoneListService: PhoneListService) {
   }
@@ -73,21 +72,23 @@ export class PhoneListComponent implements OnInit {
     this._phoneListService.getPartPrices().subscribe(parts => {
       this.problemsPriceList = [];
       parts.forEach(snapshot => {
-        this.problemsPriceList.push(new ProblemPrice(snapshot.id, snapshot.problemId, snapshot.phoneBrand, snapshot.phoneModel, snapshot.price))
+        this.problemsPriceList.push(new ProblemPrice(snapshot.id, snapshot.problemId, snapshot.phoneBrand, snapshot.phoneModel, snapshot.price));
       })
-      let firstModelId = this.problemsPriceList.filter(phone =>  phone._phoneBrand.toString() === this.newItem.phoneId.toString()
+      const firstModelId = this.problemsPriceList.filter(phone =>  phone._phoneBrand.toString() === this.newItem.phoneId.toString()
         && phone._problemId === 1 )
-      let that = this;
-      const results = this.problemsPriceList.filter(function(part) {
-        return part._phoneBrand.toString() === that.newItem.phoneId.toString()
-          && part._phoneModel === firstModelId[0]._phoneModel
-          && part._problemId === 1
+      const that = this;
+      problemArray.controls.forEach(item => {
+        const results = this.problemsPriceList.filter(function (part) {
+          return part._phoneBrand.toString() === that.newItem.phoneId.toString()
+            && part._phoneModel === firstModelId[0]._phoneModel
+            && part._problemId === item.value.problem.toString();
+        })
+        for (let i = 0; i < problemArray.length; i++) {
+          const itemInput = <FormGroup>problemArray.at(i)
+          itemInput.patchValue({pricePerPart: results[0]._price});
+        }
       })
-      for (let i=0;i< problemArray.length; i++) {
-        const item = <FormGroup>problemArray.at(i)
-        item.patchValue({pricePerPart: results[0]._price})
-      }
-    })
+    });
 
   }
 
@@ -124,28 +125,27 @@ export class PhoneListComponent implements OnInit {
         this.phoneModelsArray.push({label: "Altele", value: "0", phoneId: 0});
       }
     });
-    let firstModelId = this.problemsPriceList.filter(phone =>  phone._phoneBrand.toString() === this.newItem.phoneId.toString()
-                                                            && phone._problemId === 1 )
-    let that = this;
-    const results = this.problemsPriceList.filter(function(part) {
-      return part._phoneBrand.toString() === that.newItem.phoneId.toString()
-      && part._phoneModel === firstModelId[0]._phoneModel
-      && part._problemId === 1
-    })
-    if(results.length > 0) {
-      for (let i=0;i< problemArray.length; i++) {
-        const item = <FormGroup>problemArray.at(i)
-        if(item.controls['problem'].value.toString() === "1"){
-          item.patchValue({pricePerPart: results[0]._price})
+
+    for (let i=0; i < problemArray.length; i++) {
+      const that = this;
+      const itemInput = <FormGroup>problemArray.at(i)
+      const firstModelId = this.problemsPriceList.filter(phone =>  phone._phoneBrand.toString() === this.newItem.phoneId.toString()
+                                                                && phone._problemId === parseInt(itemInput.controls['problem'].value))
+
+      const firsModelOfBrand = firstModelId[0] === undefined ? null : firstModelId[0]._phoneModel;
+      const results = this.problemsPriceList.filter(function(part) {
+        return part._phoneBrand.toString() === that.newItem.phoneId.toString()
+          && part._phoneModel === firsModelOfBrand
+          && part._problemId === parseInt(itemInput.controls['problem'].value);
+      })
+      if(results.length > 0) {
+        if (results[0] !== undefined) {
+          itemInput.controls['pricePerPart'].setValue(results[0]._price)
         } else {
-          item.patchValue({pricePerPart: 0})
+          itemInput.controls['pricePerPart'].setValue(0)
         }
-      }
-    }
-    else {
-      for (let i=0;i< problemArray.length; i++) {
-        const item = <FormGroup>problemArray.at(i)
-        item.patchValue({pricePerPart: 0})
+      } else {
+          itemInput.controls['pricePerPart'].setValue(0);
       }
     }
   }
@@ -154,15 +154,18 @@ export class PhoneListComponent implements OnInit {
     const problemArray = this.phoneListGroup.controls['problems'] as FormArray;
     this.checkIsOtherModel(modelId);
     this.selectedModel = modelId;
-    const items = this.problemsPriceList.filter(phone =>  phone._phoneBrand.toString() === this.newItem.phoneId.toString()
-                                                                  && phone._phoneModel === modelId
-                                                                  && phone._problemId === 1 )
-    for (let i=0;i< problemArray.length; i++) {
-      const item = <FormGroup>problemArray.at(i)
-      if(item.controls['problem'].value.toString() === "1" && items[0] !== undefined){
-        item.patchValue({pricePerPart: items[0]._price})
+    const that = this;
+    for (let i=0; i < problemArray.length; i++) {
+      const itemInput = <FormGroup>problemArray.at(i)
+      const items = this.problemsPriceList.filter(phone => {
+        return phone._phoneBrand.toString() === that.newItem.phoneId.toString()
+          && phone._phoneModel === modelId
+          && phone._problemId.toString() === itemInput.controls['problem'].value.toString();
+      })
+      if (items[0] !== undefined) {
+        itemInput.controls['pricePerPart'].setValue(items[0]._price)
       } else {
-        item.patchValue({pricePerPart: 0})
+        itemInput.controls['pricePerPart'].setValue(0);
       }
     }
   }
@@ -193,7 +196,7 @@ export class PhoneListComponent implements OnInit {
         new FormControl('', Validators.required, this.newBrandNameValidator.bind(this)
         ));
       this.phoneListGroup.addControl('newModel',
-        new FormControl('', Validators.required, this.newModelNameValidator.bind(this)//TODO repiar validation
+        new FormControl('', Validators.required, this.newModelNameValidator.bind(this)
         ));
     } else {
       this.phoneListGroup.removeControl('newBrand');
@@ -205,7 +208,7 @@ export class PhoneListComponent implements OnInit {
     this.isRequiredModel = this._utilService.checkIsOther(parseInt(val));
     if(this.isRequiredModel) {
       this.phoneListGroup.addControl('newSingleModel',
-        new FormControl('', Validators.required, this.newSingleModelNameValidator.bind(this)//TODO repiar validation
+        new FormControl('', Validators.required, this.newSingleModelNameValidator.bind(this)
         ));
     } else {
       this.phoneListGroup.removeControl('newSingleModel');
@@ -221,7 +224,7 @@ export class PhoneListComponent implements OnInit {
 
   newModelNameValidator() {
     const modelNames = this.phoneModelsArray;
-    let modelName = this.newModel.value;
+    const modelName = this.newModel.value;
     return Observable
       .of(this._utilService.containsObject(modelName, modelNames))
       .map(result => !result ? null : { invalid: true });
@@ -229,7 +232,7 @@ export class PhoneListComponent implements OnInit {
 
   newSingleModelNameValidator() {
     const modelNames = this.phoneModelsArray;
-    let modelName = this.newSingleModel.value;
+    const modelName = this.newSingleModel.value;
     return Observable
       .of(this._utilService.containsObject(modelName, modelNames))
       .map(result => !result ? null : { invalid: true });
