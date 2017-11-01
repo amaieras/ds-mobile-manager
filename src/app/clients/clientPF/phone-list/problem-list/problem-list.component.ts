@@ -2,7 +2,6 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import {UtilService} from '../../../../utils/util.service';
 import {DropdownModel} from '../../../../model/DropdownModel';
-import {ClientPF} from '../../../../model/ClientPF';
 import {Observable} from 'rxjs/Observable';
 import {ProblemListService} from './problem-list.service';
 import {ProblemPrice} from "../../../../model/ProblemPrice";
@@ -14,8 +13,6 @@ import {ProblemPrice} from "../../../../model/ProblemPrice";
 })
 export class ProblemListComponent implements OnInit {
   @Input('group') problemListGroup: FormGroup;
-  @Input('phoneBrand') phoneBrand: number;
-  @Input('phoneModel') phoneModel: number;
   problemsList: any = [];
   problems: Array<{}>;
   selectedProblem = '1';
@@ -65,10 +62,6 @@ export class ProblemListComponent implements OnInit {
     this.changeDetector.detectChanges();
   }
 
-  setPricePart(price){
-    console.log(price + ' child price')
-    this.partPrice = price;
-  }
   get partName() {
     //noinspection TypeScriptUnresolvedFunction
     return this.problemListGroup.get('partName');

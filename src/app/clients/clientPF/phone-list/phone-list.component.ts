@@ -2,13 +2,11 @@ import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angula
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {PhoneCascadeService} from '../../../shared/phone-cascade.service';
 import {Observable} from 'rxjs/Observable';
-import {PhoneModelService} from 'app/clients/phone-models/phone-model.service';
 import {ClientPF} from '../../../model/ClientPF';
 import {UtilService} from "../../../utils/util.service";
 import {forbiddenStringInput} from "../../../shared/forbiddenStringInput";
 import {ProblemPrice} from "../../../model/ProblemPrice";
 import {PhoneListService} from "./phone-list.service";
-import {ProblemListComponent} from "./problem-list/problem-list.component";
 
 @Component({
   selector: 'app-phone-list',
@@ -18,7 +16,6 @@ import {ProblemListComponent} from "./problem-list/problem-list.component";
 export class PhoneListComponent implements OnInit {
   @Input('group') phoneListGroup: FormGroup;
   @Output('change') phoneItem = new EventEmitter<any>();
-  @Output() setPartPrice = new EventEmitter();
   @Input('clientPF') clientPF: ClientPF;
   newItem: any;
   mainArray: Array<any> = [];
@@ -30,39 +27,46 @@ export class PhoneListComponent implements OnInit {
   newBrandNameExists = false;
   newModelNameExists = false;
   selectedModel = '1';
-  constructor(private fb: FormBuilder, private _phoneModelService: PhoneModelService, private _utilService: UtilService,
+  constructor(private fb: FormBuilder, private _utilService: UtilService,
               private _phoneListService: PhoneListService) {
   }
 
   ngOnInit() {
+    this.populateAllDropDowns();
+    this.initBrandModelList();
+  }
+
+  private populateAllDropDowns() {
+    this._phoneListService.getBrandList().subscribe(phoneModels => {
+      this.phoneBrandsArray = [];
+      phoneModels.forEach(snapshot => {
+        this.phoneBrandsArray.push({label: snapshot.name, value: snapshot.id});
+      });
+    });
+    this._phoneListService.getModelList().subscribe(phoneBrands => {
+      this.phoneModelsArray = [];
+      phoneBrands.forEach(snapshot => {
+        this.phoneModelsArray.push({label: snapshot.name, value: snapshot.id, phoneId: snapshot.phoneId});
+      });
+      this.phoneModelsArray = this.phoneModelsArray.filter((item) => item.phoneId === 1);
+      //Add as first value of model dropdown 'Altele' so after each change on brand dropdown value, this value will appear first
+      this.phoneModelsArray.unshift({label: "Altele", value: "0", phoneId: 0});
+    });
+    // this._phoneListService.getPartPrices().subscribe(parts => {
+    //   this.problemsPriceList = [];
+    //   parts.forEach(snapshot => {
+    //     this.problemsPriceList.push(new ProblemPrice(snapshot.id, snapshot.problemId, snapshot.phoneBrand, snapshot.phoneModel, snapshot.price))
+    //   })
+    // })
+  }
+
+  private initBrandModelList() {
     this.newItem = {
       phoneId: 1,
       modelId: 1
     };
     this.mainArray.push((this.newItem));
     this.addProblem();
-
-    this._phoneModelService.getPhoneBrands().subscribe(phoneModels => {
-      this.phoneBrandsArray = [];
-      phoneModels.forEach(snapshot => {
-        this.phoneBrandsArray.push({label: snapshot.name, value: snapshot.id});
-      });
-    });
-    this._phoneModelService.getPhoneModels().subscribe(phoneBrands => {
-      this.phoneModelsArray = [];
-      phoneBrands.forEach(snapshot => {
-        this.phoneModelsArray.push({label: snapshot.name, value: snapshot.id, phoneId: snapshot.phoneId});
-      });
-      this.phoneModelsArray = this.phoneModelsArray.filter((item) => item.phoneId === 1);
-      this.phoneModelsArray.unshift({label: "Altele", value: "0", phoneId: 0});
-    });
-    this._phoneListService.getPartPrices().subscribe(parts => {
-      this.problemsPriceList = [];
-      parts.forEach(snapshot => {
-        this.problemsPriceList.push(new ProblemPrice(snapshot.id, snapshot.problemId, snapshot.phoneBrand, snapshot.phoneModel, snapshot.price))
-      })
-
-    })
   }
 
   addProblem() {
@@ -110,12 +114,11 @@ export class PhoneListComponent implements OnInit {
   onSelect(phoneId) {
     const problemArray = this.phoneListGroup.controls['problems'] as FormArray;
 
-    this.setPartPrice.next('calculateTotalPrice');
     this.checkIsOtherBrandModel(phoneId)
     if(this.newModel !== null) {
       this.checkIfNewModelExists(this.newModel.value)
     }
-    this._phoneModelService.getPhoneModels().subscribe(phoneBrands => {
+    this._phoneListService.getModelList().subscribe(phoneBrands => {
       this.phoneModelsArray = [];
       phoneBrands.forEach(snapshot => {
         this.phoneModelsArray.push({label: snapshot.name, value: snapshot.id, phoneId: snapshot.phoneId});
@@ -176,7 +179,7 @@ export class PhoneListComponent implements OnInit {
   }
   checkIfNewModelExists(newModelName) {
     if(this._utilService.isNullOrUndefined(newModelName)) {
-      this._phoneModelService.getPhoneModels().subscribe(phoneBrands => {
+      this._phoneListService.getModelList().subscribe(phoneBrands => {
         this.phoneModelsArray = [];
         phoneBrands.forEach(snapshot => {
           this.phoneModelsArray.push({label: snapshot.name, value: snapshot.id, phoneId: snapshot.phoneId});

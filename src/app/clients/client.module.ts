@@ -10,11 +10,7 @@ import { ClientPfDetailComponent } from './clientPF/client-pf-detail.component';
 import { ClientPFService } from './clientPF/client-pf-detail.service';
 import { ClientGSMDetailComponent } from './clientGSM/client-gsm-detail.component';
 import { ClientGSMService } from './clientGSM/client-gsm-detail.service';
-import {PhoneModelService} from './phone-models/phone-model.service';
 import {UtilService} from '../utils/util.service';
-import {
-  PhoneModelCascadingListComponent
-} from './phone-models/phone-model-cascading-list.component';
 import {PhoneListComponent} from './clientPF/phone-list/phone-list.component';
 import {ProblemListComponent} from './clientPF/phone-list/problem-list/problem-list.component';
 import {ProblemGSMListComponent} from './clientGSM/phone-gsm-list/problem-gsm-list/problem-gsm-list.component';
@@ -43,7 +39,6 @@ import {PhoneListService} from "./clientPF/phone-list/phone-list.service";
     ClientTypeListComponent,
     ClientPfDetailComponent,
     ClientGSMDetailComponent,
-    PhoneModelCascadingListComponent,
     PhoneListComponent,
     ProblemListComponent,
     ProblemGSMListComponent,
@@ -55,7 +50,6 @@ import {PhoneListService} from "./clientPF/phone-list/phone-list.service";
     ClientTypeService,
     ClientPFService,
     ClientGSMService,
-    PhoneModelService,
     UtilService,
     ProblemListService,
     ClientTypeService,

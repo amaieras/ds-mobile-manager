@@ -71,7 +71,6 @@ export class ClientPfDetailComponent implements OnInit {
     });
     this.aboutUsList.push({label: 'Altele', value: 'Altele'});
     this.initForm();
-    // this.loadPricePerItem();
 
   }
   onSubmit(event: Event) {
@@ -102,19 +101,6 @@ export class ClientPfDetailComponent implements OnInit {
     this.totalPrice = totalPrice;
   }
 
-  loadPricePerItem() {
-    const formModel = this.clientPFForm.value;
-    let totalPrice = 0;
-    for (let i = 0; i < formModel.phoneList.length; i++) {
-      for (let j = 0; j < formModel.phoneList[i].problems.length; j++) {
-        const item = formModel.phoneList[i].problems[j];
-        if (item.pricePerPart !== '') {
-          totalPrice = totalPrice + item.pricePerPart;
-        }
-      }
-    }
-    this.totalPrice = totalPrice;
-  }
   prepareSavePhoneList() {
     const formModel = this.clientPFForm.value;
     const PhoneListDeepCopy: PhoneList[] = formModel.phoneList.map(
@@ -146,7 +132,7 @@ export class ClientPfDetailComponent implements OnInit {
   }
 
   private addNewProblemSynced(formModel: any) {
-    //used to increment part id when new part is added
+    //used to increment part id when new part is added based on how many phone and problem components are present
     let incrVal = 0;
     for (let i = 0; i < formModel.phoneList.length; i++) {
       for (let j = 0; j < formModel.phoneList[i].problems.length; j++) {
