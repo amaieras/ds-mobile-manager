@@ -4,6 +4,7 @@ import { RepairPFDetailService } from "./repair-pf-detail.service"
 import { SelectItem, Message } from "primeng/primeng";
 import {Observable} from "rxjs/Observable";
 import {ClientPF} from "../../model/ClientPF";
+import {UtilService} from "../../utils/util.service";
 
 @Component({
   selector: 'repair-pf-detail',
@@ -15,7 +16,7 @@ export class RepairPFDetailComponent implements OnInit {
   msgs:Message[] = [];
   columnOptions:SelectItem[];
 
-  constructor(private repairPFService:RepairPFDetailService) {
+  constructor(private repairPFService:RepairPFDetailService, private _utilService: UtilService) {
   }
 
   ngOnInit() {
@@ -43,21 +44,21 @@ export class RepairPFDetailComponent implements OnInit {
   }
 
   updateField(event) {
-    if (this.check(event.data.lastname)) {
+    if (this._utilService.isNullOrUndefined(event.data.lastname)) {
       this.repairPFService.updateItem(event.data.$key, {lastname: event.data.lastname});
     }
-    if (this.check(event.data.firstname)) {
+    if (this._utilService.isNullOrUndefined(event.data.firstname)) {
       this.repairPFService.updateItem(event.data.$key, {firstname: event.data.firstname});
     }
-    if (this.check(event.data.firm)) {
+    if (this._utilService.isNullOrUndefined(event.data.firm)) {
       this.repairPFService.updateItem(event.data.$key, {firm: event.data.firm});
     }
     this.repairPFService.updateItem(event.data.$key, {phone: event.data.phone});
-    if (this.check(event.data.phoneModel)) {
+    if (this._utilService.isNullOrUndefined(event.data.phoneModel)) {
       this.repairPFService.updateItem(event.data.$key, {phoneModel: event.data.phoneModel});
     }
     this.repairPFService.updateItem(event.data.$key, {problem: event.data.problem});
-    if (this.check(event.data.imei)) {
+    if (this._utilService.isNullOrUndefined(event.data.imei)) {
       this.repairPFService.updateItem(event.data.$key, {imei: event.data.imei});
     }
     this.repairPFService.updateItem(event.data.$key, {priceOffer: event.data.priceOffer});
@@ -67,6 +68,11 @@ export class RepairPFDetailComponent implements OnInit {
 
   getClientsPFList() {
     this.repairsPF = this.repairPFService.getClientsPFList();
+    this.repairsPF.subscribe( repair => {
+      repair.forEach(item => {
+        console.log(item.aboutUs)
+      })
+    })
   }
 
   successMessage(lastname, firstname) {
@@ -78,19 +84,5 @@ export class RepairPFDetailComponent implements OnInit {
     });
   }
 
-  check(x) {
-    if (x == null) {
-      return false;
-    }
-
-    if (x === null) {
-      return false;
-    }
-
-    if (typeof x === 'undefined') {
-      return false;
-    }
-    return true;
-  }
 
 }

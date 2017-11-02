@@ -20,6 +20,7 @@ import {PhoneCascadeService} from '../shared/phone-cascade.service';
 import {AboutUsService} from 'app/clients/clientPF/phone-list/about-us/about-us.service';
 import {ClientGSMDisplayComponent} from "./clientGSMDisplay/client-gsm-display.component";
 import {PhoneListService} from "./clientPF/phone-list/phone-list.service";
+import {PrintReceiptComponent} from "../print/print-receipt.component";
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import {PhoneListService} from "./clientPF/phone-list/phone-list.service";
     ProblemListComponent,
     ProblemGSMListComponent,
     PhoneGSMListComponent,
-    ClientGSMDisplayComponent
+    ClientGSMDisplayComponent,
+    PrintReceiptComponent
 
   ],
   providers: [

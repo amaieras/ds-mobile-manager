@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { Message, SelectItem } from 'primeng/primeng';
 import {UtilService} from '../../utils/util.service';
@@ -11,6 +11,7 @@ import {AboutUsService} from './phone-list/about-us/about-us.service';
 import {Observable} from 'rxjs/Observable';
 import {DropdownModel} from 'app/model/DropdownModel';
 import {PhoneListService} from 'app/clients/clientPF/phone-list/phone-list.service';
+import {PrintReceiptComponent} from "../../print/print-receipt.component";
 
 
 @Component({
@@ -35,9 +36,11 @@ export class ClientPfDetailComponent implements OnInit {
   isOtherRequired = false;
   aboutUsValExists = false;
   aboutUsList: any = [];
-  selectedAboutUs = '1';
+  selectedAboutUs = 'FACEBOOK';
   selectedOtherName = '';
   totalPrice = 0;
+  @ViewChild(PrintReceiptComponent ) child: PrintReceiptComponent;
+
   constructor(private _clientPFService: ClientPFService, private fb: FormBuilder,
               private _utilService: UtilService, private _problemListService: ProblemListService,
               private _aboutUsService: AboutUsService, private _phoneListService: PhoneListService) {
@@ -71,7 +74,6 @@ export class ClientPfDetailComponent implements OnInit {
     });
     this.aboutUsList.push({label: 'Altele', value: 'Altele'});
     this.initForm();
-
   }
   onSubmit(event: Event) {
     this.prepareSavePhoneList();
@@ -290,6 +292,9 @@ export class ClientPfDetailComponent implements OnInit {
     if (this._utilService.isNullOrUndefined(newValue)) {
       this.aboutUsValExists = this._utilService.containsObject(newValue, this.aboutUsList);
     }
+  }
+  print() {
+    this.child.printPDF();
   }
 
   successMessage() {

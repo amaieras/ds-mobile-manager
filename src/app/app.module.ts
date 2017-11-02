@@ -18,6 +18,7 @@ import { ClientCenterRoutingModule } from './clients/client-center-routing.modul
 import 'hammerjs';
 import {RepairModule} from './repairs/repair.module';
 import {RepairCenterRoutingModule} from './repairs/repair-center-routing.module';
+import {ClientPfDetailComponent} from "./clients/clientPF/client-pf-detail.component";
 
 export const firebaseConfigProd = {
   apiKey: 'AIzaSyAexP1Haz3RsxHqPX--XncgC1Rxef_wMDA',
@@ -57,7 +58,7 @@ export const firebaseConfig = {
             path: '', redirectTo: '/client', pathMatch: 'full'
         }]),
         //firebase
-        AngularFireModule.initializeApp(firebaseConfigProd),
+        AngularFireModule.initializeApp(firebaseConfig),
         AngularFireDatabaseModule,
         AngularFireAuthModule,
     ],

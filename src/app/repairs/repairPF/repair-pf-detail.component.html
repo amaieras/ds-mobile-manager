@@ -30,6 +30,8 @@
           <span [style.color]="appointment[col.field]">{{appointment[col.field] | date:"dd-MM-yyyy HH:mm"}}</span>
         </ng-template>
       </p-column>
-      <p-column field="aboutUs" header="Cum a aflat de noi" [sortable]="true" [filter]="true" [editable]="true"></p-column>
+      <p-column field="aboutUs" header="Cum a aflat de noi" [sortable]="true" [filter]="true" [editable]="true">
+      </p-column>
     </p-dataTable>
 </div>
+
