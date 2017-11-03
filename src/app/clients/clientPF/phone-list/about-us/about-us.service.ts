@@ -6,7 +6,7 @@ import {UtilService} from "../../../../utils/util.service";
 @Injectable()
 export class AboutUsService {
   aboutUsList: AngularFireList<any> = null;
-  item:  Observable<any>;   //   single object
+  item:  Observable<string>;
   constructor(private db: AngularFireDatabase, private _utilService: UtilService) {
     this.aboutUsList = this.db.list('aboutus-list');
   }
@@ -25,8 +25,13 @@ export class AboutUsService {
   public addNewAboutUs(newAboutUsMaxId: string, aboutUsVal: string) {
     this.aboutUsList.push({id: newAboutUsMaxId , name: aboutUsVal});
   }
-  public getAboutUsById(key: string) {
-    const itemPath = `'aboutus-list'/${key}`;
-    // this.item = this.db.object()
+  public getAboutUsById(id: number): Observable<any>{
+    return this.getAboutUsList().take(1).map(items => {
+      items.filter( a => +a.id === +id)
+        .map(cs => {
+          return this.item = cs.name
+        });
+      return this.item;
+    });
   }
 }

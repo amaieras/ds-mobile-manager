@@ -5,6 +5,7 @@ import { SelectItem, Message } from "primeng/primeng";
 import {Observable} from "rxjs/Observable";
 import {ClientPF} from "../../model/ClientPF";
 import {UtilService} from "../../utils/util.service";
+import {AboutUsService} from "../../clients/clientPF/phone-list/about-us/about-us.service";
 
 @Component({
   selector: 'repair-pf-detail',
@@ -16,7 +17,7 @@ export class RepairPFDetailComponent implements OnInit {
   msgs:Message[] = [];
   columnOptions:SelectItem[];
 
-  constructor(private repairPFService:RepairPFDetailService, private _utilService: UtilService) {
+  constructor(private repairPFService:RepairPFDetailService, private _utilService: UtilService, private _aboutUsService: AboutUsService) {
   }
 
   ngOnInit() {
@@ -67,12 +68,15 @@ export class RepairPFDetailComponent implements OnInit {
   }
 
   getClientsPFList() {
-    this.repairsPF = this.repairPFService.getClientsPFList();
-    this.repairsPF.subscribe( repair => {
-      repair.forEach(item => {
-        console.log(item.aboutUs)
-      })
-    })
+    this.repairPFService.getClientsPFList().subscribe(a => {
+      a.forEach(bc => {
+        this._aboutUsService.getAboutUsById(+bc.aboutUs).subscribe(as => {
+          return bc.aboutUs = as;
+        })
+      });
+      this.repairsPF = Observable.of(a);
+      return this.repairsPF;
+    });
   }
 
   successMessage(lastname, firstname) {

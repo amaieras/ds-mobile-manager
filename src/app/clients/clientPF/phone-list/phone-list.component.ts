@@ -52,12 +52,6 @@ export class PhoneListComponent implements OnInit {
       //Add as first value of model dropdown 'Altele' so after each change on brand dropdown value, this value will appear first
       this.phoneModelsArray.unshift({label: "Altele", value: "0", phoneId: 0});
     });
-    // this._phoneListService.getPartPrices().subscribe(parts => {
-    //   this.problemsPriceList = [];
-    //   parts.forEach(snapshot => {
-    //     this.problemsPriceList.push(new ProblemPrice(snapshot.id, snapshot.problemId, snapshot.phoneBrand, snapshot.phoneModel, snapshot.price))
-    //   })
-    // })
   }
 
   private initBrandModelList() {

@@ -294,7 +294,7 @@ export class ClientPfDetailComponent implements OnInit {
     }
   }
   print() {
-    this.child.printPDF();
+    this.child.print();
   }
 
   successMessage() {

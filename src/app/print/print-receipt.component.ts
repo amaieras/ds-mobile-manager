@@ -5,27 +5,24 @@ import {PdfmakeService} from "ng-pdf-make";
 
 @Component({
   selector: 'app-print-receipt',
-  templateUrl: 'print-receipt.component.html'
+  templateUrl: 'print-receipt.component.html',
+  styleUrls: ['print-receipt.component.scss']
 })
 export class PrintReceiptComponent implements OnInit {
 
   constructor() {  }
 
   ngOnInit() {
-    // Configure text styles
-    // this.pdfmake.configureStyles({ header: { fontSize: 18, bold: true } });
-    // // Add simple text
-    // this.pdfmake.addText('This is an sample PDF printed with pdfMake');
-
-
+     console.log()
   }
 
-  openPDF() {
-    let doc = new jsPDF();
-    doc.text(20,20,'<h1>Hello world</h1>');
-    doc.save('Test.pdf');
+  print() {
+    let popupWinindow
+    let innerContents = document.getElementById("print-section").innerHTML;
+    popupWinindow = window.open('', '_blank', 'width=600,height=700,scrollbars=no,menubar=no,toolbar=no,location=no,status=no,titlebar=no');
+    popupWinindow.document.open();
+    popupWinindow.document.write('<body onload="window.print()">' + innerContents );
+    popupWinindow.document.close();
   }
-  printPDF(){
-    // this.pdfmake.open()
-  }
+
 }
