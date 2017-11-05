@@ -134,7 +134,7 @@
       <button type="button" class="btn btn-default"
               [disabled]="false" (click)="print()">Printeaza
       </button>
-      <app-print-receipt></app-print-receipt>
+      <app-print-receipt [clientPF]="clientPFForm" [totalPrice]="totalPrice"></app-print-receipt>
     </div>
   </form>
 </div>

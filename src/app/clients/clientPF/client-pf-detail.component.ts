@@ -13,7 +13,6 @@ import {DropdownModel} from 'app/model/DropdownModel';
 import {PhoneListService} from 'app/clients/clientPF/phone-list/phone-list.service';
 import {PrintReceiptComponent} from "../../print/print-receipt.component";
 
-
 @Component({
   selector: 'app-client-pf-detail',
   templateUrl: './client-pf-detail.component.html',

@@ -3,7 +3,6 @@ import {AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import {UtilService} from '../../utils/util.service';
 import {ClientPF} from '../../model/ClientPF';
 import {Observable} from "rxjs/Observable";
-import {ProblemPrice} from "../../model/ProblemPrice";
 
 
 
@@ -34,7 +33,6 @@ export class ClientPFService {
   }
   public addNewPartPrice(id, phoneBrand, phoneModel, price, problemId) {
     this.partPrices.push({id, problemId, phoneBrand, phoneModel, price});
-    console.log()
   }
 }
 

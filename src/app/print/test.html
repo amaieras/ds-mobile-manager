@@ -1,4 +1,12 @@
-<div id="print-section" class="container" style="display: none">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+  <link rel="stylesheet" type="text/css" href="print-receipt.component.css" />
+  <!--<link rel="stylesheet" href="https://unpkg.com/bootstrap@3.3.7/dist/css/bootstrap.min.css">-->
+</head>
+<body>
+<div id="print-section" class="container">
   <div class="inner-container">
     <div class="col-md-3">
       <h3 class="title-epmhasis">Punct Service</h3>
@@ -84,15 +92,15 @@
     <div class="col-md-3 col-md-offset-6" style="width: 100%">
       <h4 class="title-epmhasis">FISA CLIENT</h4>
     </div>
-    <div class="col-md-4" style="margin-bottom: 5px;">
-      <span class="title-epmhasis">Nume client:</span><span class="input-data"> {{warrantyInfo.lastname}} {{warrantyInfo.firstname}}</span>
-    </div>
-    <div class="col-md-3 col-md-offset-5">
-      <span class="title-epmhasis">Data intrare:</span><span class="input-data">{{warrantyInfo.dayAdded}}</span>/<span class="input-data">{{warrantyInfo.monthAdded}}</span>/<span class="input-data">{{warrantyInfo.yearAdded}}</span>
-    </div>
-    <div class="col-md-3">
-      <span class="title-epmhasis">Provenienta client:</span>
-    </div>
+      <div class="col-md-4" style="margin-bottom: 5px;">
+        <span class="title-epmhasis">Nume client:</span>
+      </div>
+      <div class="col-md-3 col-md-offset-5">
+        <span class="title-epmhasis">Data intrare:</span>
+      </div>
+      <div class="col-md-3">
+        <span class="title-epmhasis">Provenienta client:</span>
+      </div>
     <table class="table table-bordered">
       <thead>
       <tr>
@@ -107,16 +115,16 @@
       <tbody>
       <tr>
         <td>Display</td>
-        <td><span class="input-data">{{warrantyInfo.phoneColor}}</span></td>
-        <td>1</td>
+        <td>Culoare</td>
+        <td>Cantitate</td>
         <td>Testat</td>
-        <td><span class="input-data">{{warrantyInfo.observation}}</span></td>
-        <td><span class="input-data">{{warrantyInfo.price}} RON</span></td>
+        <td>Observatii</td>
+        <td>Pret</td>
       </tr>
       </tbody>
     </table>
     <div class="col-md-3">
-      <span class="title-epmhasis">Nr tel:</span><span class="input-data"> {{warrantyInfo.phoneNumber}}</span>
+      <span class="title-epmhasis">Nr tel:</span>
     </div>
     <div class="col-md-3">
       <span class="title-epmhasis">Semnatura:</span>
@@ -129,3 +137,6 @@
     </div>
   </div>
 </div>
+
+</body>
+</html>

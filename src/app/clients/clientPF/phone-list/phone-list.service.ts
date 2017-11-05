@@ -9,6 +9,7 @@ export class PhoneListService implements OnInit {
   brandList: AngularFireList<any> = null;
   modelList: AngularFireList<any> = null;
   partsPrices: AngularFireList<any> = null;
+  item:  Observable<string>;l;
   constructor(private db: AngularFireDatabase, private _utilService: UtilService) {
     this.brandList = this.db.list('phones/phoneBrands');
     this.modelList = this.db.list('phones/phoneModels');
@@ -26,6 +27,24 @@ export class PhoneListService implements OnInit {
     return this.modelList.snapshotChanges().map(arr => {
       //noinspection TypeScriptUnresolvedVariable
       return arr.map(snap => Object.assign(snap.payload.val(), {$key: snap.key}));
+    });
+  }
+  public getBrandNameById(id: number): Observable<any>{
+    return this.getBrandList().take(1).map(items => {
+      items.filter( a => +a.id === +id)
+        .map(cs => {
+          return this.item = cs.name
+        });
+      return this.item;
+    });
+  }
+  public getModelNameById(id: number): Observable<any>{
+    return this.getModelList().take(1).map(items => {
+      items.filter( a => +a.id === +id)
+        .map(cs => {
+          return this.item = cs.name
+        });
+      return this.item;
     });
   }
   public getMaxIdFromBrands(): Observable<any> {
