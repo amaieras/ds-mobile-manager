@@ -6,14 +6,14 @@
           <div class="form-group">
             <div class="col-md-3">
               <label for="phoneBrand" style="display: block">Telefon</label>
-              <p-dropdown id="phoneBrand" [(ngModel)]="newItem.phoneId" [options]="phoneBrandsArray"
-                          [style]="{'width':'150px'}" filter="true" (onChange)="onSelect($event.value)" formControlName="phoneBrand">
-                <ng-template let-phone pTemplate="item">
-                  <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
-                    <div style="font-size:14px;float:right;margin-top:4px">{{phone.label}}</div>
-                  </div>
-                </ng-template>
-              </p-dropdown>
+              <!--<p-dropdown id="phoneBrand" [(ngModel)]="newItem.phoneId" [options]="phoneBrandsArray"-->
+                          <!--[style]="{'width':'150px'}" filter="true" (onChange)="onSelect($event.value)" formControlName="phoneBrand">-->
+                <!--<ng-template let-phone pTemplate="item">-->
+                  <!--<div class="ui-helper-clearfix" style="position: relative;height: 25px;">-->
+                    <!--<div style="font-size:14px;float:right;margin-top:4px">{{phone.label}}</div>-->
+                  <!--</div>-->
+                <!--</ng-template>-->
+              <!--</p-dropdown>-->
               <div *ngIf="isRequired" >
                 <label for="newBrand">Denumire brand</label>
                 <input placeholder="Denumire brand" id="newBrand" (ngModelChange)="checkIfNewBrandExists($event)" class="form-control" formControlName="newBrand" [required]="isRequired ? true : null">
@@ -35,14 +35,14 @@
             </div>
             <div class="col-md-3">
               <label for="phoneModel" style="display: block">Model</label>
-              <p-dropdown id="phoneModel" [(ngModel)]="selectedModel" [options]="phoneModelsArray" [style]="{'width':'150px'}"
-                          filter="filter" (onChange)="onModelSelect($event.value)" formControlName="phoneModel">
-                <ng-template let-model pTemplate="item">
-                  <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
-                    <div style="font-size:14px;float:right;margin-top:4px">{{model.label}}</div>
-                  </div>
-                </ng-template>
-              </p-dropdown>
+              <!--<p-dropdown id="phoneModel" [(ngModel)]="selectedModel" [options]="phoneModelsArray" [style]="{'width':'150px'}"-->
+                          <!--filter="filter" (onChange)="onModelSelect($event.value)" formControlName="phoneModel">-->
+                <!--<ng-template let-model pTemplate="item">-->
+                  <!--<div class="ui-helper-clearfix" style="position: relative;height: 25px;">-->
+                    <!--<div style="font-size:14px;float:right;margin-top:4px">{{model.label}}</div>-->
+                  <!--</div>-->
+                <!--</ng-template>-->
+              <!--</p-dropdown>-->
 
               <div *ngIf="isRequiredModel">
                 <label for="newSingleModel">Denumire model</label>

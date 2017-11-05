@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from "@angular/core";
 import {FormArray, FormBuilder, FormGroup} from "@angular/forms";
+import {SelectItem} from "primeng/primeng";
 
 @Component({
   selector: 'phone-gsm-list',
@@ -9,7 +10,11 @@ export class PhoneGSMListComponent implements OnInit {
   @Input('group') phoneListGroup: FormGroup;
   newItem: any;
   mainArray: Array<any>;
-
+  selectedModel: SelectItem;
+  isRequiredModel: boolean = false;
+  isRequired: boolean = false;
+  phoneModelsArray: any = [];
+  phoneBrandsArray: any = [];
   constructor(private fb: FormBuilder) {
     this.mainArray = [];
   }
@@ -32,6 +37,13 @@ export class PhoneGSMListComponent implements OnInit {
     problemArray.removeAt(idx);
   }
 
+  onSelect() {
+
+  }
+
+  onModelSelect() {
+
+  }
   private initProblem() {
     return this.fb.group({
       problem:'',
