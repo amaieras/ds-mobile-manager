@@ -98,7 +98,7 @@ export class PhoneListComponent implements OnInit {
   private initProblem() {
     return this.fb.group({
       problem: '',
-      pricePerPart: new FormControl(650, [
+      pricePerPart: new FormControl(500, [
         Validators.required,
         forbiddenStringInput(/^\\d+$/)
       ]),
