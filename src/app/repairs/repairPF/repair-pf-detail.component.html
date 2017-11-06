@@ -6,7 +6,7 @@
     </div>
 
     <p-dataTable [value]="repairsPF|async" [editable]="true" [paginator]="true" rows="10" [globalFilter]="gb" [responsive]="true"
-                 (onEditComplete)="updateField($event)">
+                 (onEditComplete)="updateField($event)" >
       <p-header>
         <div style="text-align:left">
           <p-multiSelect [options]="columnOptions" [(ngModel)]="cols"></p-multiSelect>
@@ -19,6 +19,7 @@
       </p-column>
       <p-column field="lastname" header="Nume" [sortable]="true" [filter]="true" [editable]="true"></p-column>
       <p-column field="firstname" header="Prenume" [sortable]="true" [filter]="true" [editable]="true"></p-column>
+      <p-column field="email" header="Email" [sortable]="true" [filter]="true" [editable]="true"></p-column>
       <p-column field="firm" header="Firma" [sortable]="true" [filter]="true" [editable]="true"></p-column>
       <p-column field="phone" header="Numar telefon" [sortable]="true" [filter]="true" [editable]="true"></p-column>
       <p-column field="phoneModel" header="Model Telefon" [sortable]="true" [filter]="true" [editable]="true"></p-column>
@@ -30,6 +31,7 @@
           <span [style.color]="appointment[col.field]">{{appointment[col.field] | date:"dd-MM-yyyy HH:mm"}}</span>
         </ng-template>
       </p-column>
+      <p-column field="tested" header="Testat?" [sortable]="true" [filter]="true" [editable]="true"></p-column>
       <p-column field="aboutUs" header="Cum a aflat de noi" [sortable]="true" [filter]="true" [editable]="true">
       </p-column>
     </p-dataTable>

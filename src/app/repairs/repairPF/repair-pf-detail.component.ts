@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFireList } from 'angularfire2/database';
 import { RepairPFDetailService } from "./repair-pf-detail.service"
 import { SelectItem, Message } from "primeng/primeng";
 import {Observable} from "rxjs/Observable";
@@ -27,6 +26,7 @@ export class RepairPFDetailComponent implements OnInit {
       {field: 'addedDate', header: 'Data introducerii', filter: true},
       {field: 'lastname', header: 'Nume', filter: true},
       {field: 'firstname', header: 'Prenume', filter: true},
+      {field: 'email', header: 'Email', filter: true},
       {field: 'firm', header: 'Firma', filter: true},
       {field: 'phone', header: 'Numar telefon', filter: true},
       {field: 'phoneModel', header: 'Model Telefon', filter: true},
@@ -34,6 +34,7 @@ export class RepairPFDetailComponent implements OnInit {
       {field: 'imei', header: 'IMEI', filter: true},
       {field: 'priceOffer', header: 'Oferta pret', filter: true},
       {field: 'appointmentDate', header: 'Data si ora programarii', filter: true},
+      {field: 'tested', header: 'Testat?', filter: true},
       {field: 'aboutUs', header: 'Cum a aflat de noi', filter: true}
     ];
 

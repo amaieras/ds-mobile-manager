@@ -72,13 +72,12 @@ export class PhoneListComponent implements OnInit {
       parts.forEach(snapshot => {
         this.problemsPriceList.push(new ProblemPrice(snapshot.id, snapshot.problemId, snapshot.phoneBrand, snapshot.phoneModel, snapshot.price));
       })
-      const firstModelId = this.problemsPriceList.filter(phone =>  phone._phoneBrand.toString() === this.newItem.phoneId.toString()
-        && phone._problemId === 1 )
+      const firstModelId = this.getFirstModelOfBrand(1)
       const that = this;
       problemArray.controls.forEach(item => {
         const results = this.problemsPriceList.filter(function (part) {
           return part._phoneBrand.toString() === that.newItem.phoneId.toString()
-            && part._phoneModel === firstModelId[0]._phoneModel
+            && part._phoneModel === firstModelId
             && part._problemId === item.value.problem.toString();
         })
         for (let i = 0; i < problemArray.length; i++) {
@@ -107,8 +106,9 @@ export class PhoneListComponent implements OnInit {
 
   onSelect(phoneId) {
     const problemArray = this.phoneListGroup.controls['problems'] as FormArray;
-
-    this.checkIsOtherBrandModel(phoneId)
+    const firstModelOfBrandPrint = this.getFirstModelOfBrand(1);
+    this.onModelSelect(firstModelOfBrandPrint);
+    this.checkIsOtherBrandModel(phoneId);
     if(this.newModel !== null) {
       this.checkIfNewModelExists(this.newModel.value)
     }
@@ -126,12 +126,10 @@ export class PhoneListComponent implements OnInit {
     for (let i=0; i < problemArray.length; i++) {
       const that = this;
       const itemInput = <FormGroup>problemArray.at(i)
-      const firstModelId = this.problemsPriceList.filter(phone =>  +phone._phoneBrand === +this.newItem.phoneId
-                                                                && +phone._problemId === +itemInput.controls['problem'].value)
-      const firsModelOfBrand = firstModelId[0] === undefined ? null : firstModelId[0]._phoneModel;
+      const firstModelOfBrand = this.getFirstModelOfBrand(+itemInput.controls['problem'].value);
       const results = this.problemsPriceList.filter(function(part) {
         return +part._phoneBrand === +that.newItem.phoneId
-          && +part._phoneModel === +firsModelOfBrand
+          && +part._phoneModel === +firstModelOfBrand
           && +part._problemId === +itemInput.controls['problem'].value;
       })
       if(results.length > 0) {
@@ -144,6 +142,13 @@ export class PhoneListComponent implements OnInit {
           itemInput.controls['pricePerPart'].setValue(0);
       }
     }
+  }
+
+  private getFirstModelOfBrand(problemId) {
+    const firstModelId = this.problemsPriceList.filter(phone => +phone._phoneBrand === +this.newItem.phoneId
+      && +phone._problemId === problemId)
+    const firsModelOfBrand = firstModelId[0] === undefined ? null : firstModelId[0]._phoneModel;
+    return firsModelOfBrand;
   }
 
   onModelSelect(modelId) {

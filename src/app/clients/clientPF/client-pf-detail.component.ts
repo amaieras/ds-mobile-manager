@@ -66,7 +66,7 @@ export class ClientPfDetailComponent implements OnInit {
         isValidPhoneNumber
       ]),
       phoneList: this.fb.array([]),
-      'tested': new FormControl('', []),
+      'tested': new FormControl('NU', []),
       'priceOffer': new FormControl({value: 0, disabled: true}),
       'appointment': new FormControl('', []),
       'aboutUs': new FormControl('FACEBOOK', [])

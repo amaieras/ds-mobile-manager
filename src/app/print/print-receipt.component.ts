@@ -66,6 +66,7 @@ export class PrintReceiptComponent implements OnInit {
               * {
                 box-sizing: border-box;
               }
+              @page { size: auto;  margin: 4mm; }
               /*@media (min-width: 992px)*/
               .col-md-3 {
                 width: 25%;
