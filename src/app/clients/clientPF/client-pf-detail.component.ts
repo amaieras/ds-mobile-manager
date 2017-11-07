@@ -35,7 +35,7 @@ export class ClientPfDetailComponent implements OnInit {
   isOtherRequired = false;
   aboutUsValExists = false;
   aboutUsList: any = [];
-  selectedAboutUs = 'FACEBOOK';
+  selectedAboutUs = '1';
   selectedOtherName = '';
   totalPrice = 0;
   @ViewChild(PrintReceiptComponent ) child: PrintReceiptComponent;
@@ -51,6 +51,7 @@ export class ClientPfDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.populateDropDowns();
+    this.clientPF.tested = this.saveClientPF.tested;
     this.defaultDate.setHours(12, 0);
     this.clientPFForm = this.fb.group({
       'lastname': new FormControl('', [
@@ -117,6 +118,7 @@ export class ClientPfDetailComponent implements OnInit {
     }
     this.saveClientPF.phoneList = PhoneListDeepCopy;
     this.saveClientPF.phone = formModel.phone;
+    this.saveClientPF.tested = formModel.tested;
     this.saveClientPF.aboutUs = formModel.aboutUs;
     this.saveClientPF.priceOffer = this.totalPrice === null ? '0' : this.totalPrice.toString() ;
   }
@@ -152,11 +154,11 @@ export class ClientPfDetailComponent implements OnInit {
       for (let j = 0; j < formModel.phoneList[i].problems.length; j++) {
         const phoneItem = formModel.phoneList[i];
         const problemItem = formModel.phoneList[i].problems[j];
-        if (phoneItem.phoneBrand.toString() === '0' || phoneItem.phoneModel.toString() === '0' || problemItem.problem.toString() === '0') {
-          phoneItem.phoneBrand = phoneItem.phoneBrand === 0 ? this.newBrandMaxId + 1 : phoneItem.phoneBrand;
-          phoneItem.phoneModel = parseInt(phoneItem.phoneModel) === 0 ? this.newModelMaxId + 1 : phoneItem.phoneModel;
-          problemItem.problem = problemItem.problem === 0 ? this.newPrblMaxId + 1 : problemItem.problem;
-          this._clientPFService.addNewPartPrice(this.partPricesMaxId + 1, phoneItem.phoneBrand, parseInt(phoneItem.phoneModel), problemItem.pricePerPart, problemItem.problem)
+        if (+phoneItem.phoneBrand === 0 || +phoneItem.phoneModel === 0 || +problemItem.problem === 0) {
+          phoneItem.phoneBrand = +phoneItem.phoneBrand === 0 ? this.newBrandMaxId + 1 : phoneItem.phoneBrand;
+          phoneItem.phoneModel = phoneItem.phoneModel === null || +phoneItem.phoneModel === 0 ? this.newModelMaxId + 1 : phoneItem.phoneModel;
+          problemItem.problem = +problemItem.problem === 0 ? this.newPrblMaxId + 1 : problemItem.problem;
+          this._clientPFService.addNewPartPrice(this.partPricesMaxId + 1, +phoneItem.phoneBrand, +phoneItem.phoneModel, +problemItem.pricePerPart, +problemItem.problem)
         }
       }
     }
@@ -295,6 +297,7 @@ export class ClientPfDetailComponent implements OnInit {
   print() {
     this.child.print();
   }
+
 
   successMessage() {
     this.msgs = [];

@@ -1,8 +1,5 @@
 
 export class WarrantyInfo {
-  private _monthAdded: number;
-  private _dayAdded: number;
-  private _yearAdded: number;
   private _lastname: string;
   private _firstname: string;
   private _phoneNumber: string;
@@ -13,12 +10,10 @@ export class WarrantyInfo {
   private _modelName: string;
   private _observation: string;
   private _tested: string;
+  private _aboutUs: string;
 
-  constructor(monthAdded: number, dayAdded: number, yearAdded: number, lastname: string, firstname: string, phoneNumber: string, price: number,
-              phoneColor: string, imei: string, brandName: string, modelName: string, observation: string, tested: string) {
-    this._monthAdded = monthAdded;
-    this._dayAdded = dayAdded;
-    this._yearAdded = yearAdded;
+  constructor(lastname: string, firstname: string, phoneNumber: string, price: number,
+              phoneColor: string, imei: string, brandName: string, modelName: string, observation: string, tested: string, aboutUs: string) {
     this._lastname = lastname;
     this._firstname = firstname;
     this._phoneNumber = phoneNumber;
@@ -29,6 +24,7 @@ export class WarrantyInfo {
     this._modelName = modelName;
     this._observation = observation;
     this._tested = tested;
+    this._aboutUs = aboutUs;
   }
 
 
@@ -39,37 +35,19 @@ export class WarrantyInfo {
   set tested(value: string) {
     this._tested = value;
   }
+  get aboutUs(): string {
+    return this._aboutUs;
+  }
 
+  set aboutUs(value: string) {
+    this._aboutUs = value;
+  }
   get observation(): string {
     return this._observation;
   }
 
   set observation(value: string) {
     this._observation = value;
-  }
-
-  get monthAdded(): number {
-    return this._monthAdded;
-  }
-
-  set monthAdded(value: number) {
-    this._monthAdded = value;
-  }
-
-  get dayAdded(): number {
-    return this._dayAdded;
-  }
-
-  set dayAdded(value: number) {
-    this._dayAdded = value;
-  }
-
-  get yearAdded(): number {
-    return this._yearAdded;
-  }
-
-  set yearAdded(value: number) {
-    this._yearAdded = value;
   }
 
   get lastname(): string {
