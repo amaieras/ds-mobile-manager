@@ -62,14 +62,14 @@
             </div>
             <div class="col-md-3">
               <label for="imei">IMEI</label>
-              <input placeholder="IMEI" id="imei" class="form-control" formControlName="imei" pattern="/^([0-9_-]){14}$/">
+              <input placeholder="IMEI" id="imei" class="form-control" formControlName="imei">
             </div>
-            <div *ngIf="imei.invalid && (imei.dirty || imei.touched)"
-                 class="alert alert-danger">
-              <div *ngIf="phone.hasError('formatIsOk')">
-                IMEI-ul nu are formatul corect.
-              </div>
-            </div>
+            <!--<div *ngIf="imei.invalid && (imei.dirty || imei.touched)"-->
+                 <!--class="alert alert-danger">-->
+              <!--<div *ngIf="phone.hasError('formatIsOk')">-->
+                <!--IMEI-ul nu are formatul corect.-->
+              <!--</div>-->
+            <!--</div>-->
             <div class="col-md-3">
               <label for="phoneColor">Culoare</label>
               <input placeholder="Culoare" id="phoneColor" class="form-control" formControlName="phoneColor">
