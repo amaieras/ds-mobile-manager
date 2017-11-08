@@ -121,6 +121,7 @@ export class ClientPfDetailComponent implements OnInit {
     this.saveClientPF.tested = formModel.tested;
     this.saveClientPF.aboutUs = formModel.aboutUs;
     this.saveClientPF.priceOffer = this.totalPrice === null ? '0' : this.totalPrice.toString() ;
+    this.saveClientPF.isRepaired = false;
   }
 
   addInPhoneList(): any {
@@ -353,5 +354,17 @@ export class ClientPfDetailComponent implements OnInit {
     //noinspection TypeScriptUnresolvedFunction
     return this.clientPFForm.get('aboutAsName');
   }
+
+  get isRepaired(){
+    return this.clientPFForm.get('isRepaired');
+  }
+
+  get deliveredDate(){
+    return this.clientPFForm.get('deliveredDate');
+  }
+
+
+
+
 }
 
