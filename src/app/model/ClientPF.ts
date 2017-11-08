@@ -17,14 +17,10 @@ export class ClientPF {
   priceOffer:string;
   appointmentDate:string;
   aboutUs:string;
-  isRepaired: boolean;
-  deliveredDate: string;
 
   constructor() {
 
   }
-
-
 
 
 }

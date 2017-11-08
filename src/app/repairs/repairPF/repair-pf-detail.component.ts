@@ -15,8 +15,6 @@ export class RepairPFDetailComponent implements OnInit {
   cols:any[];
   msgs:Message[] = [];
   columnOptions:SelectItem[];
-  //isRepaired :boolean = false;
-
 
   constructor(private repairPFService:RepairPFDetailService, private _utilService: UtilService, private _aboutUsService: AboutUsService) {
   }
@@ -37,9 +35,7 @@ export class RepairPFDetailComponent implements OnInit {
       {field: 'priceOffer', header: 'Oferta pret', filter: true},
       {field: 'appointmentDate', header: 'Data si ora programarii', filter: true},
       {field: 'tested', header: 'Testat?', filter: true},
-      {field: 'aboutUs', header: 'Cum a aflat de noi', filter: true},
-      {field: 'isRepaired', header: 'Finalizat ? ', filter: true },
-      {field: 'deliveredDate', header: 'Data Predarii', filter: true}
+      {field: 'aboutUs', header: 'Cum a aflat de noi', filter: true}
     ];
 
     this.columnOptions = [];
@@ -83,17 +79,6 @@ export class RepairPFDetailComponent implements OnInit {
       return this.repairsPF;
     });
   }
-
-  updateCheckedItem(row){
-    this.repairPFService.updateItem(row.$key, {isRepaired: row.isRepaired});
-
-    if(row.isRepaired == true){
-      let date = Date.now().toLocaleString();
-      this.repairPFService.updateItem(row.$key, {deliveredDate: date});
-    }
-
-  }
-
 
   successMessage(lastname, firstname) {
     this.msgs = [];

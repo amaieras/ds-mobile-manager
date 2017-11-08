@@ -7,7 +7,7 @@ import { RepairTypeListComponent } from "./repair-type-list/repair-type-list.com
 import { RepairPFDetailComponent } from "./repairPF/repair-pf-detail.component";
 import { RepairGSMDetailComponent } from "./repairGSM/repair-gsm-detail.component"
 import {DataTableModule, GrowlModule, MultiSelectModule, SharedModule} from "primeng/primeng"
-import { DialogModule, CheckboxModule } from "primeng/primeng";
+import { DialogModule } from "primeng/primeng";
 import { RepairPFDetailService } from "./repairPF/repair-pf-detail.service";
 import { RepairGSMDetailService } from "./repairGSM/repair-gsm-detail.service";
 
@@ -20,7 +20,6 @@ import { RepairGSMDetailService } from "./repairGSM/repair-gsm-detail.service";
     DataTableModule,
     SharedModule,
     DialogModule,
-    CheckboxModule,
     MultiSelectModule,
     //primeng
     GrowlModule
