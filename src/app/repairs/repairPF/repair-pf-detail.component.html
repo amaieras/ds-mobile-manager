@@ -32,16 +32,7 @@
         </ng-template>
       </p-column>
       <p-column field="tested" header="Testat?" [sortable]="true" [filter]="true" [editable]="true"></p-column>
-      <p-column field="aboutUs" header="Cum a aflat de noi" [sortable]="true" [filter]="true" [editable]="true"></p-column>
-      <p-column field="isRepaired" header="Finalizat ?" [filter]="true">
-        <ng-template pTemplate="body" let-col let-isRepaired="rowData">
-            <p-checkbox [(ngModel)]="isRepaired[col.field]" binary="true" (onChange)="updateCheckedItem( isRepaired)"></p-checkbox>
-        </ng-template>
-      </p-column>
-      <p-column field="deliveredDate" header="Data Predarii" [filter]="true">
-        <ng-template let-col let-deliveredDate="rowData" pTemplate="body">
-          <span *ngIf="deliveredDate.isRepaired">{{deliveredDate[col.field]  | date:"dd-MM-yyyy HH:mm" }}</span>
-        </ng-template>
+      <p-column field="aboutUs" header="Cum a aflat de noi" [sortable]="true" [filter]="true" [editable]="true">
       </p-column>
     </p-dataTable>
 </div>
