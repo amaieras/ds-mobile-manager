@@ -4,6 +4,7 @@ import {PhoneListService} from "../clients/clientPF/phone-list/phone-list.servic
 import {WarrantyInfo} from "../model/WarrantyInfo";
 import {AboutUsService} from "../clients/clientPF/phone-list/about-us/about-us.service";
 import {Observable} from "rxjs/Observable";
+import {ProblemListService} from "../clients/clientPF/phone-list/problem-list/problem-list.service";
 
 @Component({
   selector: 'app-print-receipt',
@@ -15,22 +16,28 @@ export class PrintReceiptComponent implements OnInit {
   dsMobilePhone: string = '0734.588.883'
   dateObj = Date.now();
 
-  constructor(private changeDetector: ChangeDetectorRef, private _phoneListService: PhoneListService, private _aboutUsService: AboutUsService) {  }
+  constructor(private _changeDetector: ChangeDetectorRef, private _phoneListService: PhoneListService, private _aboutUsService: AboutUsService,
+              private _problemListService: ProblemListService) {  }
   @Input('clientPF') clientPF: FormGroup;
   @Input('totalPrice') totalPrice: number;
+  @Input('noOfClients') noOfClients: number;
   ngOnInit() {
     this.insertDataToRecipe();
   }
 
   print() {
     this.insertDataToRecipe();
-    this.changeDetector.detectChanges();
+    if (!this._changeDetector['destroyed']) {
+      this._changeDetector.detectChanges();
+    }
     const formModel = this.clientPF.value;
     this._phoneListService.getBrandNameById(formModel.phoneList[0].phoneBrand).subscribe(brandName => {
       this._phoneListService.getModelNameById(formModel.phoneList[0].phoneModel).subscribe(modelName => {
         this.warrantyInfo.modelName = modelName;
         this.warrantyInfo.brandName = brandName;
-        this.changeDetector.detectChanges();
+        if (!this._changeDetector['destroyed']) {
+          this._changeDetector.detectChanges();
+        }
         let popupWin;
         let innerContents = document.getElementById('print-section').innerHTML;
         popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
@@ -120,10 +127,18 @@ export class PrintReceiptComponent implements OnInit {
   insertDataToRecipe() {
     const formModel = this.clientPF.value;
     this._aboutUsService.getAboutUsById(+formModel.aboutUs).subscribe(as => {
-      this.warrantyInfo = new WarrantyInfo(formModel.lastname,
-        formModel.firstname, formModel.phone, this.totalPrice, formModel.phoneList[0].phoneColor, formModel.phoneList[0].imei, '', '',
-        formModel.phoneList[0].observation, formModel.tested, as)
+      let problems = [];
+      formModel.phoneList[0].problems.forEach(prbl=> {
+        this._problemListService.getProblemById(+prbl.problem).subscribe(prblName=>{
+          problems.push(prblName);
+          this.warrantyInfo = new WarrantyInfo(formModel.lastname,
+            formModel.firstname, formModel.phone, this.totalPrice, formModel.phoneList[0].phoneColor, formModel.phoneList[0].imei, '', '',
+            formModel.phoneList[0].observation, formModel.tested, as, problems, formModel.appointment, formModel.phoneList[0].phoneCode,
+            this.noOfClients)
+          })
+        })
       })
+
   }
 
 }

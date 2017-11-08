@@ -62,19 +62,23 @@
             </div>
             <div class="col-md-3">
               <label for="imei">IMEI</label>
-              <input placeholder="IMEI" id="imei" class="form-control" formControlName="imei">
+              <input placeholder="IMEI" pattern="\d*" minlength="14" maxlength="14" id="imei" class="form-control" formControlName="imei">
             </div>
-            <!--<div *ngIf="imei.invalid && (imei.dirty || imei.touched)"-->
-                 <!--class="alert alert-danger">-->
-              <!--<div *ngIf="phone.hasError('formatIsOk')">-->
-                <!--IMEI-ul nu are formatul corect.-->
-              <!--</div>-->
+            <!--<div *ngIf="imei.errors.maxlength">-->
+              <!--IMEI-ul trebuie sa fie exact de 14 cifre.-->
             <!--</div>-->
             <div class="col-md-3">
               <label for="phoneColor">Culoare</label>
               <input placeholder="Culoare" id="phoneColor" class="form-control" formControlName="phoneColor">
             </div>
           </div>
+            <div class="col-md-3 col-md-offset-6">
+              <label for="phone-code">Cod Telefon</label>
+              <input placeholder="Cod telefon"  id="phone-code" class="form-control" formControlName="phoneCode">
+            </div>
+          <!--<div *ngIf="phoneCode.errors.maxlength">-->
+            <!--IMEI-ul trebuie sa fie exact de 14 cifre.-->
+          <!--</div>-->
           <div class="col-md-12 phone-list-pad">
             <div formArrayName="problems">
               <div *ngFor="let email of phoneListGroup.controls['problems']['controls']; let i=index" class="panel panel-primary">

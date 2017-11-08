@@ -88,7 +88,7 @@ export class RepairPFDetailComponent implements OnInit {
     this.repairPFService.updateItem(row.$key, {isRepaired: row.isRepaired});
 
     if(row.isRepaired == true){
-      let date = Date.now().toLocaleString();
+      let date = new Date().getTime().toString();
       this.repairPFService.updateItem(row.$key, {deliveredDate: date});
     }
 

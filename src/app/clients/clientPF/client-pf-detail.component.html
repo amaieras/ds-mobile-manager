@@ -65,7 +65,7 @@
                 *ngIf="clientPFForm.controls.phoneList.controls.length > 1" (click)="removeFromPhoneList(i)"></span>
         </div>
         <div class="panel-body" [formGroupName]="i">
-          <app-phone-list [clientPF]="saveClientPF" [group]="clientPFForm.controls['phoneList']['controls'][i]"
+          <app-phone-list [clientPFForm]='clientPFForm' [group]="clientPFForm.controls['phoneList']['controls'][i]"
                       (change)="getPhoneItem($event)"></app-phone-list>
         </div>
         <br>
@@ -133,7 +133,7 @@
       <button type="button" class="btn btn-default"
               [disabled]="false" (click)="print()">Printeaza
       </button>
-      <app-print-receipt [clientPF]="clientPFForm" [totalPrice]="totalPrice"></app-print-receipt>
+      <app-print-receipt [noOfClients]="noOfClients" [clientPF]="clientPFForm" [totalPrice]="totalPrice"></app-print-receipt>
     </div>
   </form>
 </div>

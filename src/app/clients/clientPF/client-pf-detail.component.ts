@@ -12,6 +12,7 @@ import {Observable} from 'rxjs/Observable';
 import {DropdownModel} from 'app/model/DropdownModel';
 import {PhoneListService} from 'app/clients/clientPF/phone-list/phone-list.service';
 import {PrintReceiptComponent} from "../../print/print-receipt.component";
+import {imeiValidator} from "../../shared/imei-validator.directive";
 
 @Component({
   selector: 'app-client-pf-detail',
@@ -38,6 +39,8 @@ export class ClientPfDetailComponent implements OnInit {
   selectedAboutUs = '1';
   selectedOtherName = '';
   totalPrice = 0;
+  noOfClients: number = 0;
+
   @ViewChild(PrintReceiptComponent ) child: PrintReceiptComponent;
 
   constructor(private _clientPFService: ClientPFService, private fb: FormBuilder,
@@ -69,7 +72,7 @@ export class ClientPfDetailComponent implements OnInit {
       phoneList: this.fb.array([]),
       'tested': new FormControl('NU', []),
       'priceOffer': new FormControl({value: 0, disabled: true}),
-      'appointment': new FormControl('', []),
+      'appointment': new FormControl(this.defaultDate.getTime().toString(), []),
       'aboutUs': new FormControl('FACEBOOK', [])
     });
     this.aboutUsList.push({label: 'Altele', value: 'Altele'});
@@ -198,9 +201,15 @@ export class ClientPfDetailComponent implements OnInit {
       phoneBrand: '',
       phoneModel: '',
       phoneColor: '',
-      imei: '',
       problems: this.fb.array([]),
-      observation: ''
+      observation: '',
+      phoneCode: new FormControl('', [
+            Validators.required
+          ]),
+      imei: new FormControl('', [
+        Validators.maxLength(14),
+        // imeiValidator(/^\d+$/i)
+      ])
     });
   }
 
@@ -296,7 +305,11 @@ export class ClientPfDetailComponent implements OnInit {
     }
   }
   print() {
-    this.child.print();
+    this._clientPFService.getAllClients().subscribe( client => {
+      this.noOfClients = client.length;
+      this.clientPFForm.patchValue({appointment: this.defaultDate.getTime().toString()});
+      this.child.print();
+    })
   }
 
 
@@ -362,9 +375,8 @@ export class ClientPfDetailComponent implements OnInit {
   get deliveredDate(){
     return this.clientPFForm.get('deliveredDate');
   }
-
-
-
-
+  get phoneCode(){
+    return this.clientPFForm.get('phoneCode');
+  }
 }
 
