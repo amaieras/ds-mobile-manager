@@ -38,8 +38,8 @@ export class RepairPFDetailComponent implements OnInit {
       {field: 'appointmentDate', header: 'Data si ora programarii', filter: true},
       {field: 'tested', header: 'Testat?', filter: true},
       {field: 'aboutUs', header: 'Cum a aflat de noi', filter: true},
-      {field: 'isRepaired', header: 'Finalizat ? ', filter: true },
-      {field: 'deliveredDate', header: 'Data Predarii', filter: true}
+      {field: 'deliveredDate', header: 'Data Predarii', filter: true},
+      {field: 'isRepaired', header: 'Finalizat ? ', filter: true }
     ];
 
     this.columnOptions = [];
@@ -88,7 +88,7 @@ export class RepairPFDetailComponent implements OnInit {
     this.repairPFService.updateItem(row.$key, {isRepaired: row.isRepaired});
 
     if(row.isRepaired == true){
-      let date = Date.now().toLocaleString();
+      let date = new Date(Date.now()).toLocaleString();
       this.repairPFService.updateItem(row.$key, {deliveredDate: date});
     }
 
@@ -102,6 +102,10 @@ export class RepairPFDetailComponent implements OnInit {
       summary: 'Valoare modificata pentru clientul: ' + lastname + ' ' + firstname,
       detail: 'Date modificate.'
     });
+  }
+
+  disabledRow(rowData: ClientPF){
+    return rowData.isRepaired ? 'disabled-account-row' : '';
   }
 
 
