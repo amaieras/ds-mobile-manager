@@ -126,19 +126,16 @@ export class PrintReceiptComponent implements OnInit {
 
   insertDataToRecipe() {
     const formModel = this.clientPF.value;
-    this._aboutUsService.getAboutUsById(+formModel.aboutUs).subscribe(as => {
-      let problems = [];
-      formModel.phoneList[0].problems.forEach(prbl=> {
-        this._problemListService.getProblemById(+prbl.problem).subscribe(prblName=>{
-          problems.push(prblName);
-          this.warrantyInfo = new WarrantyInfo(formModel.lastname,
-            formModel.firstname, formModel.phone, this.totalPrice, formModel.phoneList[0].phoneColor, formModel.phoneList[0].imei, '', '',
-            formModel.phoneList[0].observation, formModel.tested, as, problems, formModel.appointment, formModel.phoneList[0].phoneCode,
-            this.noOfClients)
-          })
-        })
+    let problems = [];
+    formModel.phoneList[0].problems.forEach(prbl=> {
+      this._problemListService.getProblemById(+prbl.problem).subscribe(prblName=>{
+        problems.push(prblName);
+        this.warrantyInfo = new WarrantyInfo(formModel.lastname,
+          formModel.firstname, formModel.phone, this.totalPrice, formModel.phoneList[0].phoneColor, formModel.phoneList[0].imei, '', '',
+          formModel.phoneList[0].observation, formModel.tested, formModel.aboutUs, problems, formModel.appointment, formModel.phoneList[0].phoneCode,
+          this.noOfClients)
       })
-
+    })
   }
 
 }

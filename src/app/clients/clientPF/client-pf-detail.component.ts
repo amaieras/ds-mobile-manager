@@ -36,7 +36,7 @@ export class ClientPfDetailComponent implements OnInit {
   isOtherRequired = false;
   aboutUsValExists = false;
   aboutUsList: any = [];
-  selectedAboutUs = '1';
+  selectedAboutUs = 'FACEBOOK';
   selectedOtherName = '';
   totalPrice = 0;
   noOfClients: number = 0;
@@ -116,13 +116,13 @@ export class ClientPfDetailComponent implements OnInit {
     this.addNewProblemSynced(formModel);
     this.addNewBrandModelSynced(formModel);
     this.addNewSingleModelSynced(formModel);
-    if (this._utilService.isNullOrUndefined(this.newAboutUsMaxId) && this.selectedOtherName !== '') {
-      this._aboutUsService.addNewAboutUs(this.newAboutUsMaxId + 1, this.selectedOtherName);
+    if (this.selectedOtherName !== '') {
+      this._aboutUsService.addNewAboutUs(this.selectedOtherName);
     }
     this.saveClientPF.phoneList = PhoneListDeepCopy;
     this.saveClientPF.phone = formModel.phone;
     this.saveClientPF.tested = formModel.tested;
-    this.saveClientPF.aboutUs = formModel.aboutUs;
+    // this.saveClientPF.aboutUs = formModel.aboutUs;
     this.saveClientPF.priceOffer = this.totalPrice === null ? '0' : this.totalPrice.toString() ;
     this.saveClientPF.isRepaired = false;
   }
@@ -224,6 +224,7 @@ export class ClientPfDetailComponent implements OnInit {
   initForm() {
     this.priceOffer.setValue(0);
     this.addInPhoneList();
+    this.resetAboutAs();
     this.getMaxIds();
   }
 
@@ -231,7 +232,7 @@ export class ClientPfDetailComponent implements OnInit {
     this._aboutUsService.getAboutUsList().subscribe(aboutUsList => {
       this.aboutUsList = [];
       aboutUsList.forEach(snapshot => {
-        this.aboutUsList.push(new DropdownModel(snapshot.name, snapshot.id));
+        this.aboutUsList.push({label: snapshot.label, value: snapshot.value});
       });
     });
   }
@@ -240,10 +241,7 @@ export class ClientPfDetailComponent implements OnInit {
     this._problemListService.getMaxIdFromProblems().subscribe(partItem => {
       this.newPrblMaxId = partItem;
     });
-    this._aboutUsService.getMaxIdFromAboutUs().subscribe(aboutUsItem => {
-      this.newAboutUsMaxId = aboutUsItem;
-      this.resetAboutAs();
-    });
+
     this._phoneListService.getMaxIdFromBrands().subscribe(brandMaxId => {
       this.newBrandMaxId = brandMaxId;
     });
@@ -275,8 +273,8 @@ export class ClientPfDetailComponent implements OnInit {
 
 
   private resetAboutAs() {
-    if (this.selectedAboutUs !== '1'){
-      this.selectedAboutUs = '1';
+    if (this.selectedAboutUs !== 'FACEBOOK'){
+      this.selectedAboutUs = 'FACEBOOK';
     }
     this.clientPFForm.removeControl('aboutAsName');
     this.isOtherRequired = false;
@@ -290,6 +288,7 @@ export class ClientPfDetailComponent implements OnInit {
   }
 
   checkIsOther(val) {
+    console.log(this.selectedAboutUs)
     this.isOtherRequired = this._utilService.checkIsOther(val.value);
     if (this.isOtherRequired) {
       this.clientPFForm.addControl('aboutAsName',

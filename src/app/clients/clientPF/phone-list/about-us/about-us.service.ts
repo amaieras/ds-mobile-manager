@@ -22,16 +22,7 @@ export class AboutUsService {
       return this._utilService.getMaxIdNewItems(item);
     });
   }
-  public addNewAboutUs(newAboutUsMaxId: string, aboutUsVal: string) {
-    this.aboutUsList.push({id: newAboutUsMaxId , name: aboutUsVal});
-  }
-  public getAboutUsById(id: number): Observable<any>{
-    return this.getAboutUsList().take(1).map(items => {
-      items.filter( a => +a.id === +id)
-        .map(cs => {
-          return this.item = cs.name
-        });
-      return this.item;
-    });
+  public addNewAboutUs(aboutUsVal: string) {
+    this.aboutUsList.push({name: aboutUsVal});
   }
 }
