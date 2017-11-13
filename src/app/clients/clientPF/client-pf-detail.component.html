@@ -91,7 +91,19 @@
       <label for="appointmentDate" style="display: block">Data si ora programarii</label>
       <p-calendar id="appointmentDate" [(ngModel)]="defaultDate" [ngModelOptions]="{standalone: true}"
                   [defaultDate]="defaultDate" [showTime]="true" [showIcon]="true" readonlyInput="readonlyInput"
-                  [stepMinute]="15"></p-calendar>
+                  [stepMinute]="15">
+        <p-footer>
+          <div class="ui-datepicker-buttonbar ui-widget-header ng-tns-c8-2">
+            <div class="ui-g">
+              <div class="ui-g-6 ui-g-offset-6">
+                <button class="ng-tns-c8-2 ui-button-secondary ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" pbutton ng-reflect-ng-class="ui-button-secondary" ng-reflect-label="Ok" type="button">
+                  <span class="ui-button-text ui-clickable">Salveaza</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </p-footer>
+      </p-calendar>
     </div>
     <div class="form-group">
       <label for="tested" style="display: block">Testat?</label>

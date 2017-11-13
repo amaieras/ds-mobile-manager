@@ -15,31 +15,37 @@ export class RepairPFDetailComponent implements OnInit {
   cols:any[];
   msgs:Message[] = [];
   columnOptions:SelectItem[];
+  testingValues: any[];
+  defaultDate: Date = new Date();
+  selectedTestingValue: string;
   //isRepaired :boolean = false;
-
+  datePicked : Date;
 
   constructor(private repairPFService:RepairPFDetailService, private _utilService: UtilService, private _aboutUsService: AboutUsService) {
   }
 
   ngOnInit() {
     this.getClientsPFList();
+    this.defaultDate.setHours(12,0);
+
+    this.testingValues = [{label:'Testat', value: null},{label: 'DA', value: 'DA'},{label: 'NU', value: 'NU'}];
 
     this.cols = [
-      {field: 'addedDate', header: 'Data introducerii', filter: true},
-      {field: 'lastname', header: 'Nume', filter: true},
-      {field: 'firstname', header: 'Prenume', filter: true},
-      {field: 'email', header: 'Email', filter: true},
-      {field: 'firm', header: 'Firma', filter: true},
-      {field: 'phone', header: 'Numar telefon', filter: true},
-      {field: 'phoneModel', header: 'Model Telefon', filter: true},
-      {field: 'problem', header: 'Solicitare/Problema', filter: true},
-      {field: 'imei', header: 'IMEI', filter: true},
-      {field: 'priceOffer', header: 'Oferta pret', filter: true},
-      {field: 'appointmentDate', header: 'Data si ora programarii', filter: true},
-      {field: 'tested', header: 'Testat?', filter: true},
-      {field: 'aboutUs', header: 'Cum a aflat de noi', filter: true},
-      {field: 'deliveredDate', header: 'Data Predarii', filter: true},
-      {field: 'isRepaired', header: 'Finalizat ? ', filter: true }
+      {field: 'addedDate', header: 'Data introducerii', filter: true, editable: true, sortable: true},
+      {field: 'lastname', header: 'Nume', filter: true, editable: true, sortable: true},
+      {field: 'firstname', header: 'Prenume', filter: true, editable: true, sortable: true},
+      {field: 'email', header: 'Email', filter: true, editable: true, sortable: true},
+      {field: 'firm', header: 'Firma', filter: true, editable: true, sortable: true},
+      {field: 'phone', header: 'Numar telefon', filter: true, editable: true, sortable: true},
+      {field: 'phoneModel', header: 'Model Telefon', filter: true, editable: true, sortable: true},
+      {field: 'problem', header: 'Solicitare/Problema', filter: true, editable: true, sortable: true},
+      {field: 'imei', header: 'IMEI', filter: true, editable: true, sortable: true},
+      {field: 'priceOffer', header: 'Oferta pret', filter: true, editable: true, sortable: true},
+      {field: 'appointmentDate', header: 'Data si ora programarii', filter: true, editable: true, sortable: true},
+      {field: 'tested', header: 'Testat?', filter: true, editable: true, sortable: true},
+      {field: 'aboutUs', header: 'Cum a aflat de noi?', filter: true, editable: true, sortable: true},
+      {field: 'deliveredDate', header: 'Data Predarii', filter: true, editable: false, sortable: true},
+      {field: 'isRepaired', header: 'Finalizat?', filter: true, editable: false , sortable: true}
     ];
 
     this.columnOptions = [];
@@ -88,10 +94,20 @@ export class RepairPFDetailComponent implements OnInit {
     this.repairPFService.updateItem(row.$key, {isRepaired: row.isRepaired});
 
     if(row.isRepaired == true){
-      let date = new Date(Date.now()).toLocaleString();
+      let date = new Date();
       this.repairPFService.updateItem(row.$key, {deliveredDate: date});
     }
+  }
 
+  updateAppointmentDate(row, time){
+    let date = new Date(time).getTime();
+    this.repairPFService.updateItem(row.$key, {appointmentDate: date});
+    this.defaultDate = new Date();
+    this.defaultDate.setHours(12,0);
+  }
+
+  updateTestedItem(row){
+    this.repairPFService.updateItem(row.$key, {tested: row.tested})
   }
 
 
