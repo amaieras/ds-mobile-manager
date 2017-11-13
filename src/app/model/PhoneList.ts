@@ -10,4 +10,6 @@ export class PhoneList {
   phoneQuantity = 1;
   problemList: ProblemList[]  = [];
   observation = '';
+  deliveredDate: string;
+  isRepaird = false;
 }

@@ -40,13 +40,13 @@ export class PhoneListComponent implements OnInit {
     this._phoneListService.getBrandList().subscribe(phoneModels => {
       this.phoneBrandsArray = [];
       phoneModels.forEach(snapshot => {
-        this.phoneBrandsArray.push({label: snapshot.name, value: snapshot.id});
+        this.phoneBrandsArray.push({label: snapshot.name, value: snapshot.name});
       });
     });
     this._phoneListService.getModelList().subscribe(phoneBrands => {
       this.phoneModelsArray = [];
       phoneBrands.forEach(snapshot => {
-        this.phoneModelsArray.push({label: snapshot.name, value: snapshot.id, phoneId: snapshot.phoneId});
+        this.phoneModelsArray.push({label: snapshot.name, value: snapshot.name, phoneId: snapshot.phoneId});
       });
       this.phoneModelsArray = this.phoneModelsArray.filter((item) => item.phoneId === 1);
       //Add as first value of model dropdown 'Altele' so after each change on brand dropdown value, this value will appear first
@@ -105,6 +105,7 @@ export class PhoneListComponent implements OnInit {
   }
 
   onSelect(phoneId) {
+    console.log(phoneId)
     const problemArray = this.phoneListGroup.controls['problems'] as FormArray;
     const firstModelOfBrandPrint = this.getFirstModelOfBrand(1);
     this.onModelSelect(firstModelOfBrandPrint);

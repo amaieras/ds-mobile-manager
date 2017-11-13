@@ -31,7 +31,6 @@ export class ClientPfDetailComponent implements OnInit {
   newPrblMaxId: string;
   newBrandMaxId: string;
   newModelMaxId: string;
-  newAboutUsMaxId: string;
   partPricesMaxId: string;
   isOtherRequired = false;
   aboutUsValExists = false;
@@ -81,17 +80,20 @@ export class ClientPfDetailComponent implements OnInit {
   onSubmit(event: Event) {
     this.prepareSavePhoneList();
     this.clientPF = this.saveClientPF;
-    this.clientPF.appointmentDate = this.defaultDate.getTime().toString();
-    this.clientPF.addedDate = new Date().getTime().toString();
     this.checkInputForNullOrUndefined();
     this._clientPFService.addPFClient(this.clientPF);
-    this.clientPF = new ClientPF();
-    this.clientPFForm.controls['phoneList'] = this.fb.array([]);
+    this.resetAfterSubumit();
     this.successMessage();
-    this.clientPFForm.reset();
-    this.ngOnInit();
     this.getMaxIds();
   }
+
+  private resetAfterSubumit() {
+    this.clientPF = new ClientPF();
+    this.clientPFForm.controls['phoneList'] = this.fb.array([]);
+    this.clientPFForm.reset();
+    this.ngOnInit();
+  }
+
   calculateTotalPrice() {
     const formModel = this.clientPFForm.value;
     let totalPrice = 0;
@@ -119,12 +121,15 @@ export class ClientPfDetailComponent implements OnInit {
     if (this.selectedOtherName !== '') {
       this._aboutUsService.addNewAboutUs(this.selectedOtherName);
     }
+
+    this.saveClientPF.addedDate = new Date().getTime().toString();
     this.saveClientPF.phoneList = PhoneListDeepCopy;
     this.saveClientPF.phone = formModel.phone;
     this.saveClientPF.tested = formModel.tested;
-    // this.saveClientPF.aboutUs = formModel.aboutUs;
+    this.saveClientPF.aboutUs = formModel.aboutUs;
     this.saveClientPF.priceOffer = this.totalPrice === null ? '0' : this.totalPrice.toString() ;
     this.saveClientPF.isRepaired = false;
+    this.saveClientPF.appointmentDate = this.defaultDate.getTime().toString();
   }
 
   addInPhoneList(): any {
@@ -232,7 +237,7 @@ export class ClientPfDetailComponent implements OnInit {
     this._aboutUsService.getAboutUsList().subscribe(aboutUsList => {
       this.aboutUsList = [];
       aboutUsList.forEach(snapshot => {
-        this.aboutUsList.push({label: snapshot.label, value: snapshot.value});
+        this.aboutUsList.push({label: snapshot.name, value: snapshot.name});
       });
     });
   }
@@ -288,7 +293,7 @@ export class ClientPfDetailComponent implements OnInit {
   }
 
   checkIsOther(val) {
-    console.log(this.selectedAboutUs)
+    console.log(val)
     this.isOtherRequired = this._utilService.checkIsOther(val.value);
     if (this.isOtherRequired) {
       this.clientPFForm.addControl('aboutAsName',
