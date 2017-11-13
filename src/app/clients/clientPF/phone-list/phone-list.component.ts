@@ -2,11 +2,11 @@ import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angula
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {PhoneCascadeService} from '../../../shared/phone-cascade.service';
 import {Observable} from 'rxjs/Observable';
-import {ClientPF} from '../../../model/ClientPF';
 import {UtilService} from "../../../utils/util.service";
 import {forbiddenStringInput} from "../../../shared/forbiddenStringInput";
 import {ProblemPrice} from "../../../model/ProblemPrice";
 import {PhoneListService} from "./phone-list.service";
+import {imeiValidator} from "../../../shared/imei-validator.directive";
 
 @Component({
   selector: 'app-phone-list',
@@ -15,8 +15,8 @@ import {PhoneListService} from "./phone-list.service";
 })
 export class PhoneListComponent implements OnInit {
   @Input('group') phoneListGroup: FormGroup;
+  @Input('clientPFForm') clientPFForm: FormGroup;
   @Output('change') phoneItem = new EventEmitter<any>();
-  @Input('clientPF') clientPF: ClientPF;
   newItem: any;
   mainArray: Array<any> = [];
   phoneBrandsArray: any = [];

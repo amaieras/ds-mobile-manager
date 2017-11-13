@@ -78,16 +78,8 @@ export class RepairPFDetailComponent implements OnInit {
     this.successMessage(event.data.lastname, event.data.firstname)
   }
 
-  getClientsPFList() {
-    this.repairPFService.getClientsPFList().subscribe(a => {
-      a.forEach(bc => {
-        this._aboutUsService.getAboutUsById(+bc.aboutUs).subscribe(as => {
-          return bc.aboutUs = as;
-        })
-      });
-      this.repairsPF = Observable.of(a);
-      return this.repairsPF;
-    });
+  getClientsPFList(): Observable<any> {
+    return this.repairPFService.getClientsPFList();
   }
 
   updateCheckedItem(row){

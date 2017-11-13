@@ -1,63 +1,70 @@
-<div id="print-section" style="display: none">
-  <div class="inner-container">
-    <div class="col-md-3">
-      <h3 class="title-epmhasis">Punct Service</h3>
-      <span>___________</span>
-      <h4 class="title-epmhasis">Tel.: <span class="input-data">{{warrantyInfo.phoneNumber}}</span></h4>
+<div *ngIf="warrantyInfo" id="print-section" style="display: none">
+  <div class="container">
+    <div class="row">
+        <div class="col-md-3">
+          <img src="../assets/logo.png">
+        </div>
+        <div class="col-md-3" style="margin-left: 11%;">
+          <h4 class="center-title title-epmhasis">Proces verbal de primire/ predare în service <br>(garanție)</h4>
+          <h3 class="center-title title-epmhasis">Fișă Client </h3>
+        </div>
+        <div class="col-md-3" style="margin-left: 17%; width:22% !important; margin-bottom: 7%;">
+          <h3 class="title-epmhasis">Nr.: <span class="input-data">{{warrantyInfo.noOfClients + 1}}</span></h3>
+        </div>
     </div>
-    <div class="col-md-5" style="padding-left: 7em">
-      <h4 class="center-title title-epmhasis">Proces verbal de primire in service <br>(garantie)</h4>
+    <div class="row">
+      <div class="col-md-4" style="position: absolute; margin-top: 7%;">
+        <h4 class="title-epmhasis">Tel DS Mobile: <span class="input-data">{{dsMobilePhone}}</span></h4>
+      </div>
     </div>
-    <div class="col-md-3" style="padding-left: 15em">
-      <h3 class="title-epmhasis">Nr.:_____________</h3>
-    </div>
+
     <table class="table table-bordered">
       <thead>
       <tr>
-        <th scope="col">Tip Telefon: <span class="input-data">{{warrantyInfo.brandName}}</span></th>
-        <th scope="col">MODEL: <span class="input-data">{{warrantyInfo.modelName}}</span></th>
+        <th>Tip Telefon: <span class="input-data">{{warrantyInfo.brandName}}</span></th>
+        <th>MODEL: <span class="input-data">{{warrantyInfo.modelName}}</span></th>
       </tr>
       </thead>
       <tbody>
       <tr>
-        <th scope="row"></th>
+        <th></th>
         <th>Culoare: <span class="input-data">{{warrantyInfo.phoneColor}}</span></th>
       </tr>
       <tr>
-        <th scope="row">Data Primirii: <span class="input-data">{{warrantyInfo.dayAdded}}</span>/<span class="input-data">{{warrantyInfo.monthAdded}}</span>/<span class="input-data">{{warrantyInfo.yearAdded}}</span></th>
-        <th>IMEI: <span class="input-data">{{warrantyInfo.imei}}</span></th>
+        <th>Data Primirii: <span class="input-data">{{dateObj | date:'dd/MM/yyyy, hh:mm a'}}</span></th>
+        <th>IMEI: <span class="input-data">{{warrantyInfo.imei !== '' ? warrantyInfo.imei : 'No IMEI'}}</span></th>
       </tr>
       <tr>
-        <th scope="row"></th>
+        <th></th>
         <th>Acumulator: DA__NU__Seria:__________</th>
       </tr>
       <tr>
-        <th scope="row">Garantie:______DA__NU__</th>
-        <th>Incarcator: Seria:__________</th>
+        <th>Garanție:______DA__NU__</th>
+        <th>Încărcător: Seria:__________</th>
       </tr>
       <tr>
-        <th scope="row"></th>
-        <th>Cod Telefon</th>
+        <th>Defect Constatat: <span *ngFor="let part of warrantyInfo.parts" class="input-data">{{part}}; </span></th>
+        <th>Piese  înlocuite: <span *ngFor="let part of warrantyInfo.parts" class="input-data">{{part}}; </span></th>
       </tr>
       <tr>
-        <th scope="row">Defect Constatat</th>
-        <th>Piese inlocuite</th>
+        <th>Termen de reparare:________ zile</th>
+        <th>Data predării: <span class="input-data">{{warrantyInfo.deliveredTime | date:'dd/MM/yyyy, hh:mm a'}}</span></th>
       </tr>
       <tr>
-        <th scope="row">Termen de reparare:________ zile</th>
-        <th>Data predarii: ____/____/201__</th>
+        <th>Preț estimativ: <span class="input-data">{{warrantyInfo.price}} RON</span></th>
+        <th>Preț achitat:</th>
       </tr>
       <tr>
-        <th scope="row">Pret estimativ: <span class="input-data">{{warrantyInfo.price}} RON</span></th>
-        <th>Pret achitat:</th>
+        <th>Nume client: <span class="input-data"> {{warrantyInfo.lastname}} {{warrantyInfo.firstname}}</span></th>
+        <th>Număr telefon: <span class="input-data"> {{warrantyInfo.phoneNumber}}</span></th>
       </tr>
       <tr>
-        <th scope="row">Nume client: <span class="input-data"> {{warrantyInfo.lastname}} {{warrantyInfo.firstname}}</span></th>
-        <th>Numar telefon: <span class="input-data"> {{warrantyInfo.phoneNumber}}</span></th>
+        <th>Semnătură predare telefon (client):</th>
+        <th>Semnătură primire telefon (client):</th>
       </tr>
       <tr>
-        <th scope="row">Semnatura client:</th>
-        <th>Reprezentant service:</th>
+        <th>Semnătură primire telefon (reprezentant service):</th>
+        <th>Semnătură predare telefon (reprezentant service):</th>
       </tr>
       </tbody>
     </table>
@@ -81,51 +88,104 @@
   </div>
 
   <div class="dotted-border">
-    <div class="col-md-3 col-md-offset-6" style="width: 100%">
-      <h4 class="title-epmhasis">FISA CLIENT</h4>
-    </div>
-    <div class="col-md-4" style="margin-bottom: 5px;">
-      <span class="title-epmhasis">Nume client:</span> <span class="input-data"> {{warrantyInfo.lastname}} {{warrantyInfo.firstname}}</span>
-    </div>
-    <div class="col-md-3 col-md-offset-5">
-      <span class="title-epmhasis">Data intrare:</span> <span class="input-data">{{warrantyInfo.dayAdded}}</span>/<span class="input-data">{{warrantyInfo.monthAdded}}</span>/<span class="input-data">{{warrantyInfo.yearAdded}}</span>
-    </div>
-    <div class="col-md-3">
-      <span class="title-epmhasis">Provenienta client:</span>
-    </div>
-    <table class="table table-bordered">
-      <thead>
-      <tr>
-        <th scope="col">Display</th>
-        <th scope="col">Culoare</th>
-        <th scope="col">Cantitate</th>
-        <th scope="col">Testat</th>
-        <th scope="col">Observatii</th>
-        <th scope="col">Pret</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <td>-</td>
-        <td><span class="input-data">{{warrantyInfo.phoneColor}}</span></td>
-        <td>1</td>
-        <td>NU</td>
-        <td><span class="input-data">{{warrantyInfo.observation}}</span></td>
-        <td><span class="input-data">{{warrantyInfo.price}} RON</span></td>
-      </tr>
-      </tbody>
-    </table>
-    <div class="col-md-3">
-      <span class="title-epmhasis">Nr tel: </span><span class="input-data"> {{warrantyInfo.phoneNumber}}</span>
-    </div>
-    <div class="col-md-3">
-      <span class="title-epmhasis">Semnatura:</span>
-    </div>
-    <div class="col-md-3">
-      <span class="title-epmhasis">Semnatura predare:</span>
-    </div>
-    <div class="col-md-3">
-      <span class="title-epmhasis">Data livrare:</span>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3">
+          <img src="../assets/logo.png">
+        </div>
+        <div class="col-md-3" style="margin-left: 11%;">
+          <h4 class="center-title title-epmhasis">Proces verbal de primire/ predare în service <br>(garanție)</h4>
+          <h3 class="center-title title-epmhasis">DS Mobile </h3>
+        </div>
+        <div class="col-md-3" style="margin-left: 17%; width:22% !important; margin-bottom: 7%;">
+          <h3 class="title-epmhasis">Nr.: <span class="input-data">{{warrantyInfo.noOfClients + 1}}</span></h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4" style="position: absolute; margin-top: 7%;">
+          <h4 class="title-epmhasis">Tel DS Mobile: <span class="input-data">{{dsMobilePhone}}</span></h4>
+        </div>
+      </div>
+
+      <table class="table table-bordered">
+        <thead>
+        <tr>
+          <th>Tip Telefon: <span class="input-data">{{warrantyInfo.brandName}}</span></th>
+          <th>MODEL: <span class="input-data">{{warrantyInfo.modelName}}</span></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <th></th>
+          <th>Culoare: <span class="input-data">{{warrantyInfo.phoneColor}}</span></th>
+        </tr>
+        <tr>
+          <th>Data Primirii: <span class="input-data">{{dateObj | date:'dd/MM/yyyy, hh:mm a'}}</span></th>
+          <th>IMEI: <span class="input-data">{{warrantyInfo.imei !== '' ? warrantyInfo.imei : 'No IMEI'}}</span></th>
+        </tr>
+        <tr>
+          <th></th>
+          <th>Acumulator: DA__NU__Seria:__________</th>
+        </tr>
+        <tr>
+          <th>Garanție:______DA__NU__</th>
+          <th>Încărcător: Seria:__________</th>
+        </tr>
+        <tr>
+          <th></th>
+          <th>Cod Telefon: <span class="input-data">{{warrantyInfo.phoneCode}}</span></th>
+        </tr>
+        <tr>
+          <th>Defect Constatat: <span *ngFor="let part of warrantyInfo.parts" class="input-data">{{part}}; </span></th>
+          <th>Piese  înlocuite: <span *ngFor="let part of warrantyInfo.parts" class="input-data">{{part}}; </span></th>
+        </tr>
+        <tr>
+          <th>Termen de reparare:________ zile</th>
+          <th>Data predării: <span class="input-data">{{warrantyInfo.deliveredTime | date:'dd/MM/yyyy, hh:mm a'}}</span></th>
+        </tr>
+        <tr>
+          <th>Preț estimativ: <span class="input-data">{{warrantyInfo.price}} RON</span></th>
+          <th>Preț achitat:</th>
+        </tr>
+        <tr>
+          <th>Observații: <span class="input-data">{{warrantyInfo.observation}}</span></th>
+          <th>Testat?: <span class="input-data">{{warrantyInfo.tested}}</span></th>
+        </tr>
+        <tr>
+          <th>Nume client: <span class="input-data"> {{warrantyInfo.lastname}} {{warrantyInfo.firstname}}</span></th>
+          <th>Număr telefon: <span class="input-data"> {{warrantyInfo.phoneNumber}}</span></th>
+        </tr>
+        <tr>
+          <th>Proveniență client: <span class="input-data"> {{warrantyInfo.aboutUs}}</span></th>
+          <th></th>
+        </tr>
+        <tr>
+          <th>Semnătură predare telefon (client):</th>
+          <th>Semnătură primire telefon (client):</th>
+        </tr>
+        <tr>
+          <th>Semnătură primire telefon (reprezentant service):</th>
+          <th>Semnătură predare telefon (reprezentant service):</th>
+        </tr>
+        </tbody>
+      </table>
+      <div class="footer">
+        <span class="title-epmhasis">Notă: </span> Garanția pentru reparația telefonului este de __ zile de la data ridicării aparatului și se acordă doar pentru
+        defecțiunea remediată și nu pentru alte defecțiuni nesolicitate sau apărute pe parcursul garanției. În cazul telefoanelor cu defecțiuni grave, firma
+        nu își asumă nici un fel de responsabilitate dacă în urma procesului de reparație, acesta manifestă și alte defecte decât acelea pentru care a fost
+        solicitată reparația( nu pornește, nu are semnal, nu încarcă, etc.).<br/>
+        <span class="title-epmhasis" style="padding-left:4em">NU</span> se acordă garanție pentru:
+        <ul>
+          <li> carcase lovite, antene rupte, conectori deteriorați, display spart sau defecțiuni provenite din nerespectarea condițiilor din certificatul de
+            garanție, punere în funcțiune și utilizare precum și intervenții neautorizate asupra echipamentului.
+          </li>
+          <li> reparația telefoanelor care au urme și efecte secundare datorate contactului cu diferite lichide.</li>
+          <li>lipsa sau deteriorarea sigiliului de garanție.</li>
+        </ul>
+        <span class="title-epmhasis">ATENŢIE:</span>  În cazult operațiunilor de programare software, datele personale din telefon( contacte, calendar, albume,
+        multimedia, etc.) pot fi șterse irecuperabil. Aparatele vor fi predate în maxim 30 de zile de la data reparației. După acest termen, firma nu mai
+        răspunde de acestea!
+      </div>
     </div>
   </div>
 </div>

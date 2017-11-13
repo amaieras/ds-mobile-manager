@@ -26,6 +26,15 @@ export class ProblemListService implements OnInit {
       return arr.map(snap => Object.assign(snap.payload.val(), {$key: snap.key}));
     });
   }
+
+  public getProblemById(id: number): Observable<any>{
+    return this.getProblemList().take(1).map(items => {
+      return items.filter( a => +a.id === +id)
+        .map(cs => {
+          return cs.name
+        });
+    });
+  }
   public getMaxIdFromProblems(): Observable<any> {
     return this.getProblemList().take(1).map(item => {
       return this._utilService.getMaxIdNewItems(item);

@@ -1,8 +1,5 @@
 
 export class WarrantyInfo {
-  private _monthAdded: number;
-  private _dayAdded: number;
-  private _yearAdded: number;
   private _lastname: string;
   private _firstname: string;
   private _phoneNumber: string;
@@ -13,12 +10,15 @@ export class WarrantyInfo {
   private _modelName: string;
   private _observation: string;
   private _tested: string;
+  private _aboutUs: string;
+  private _parts: string[];
+  private _deliveredTime : string;
+  private _phoneCode: string;
+  private _noOfClients: number;
 
-  constructor(monthAdded: number, dayAdded: number, yearAdded: number, lastname: string, firstname: string, phoneNumber: string, price: number,
-              phoneColor: string, imei: string, brandName: string, modelName: string, observation: string, tested: string) {
-    this._monthAdded = monthAdded;
-    this._dayAdded = dayAdded;
-    this._yearAdded = yearAdded;
+  constructor(lastname: string, firstname: string, phoneNumber: string, price: number, phoneColor: string, imei: string, brandName: string,
+              modelName: string, observation: string, tested: string, aboutUs: string, parts: string[], deliveredTime: string, phoneCode: string,
+              noOfClients: number) {
     this._lastname = lastname;
     this._firstname = firstname;
     this._phoneNumber = phoneNumber;
@@ -29,8 +29,45 @@ export class WarrantyInfo {
     this._modelName = modelName;
     this._observation = observation;
     this._tested = tested;
+    this._aboutUs = aboutUs;
+    this._parts = parts;
+    this._deliveredTime = deliveredTime;
+    this._phoneCode = phoneCode;
+    this._noOfClients = noOfClients;
   }
 
+
+  get noOfClients(): number {
+    return this._noOfClients;
+  }
+
+  set noOfClients(value: number) {
+    this._noOfClients = value;
+  }
+
+  get phoneCode(): string {
+    return this._phoneCode;
+  }
+
+  set phoneCode(value: string) {
+    this._phoneCode = value;
+  }
+
+  get deliveredTime(): string {
+    return this._deliveredTime;
+  }
+
+  set deliveredTime(value: string) {
+    this._deliveredTime = value;
+  }
+
+  get parts(): string[] {
+    return this._parts;
+  }
+
+  set parts(value: string[]) {
+    this._parts = value;
+  }
 
   get tested(): string {
     return this._tested;
@@ -39,37 +76,19 @@ export class WarrantyInfo {
   set tested(value: string) {
     this._tested = value;
   }
+  get aboutUs(): string {
+    return this._aboutUs;
+  }
 
+  set aboutUs(value: string) {
+    this._aboutUs = value;
+  }
   get observation(): string {
     return this._observation;
   }
 
   set observation(value: string) {
     this._observation = value;
-  }
-
-  get monthAdded(): number {
-    return this._monthAdded;
-  }
-
-  set monthAdded(value: number) {
-    this._monthAdded = value;
-  }
-
-  get dayAdded(): number {
-    return this._dayAdded;
-  }
-
-  set dayAdded(value: number) {
-    this._dayAdded = value;
-  }
-
-  get yearAdded(): number {
-    return this._yearAdded;
-  }
-
-  set yearAdded(value: number) {
-    this._yearAdded = value;
   }
 
   get lastname(): string {

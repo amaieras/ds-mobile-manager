@@ -22,7 +22,7 @@ export class ProblemListComponent implements OnInit {
   isPresent = false;
 
   constructor(private _problemListService: ProblemListService, private _utilService: UtilService,
-              private changeDetector: ChangeDetectorRef) { }
+              private _changeDetector: ChangeDetectorRef) { }
   ngOnInit() {
     this._problemListService.getProblemList().subscribe(problemsList => {
       this.problemsList = [];
@@ -59,7 +59,9 @@ export class ProblemListComponent implements OnInit {
     } else {
       this.problemListGroup.removeControl('partName');
     }
-    this.changeDetector.detectChanges();
+    if (!this._changeDetector['destroyed']) {
+      this._changeDetector.detectChanges();
+    }
   }
 
   get partName() {

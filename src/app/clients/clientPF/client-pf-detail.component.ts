@@ -12,6 +12,7 @@ import {Observable} from 'rxjs/Observable';
 import {DropdownModel} from 'app/model/DropdownModel';
 import {PhoneListService} from 'app/clients/clientPF/phone-list/phone-list.service';
 import {PrintReceiptComponent} from "../../print/print-receipt.component";
+import {imeiValidator} from "../../shared/imei-validator.directive";
 
 @Component({
   selector: 'app-client-pf-detail',
@@ -38,6 +39,8 @@ export class ClientPfDetailComponent implements OnInit {
   selectedAboutUs = 'FACEBOOK';
   selectedOtherName = '';
   totalPrice = 0;
+  noOfClients: number = 0;
+
   @ViewChild(PrintReceiptComponent ) child: PrintReceiptComponent;
 
   constructor(private _clientPFService: ClientPFService, private fb: FormBuilder,
@@ -51,6 +54,7 @@ export class ClientPfDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.populateDropDowns();
+    this.clientPF.tested = this.saveClientPF.tested;
     this.defaultDate.setHours(12, 0);
     this.clientPFForm = this.fb.group({
       'lastname': new FormControl('', [
@@ -68,7 +72,7 @@ export class ClientPfDetailComponent implements OnInit {
       phoneList: this.fb.array([]),
       'tested': new FormControl('NU', []),
       'priceOffer': new FormControl({value: 0, disabled: true}),
-      'appointment': new FormControl('', []),
+      'appointment': new FormControl(this.defaultDate.getTime().toString(), []),
       'aboutUs': new FormControl('FACEBOOK', [])
     });
     this.aboutUsList.push({label: 'Altele', value: 'Altele'});
@@ -112,12 +116,13 @@ export class ClientPfDetailComponent implements OnInit {
     this.addNewProblemSynced(formModel);
     this.addNewBrandModelSynced(formModel);
     this.addNewSingleModelSynced(formModel);
-    if (this._utilService.isNullOrUndefined(this.newAboutUsMaxId) && this.selectedOtherName !== '') {
-      this._aboutUsService.addNewAboutUs(this.newAboutUsMaxId + 1, this.selectedOtherName);
+    if (this.selectedOtherName !== '') {
+      this._aboutUsService.addNewAboutUs(this.selectedOtherName);
     }
     this.saveClientPF.phoneList = PhoneListDeepCopy;
     this.saveClientPF.phone = formModel.phone;
-    this.saveClientPF.aboutUs = formModel.aboutUs;
+    this.saveClientPF.tested = formModel.tested;
+    // this.saveClientPF.aboutUs = formModel.aboutUs;
     this.saveClientPF.priceOffer = this.totalPrice === null ? '0' : this.totalPrice.toString() ;
     this.saveClientPF.isRepaired = false;
   }
@@ -153,11 +158,11 @@ export class ClientPfDetailComponent implements OnInit {
       for (let j = 0; j < formModel.phoneList[i].problems.length; j++) {
         const phoneItem = formModel.phoneList[i];
         const problemItem = formModel.phoneList[i].problems[j];
-        if (phoneItem.phoneBrand.toString() === '0' || phoneItem.phoneModel.toString() === '0' || problemItem.problem.toString() === '0') {
-          phoneItem.phoneBrand = phoneItem.phoneBrand === 0 ? this.newBrandMaxId + 1 : phoneItem.phoneBrand;
-          phoneItem.phoneModel = parseInt(phoneItem.phoneModel) === 0 ? this.newModelMaxId + 1 : phoneItem.phoneModel;
-          problemItem.problem = problemItem.problem === 0 ? this.newPrblMaxId + 1 : problemItem.problem;
-          this._clientPFService.addNewPartPrice(this.partPricesMaxId + 1, phoneItem.phoneBrand, parseInt(phoneItem.phoneModel), problemItem.pricePerPart, problemItem.problem)
+        if (+phoneItem.phoneBrand === 0 || +phoneItem.phoneModel === 0 || +problemItem.problem === 0) {
+          phoneItem.phoneBrand = +phoneItem.phoneBrand === 0 ? this.newBrandMaxId + 1 : phoneItem.phoneBrand;
+          phoneItem.phoneModel = phoneItem.phoneModel === null || +phoneItem.phoneModel === 0 ? this.newModelMaxId + 1 : phoneItem.phoneModel;
+          problemItem.problem = +problemItem.problem === 0 ? this.newPrblMaxId + 1 : problemItem.problem;
+          this._clientPFService.addNewPartPrice(this.partPricesMaxId + 1, +phoneItem.phoneBrand, +phoneItem.phoneModel, +problemItem.pricePerPart, +problemItem.problem)
         }
       }
     }
@@ -196,9 +201,15 @@ export class ClientPfDetailComponent implements OnInit {
       phoneBrand: '',
       phoneModel: '',
       phoneColor: '',
-      imei: '',
       problems: this.fb.array([]),
-      observation: ''
+      observation: '',
+      phoneCode: new FormControl('', [
+            Validators.required
+          ]),
+      imei: new FormControl('', [
+        Validators.maxLength(14),
+        // imeiValidator(/^\d+$/i)
+      ])
     });
   }
 
@@ -213,6 +224,7 @@ export class ClientPfDetailComponent implements OnInit {
   initForm() {
     this.priceOffer.setValue(0);
     this.addInPhoneList();
+    this.resetAboutAs();
     this.getMaxIds();
   }
 
@@ -220,7 +232,7 @@ export class ClientPfDetailComponent implements OnInit {
     this._aboutUsService.getAboutUsList().subscribe(aboutUsList => {
       this.aboutUsList = [];
       aboutUsList.forEach(snapshot => {
-        this.aboutUsList.push(new DropdownModel(snapshot.name, snapshot.id));
+        this.aboutUsList.push({label: snapshot.label, value: snapshot.value});
       });
     });
   }
@@ -229,10 +241,7 @@ export class ClientPfDetailComponent implements OnInit {
     this._problemListService.getMaxIdFromProblems().subscribe(partItem => {
       this.newPrblMaxId = partItem;
     });
-    this._aboutUsService.getMaxIdFromAboutUs().subscribe(aboutUsItem => {
-      this.newAboutUsMaxId = aboutUsItem;
-      this.resetAboutAs();
-    });
+
     this._phoneListService.getMaxIdFromBrands().subscribe(brandMaxId => {
       this.newBrandMaxId = brandMaxId;
     });
@@ -264,8 +273,8 @@ export class ClientPfDetailComponent implements OnInit {
 
 
   private resetAboutAs() {
-    if (this.selectedAboutUs !== '1'){
-      this.selectedAboutUs = '1';
+    if (this.selectedAboutUs !== 'FACEBOOK'){
+      this.selectedAboutUs = 'FACEBOOK';
     }
     this.clientPFForm.removeControl('aboutAsName');
     this.isOtherRequired = false;
@@ -279,6 +288,7 @@ export class ClientPfDetailComponent implements OnInit {
   }
 
   checkIsOther(val) {
+    console.log(this.selectedAboutUs)
     this.isOtherRequired = this._utilService.checkIsOther(val.value);
     if (this.isOtherRequired) {
       this.clientPFForm.addControl('aboutAsName',
@@ -294,8 +304,13 @@ export class ClientPfDetailComponent implements OnInit {
     }
   }
   print() {
-    this.child.print();
+    this._clientPFService.getAllClients().subscribe( client => {
+      this.noOfClients = client.length;
+      this.clientPFForm.patchValue({appointment: this.defaultDate.getTime().toString()});
+      this.child.print();
+    })
   }
+
 
   successMessage() {
     this.msgs = [];
@@ -359,9 +374,8 @@ export class ClientPfDetailComponent implements OnInit {
   get deliveredDate(){
     return this.clientPFForm.get('deliveredDate');
   }
-
-
-
-
+  get phoneCode(){
+    return this.clientPFForm.get('phoneCode');
+  }
 }
 

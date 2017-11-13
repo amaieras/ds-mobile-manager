@@ -65,7 +65,7 @@
                 *ngIf="clientPFForm.controls.phoneList.controls.length > 1" (click)="removeFromPhoneList(i)"></span>
         </div>
         <div class="panel-body" [formGroupName]="i">
-          <app-phone-list [clientPF]="saveClientPF" [group]="clientPFForm.controls['phoneList']['controls'][i]"
+          <app-phone-list [clientPFForm]='clientPFForm' [group]="clientPFForm.controls['phoneList']['controls'][i]"
                       (change)="getPhoneItem($event)"></app-phone-list>
         </div>
         <br>
@@ -88,7 +88,7 @@
       </div>
     </div>
     <div class="form-group">
-      <label for="appointmentDate" style="display: block">Data si ora programarii</label>
+      <label for="appointmentDate" style="display: block">Programare predare telefon</label>
       <p-calendar id="appointmentDate" [(ngModel)]="defaultDate" [ngModelOptions]="{standalone: true}"
                   [defaultDate]="defaultDate" [showTime]="true" [showIcon]="true" readonlyInput="readonlyInput"
                   [stepMinute]="15">
@@ -107,8 +107,7 @@
     </div>
     <div class="form-group">
       <label for="tested" style="display: block">Testat?</label>
-      <p-dropdown id="tested" [options]="tests" [(ngModel)]="saveClientPF.tested" [ngModelOptions]="{standalone: true}"
-                  [style]="{'width':'150px'}" filter="filter">
+      <p-dropdown id="tested" [options]="tests" formControlName="tested" [style]="{'width':'150px'}" filter="filter">
         <ng-template let-test pTemplate="item">
           <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
             <div style="font-size:14px;float:right;margin-top:4px">{{test.label}}</div>
@@ -119,7 +118,7 @@
     <div class="form-group">
       <div class="col-md-3">
       <label for="aboutUs" style="display: block">Cum a aflat de noi?</label>
-      <p-dropdown id="aboutUs" [options]="aboutUsList" formControlName="aboutUs" [(ngModel)]="selectedAboutUs" [style]="{'width':'150px'}"
+      <p-dropdown id="aboutUs" [options]="aboutUsList" formControlName="aboutUs"  [style]="{'width':'150px'}"
                   filter="filter" (onChange)="checkIsOther($event)" required>
         <ng-template let-abUs pTemplate="item">
           <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
@@ -146,7 +145,7 @@
       <button type="button" class="btn btn-default"
               [disabled]="false" (click)="print()">Printeaza
       </button>
-      <app-print-receipt [clientPF]="clientPFForm" [totalPrice]="totalPrice"></app-print-receipt>
+      <app-print-receipt [noOfClients]="noOfClients" [clientPF]="clientPFForm" [totalPrice]="totalPrice"></app-print-receipt>
     </div>
   </form>
 </div>
