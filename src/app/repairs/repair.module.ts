@@ -6,7 +6,10 @@ import { RouterModule } from "@angular/router";
 import { RepairTypeListComponent } from "./repair-type-list/repair-type-list.component";
 import { RepairPFDetailComponent } from "./repairPF/repair-pf-detail.component";
 import { RepairGSMDetailComponent } from "./repairGSM/repair-gsm-detail.component"
-import {DataTableModule, GrowlModule, MultiSelectModule, SharedModule} from "primeng/primeng"
+import {
+  CalendarModule, DataTableModule, DropdownModule, GrowlModule, MultiSelectModule,
+  SharedModule
+} from "primeng/primeng"
 import { DialogModule, CheckboxModule } from "primeng/primeng";
 import { RepairPFDetailService } from "./repairPF/repair-pf-detail.service";
 import { RepairGSMDetailService } from "./repairGSM/repair-gsm-detail.service";
@@ -22,7 +25,9 @@ import { RepairGSMDetailService } from "./repairGSM/repair-gsm-detail.service";
     DialogModule,
     CheckboxModule,
     MultiSelectModule,
-    //primeng
+    DropdownModule,
+    CalendarModule,
+//primeng
     GrowlModule
   ],
   declarations: [
