@@ -11,7 +11,7 @@ import {AboutUsService} from "../../clients/clientPF/phone-list/about-us/about-u
   templateUrl: './repair-pf-detail.component.html'
 })
 export class RepairPFDetailComponent implements OnInit {
-  repairsPF:Observable<ClientPF[]>;
+  repairsPF: Observable<ClientPF[]>;
   cols:any[];
   msgs:Message[] = [];
   columnOptions:SelectItem[];
@@ -25,7 +25,7 @@ export class RepairPFDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getClientsPFList();
+    this.repairsPF = this.getClientsPFList();
     this.defaultDate.setHours(12,0);
 
     this.testingValues = [{label:'Testat', value: null},{label: 'DA', value: 'DA'},{label: 'NU', value: 'NU'}];
