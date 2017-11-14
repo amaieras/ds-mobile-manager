@@ -31,7 +31,7 @@ export class PhoneListService implements OnInit {
   }
   public getBrandNameById(id: number): Observable<any>{
     return this.getBrandList().take(1).map(items => {
-      items.filter( a => +a.id === +id)
+      items.filter( a => +a.$key === +id)
         .map(cs => {
           return this.item = cs.name
         });
@@ -40,7 +40,7 @@ export class PhoneListService implements OnInit {
   }
   public getModelNameById(id: number): Observable<any>{
     return this.getModelList().take(1).map(items => {
-      items.filter( a => +a.id === +id)
+      items.filter( a => +a.$key === +id)
         .map(cs => {
           return this.item = cs.name
         });

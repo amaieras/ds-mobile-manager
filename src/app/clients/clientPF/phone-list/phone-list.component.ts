@@ -157,12 +157,12 @@ export class PhoneListComponent implements OnInit {
     this.selectedModel = modelId;
     const that = this;
     for (let i=0; i < problemArray.length; i++) {
-      const itemInput = <FormGroup>problemArray.at(i)
+      const itemInput = <FormGroup>problemArray.at(i);
       const items = this.problemsPriceList.filter(phone => {
         return phone._phoneBrand.toString() === that.newItem.phoneId.toString()
           && phone._phoneModel === modelId
           && phone._problemId.toString() === itemInput.controls['problem'].value.toString();
-      })
+      });
       if (items[0] !== undefined) {
         itemInput.controls['pricePerPart'].setValue(items[0]._price)
       } else {

@@ -5,6 +5,7 @@ import {Observable} from "rxjs/Observable";
 import {ClientPF} from "../../model/ClientPF";
 import {UtilService} from "../../utils/util.service";
 import {AboutUsService} from "../../clients/clientPF/phone-list/about-us/about-us.service";
+import {PhoneListService} from "../../clients/clientPF/phone-list/phone-list.service";
 
 @Component({
   selector: 'repair-pf-detail',
@@ -17,33 +18,42 @@ export class RepairPFDetailComponent implements OnInit {
   columnOptions:SelectItem[];
   testingValues: any[];
   defaultDate: Date = new Date();
-  selectedTestingValue: string;
-  //isRepaired :boolean = false;
-  datePicked : Date;
+  selectedItem: ClientPF;
 
-  constructor(private repairPFService:RepairPFDetailService, private _utilService: UtilService, private _aboutUsService: AboutUsService) {
+  constructor(private repairPFService:RepairPFDetailService, private _utilService: UtilService, private _phoneListService: PhoneListService) {
   }
 
   ngOnInit() {
-    this.getClientsPFList();
+     this.repairsPF = this.getClientsPFList();
+     this.getClientsPFList();
+    this.repairsPF.subscribe(a => {
+      a.forEach(b => {
+        console.log(b)
+        b.phoneList.forEach(phone =>  {
+          this._phoneListService.getBrandNameById(+phone.phoneBrand).subscribe(name => console.log(name))
+          this._phoneListService.getModelNameById(+phone.phoneModel).subscribe(name => console.log(name));
+        })
+      })
+    })
     this.defaultDate.setHours(12,0);
 
-    this.testingValues = [{label:'Testat', value: null},{label: 'DA', value: 'DA'},{label: 'NU', value: 'NU'}];
+    this.testingValues = [{label: 'DA', value: 'DA'},{label: 'NU', value: 'NU'}];
 
     this.cols = [
+
       {field: 'addedDate', header: 'Data introducerii', filter: true, editable: true, sortable: true},
       {field: 'lastname', header: 'Nume', filter: true, editable: true, sortable: true},
       {field: 'firstname', header: 'Prenume', filter: true, editable: true, sortable: true},
       {field: 'email', header: 'Email', filter: true, editable: true, sortable: true},
       {field: 'firm', header: 'Firma', filter: true, editable: true, sortable: true},
       {field: 'phone', header: 'Numar telefon', filter: true, editable: true, sortable: true},
-      {field: 'phoneModel', header: 'Model Telefon', filter: true, editable: true, sortable: true},
+      {field: 'phoneList', header: 'Model Telefon', filter: true, editable: true, sortable: true},
       {field: 'problem', header: 'Solicitare/Problema', filter: true, editable: true, sortable: true},
       {field: 'imei', header: 'IMEI', filter: true, editable: true, sortable: true},
       {field: 'priceOffer', header: 'Oferta pret', filter: true, editable: true, sortable: true},
       {field: 'appointmentDate', header: 'Data si ora programarii', filter: true, editable: true, sortable: true},
       {field: 'tested', header: 'Testat?', filter: true, editable: true, sortable: true},
-      {field: 'aboutUs', header: 'Cum a aflat de noi?', filter: true, editable: true, sortable: true},
+      {field: 'aboutUs', header: 'Cum a aflat de noi?', filter: true, editable: false, sortable: true},
       {field: 'deliveredDate', header: 'Data Predarii', filter: true, editable: false, sortable: true},
       {field: 'isRepaired', header: 'Finalizat?', filter: true, editable: false , sortable: true}
     ];
@@ -79,7 +89,7 @@ export class RepairPFDetailComponent implements OnInit {
   }
 
   getClientsPFList(): Observable<any> {
-    return this.repairPFService.getClientsPFList();
+    return this.repairPFService.getClientsPFList()
   }
 
   updateCheckedItem(row){
