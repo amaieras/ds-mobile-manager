@@ -4,18 +4,15 @@
       <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
       <input #gb  pInputText size="50" placeholder="Cauta peste tot">
     </div>
-
     <p-dataTable [value]="repairsPF|async" [editable]="true" [paginator]="true" rows="10" [globalFilter]="gb" [responsive]="true"
-                 (onEditComplete)="updateField($event)" [rowStyleClass]="disabledRow" >
+                 (onEditComplete)="updateField($event)" [rowStyleClass]="disabledRow" expandableRows="true">
       <p-header>
         <div style="text-align:left">
           <p-multiSelect [options]="columnOptions" [(ngModel)]="cols"></p-multiSelect>
         </div>
         Reparatii pentru clientii PF
       </p-header>
-
-
-
+      <p-column expander="true" styleClass="col-icon"></p-column>
       <p-column *ngFor="let column of cols" [field]="column.field" [header]="column.header" [filter]="column.filter" [editable]="column.editable" [sortable]="column.sortable" >
 
         <ng-container *ngIf="column.field == 'addedDate'">
@@ -62,54 +59,39 @@
             <p-checkbox [(ngModel)]="row[col.field]" binary="true" (onChange)="updateCheckedItem(row)"></p-checkbox>
           </ng-template>
         </ng-container>
+        <ng-container *ngIf="column.field == 'phoneList'" >
+          <!--<ng-template let-col let-childs="rowData.phoneList"  pTemplate="body">-->
+                <!--<div *ngFor="let item of childs">{{item.phoneBrand}}-->
+                  <!--<div [ngClass]="childs.length > 1 ? 'underlined' : 'nothing'">-->
 
+                  <!--<span *ngFor="let problem of item.problems; let i = index">-->
+                    <!--Problema {{i+1}}: {{problem.problem}} - {{problem.pricePerPart}}-->
+                  <!--</span><br>-->
+                  <!--</div>-->
+
+                <!--</div>-->
+
+          <!--</ng-template>-->
+        </ng-container>
       </p-column>
+      <ng-template let-car  pTemplate="rowexpansion">
+        <div class="ui-grid ui-grid-responsive ui-fluid" style="font-size:16px;padding:20px">
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-3" style="text-align:center">
+              <i class="fa fa-search"  style="cursor:pointer;float:left;margin-top:40px"></i>
+            </div>
+            <div class="ui-grid-col-9">
+              <div class="ui-grid ui-grid-responsive ui-grid-pad" *ngFor="let item of car.phoneList">
+                <div class="ui-grid-row" *ngFor="let it of item.problems">
+                  <div class="ui-grid-col-2 label">Vin: </div>
+                  <div class="ui-grid-col-10">{{it.problem}}</div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
     </p-dataTable>
+
 </div>
-
-
-
-
-
-
-<!--<p-column field="addedDate" header="Data si ora introducerii" [sortable]="true" [filter]="true">-->
-<!--<ng-template let-col let-addedDate="rowData" pTemplate="body">-->
-<!--<span [style.color]="addedDate[col.field]">{{addedDate[col.field] | date:"dd-MM-yyyy HH:mm"}}</span>-->
-<!--</ng-template>-->
-<!--</p-column>-->
-<!--<p-column field="lastname" header="Nume" [sortable]="true" [filter]="true" [editable]="true"></p-column>-->
-<!--<p-column field="firstname" header="Prenume" [sortable]="true" [filter]="true" [editable]="true"></p-column>-->
-<!--<p-column field="email" header="Email" [sortable]="true" [filter]="true" [editable]="true"></p-column>-->
-<!--<p-column field="firm" header="Firma" [sortable]="true" [filter]="true" [editable]="true"></p-column>-->
-<!--<p-column field="phone" header="Numar telefon" [sortable]="true" [filter]="true" [editable]="true"></p-column>-->
-<!--<p-column field="phoneModel" header="Model Telefon" [sortable]="true" [filter]="true" [editable]="true"></p-column>-->
-<!--<p-column field="problem" header="Solicitare/Problema" [sortable]="true" [filter]="true" [editable]="true"></p-column>-->
-<!--<p-column field="imei" header="IMEI" [sortable]="true" [filter]="true" [editable]="true"></p-column>-->
-<!--<p-column field="priceOffer" header="Oferta pret" [sortable]="true" [filter]="true" [editable]="true"></p-column>-->
-<!--<p-column field="appointmentDate" header="Data si ora programarii" [sortable]="true" [filter]="true" [editable]="true">-->
-<!--<ng-template let-col let-appointment="rowData" pTemplate="body">-->
-<!--<span [style.color]="appointment[col.field]">{{appointment[col.field] | date:"dd-MM-yyyy HH:mm"}}</span>-->
-<!--</ng-template>-->
-<!--<ng-template  let-col let-appointmentDate="rowData" pTemplate="editor">-->
-<!--<p-calendar [(ngModel)]="appointmentDate[appointmentDate]" appendTo="body" (onSelect)="updateAppointmentDate(appointmentDate, appointmentDate[appointmentDate])"></p-calendar>-->
-<!--</ng-template>-->
-<!--</p-column>-->
-<!--<p-column field="tested" header="Testat?" [sortable]="true" [filter]="true" [editable]="true">-->
-<!--<ng-template let-col let-tested="rowData" pTemplate="editor">-->
-<!--<p-dropdown  [(ngModel)]="tested[col.field]" [options]="testingValues" [autoWidth]="false" [style]="{'width':'100%'}" appendTo="body" (onChange)="updateTestedItem(tested)"></p-dropdown>-->
-<!--</ng-template>-->
-<!--</p-column>-->
-<!--<p-column field="aboutUs" header="Cum a aflat de noi" [sortable]="true" [filter]="true" [editable]="true"></p-column>-->
-<!--<p-column field="deliveredDate" header="Data Predarii" [filter]="true"  [editable]="true">-->
-<!--<ng-template  let-col let-deliveredDate="rowData" pTemplate="body" >-->
-<!--<span *ngIf="deliveredDate.isRepaired">{{deliveredDate[col.field] | date:"dd-MM-yyyy HH:mm"}}</span>-->
-<!--</ng-template>-->
-<!--<ng-template  let-col let-deliveredDate="rowData" pTemplate="editor">-->
-<!--<p-calendar [(ngModel)]="deliveredDate[deliveredDate]" appendTo="body" (onSelect)="updateDeliveryDate(deliveredDate, deliveredDate[deliveredDate])"></p-calendar>-->
-<!--</ng-template>-->
-<!--</p-column>-->
-<!--<p-column field="isRepaired" header="Finalizat ?" [filter]="true">-->
-<!--<ng-template pTemplate="body" let-col let-isRepaired="rowData">-->
-<!--<p-checkbox [(ngModel)]="isRepaired[col.field]" binary="true" (onChange)="updateCheckedItem( isRepaired)"></p-checkbox>-->
-<!--</ng-template>-->
-<!--</p-column>-->
