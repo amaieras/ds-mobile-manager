@@ -17,11 +17,6 @@ export class AboutUsService {
       return arr.map(snap => Object.assign(snap.payload.val(), {$key: snap.key}));
     });
   }
-  public getMaxIdFromAboutUs(): Observable<any> {
-    return this.getAboutUsList().take(1).map(item => {
-      return this._utilService.getMaxIdNewItems(item);
-    });
-  }
   public addNewAboutUs(aboutUsVal: string) {
     this.aboutUsList.push({name: aboutUsVal});
   }

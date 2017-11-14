@@ -16,7 +16,6 @@ export class ProblemListComponent implements OnInit {
   problemsList: any = [];
   problems: Array<{}>;
   selectedProblem = '1';
-  partPrice: number;
   problemsPriceList: any = [];
   isRequired = false;
   isPresent = false;

@@ -12,7 +12,7 @@ import {PhoneListService} from "../../clients/clientPF/phone-list/phone-list.ser
   templateUrl: './repair-pf-detail.component.html'
 })
 export class RepairPFDetailComponent implements OnInit {
-  repairsPF:Observable<ClientPF[]>;
+  repairsPF: Observable<ClientPF[]>;
   cols:any[];
   msgs:Message[] = [];
   columnOptions:SelectItem[];
@@ -26,15 +26,7 @@ export class RepairPFDetailComponent implements OnInit {
   ngOnInit() {
      this.repairsPF = this.getClientsPFList();
      this.getClientsPFList();
-    this.repairsPF.subscribe(a => {
-      a.forEach(b => {
-        console.log(b)
-        b.phoneList.forEach(phone =>  {
-          this._phoneListService.getBrandNameById(+phone.phoneBrand).subscribe(name => console.log(name))
-          this._phoneListService.getModelNameById(+phone.phoneModel).subscribe(name => console.log(name));
-        })
-      })
-    })
+
     this.defaultDate.setHours(12,0);
 
     this.testingValues = [{label: 'DA', value: 'DA'},{label: 'NU', value: 'NU'}];

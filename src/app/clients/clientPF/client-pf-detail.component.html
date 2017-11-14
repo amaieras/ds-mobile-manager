@@ -117,15 +117,15 @@
     </div>
     <div class="form-group">
       <div class="col-md-3">
-      <label for="aboutUs" style="display: block">Cum a aflat de noi?</label>
-      <p-dropdown id="aboutUs" [options]="aboutUsList" formControlName="aboutUs"  [style]="{'width':'150px'}"
-                  filter="filter" (onChange)="checkIsOther($event)" required>
-        <ng-template let-abUs pTemplate="item">
-          <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
-            <div style="font-size:14px;float:right;margin-top:4px">{{abUs.label}}</div>
-          </div>
-        </ng-template>
-      </p-dropdown>
+        <label for="aboutUs" style="display: block">Cum a aflat de noi?</label>
+        <p-dropdown id="aboutUs" [options]="aboutUsList" formControlName="aboutUs" [style]="{'width':'150px'}"
+                    filter="filter" (onChange)="checkIsOther($event)" required>
+          <ng-template let-abUs pTemplate="item">
+            <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+              <div style="font-size:14px;float:right;margin-top:4px">{{abUs.label}}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
       </div>
       <div class="col-md-3" *ngIf="isOtherRequired">
         <label for="other">Alte</label>
