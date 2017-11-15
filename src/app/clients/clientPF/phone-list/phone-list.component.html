@@ -11,7 +11,7 @@
             <!--</div>-->
             <div class="col-md-3">
               <label for="phoneBrand" style="display: block">Telefon</label>
-              <p-dropdown id="phoneBrand" [(ngModel)]="newItem.phoneId" [options]="phoneBrandsArray"
+              <p-dropdown id="phoneBrand" [(ngModel)]="selectedBrand" [options]="phoneBrandsArray"
                           [style]="{'width':'150px'}" filter="true" (onChange)="onSelect($event.value)" formControlName="phoneBrand">
                 <ng-template let-phone pTemplate="item">
                   <div class="ui-helper-clearfix" style="position: relative;height: 25px;">

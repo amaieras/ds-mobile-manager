@@ -25,9 +25,6 @@ export class UtilService {
     return true;
   }
 
-  isAlteleOption(dropdownOption: string) {
-
-  }
 
   /**
    * Check if the users selects 'Altele' from the dropdown
@@ -35,7 +32,7 @@ export class UtilService {
    * @returns {boolean}
    */
   checkIsOther(part) {
-    if (part !== 0) {
+    if (part.toLowerCase() !== 'altele') {
       return false;
     } else {
       return true;

@@ -15,7 +15,7 @@ export class ProblemListComponent implements OnInit {
   @Input('group') problemListGroup: FormGroup;
   problemsList: any = [];
   problems: Array<{}>;
-  selectedProblem = '1';
+  selectedProblem = 'Sticla';
   problemsPriceList: any = [];
   isRequired = false;
   isPresent = false;
@@ -26,7 +26,7 @@ export class ProblemListComponent implements OnInit {
     this._problemListService.getProblemList().subscribe(problemsList => {
       this.problemsList = [];
       problemsList.forEach(snapshot => {
-        this.problemsList.push(new DropdownModel(snapshot.name, snapshot.id));
+        this.problemsList.push(new DropdownModel(snapshot.name, snapshot.name));
       });
       this.problems = this.problemsList;
     });
@@ -46,7 +46,7 @@ export class ProblemListComponent implements OnInit {
     this._problemListService.getProblemPriceList().subscribe(problemsPriceList => {
       this.problemsPriceList = [];
       problemsPriceList.forEach(snapshot => {
-        this.problemsPriceList.push(new ProblemPrice(snapshot.id, snapshot.problemId, snapshot.phoneBrand, snapshot.phoneModel, snapshot.price));
+        this.problemsPriceList.push(new ProblemPrice(snapshot.problemId, snapshot.phoneBrand, snapshot.phoneModel, snapshot.price));
       });
       this.problemsPriceList = this.problemsPriceList.filter((item) => item._problemId === val.selectedProblem);
     })

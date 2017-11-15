@@ -96,7 +96,7 @@ export class PrintReceiptComponent implements OnInit {
               .table {
                 width: 100%;
                 max-width: 100%;
-                font-size: xx-small;
+                font-size: 8px;
               }
               table {
                 background-color: transparent;

@@ -293,7 +293,6 @@ export class ClientPfDetailComponent implements OnInit {
   }
 
   checkIsOther(val) {
-    console.log(val)
     this.isOtherRequired = this._utilService.checkIsOther(val.value);
     if (this.isOtherRequired) {
       this.clientPFForm.addControl('aboutAsName',
