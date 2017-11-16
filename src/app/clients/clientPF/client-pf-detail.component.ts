@@ -35,7 +35,7 @@ export class ClientPfDetailComponent implements OnInit {
   isOtherRequired = false;
   aboutUsValExists = false;
   aboutUsList: any = [];
-  selectedAboutUs = 'FACEBOOK';
+  selectedAboutUs = '';
   selectedOtherName = '';
   totalPrice = 0;
   noOfClients: number = 0;
@@ -74,7 +74,6 @@ export class ClientPfDetailComponent implements OnInit {
       'appointment': new FormControl(this.defaultDate.getTime().toString(), []),
       'aboutUs': new FormControl('FACEBOOK', [])
     });
-    this.aboutUsList.push({label: 'Altele', value: 'Altele'});
     this.initForm();
   }
   onSubmit(event: Event) {
@@ -144,16 +143,10 @@ export class ClientPfDetailComponent implements OnInit {
   }
 
   private addNewProblemSynced(formModel: any) {
-    //used to increment part id when new part is added based on how many phone and problem components are present
-    let incrVal = 0;
     for (let i = 0; i < formModel.phoneList.length; i++) {
       for (let j = 0; j < formModel.phoneList[i].problems.length; j++) {
         const item = formModel.phoneList[i].problems[j];
-        if (item.partName !== '' && this._utilService.isNullOrUndefined(item.partName)) {
-          incrVal++;
-          item.problem = parseInt(this.newPrblMaxId) + incrVal;
-          this._problemListService.addNewProblem(item.problem, item.partName);
-        }
+        this._problemListService.addNewProblem(item.partName);
       }
     }
   }
@@ -163,12 +156,12 @@ export class ClientPfDetailComponent implements OnInit {
       for (let j = 0; j < formModel.phoneList[i].problems.length; j++) {
         const phoneItem = formModel.phoneList[i];
         const problemItem = formModel.phoneList[i].problems[j];
-        if (+phoneItem.phoneBrand === 0 || +phoneItem.phoneModel === 0 || +problemItem.problem === 0) {
-          phoneItem.phoneBrand = +phoneItem.phoneBrand === 0 ? this.newBrandMaxId + 1 : phoneItem.phoneBrand;
-          phoneItem.phoneModel = phoneItem.phoneModel === null || +phoneItem.phoneModel === 0 ? this.newModelMaxId + 1 : phoneItem.phoneModel;
-          problemItem.problem = +problemItem.problem === 0 ? this.newPrblMaxId + 1 : problemItem.problem;
-          this._clientPFService.addNewPartPrice(this.partPricesMaxId + 1, +phoneItem.phoneBrand, +phoneItem.phoneModel, +problemItem.pricePerPart, +problemItem.problem)
-        }
+        // if (+phoneItem.phoneBrand === 0 || +phoneItem.phoneModel === 0 || +problemItem.problem === 0) {
+          // phoneItem.phoneBrand = +phoneItem.phoneBrand === 0 ? this.newBrandMaxId + 1 : phoneItem.phoneBrand;
+          // phoneItem.phoneModel = phoneItem.phoneModel === null || +phoneItem.phoneModel === 0 ? this.newModelMaxId + 1 : phoneItem.phoneModel;
+          // problemItem.problem = +problemItem.problem === 0 ? this.newPrblMaxId + 1 : problemItem.problem;
+          this._clientPFService.addNewPartPrice(phoneItem.phoneBrand.toLowerCase(), phoneItem.phoneModel.toLowerCase(), +problemItem.pricePerPart, problemItem.partName.toLowerCase())
+        // }
       }
     }
   }

@@ -40,8 +40,8 @@ export class ProblemListService implements OnInit {
       return this._utilService.getMaxIdNewItems(item);
     });
   }
-  public addNewProblem(newPrblMaxId: number, problem: string) {
-    this.problemList.push({id: newPrblMaxId , name: problem});
+  public addNewProblem(problem: string) {
+    this.problemList.push({name: problem});
   }
 
 }

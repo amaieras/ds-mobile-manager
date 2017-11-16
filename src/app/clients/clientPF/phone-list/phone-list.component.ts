@@ -68,6 +68,10 @@ export class PhoneListComponent implements OnInit {
     const problemArray = <FormArray>this.phoneListGroup.controls['problems'];
     const newProblem = this.initProblem();
     problemArray.push(newProblem);
+    this.setPriceForNewPart(problemArray);
+  }
+
+  private setPriceForNewPart(problemArray: FormArray) {
     this._phoneListService.getPartPrices().subscribe(parts => {
       this.problemsPriceList = [];
       parts.forEach(snapshot => {
@@ -81,13 +85,13 @@ export class PhoneListComponent implements OnInit {
             && part._phoneModel.toLowerCase() === that.selectedModel.toLowerCase()
             && part._problemId.toLowerCase() === item.value.problem.toLowerCase();
         })
-        for (let i = 0; i < problemArray.length; i++) {
-          const itemInput = <FormGroup>problemArray.at(i)
-          itemInput.patchValue({pricePerPart: results[0]._price});
-        }
+      results[0]._price = results[0]._price.length === 0 ? 0 : results[0]._price;
+      for (let i = 0; i < problemArray.length; i++) {
+        const itemInput = <FormGroup>problemArray.at(i)
+        itemInput.patchValue({pricePerPart: results[0]._price});
+      }
       })
     });
-
   }
 
   removeProblem(idx: number) {

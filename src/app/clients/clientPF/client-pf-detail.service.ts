@@ -37,8 +37,8 @@ export class ClientPFService {
       return this._utilService.getMaxIdNewItems(item);
     });
   }
-  public addNewPartPrice(id, phoneBrand, phoneModel, price, problemId) {
-    this.partPrices.push({id, problemId, phoneBrand, phoneModel, price});
+  public addNewPartPrice(phoneBrand, phoneModel, price, problemId) {
+    this.partPrices.push({phoneBrand, phoneModel, price, problemId});
   }
 }
 
