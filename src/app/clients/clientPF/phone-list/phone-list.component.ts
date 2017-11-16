@@ -71,6 +71,16 @@ export class PhoneListComponent implements OnInit {
     this.setPriceForNewPart(problemArray);
   }
 
+  /**
+   * Method to iterate over all problem-list components on the gui and set the price based on what brand + model + problem are selected
+   *
+   * Method is called at init when at this step th price will be brought for the initial brand + model + problem
+   *
+   * When a new problem is requested from the gui the method looks at each problem-list component and if the problem is 'Altele' it
+   * skips it and populate the price only for known parts.
+   *
+   * @param {FormArray} problemArray
+   */
   private setPriceForNewPart(problemArray: FormArray) {
     this._phoneListService.getPartPrices().subscribe(parts => {
       this.problemsPriceList = [];
@@ -78,18 +88,15 @@ export class PhoneListComponent implements OnInit {
         this.problemsPriceList.push(new ProblemPrice(snapshot.problemId, snapshot.phoneBrand, snapshot.phoneModel, snapshot.price));
       })
       const that = this;
-      //retrieve price for the selected brand/model pair for 'Sticla'
       problemArray.controls.forEach(item => {
         const results = this.problemsPriceList.filter(function (part) {
           return part._phoneBrand.toLowerCase() === that.selectedBrand.toLowerCase()
             && part._phoneModel.toLowerCase() === that.selectedModel.toLowerCase()
             && part._problemId.toLowerCase() === item.value.problem.toLowerCase();
         })
-      results[0]._price = results[0]._price.length === 0 ? 0 : results[0]._price;
-      for (let i = 0; i < problemArray.length; i++) {
-        const itemInput = <FormGroup>problemArray.at(i)
-        itemInput.patchValue({pricePerPart: results[0]._price});
-      }
+        if (results[0] !== undefined) {
+          item.patchValue({pricePerPart: results[0]._price});
+        }
       })
     });
   }
@@ -207,7 +214,9 @@ export class PhoneListComponent implements OnInit {
   }
 
   checkIsOtherModel(val) {
-    this.isRequiredModel = this._utilService.checkIsOther(val);
+    if(!this.isRequired) {
+      this.isRequiredModel = this._utilService.checkIsOther(val);
+    }
     if(this.isRequiredModel) {
       this.phoneListGroup.addControl('newSingleModel',
         new FormControl('', Validators.required, this.newSingleModelNameValidator.bind(this)

@@ -142,6 +142,10 @@ export class ClientPfDetailComponent implements OnInit {
     phoneListArray.removeAt(idx);
   }
 
+  /**
+   * Add a new problem to be listed in problems dropdown
+   * @param formModel
+   */
   private addNewProblemSynced(formModel: any) {
     for (let i = 0; i < formModel.phoneList.length; i++) {
       for (let j = 0; j < formModel.phoneList[i].problems.length; j++) {
@@ -151,48 +155,43 @@ export class ClientPfDetailComponent implements OnInit {
     }
   }
 
+  /**
+   * Add a new price for selected brand + model when the problem is 'Altele'
+   * @param formModel
+   */
   private addNewPartPrice(formModel: any) {
     for (let i = 0; i < formModel.phoneList.length; i++) {
       for (let j = 0; j < formModel.phoneList[i].problems.length; j++) {
         const phoneItem = formModel.phoneList[i];
         const problemItem = formModel.phoneList[i].problems[j];
-        // if (+phoneItem.phoneBrand === 0 || +phoneItem.phoneModel === 0 || +problemItem.problem === 0) {
-          // phoneItem.phoneBrand = +phoneItem.phoneBrand === 0 ? this.newBrandMaxId + 1 : phoneItem.phoneBrand;
-          // phoneItem.phoneModel = phoneItem.phoneModel === null || +phoneItem.phoneModel === 0 ? this.newModelMaxId + 1 : phoneItem.phoneModel;
-          // problemItem.problem = +problemItem.problem === 0 ? this.newPrblMaxId + 1 : problemItem.problem;
-          this._clientPFService.addNewPartPrice(phoneItem.phoneBrand.toLowerCase(), phoneItem.phoneModel.toLowerCase(), +problemItem.pricePerPart, problemItem.partName.toLowerCase())
-        // }
+        phoneItem.phoneBrand = phoneItem.phoneBrand === 'Altele' ? phoneItem.newBrand.toLowerCase() : phoneItem.phoneBrand;
+        phoneItem.phoneModel = phoneItem.phoneModel === 'Altele' ? phoneItem.newModel.toLowerCase() : phoneItem.phoneModel;
+        problemItem.partName = problemItem.partName === undefined || problemItem.partName === 'Altele' ? problemItem.problem.toLowerCase() : problemItem.partName;
+        this._clientPFService.addNewPartPrice(phoneItem.phoneBrand, phoneItem.phoneModel,
+          +problemItem.pricePerPart, problemItem.partName.toLowerCase())
       }
     }
   }
 
   private addNewBrandModelSynced(formModel: any) {
-    let incrVal = 0;
     for (let i = 0; i < formModel.phoneList.length; i++) {
         const item = formModel.phoneList[i];
         if (item.newBrand !== '' && this._utilService.isNullOrUndefined(item.newBrand)
           && item.newModel !== '' && this._utilService.isNullOrUndefined(item.newModel)) {
-          incrVal++;
-          const brandMaxId = parseInt(this.newBrandMaxId) + incrVal;
-          const modelMaxId = parseInt(this.newModelMaxId) + incrVal;
-          this._phoneListService.addNewBrand(brandMaxId, item.newBrand);
-          this._phoneListService.addNewModel(modelMaxId, item.newModel, brandMaxId);
+          this._phoneListService.addNewBrand(item.newBrand);
+          this._phoneListService.addNewModel(item.newModel, item.newBrand.toLowerCase());
         }
     }
   }
 
   private addNewSingleModelSynced(formModel: any){
-    let incrVal = 0;
     for (let i = 0; i < formModel.phoneList.length; i++) {
       const item = formModel.phoneList[i];
       if (item.newSingleModel !== '' && this._utilService.isNullOrUndefined(item.newSingleModel)) {
-        incrVal++;
         const brandId = item.phoneBrand;
-        const modelMaxId = parseInt(this.newModelMaxId) + incrVal;
-        this._phoneListService.addNewModel(modelMaxId, item.newSingleModel, brandId);
+        this._phoneListService.addNewModel(item.newSingleModel, brandId.toLowerCase());
       }
     }
-
   }
   initPhoneList() {
     return this.fb.group({

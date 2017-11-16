@@ -65,11 +65,11 @@ export class PhoneListService implements OnInit {
     });
 
   }
-  public addNewBrand(newBrandMaxId: number, brandName: string) {
-    this.brandList.push({id: newBrandMaxId , name: brandName});
+  public addNewBrand(brandName: string) {
+    this.brandList.push({name: brandName});
   }
 
-  public addNewModel(newModelMaxId: number, modelName: string, brandId: number) {
-    this.modelList.push({id: newModelMaxId , name: modelName, phoneId: brandId});
+  public addNewModel(modelName: string, brandId: string) {
+    this.modelList.push({name: modelName, phoneId: brandId});
   }
 }
