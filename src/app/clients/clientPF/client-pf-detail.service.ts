@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import {AngularFireDatabase, AngularFireList } from 'angularfire2/database';
-import {UtilService} from '../../utils/util.service';
 import {ClientPF} from '../../model/ClientPF';
-import {Observable} from "rxjs/Observable";
 
 
 
@@ -16,7 +14,6 @@ export class ClientPFService {
     this.partPrices = db.list('parts-pf');
   }
 
-
   public getAllClients() {
     return this.clientsPF.snapshotChanges().map(arr => {
       //noinspection TypeScriptUnresolvedVariable
@@ -26,14 +23,17 @@ export class ClientPFService {
   public addPFClient(clientPF: ClientPF): void {
     this.clientsPF.push(clientPF);
   }
-  public getPartPricesList() {
-    return this.partPrices.snapshotChanges().map(arr => {
-      //noinspection TypeScriptUnresolvedVariable
-      return arr.map(snap => Object.assign(snap.payload.val(), {$key: snap.key}));
-    });
+  updateItem(key: string, value: any): void {
+     this.partPrices.update(key,{price: value} )
   }
   public addNewPartPrice(phoneBrand, phoneModel, price, problemId) {
     this.partPrices.push({phoneBrand, phoneModel, price, problemId});
+  }
+
+  public getPartPrices() {
+    return this.partPrices.snapshotChanges().map(arr => {
+      return arr.map(snap => Object.assign(snap.payload.val(), {$key: snap.key}));
+    })
   }
 }
 

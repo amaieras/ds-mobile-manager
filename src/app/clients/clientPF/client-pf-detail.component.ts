@@ -33,6 +33,7 @@ export class ClientPfDetailComponent implements OnInit {
   selectedOtherName = '';
   totalPrice = 0;
   noOfClients: number = 0;
+  existingPartPrices = [];
 
   @ViewChild(PrintReceiptComponent ) child: PrintReceiptComponent;
 
@@ -111,9 +112,19 @@ export class ClientPfDetailComponent implements OnInit {
     if (this.selectedOtherName !== '') {
       this._aboutUsService.addNewAboutUs(this.selectedOtherName);
     }
-
     this.saveClientPF.addedDate = new Date().getTime().toString();
     this.saveClientPF.phoneList = PhoneListDeepCopy;
+    this.removeCtrlForNewItems();
+    this.addNewBrandModelSynced(formModel);
+    this.addNewSingleModelSynced(formModel);
+    this.saveClientPF.phone = formModel.phone;
+    this.saveClientPF.tested = formModel.tested;
+    this.saveClientPF.aboutUs = this.selectedOtherName !== '' ? this.selectedOtherName : formModel.aboutUs;
+    this.saveClientPF.priceOffer = this.totalPrice === null ? '0' : this.totalPrice.toString() ;
+    this.saveClientPF.appointmentDate = this.defaultDate.getTime().toString();
+  }
+
+  private removeCtrlForNewItems() {
     this.saveClientPF.phoneList.forEach(phone => {
       phone.problems.forEach(problem => {
         if (problem.partName !== undefined) {
@@ -125,23 +136,16 @@ export class ClientPfDetailComponent implements OnInit {
         phone.phoneBrand = phone.newBrand
         delete phone.newBrand;
       }
-      if(phone.newModel !== undefined) {
+      if (phone.newModel !== undefined) {
         phone.phoneModel = phone.newModel;
         delete phone.newModel;
       }
-      if(phone.newSingleModel !== undefined) {
+      if (phone.newSingleModel !== undefined) {
         phone.phoneModel = phone.newSingleModel;
         delete phone.newSingleModel;
       }
       phone.isRepaired = false;
     });
-    this.addNewBrandModelSynced(formModel);
-    this.addNewSingleModelSynced(formModel);
-    this.saveClientPF.phone = formModel.phone;
-    this.saveClientPF.tested = formModel.tested;
-    this.saveClientPF.aboutUs = this.selectedOtherName !== '' ? this.selectedOtherName : formModel.aboutUs;
-    this.saveClientPF.priceOffer = this.totalPrice === null ? '0' : this.totalPrice.toString() ;
-    this.saveClientPF.appointmentDate = this.defaultDate.getTime().toString();
   }
 
   addInPhoneList(): any {
@@ -171,25 +175,37 @@ export class ClientPfDetailComponent implements OnInit {
   }
 
   /**
-   * Add a new price for selected brand + model when the problem is 'Altele'
+   * When the selected problem is 'Altele' this method will add new price for that problem given the selected phoneBrand + phoneModel
+   * When the selected problem is not 'Altele' this method will update the price for the selected phoneBrand + phoneModel + problem
    * @param formModel
    */
   private addNewPartPrice(formModel: any) {
-    for (let i = 0; i < formModel.phoneList.length; i++) {
-      for (let j = 0; j < formModel.phoneList[i].problems.length; j++) {
-        const phoneItem = formModel.phoneList[i];
-        const problemItem = formModel.phoneList[i].problems[j];
-        let phoneBrand = phoneItem.phoneBrand.toLowerCase() === 'altele' ? phoneItem.newBrand.toLowerCase() : phoneItem.phoneBrand.toLowerCase();
-        let phoneModel = phoneItem.phoneModel.toLowerCase();
-        if (phoneItem.phoneModel.toLowerCase() === 'altele') {
-          if (phoneItem.newSingleModel.toLowerCase() !== ''&& this._utilService.isNullOrUndefined(phoneItem.newSingleModel) ) {
-            phoneModel = phoneItem.newSingleModel.toLowerCase();
+    this._clientPFService.getPartPrices().take(1).subscribe(part => {
+      for (let i = 0; i < formModel.phoneList.length; i++) {
+        for (let j = 0; j < formModel.phoneList[i].problems.length; j++) {
+          const phoneItem = formModel.phoneList[i];
+          const problemItem = formModel.phoneList[i].problems[j];
+          let phoneProblem = problemItem.partName === undefined || problemItem.partName === 'Altele' ? problemItem.problem.toLowerCase() : problemItem.partName.toLowerCase();
+          this.existingPartPrices = part.filter(item => item.phoneBrand.toLowerCase() === phoneItem.phoneBrand.toLowerCase()
+                                                     && item.phoneModel.toLowerCase() === phoneItem.phoneModel.toLowerCase()
+                                                     && item.problemId.toLowerCase() === phoneProblem);
+          if (this.existingPartPrices.length > 0){
+            this._clientPFService.updateItem(this.existingPartPrices[0].$key, problemItem.pricePerPart)
+          }
+          else {
+            let phoneBrand = phoneItem.phoneBrand.toLowerCase() === 'altele' ? phoneItem.newBrand.toLowerCase() : phoneItem.phoneBrand.toLowerCase();
+            let phoneModel = phoneItem.phoneModel.toLowerCase();
+            if (phoneItem.phoneModel.toLowerCase() === 'altele') {
+              if (phoneItem.newSingleModel.toLowerCase() !== ''&& this._utilService.isNullOrUndefined(phoneItem.newSingleModel) ) {
+                phoneModel = phoneItem.newSingleModel.toLowerCase();
+              }
+            }
+            this._clientPFService.addNewPartPrice(phoneBrand, phoneModel, +problemItem.pricePerPart, phoneProblem)
           }
         }
-        let phoneProblem = problemItem.partName === undefined || problemItem.partName === 'Altele' ? problemItem.problem.toLowerCase() : problemItem.partName.toLowerCase();
-        this._clientPFService.addNewPartPrice(phoneBrand, phoneModel, +problemItem.pricePerPart, phoneProblem)
       }
-    }
+    })
+
   }
 
   private addNewBrandModelSynced(formModel: any) {
