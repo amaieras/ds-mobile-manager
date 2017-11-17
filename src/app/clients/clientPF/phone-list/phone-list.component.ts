@@ -36,6 +36,7 @@ export class PhoneListComponent implements OnInit {
   ngOnInit() {
     this.populateAllDropDowns();
     this.initBrandModelList();
+    this.addProblem();
   }
 
   private populateAllDropDowns() {
@@ -60,45 +61,38 @@ export class PhoneListComponent implements OnInit {
       phoneId: "iphone",
       modelId: "iPhone 7 Plus"
     };
-    this.mainArray.push((this.newItem));
-    this.addProblem();
+    this.mainArray.push(this.newItem);
   }
 
   addProblem() {
     const problemArray = <FormArray>this.phoneListGroup.controls['problems'];
     const newProblem = this.initProblem();
     problemArray.push(newProblem);
-    this.setPriceForNewPart(problemArray);
+    this.setPriceForNewPart(newProblem);
   }
 
   /**
-   * Method to iterate over all problem-list components on the gui and set the price based on what brand + model + problem are selected
-   *
-   * Method is called at init when at this step th price will be brought for the initial brand + model + problem
-   *
-   * When a new problem is requested from the gui the method looks at each problem-list component and if the problem is 'Altele' it
-   * skips it and populate the price only for known parts.
+   * Method that set the price for the initial problem 'Sticla' on component init and when
+   * new part is added from the GUI
    *
    * @param {FormArray} problemArray
    */
-  private setPriceForNewPart(problemArray: FormArray) {
+  private setPriceForNewPart(newProblem: FormGroup) {
     this._phoneListService.getPartPrices().subscribe(parts => {
       this.problemsPriceList = [];
       parts.forEach(snapshot => {
         this.problemsPriceList.push(new ProblemPrice(snapshot.problemId, snapshot.phoneBrand, snapshot.phoneModel, snapshot.price));
       })
       const that = this;
-      problemArray.controls.forEach(item => {
-        const results = this.problemsPriceList.filter(function (part) {
-          return part._phoneBrand.toLowerCase() === that.selectedBrand.toLowerCase()
-            && part._phoneModel.toLowerCase() === that.selectedModel.toLowerCase()
-            && part._problemId.toLowerCase() === item.value.problem.toLowerCase();
-        })
-        if (results[0] !== undefined) {
-          item.patchValue({pricePerPart: results[0]._price});
-        }
+      const results = this.problemsPriceList.filter(function (part) {
+        return part._phoneBrand.toLowerCase() === that.selectedBrand.toLowerCase()
+          && part._phoneModel.toLowerCase() === that.selectedModel.toLowerCase()
+          && part._problemId.toLowerCase() === 'sticla';
       })
-    });
+      if (results[0] !== undefined) {
+        newProblem.patchValue({pricePerPart: results[0]._price});
+      }
+    })
   }
 
   removeProblem(idx: number) {
@@ -151,6 +145,7 @@ export class PhoneListComponent implements OnInit {
           }
         }
       }
+      this.phoneItem.emit(this.phoneListGroup);
     });
   }
 

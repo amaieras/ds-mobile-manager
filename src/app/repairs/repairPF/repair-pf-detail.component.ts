@@ -4,8 +4,8 @@ import { SelectItem, Message } from "primeng/primeng";
 import {Observable} from "rxjs/Observable";
 import {ClientPF} from "../../model/ClientPF";
 import {UtilService} from "../../utils/util.service";
-import {AboutUsService} from "../../clients/clientPF/phone-list/about-us/about-us.service";
 import {PhoneListService} from "../../clients/clientPF/phone-list/phone-list.service";
+import {PhoneList} from "../../model/PhoneList";
 
 @Component({
   selector: 'repair-pf-detail',
@@ -18,7 +18,6 @@ export class RepairPFDetailComponent implements OnInit {
   columnOptions:SelectItem[];
   testingValues: any[];
   defaultDate: Date = new Date();
-  selectedItem: ClientPF;
 
   constructor(private repairPFService:RepairPFDetailService, private _utilService: UtilService, private _phoneListService: PhoneListService) {
   }
@@ -88,13 +87,13 @@ export class RepairPFDetailComponent implements OnInit {
     this.repairPFService.updateItem(row.$key, {isRepaired: row.isRepaired});
 
     if(row.isRepaired == true){
-      let date = new Date();
+      let date = new Date().getTime().toString();
       this.repairPFService.updateItem(row.$key, {deliveredDate: date});
     }
   }
 
   updateAppointmentDate(row, time){
-    let date = new Date(time).getTime();
+    let date = new Date(time).getTime().toString();
     this.repairPFService.updateItem(row.$key, {appointmentDate: date});
     this.defaultDate = new Date();
     this.defaultDate.setHours(12,0);
@@ -114,7 +113,7 @@ export class RepairPFDetailComponent implements OnInit {
     });
   }
 
-  disabledRow(rowData: ClientPF){
+  disabledRow(rowData: PhoneList) {
     return rowData.isRepaired ? 'disabled-account-row' : '';
   }
 

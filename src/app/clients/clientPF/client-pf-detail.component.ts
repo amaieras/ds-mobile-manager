@@ -9,10 +9,8 @@ import {PhoneList} from '../../model/PhoneList';
 import {ProblemListService} from './phone-list/problem-list/problem-list.service';
 import {AboutUsService} from './phone-list/about-us/about-us.service';
 import {Observable} from 'rxjs/Observable';
-import {DropdownModel} from 'app/model/DropdownModel';
 import {PhoneListService} from 'app/clients/clientPF/phone-list/phone-list.service';
 import {PrintReceiptComponent} from "../../print/print-receipt.component";
-import {imeiValidator} from "../../shared/imei-validator.directive";
 
 @Component({
   selector: 'app-client-pf-detail',
@@ -26,12 +24,8 @@ export class ClientPfDetailComponent implements OnInit {
   defaultDate: Date = new Date();
   saveClientPF: ClientPF = new ClientPF();
   phoneList: FormGroup;
-  newItem: any;
+  phoneItem: FormGroup;
   mainArray: Array<any>;
-  newPrblMaxId: string;
-  newBrandMaxId: string;
-  newModelMaxId: string;
-  partPricesMaxId: string;
   isOtherRequired = false;
   aboutUsValExists = false;
   aboutUsList: any = [];
@@ -83,7 +77,6 @@ export class ClientPfDetailComponent implements OnInit {
     this._clientPFService.addPFClient(this.clientPF);
     this.resetAfterSubumit();
     this.successMessage();
-    this.getMaxIds();
   }
 
   private resetAfterSubumit() {
@@ -115,19 +108,39 @@ export class ClientPfDetailComponent implements OnInit {
 
     this.addNewPartPrice(formModel);
     this.addNewProblemSynced(formModel);
-    this.addNewBrandModelSynced(formModel);
-    this.addNewSingleModelSynced(formModel);
     if (this.selectedOtherName !== '') {
       this._aboutUsService.addNewAboutUs(this.selectedOtherName);
     }
 
     this.saveClientPF.addedDate = new Date().getTime().toString();
     this.saveClientPF.phoneList = PhoneListDeepCopy;
+    this.saveClientPF.phoneList.forEach(phone => {
+      phone.problems.forEach(problem => {
+        if (problem.partName !== undefined) {
+          problem.problem = problem.partName;
+          delete problem.partName;
+        }
+      })
+      if (phone.newBrand !== undefined) {
+        phone.phoneBrand = phone.newBrand
+        delete phone.newBrand;
+      }
+      if(phone.newModel !== undefined) {
+        phone.phoneModel = phone.newModel;
+        delete phone.newModel;
+      }
+      if(phone.newSingleModel !== undefined) {
+        phone.phoneModel = phone.newSingleModel;
+        delete phone.newSingleModel;
+      }
+      phone.isRepaired = false;
+    });
+    this.addNewBrandModelSynced(formModel);
+    this.addNewSingleModelSynced(formModel);
     this.saveClientPF.phone = formModel.phone;
     this.saveClientPF.tested = formModel.tested;
-    this.saveClientPF.aboutUs = formModel.aboutUs;
+    this.saveClientPF.aboutUs = this.selectedOtherName !== '' ? this.selectedOtherName : formModel.aboutUs;
     this.saveClientPF.priceOffer = this.totalPrice === null ? '0' : this.totalPrice.toString() ;
-    this.saveClientPF.isRepaired = false;
     this.saveClientPF.appointmentDate = this.defaultDate.getTime().toString();
   }
 
@@ -150,7 +163,9 @@ export class ClientPfDetailComponent implements OnInit {
     for (let i = 0; i < formModel.phoneList.length; i++) {
       for (let j = 0; j < formModel.phoneList[i].problems.length; j++) {
         const item = formModel.phoneList[i].problems[j];
-        this._problemListService.addNewProblem(item.partName);
+        if (item.partName !== undefined) {
+          this._problemListService.addNewProblem(item.partName);
+        }
       }
     }
   }
@@ -164,11 +179,15 @@ export class ClientPfDetailComponent implements OnInit {
       for (let j = 0; j < formModel.phoneList[i].problems.length; j++) {
         const phoneItem = formModel.phoneList[i];
         const problemItem = formModel.phoneList[i].problems[j];
-        phoneItem.phoneBrand = phoneItem.phoneBrand === 'Altele' ? phoneItem.newBrand.toLowerCase() : phoneItem.phoneBrand;
-        phoneItem.phoneModel = phoneItem.phoneModel === 'Altele' ? phoneItem.newModel.toLowerCase() : phoneItem.phoneModel;
-        problemItem.partName = problemItem.partName === undefined || problemItem.partName === 'Altele' ? problemItem.problem.toLowerCase() : problemItem.partName;
-        this._clientPFService.addNewPartPrice(phoneItem.phoneBrand, phoneItem.phoneModel,
-          +problemItem.pricePerPart, problemItem.partName.toLowerCase())
+        let phoneBrand = phoneItem.phoneBrand.toLowerCase() === 'altele' ? phoneItem.newBrand.toLowerCase() : phoneItem.phoneBrand.toLowerCase();
+        let phoneModel = phoneItem.phoneModel.toLowerCase();
+        if (phoneItem.phoneModel.toLowerCase() === 'altele') {
+          if (phoneItem.newSingleModel.toLowerCase() !== ''&& this._utilService.isNullOrUndefined(phoneItem.newSingleModel) ) {
+            phoneModel = phoneItem.newSingleModel.toLowerCase();
+          }
+        }
+        let phoneProblem = problemItem.partName === undefined || problemItem.partName === 'Altele' ? problemItem.problem.toLowerCase() : problemItem.partName.toLowerCase();
+        this._clientPFService.addNewPartPrice(phoneBrand, phoneModel, +problemItem.pricePerPart, phoneProblem)
       }
     }
   }
@@ -188,8 +207,8 @@ export class ClientPfDetailComponent implements OnInit {
     for (let i = 0; i < formModel.phoneList.length; i++) {
       const item = formModel.phoneList[i];
       if (item.newSingleModel !== '' && this._utilService.isNullOrUndefined(item.newSingleModel)) {
-        const brandId = item.phoneBrand;
-        this._phoneListService.addNewModel(item.newSingleModel, brandId.toLowerCase());
+        const brandId = item.phoneBrand.toLowerCase();
+        this._phoneListService.addNewModel(item.newSingleModel, brandId);
       }
     }
   }
@@ -211,18 +230,13 @@ export class ClientPfDetailComponent implements OnInit {
   }
 
   getPhoneItem(val) {
-    this.newItem = {
-      phoneId: val.phoneId,
-      modelId: val.modelId
-    };
-    this.mainArray.push(this.newItem);
+    this.phoneItem = val;
   }
 
   initForm() {
     this.priceOffer.setValue(0);
     this.addInPhoneList();
     this.resetAboutAs();
-    this.getMaxIds();
   }
 
   private populateDropDowns() {
@@ -234,21 +248,6 @@ export class ClientPfDetailComponent implements OnInit {
     });
   }
 
-  private getMaxIds() {
-    this._problemListService.getMaxIdFromProblems().subscribe(partItem => {
-      this.newPrblMaxId = partItem;
-    });
-
-    this._phoneListService.getMaxIdFromBrands().subscribe(brandMaxId => {
-      this.newBrandMaxId = brandMaxId;
-    });
-    this._phoneListService.getMaxIdFromModels().subscribe(modelMaxId => {
-      this.newModelMaxId = modelMaxId;
-    });
-    this._clientPFService.getMaxIdFromPartsList().subscribe(partPriceMaxId => {
-      this.partPricesMaxId = partPriceMaxId;
-    });
-  }
 
   private checkInputForNullOrUndefined() {
     if (!this._utilService.isNullOrUndefined(this.clientPF.imei)) {
