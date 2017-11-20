@@ -66,6 +66,22 @@
             </div>
           </ng-template>
         </ng-container>
+        <ng-container *ngIf="column.field == 'imei'" >
+        <ng-template let-col let-childs="rowData.phoneList"  pTemplate="body">
+          <div class="ui-grid ui-grid-responsive ui-grid-pad" *ngFor="let item of childs">
+            <div class="ui-grid-col-10">{{item.imei}};</div>
+          </div>
+        </ng-template>
+      </ng-container>
+        <!--<ng-container *ngIf="column.field == 'problem'" >-->
+          <!--<ng-template let-col let-childs="rowData.phoneList"  pTemplate="body">-->
+            <!--<div class="ui-grid ui-grid-responsive ui-grid-pad" *ngFor="let item of childs">-->
+              <!--<div class="ui-grid-row" *ngFor="let it of item.problems  let j=index">-->
+                <!--<div class="ui-grid-col-10">Problema {{j+1}}: {{it.problem}}</div>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</ng-template>-->
+        <!--</ng-container>-->
       </p-column>
       <ng-template let-phone  pTemplate="rowexpansion">
         <div class="ui-grid ui-grid-responsive ui-fluid" style="font-size:16px;padding:20px">
