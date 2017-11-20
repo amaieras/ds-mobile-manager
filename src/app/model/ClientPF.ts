@@ -18,6 +18,8 @@ export class ClientPF {
   appointmentDate:string;
   aboutUs:string;
   aboutUsName: string;
+  deliveredDate: string;
+  isRepaired = false;
 
   constructor() {
 

@@ -16,7 +16,6 @@ export class ClientPFService {
 
   public getAllClients() {
     return this.clientsPF.snapshotChanges().map(arr => {
-      //noinspection TypeScriptUnresolvedVariable
       return arr.map(snap => Object.assign(snap.payload.val(), {$key: snap.key}));
     });
   }

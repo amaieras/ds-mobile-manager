@@ -23,9 +23,7 @@ export class RepairPFDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-     this.repairsPF = this.getClientsPFList();
-     this.getClientsPFList();
-
+    this.repairsPF = this.getClientsPFList();
     this.defaultDate.setHours(12,0);
 
     this.testingValues = [{label: 'DA', value: 'DA'},{label: 'NU', value: 'NU'}];
@@ -66,17 +64,19 @@ export class RepairPFDetailComponent implements OnInit {
     if (this._utilService.isNullOrUndefined(event.data.firm)) {
       this.repairPFService.updateItem(event.data.$key, {firm: event.data.firm});
     }
-    this.repairPFService.updateItem(event.data.$key, {phone: event.data.phone});
+      this.repairPFService.updateItem(event.data.$key, {phone: event.data.phone});
     if (this._utilService.isNullOrUndefined(event.data.phoneModel)) {
       this.repairPFService.updateItem(event.data.$key, {phoneModel: event.data.phoneModel});
     }
-    this.repairPFService.updateItem(event.data.$key, {problem: event.data.problem});
+    if (this._utilService.isNullOrUndefined(event.data.problem)) {
+      this.repairPFService.updateItem(event.data.$key, {problem: event.data.problem});
+    }
     if (this._utilService.isNullOrUndefined(event.data.imei)) {
       this.repairPFService.updateItem(event.data.$key, {imei: event.data.imei});
     }
     this.repairPFService.updateItem(event.data.$key, {priceOffer: event.data.priceOffer});
     this.repairPFService.updateItem(event.data.$key, {aboutUs: event.data.aboutUs});
-    this.successMessage(event.data.lastname, event.data.firstname)
+    this.successMessage(event.data.lastname, event.data.firstname,'Valoare')
   }
 
   getClientsPFList(): Observable<any> {
@@ -97,23 +97,25 @@ export class RepairPFDetailComponent implements OnInit {
     this.repairPFService.updateItem(row.$key, {appointmentDate: date});
     this.defaultDate = new Date();
     this.defaultDate.setHours(12,0);
+    this.successMessage(row.lastname, row.firstname, 'Data programarii')
   }
 
   updateTestedItem(row){
-    this.repairPFService.updateItem(row.$key, {tested: row.tested})
+    this.repairPFService.updateItem(row.$key, {tested: row.tested});
+    this.successMessage(row.lastname, row.firstname, 'Valoarea `testat` a fost')
   }
 
 
-  successMessage(lastname, firstname) {
+  successMessage(lastname, firstname, msg) {
     this.msgs = [];
     this.msgs.push({
       severity: 'success',
-      summary: 'Valoare modificata pentru clientul: ' + lastname + ' ' + firstname,
+      summary: msg + ' modificata pentru clientul: ' + lastname + ' ' + firstname,
       detail: 'Date modificate.'
     });
   }
 
-  disabledRow(rowData: PhoneList) {
+  disabledRow(rowData: ClientPF) {
     return rowData.isRepaired ? 'disabled-account-row' : '';
   }
 

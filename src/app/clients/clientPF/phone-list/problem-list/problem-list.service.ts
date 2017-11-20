@@ -27,19 +27,6 @@ export class ProblemListService implements OnInit {
     });
   }
 
-  public getProblemById(id: number): Observable<any>{
-    return this.getProblemList().take(1).map(items => {
-      return items.filter( a => +a.id === +id)
-        .map(cs => {
-          return cs.name
-        });
-    });
-  }
-  public getMaxIdFromProblems(): Observable<any> {
-    return this.getProblemList().take(1).map(item => {
-      return this._utilService.getMaxIdNewItems(item);
-    });
-  }
   public addNewProblem(problem: string) {
     this.problemList.push({name: problem});
   }

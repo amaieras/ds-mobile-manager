@@ -7,9 +7,9 @@
     <p-dataTable [value]="repairsPF|async" [editable]="true" [paginator]="true" rows="10" [globalFilter]="gb" [responsive]="true"
                  (onEditComplete)="updateField($event)" [rowStyleClass]="disabledRow" expandableRows="true">
       <p-header>
-        <div style="text-align:left">
-          <p-multiSelect [options]="columnOptions" [(ngModel)]="cols"></p-multiSelect>
-        </div>
+        <!--<div style="text-align:left">-->
+          <!--<p-multiSelect [options]="columnOptions" [(ngModel)]="cols"></p-multiSelect>-->
+        <!--</div>-->
         Reparatii pentru clientii PF
       </p-header>
       <p-column expander="true" styleClass="col-icon"></p-column>
@@ -60,33 +60,25 @@
           </ng-template>
         </ng-container>
         <ng-container *ngIf="column.field == 'phoneList'" >
-          <!--<ng-template let-col let-childs="rowData.phoneList"  pTemplate="body">-->
-                <!--<div *ngFor="let item of childs">{{item.phoneBrand}}-->
-                  <!--<div [ngClass]="childs.length > 1 ? 'underlined' : 'nothing'">-->
-
-                  <!--<span *ngFor="let problem of item.problems; let i = index">-->
-                    <!--Problema {{i+1}}: {{problem.problem}} - {{problem.pricePerPart}}-->
-                  <!--</span><br>-->
-                  <!--</div>-->
-
-                <!--</div>-->
-
-          <!--</ng-template>-->
+          <ng-template let-col let-childs="rowData.phoneList"  pTemplate="body">
+            <div class="ui-grid ui-grid-responsive ui-grid-pad" *ngFor="let item of childs">
+              <div class="ui-grid-col-10">{{item.phoneBrand}} {{item.phoneModel}};</div>
+            </div>
+          </ng-template>
         </ng-container>
       </p-column>
-      <ng-template let-car  pTemplate="rowexpansion">
+      <ng-template let-phone  pTemplate="rowexpansion">
         <div class="ui-grid ui-grid-responsive ui-fluid" style="font-size:16px;padding:20px">
           <div class="ui-grid-row">
             <div class="ui-grid-col-3" style="text-align:center">
               <i class="fa fa-search"  style="cursor:pointer;float:left;margin-top:40px"></i>
             </div>
             <div class="ui-grid-col-9">
-              <div class="ui-grid ui-grid-responsive ui-grid-pad" *ngFor="let item of car.phoneList">
-                <div class="ui-grid-row" *ngFor="let it of item.problems">
-                  <div class="ui-grid-col-2 label">Vin: </div>
-                  <div class="ui-grid-col-10">{{it.problem}}</div>
+              <div class="ui-grid ui-grid-responsive ui-grid-pad" *ngFor="let item of phone.phoneList">
+                <!--<div class="ui-grid-col-10">{{item.phoneBrand}} {{item.phoneModel}};</div>-->
+                <div class="ui-grid-row" *ngFor="let it of item.problems  let i=index">
+                  <div class="ui-grid-col-10">Problema {{i+1}}: {{it.problem}}</div>
                 </div>
-
               </div>
             </div>
           </div>

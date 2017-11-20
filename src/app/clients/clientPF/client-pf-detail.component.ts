@@ -47,6 +47,10 @@ export class ClientPfDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    this._clientPFService.getAllClients().subscribe( client => {
+      this.noOfClients = client.length;
+    })
     this.populateDropDowns();
     this.clientPF.tested = this.saveClientPF.tested;
     this.defaultDate.setHours(12, 0);
@@ -144,7 +148,6 @@ export class ClientPfDetailComponent implements OnInit {
         phone.phoneModel = phone.newSingleModel;
         delete phone.newSingleModel;
       }
-      phone.isRepaired = false;
     });
   }
 
@@ -189,16 +192,14 @@ export class ClientPfDetailComponent implements OnInit {
           this.existingPartPrices = part.filter(item => item.phoneBrand.toLowerCase() === phoneItem.phoneBrand.toLowerCase()
                                                      && item.phoneModel.toLowerCase() === phoneItem.phoneModel.toLowerCase()
                                                      && item.problemId.toLowerCase() === phoneProblem);
-          if (this.existingPartPrices.length > 0){
+          if (this.existingPartPrices.length > 0) {
             this._clientPFService.updateItem(this.existingPartPrices[0].$key, problemItem.pricePerPart)
           }
           else {
             let phoneBrand = phoneItem.phoneBrand.toLowerCase() === 'altele' ? phoneItem.newBrand.toLowerCase() : phoneItem.phoneBrand.toLowerCase();
             let phoneModel = phoneItem.phoneModel.toLowerCase();
             if (phoneItem.phoneModel.toLowerCase() === 'altele') {
-              if (phoneItem.newSingleModel.toLowerCase() !== ''&& this._utilService.isNullOrUndefined(phoneItem.newSingleModel) ) {
-                phoneModel = phoneItem.newSingleModel.toLowerCase();
-              }
+              phoneModel = this._utilService.isNullOrUndefined(phoneItem.newSingleModel) ?  phoneItem.newSingleModel : phoneItem.newModel;
             }
             this._clientPFService.addNewPartPrice(phoneBrand, phoneModel, +problemItem.pricePerPart, phoneProblem)
           }
@@ -315,11 +316,8 @@ export class ClientPfDetailComponent implements OnInit {
     }
   }
   print() {
-    this._clientPFService.getAllClients().subscribe( client => {
-      this.noOfClients = client.length;
       this.clientPFForm.patchValue({appointment: this.defaultDate.getTime().toString()});
       this.child.print();
-    })
   }
 
 

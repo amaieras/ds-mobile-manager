@@ -17,6 +17,7 @@ export class PhoneListComponent implements OnInit {
   @Input('group') phoneListGroup: FormGroup;
   @Input('clientPFForm') clientPFForm: FormGroup;
   @Output('change') phoneItem = new EventEmitter<any>();
+
   newItem: any;
   mainArray: Array<any> = [];
   phoneBrandsArray: any = [];
@@ -54,6 +55,7 @@ export class PhoneListComponent implements OnInit {
       });
       this.phoneModelsArray = this.phoneModelsArray.filter((item) => item.phoneId === "iphone" || item.phoneId === 'altele');
     });
+
   }
 
   private initBrandModelList() {
@@ -65,10 +67,18 @@ export class PhoneListComponent implements OnInit {
   }
 
   addProblem() {
-    const problemArray = <FormArray>this.phoneListGroup.controls['problems'];
-    const newProblem = this.initProblem();
-    problemArray.push(newProblem);
-    this.setPriceForNewPart(newProblem);
+    this._phoneListService.getPartPrices().subscribe(parts => {
+      this.problemsPriceList = [];
+      parts.forEach(snapshot => {
+        this.problemsPriceList.push(new ProblemPrice(snapshot.problemId, snapshot.phoneBrand, snapshot.phoneModel, snapshot.price));
+      })
+      const problemArray = <FormArray>this.phoneListGroup.controls['problems'];
+      const newProblem = this.initProblem();
+      if(problemArray.length < 1) {
+        problemArray.push(newProblem);
+      }
+      this.setPriceForNewPart(newProblem);
+    })
   }
 
   /**
@@ -119,34 +129,40 @@ export class PhoneListComponent implements OnInit {
       this.checkIfNewModelExists(this.newModel.value)
     }
     this._phoneListService.getModelList().subscribe(phoneBrands => {
-      this.phoneModelsArray = [];
-      phoneBrands.forEach(snapshot => {
-        this.phoneModelsArray.push({label: snapshot.name, value: snapshot.name, phoneId: snapshot.phoneId});
-      });
-      this.onModelSelect(firstModelOfBrandPrint);
-      this.phoneModelsArray = this.phoneModelsArray.filter((item) => item.phoneId.toLowerCase() === phoneId.toLowerCase() || item.phoneId === 'altele');
-      for (let i=0; i < problemArray.length; i++) {
-        const that = this;
-        const itemInput = <FormGroup>problemArray.at(i)
-        if (firstModelOfBrandPrint !== null) { //will be null when `Altele` is selected so no price will be retrieved as it doesn't exist
-          const results = this.problemsPriceList.filter(function(part) {
-            return part._phoneBrand.toLowerCase() === that.selectedBrand.toLowerCase()
-              && part._phoneModel.toLowerCase() === firstModelOfBrandPrint.toLowerCase()
-              && part._problemId.toLowerCase() === itemInput.controls['problem'].value.toLowerCase();
-          })
-          if(results.length > 0) {
-            if (results[0] !== undefined) {
-              itemInput.controls['pricePerPart'].setValue(results[0]._price)
+      this._phoneListService.getPartPrices().subscribe(parts => {
+        this.problemsPriceList = [];
+        parts.forEach(snapshot => {
+          this.problemsPriceList.push(new ProblemPrice(snapshot.problemId, snapshot.phoneBrand, snapshot.phoneModel, snapshot.price));
+        })
+        this.phoneModelsArray = [];
+        phoneBrands.forEach(snapshot => {
+          this.phoneModelsArray.push({label: snapshot.name, value: snapshot.name, phoneId: snapshot.phoneId});
+        });
+        this.onModelSelect(firstModelOfBrandPrint);
+        this.phoneModelsArray = this.phoneModelsArray.filter((item) => item.phoneId.toLowerCase() === phoneId.toLowerCase() || item.phoneId === 'altele');
+        for (let i=0; i < problemArray.length; i++) {
+          const that = this;
+          const itemInput = <FormGroup>problemArray.at(i)
+          if (firstModelOfBrandPrint !== null) { //will be null when `Altele` is selected so no price will be retrieved as it doesn't exist
+            const results = this.problemsPriceList.filter(function(part) {
+              return part._phoneBrand.toLowerCase() === that.selectedBrand.toLowerCase()
+                && part._phoneModel.toLowerCase() === firstModelOfBrandPrint.toLowerCase()
+                && part._problemId.toLowerCase() === itemInput.controls['problem'].value.toLowerCase();
+            })
+            if(results.length > 0) {
+              if (results[0] !== undefined) {
+                itemInput.controls['pricePerPart'].setValue(results[0]._price)
+              } else {
+                itemInput.controls['pricePerPart'].setValue(0)
+              }
             } else {
-              itemInput.controls['pricePerPart'].setValue(0)
+              itemInput.controls['pricePerPart'].setValue(0);
             }
-          } else {
-            itemInput.controls['pricePerPart'].setValue(0);
           }
         }
-      }
-      this.phoneItem.emit(this.phoneListGroup);
-    });
+        this.phoneItem.emit(this.phoneListGroup);
+      });
+    })
   }
 
   private getFirstModelOfBrand() {
@@ -159,19 +175,25 @@ export class PhoneListComponent implements OnInit {
     const problemArray = this.phoneListGroup.controls['problems'] as FormArray;
     this.checkIsOtherModel(modelId);
     const that = this;
-    for (let i=0; i < problemArray.length; i++) {
-      const itemInput = <FormGroup>problemArray.at(i);
-      const items = this.problemsPriceList.filter(phone => {
-        return phone._phoneBrand.toLowerCase() === that.selectedBrand.toLowerCase()
-          && phone._phoneModel.toLowerCase() === modelId.toLowerCase()
-          && phone._problemId.toLowerCase() === itemInput.controls['problem'].value.toLowerCase();
-      });
-      if (items[0] !== undefined) {
-        itemInput.controls['pricePerPart'].setValue(items[0]._price)
-      } else {
-        itemInput.controls['pricePerPart'].setValue(0);
+    this._phoneListService.getPartPrices().subscribe(parts => {
+      this.problemsPriceList = [];
+      parts.forEach(snapshot => {
+        this.problemsPriceList.push(new ProblemPrice(snapshot.problemId, snapshot.phoneBrand, snapshot.phoneModel, snapshot.price));
+      })
+      for (let i = 0; i < problemArray.length; i++) {
+        const itemInput = <FormGroup>problemArray.at(i);
+        const items = this.problemsPriceList.filter(phone => {
+          return phone._phoneBrand.toLowerCase() === that.selectedBrand.toLowerCase()
+            && phone._phoneModel.toLowerCase() === modelId.toLowerCase()
+            && phone._problemId.toLowerCase() === itemInput.controls['problem'].value.toLowerCase();
+        });
+        if (items[0] !== undefined) {
+          itemInput.controls['pricePerPart'].setValue(items[0]._price)
+        } else {
+          itemInput.controls['pricePerPart'].setValue(0);
+        }
       }
-    }
+    })
   }
   checkIfNewBrandExists(newBrandName) {
     if(this._utilService.isNullOrUndefined(newBrandName)) {

@@ -121,12 +121,8 @@ table {
   table-layout: fixed;
 }
 .disabled-account-row{
-  color: #e3e4e6 !important;
+  background: #0f9d58 !important;
 }
-
-.underlined{
-  border-bottom: black 1px solid;
-}
-.nothing{
-
+.ui-datatable-tablewrapper td {
+  font-size: 12px;
 }
