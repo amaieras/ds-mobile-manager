@@ -4,15 +4,12 @@ import {SelectItem, Message, LazyLoadEvent} from "primeng/primeng";
 import {Observable} from "rxjs/Observable";
 import {ClientPF} from "../../model/ClientPF";
 import {UtilService} from "../../utils/util.service";
-import {PhoneListService} from "../../clients/clientPF/phone-list/phone-list.service";
-import {PhoneList} from "../../model/PhoneList";
 
 @Component({
   selector: 'repair-pf-detail',
   templateUrl: './repair-pf-detail.component.html'
 })
 export class RepairPFDetailComponent implements OnInit {
-  // repairsPF: Observable<ClientPF[]>;
   repairsPF: ClientPF[];
   dataSource: ClientPF[];
   loading = true;
@@ -49,9 +46,9 @@ export class RepairPFDetailComponent implements OnInit {
       {field: 'email', header: 'Email', filter: true, editable: true, sortable: true},
       {field: 'firm', header: 'Firma', filter: true, editable: true, sortable: true},
       {field: 'phone', header: 'Numar telefon', filter: true, editable: true, sortable: true},
-      {field: 'phoneList', header: 'Model Telefon', filter: true, editable: true, sortable: true},
-      {field: 'problem', header: 'Solicitare/Problema', filter: true, editable: true, sortable: true},
-      {field: 'imei', header: 'IMEI', filter: true, editable: true, sortable: true},
+      {field: 'phoneList', header: 'Model Telefon', filter: true, sortable: true},
+      {field: 'problem', header: 'Solicitare/Problema', filter: true, sortable: true},
+      {field: 'imei', header: 'IMEI', filter: true, sortable: true},
       {field: 'priceOffer', header: 'Oferta pret', filter: true, editable: true, sortable: true},
       {field: 'appointmentDate', header: 'Data si ora programarii', filter: true, editable: true, sortable: true},
       {field: 'tested', header: 'Testat?', filter: true, editable: true, sortable: true},
@@ -66,19 +63,6 @@ export class RepairPFDetailComponent implements OnInit {
       this.columnOptions.push({label: this.cols[i].header, value: this.cols[i]});
     }
   }
-  loadDataLazy(event: LazyLoadEvent) {
-    //in a real application, make a remote request to load data using state metadata from event
-    //event.first = First row offset
-    //event.rows = Number of rows per page
-    //event.sortField = Field name to sort with
-    //event.sortOrder = Sort order as number, 1 for asc and -1 for dec
-    //filters: FilterMetadata object having field as key and filter value, filter matchMode as value
-
-    //imitate db connection over a network
-      if(this.dataSource) {
-        this.repairsPF = this.dataSource.slice(event.first, (event.first + event.rows));
-      }
-  }
   updateField(event) {
     if (this._utilService.isNullOrUndefined(event.data.lastname)) {
       this.repairPFService.updateItem(event.data.$key, {lastname: event.data.lastname});
@@ -89,7 +73,6 @@ export class RepairPFDetailComponent implements OnInit {
     if (this._utilService.isNullOrUndefined(event.data.firm)) {
       this.repairPFService.updateItem(event.data.$key, {firm: event.data.firm});
     }
-      this.repairPFService.updateItem(event.data.$key, {phone: event.data.phone});
     if (this._utilService.isNullOrUndefined(event.data.phoneModel)) {
       this.repairPFService.updateItem(event.data.$key, {phoneModel: event.data.phoneModel});
     }
@@ -99,6 +82,7 @@ export class RepairPFDetailComponent implements OnInit {
     if (this._utilService.isNullOrUndefined(event.data.imei)) {
       this.repairPFService.updateItem(event.data.$key, {imei: event.data.imei});
     }
+    this.repairPFService.updateItem(event.data.$key, {phone: event.data.phone});
     this.repairPFService.updateItem(event.data.$key, {priceOffer: event.data.priceOffer});
     this.repairPFService.updateItem(event.data.$key, {aboutUs: event.data.aboutUs});
     this.successMessage(event.data.lastname, event.data.firstname,'Valoare')

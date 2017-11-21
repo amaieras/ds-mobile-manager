@@ -30,6 +30,7 @@ export class PhoneListComponent implements OnInit {
   newModelNameExists = false;
   selectedModel = 'iPhone 7 Plus';
   selectedBrand = 'Iphone';
+  partName: string;
   constructor(private fb: FormBuilder, private _utilService: UtilService,
               private _phoneListService: PhoneListService) {
   }
@@ -74,9 +75,7 @@ export class PhoneListComponent implements OnInit {
       })
       const problemArray = <FormArray>this.phoneListGroup.controls['problems'];
       const newProblem = this.initProblem();
-      if(problemArray.length <= 1) {
-        problemArray.push(newProblem);
-      }
+      problemArray.push(newProblem);
       this.setPriceForNewPart(newProblem);
     })
   }
@@ -264,6 +263,10 @@ export class PhoneListComponent implements OnInit {
     return Observable
       .of(this._utilService.containsObject(modelName, modelNames))
       .map(result => !result ? null : { invalid: true });
+  }
+
+  setPartName(val) {
+    this.partName = val;
   }
   get newBrand() {
     //noinspection TypeScriptUnresolvedFunction
