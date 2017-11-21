@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RepairPFDetailService } from "./repair-pf-detail.service"
-import { SelectItem, Message } from "primeng/primeng";
+import {SelectItem, Message, LazyLoadEvent} from "primeng/primeng";
 import {Observable} from "rxjs/Observable";
 import {ClientPF} from "../../model/ClientPF";
 import {UtilService} from "../../utils/util.service";
@@ -12,25 +12,38 @@ import {PhoneList} from "../../model/PhoneList";
   templateUrl: './repair-pf-detail.component.html'
 })
 export class RepairPFDetailComponent implements OnInit {
-  repairsPF: Observable<ClientPF[]>;
+  // repairsPF: Observable<ClientPF[]>;
+  repairsPF: ClientPF[];
+  dataSource: ClientPF[];
+  loading = true;
   cols:any[];
   msgs:Message[] = [];
   columnOptions:SelectItem[];
   testingValues: any[];
   defaultDate: Date = new Date();
+  totalRecords: number;
 
-  constructor(private repairPFService:RepairPFDetailService, private _utilService: UtilService, private _phoneListService: PhoneListService) {
+  constructor(private repairPFService:RepairPFDetailService, private _utilService: UtilService) {
   }
 
   ngOnInit() {
-    this.repairsPF = this.getClientsPFList();
     this.defaultDate.setHours(12,0);
-
+    setTimeout(() => {
+      this.loading = true;
+      this.getClientsPFList().subscribe(item => {
+        this.dataSource = item;
+        this.totalRecords = this.dataSource.length;
+        this.repairsPF = this.dataSource;
+        this.loading = false;
+      }, err => {
+        this.loading = false;
+      });
+    }, 0)
     this.testingValues = [{label: 'DA', value: 'DA'},{label: 'NU', value: 'NU'}];
 
     this.cols = [
 
-      {field: 'addedDate', header: 'Data introducerii', filter: true, editable: true, sortable: true},
+      {field: 'addedDate', header: 'Data introducerii', filter: true, sortable: true},
       {field: 'lastname', header: 'Nume', filter: true, editable: true, sortable: true},
       {field: 'firstname', header: 'Prenume', filter: true, editable: true, sortable: true},
       {field: 'email', header: 'Email', filter: true, editable: true, sortable: true},
@@ -53,7 +66,19 @@ export class RepairPFDetailComponent implements OnInit {
       this.columnOptions.push({label: this.cols[i].header, value: this.cols[i]});
     }
   }
+  loadDataLazy(event: LazyLoadEvent) {
+    //in a real application, make a remote request to load data using state metadata from event
+    //event.first = First row offset
+    //event.rows = Number of rows per page
+    //event.sortField = Field name to sort with
+    //event.sortOrder = Sort order as number, 1 for asc and -1 for dec
+    //filters: FilterMetadata object having field as key and filter value, filter matchMode as value
 
+    //imitate db connection over a network
+      if(this.dataSource) {
+        this.repairsPF = this.dataSource.slice(event.first, (event.first + event.rows));
+      }
+  }
   updateField(event) {
     if (this._utilService.isNullOrUndefined(event.data.lastname)) {
       this.repairPFService.updateItem(event.data.$key, {lastname: event.data.lastname});

@@ -74,7 +74,7 @@ export class PhoneListComponent implements OnInit {
       })
       const problemArray = <FormArray>this.phoneListGroup.controls['problems'];
       const newProblem = this.initProblem();
-      if(problemArray.length < 1) {
+      if(problemArray.length <= 1) {
         problemArray.push(newProblem);
       }
       this.setPriceForNewPart(newProblem);

@@ -4,8 +4,9 @@
       <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
       <input #gb  pInputText size="50" placeholder="Cauta peste tot">
     </div>
-    <p-dataTable [value]="repairsPF|async" [editable]="true" [paginator]="true" rows="10" [globalFilter]="gb" [responsive]="true"
-                 (onEditComplete)="updateField($event)" [rowStyleClass]="disabledRow" expandableRows="true">
+    <p-dataTable [value]="repairsPF" [editable]="true" [paginator]="true" rows="15" [rowsPerPageOptions]="[5,10,20]" [globalFilter]="gb" [responsive]="true"
+                 (onEditComplete)="updateField($event)" [loading]="loading" [rowStyleClass]="disabledRow" expandableRows="true"
+                 (onLazyLoad)="loadDataLazy($event)">
       <p-header>
         <!--<div style="text-align:left">-->
           <!--<p-multiSelect [options]="columnOptions" [(ngModel)]="cols"></p-multiSelect>-->
