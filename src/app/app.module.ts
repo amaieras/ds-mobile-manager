@@ -18,6 +18,7 @@ import { ClientCenterRoutingModule } from './clients/client-center-routing.modul
 import 'hammerjs';
 import {RepairModule} from './repairs/repair.module';
 import {RepairCenterRoutingModule} from './repairs/repair-center-routing.module';
+import {AngularFirestoreModule} from "angularfire2/firestore";
 
 export const firebaseConfigProd = {
   apiKey: 'AIzaSyAexP1Haz3RsxHqPX--XncgC1Rxef_wMDA',
@@ -27,14 +28,27 @@ export const firebaseConfigProd = {
   storageBucket: '',
   messagingSenderId: '662623055885'
 };
-export const firebaseConfig = {
-  apiKey: 'AIzaSyDL-_f_lQb4dnkx6GRrL7O7L7sp2A1Kj1w',
-  authDomain: 'ds-mobile-dev.firebaseapp.com',
-  databaseURL: 'https://ds-mobile-dev.firebaseio.com',
-  projectId: 'ds-mobile-dev',
-  storageBucket: 'ds-mobile-dev.appspot.com',
-  messagingSenderId: '931169905269'
-};
+
+export const environment = {
+  production: false,
+  firebaseConfig: {
+    apiKey: 'AIzaSyDL-_f_lQb4dnkx6GRrL7O7L7sp2A1Kj1w',
+    authDomain: 'ds-mobile-dev.firebaseapp.com',
+    databaseURL: 'https://ds-mobile-dev.firebaseio.com',
+    projectId: 'ds-mobile-dev',
+    storageBucket: 'ds-mobile-dev.appspot.com',
+    messagingSenderId: '931169905269'
+  },
+  firebaseConfigProd: {
+    apiKey: 'AIzaSyAexP1Haz3RsxHqPX--XncgC1Rxef_wMDA',
+    authDomain: 'ds-mobile-prod.firebaseapp.com',
+    databaseURL: 'https://ds-mobile-prod.firebaseio.com',
+    projectId: 'ds-mobile-prod',
+    storageBucket: '',
+    messagingSenderId: '662623055885'
+  }
+}
+export const firebaseConfig = environment.firebaseConfigProd
 
 @NgModule({
     declarations: [
@@ -60,6 +74,7 @@ export const firebaseConfig = {
         AngularFireModule.initializeApp(firebaseConfig),
         AngularFireDatabaseModule,
         AngularFireAuthModule,
+        AngularFirestoreModule
     ],
     providers: [AppToolbarService],
     bootstrap: [AppComponent]

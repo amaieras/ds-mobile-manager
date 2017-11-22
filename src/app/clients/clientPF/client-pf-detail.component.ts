@@ -320,6 +320,9 @@ export class ClientPfDetailComponent implements OnInit {
       this.child.print();
   }
 
+  searchClient(clientLastName) {
+    let q = clientLastName.target.value;
+  }
 
   successMessage() {
     this.msgs = [];

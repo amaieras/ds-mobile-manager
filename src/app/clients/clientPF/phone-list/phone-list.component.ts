@@ -56,7 +56,12 @@ export class PhoneListComponent implements OnInit {
       });
       this.phoneModelsArray = this.phoneModelsArray.filter((item) => item.phoneId === "iphone" || item.phoneId === 'altele');
     });
-
+    this._phoneListService.getPartPrices().subscribe(parts => {
+      this.problemsPriceList = [];
+      parts.forEach(snapshot => {
+        this.problemsPriceList.push(new ProblemPrice(snapshot.problemId, snapshot.phoneBrand, snapshot.phoneModel, snapshot.price));
+      })
+    })
   }
 
   private initBrandModelList() {
@@ -68,16 +73,10 @@ export class PhoneListComponent implements OnInit {
   }
 
   addProblem() {
-    this._phoneListService.getPartPrices().subscribe(parts => {
-      this.problemsPriceList = [];
-      parts.forEach(snapshot => {
-        this.problemsPriceList.push(new ProblemPrice(snapshot.problemId, snapshot.phoneBrand, snapshot.phoneModel, snapshot.price));
-      })
-      const problemArray = <FormArray>this.phoneListGroup.controls['problems'];
-      const newProblem = this.initProblem();
-      problemArray.push(newProblem);
-      this.setPriceForNewPart(newProblem);
-    })
+    const problemArray = <FormArray>this.phoneListGroup.controls['problems'];
+    const newProblem = this.initProblem();
+    problemArray.push(newProblem);
+    this.setPriceForNewPart(newProblem);
   }
 
   /**

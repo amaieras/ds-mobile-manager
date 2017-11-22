@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import {ClientPF} from '../../model/ClientPF';
+import {FirebaseListObservable} from "angularfire2/database-deprecated";
 
 
 
@@ -8,7 +9,7 @@ import {ClientPF} from '../../model/ClientPF';
 export class ClientPFService {
   clientsPF: AngularFireList<ClientPF> = null;
   partPrices: AngularFireList<any> = null;
-
+  clients: AngularFireList<ClientPF> = null;
   constructor(private db: AngularFireDatabase) {
     this.clientsPF = db.list('/clients/pf');
     this.partPrices = db.list('parts-pf');
@@ -33,6 +34,10 @@ export class ClientPFService {
     return this.partPrices.snapshotChanges().map(arr => {
       return arr.map(snap => Object.assign(snap.payload.val(), {$key: snap.key}));
     })
+  }
+
+  public getClients(start, end) {
+
   }
 }
 

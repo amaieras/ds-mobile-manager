@@ -7,7 +7,7 @@
       <div class="ui-inputgroup">
         <span class="ui-inputgroup-addon"><i class="fa fa-user"></i></span>
         <input placeholder="Nume" id="lastname" class="form-control" formControlName="lastname"
-               [(ngModel)]="saveClientPF.lastname">
+               [(ngModel)]="saveClientPF.lastname" (keydown)="searchClient($event)">
       </div>
       <!--<div *ngIf="lastname.invalid && (lastname.dirty || lastname.touched)"-->
       <!--class="alert alert-danger">-->
