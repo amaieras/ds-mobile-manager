@@ -32,36 +32,36 @@ export class RepairPFDetailComponent implements OnInit {
         this.totalRecords = this.dataSource.length;
         this.repairsPF = this.dataSource;
         this.loading = false;
+        console.log(this.repairsPF)
+        this.testingValues = [{label: 'DA', value: 'DA'},{label: 'NU', value: 'NU'}];
+        this.cols = [
+          {field: 'addedDate', header: 'Data introducerii', filter: true, sortable: true},
+          {field: 'lastname', header: 'Nume', filter: true, editable: true, sortable: true},
+          {field: 'firstname', header: 'Prenume', filter: true, editable: true, sortable: true},
+          {field: 'email', header: 'Email', filter: true, editable: true, sortable: true},
+          {field: 'firm', header: 'Firma', filter: true, editable: true, sortable: true},
+          {field: 'phone', header: 'Numar telefon', filter: true, editable: true, sortable: true},
+          {field: 'phoneList', header: 'Model Telefon', filter: true, sortable: true},
+          {field: 'problem', header: 'Solicitare/Problema', filter: true, sortable: true},
+          {field: 'imei', header: 'IMEI', filter: true, sortable: true},
+          {field: 'priceOffer', header: 'Oferta pret', filter: true, editable: true, sortable: true},
+          {field: 'appointmentDate', header: 'Data si ora programarii', filter: true, editable: true, sortable: true},
+          {field: 'tested', header: 'Testat?', filter: true, editable: true, sortable: true},
+          {field: 'aboutUs', header: 'Cum a aflat de noi?', filter: true, editable: false, sortable: true},
+          {field: 'deliveredDate', header: 'Data Predarii', filter: true, editable: false, sortable: true},
+          {field: 'isRepaired', header: 'Finalizat?', filter: true, editable: false , sortable: true}
+        ];
+
+        this.columnOptions = [];
+
+        for (let i = 0; i < this.cols.length; i++) {
+          this.columnOptions.push({label: this.cols[i].header, value: this.cols[i]});
+        }
       }, err => {
         this.loading = false;
       });
     }, 0)
-    this.testingValues = [{label: 'DA', value: 'DA'},{label: 'NU', value: 'NU'}];
 
-    this.cols = [
-
-      {field: 'addedDate', header: 'Data introducerii', filter: true, sortable: true},
-      {field: 'lastname', header: 'Nume', filter: true, editable: true, sortable: true},
-      {field: 'firstname', header: 'Prenume', filter: true, editable: true, sortable: true},
-      {field: 'email', header: 'Email', filter: true, editable: true, sortable: true},
-      {field: 'firm', header: 'Firma', filter: true, editable: true, sortable: true},
-      {field: 'phone', header: 'Numar telefon', filter: true, editable: true, sortable: true},
-      {field: 'phoneList', header: 'Model Telefon', filter: true, sortable: true},
-      {field: 'problem', header: 'Solicitare/Problema', filter: true, sortable: true},
-      {field: 'imei', header: 'IMEI', filter: true, sortable: true},
-      {field: 'priceOffer', header: 'Oferta pret', filter: true, editable: true, sortable: true},
-      {field: 'appointmentDate', header: 'Data si ora programarii', filter: true, editable: true, sortable: true},
-      {field: 'tested', header: 'Testat?', filter: true, editable: true, sortable: true},
-      {field: 'aboutUs', header: 'Cum a aflat de noi?', filter: true, editable: false, sortable: true},
-      {field: 'deliveredDate', header: 'Data Predarii', filter: true, editable: false, sortable: true},
-      {field: 'isRepaired', header: 'Finalizat?', filter: true, editable: false , sortable: true}
-    ];
-
-    this.columnOptions = [];
-
-    for (let i = 0; i < this.cols.length; i++) {
-      this.columnOptions.push({label: this.cols[i].header, value: this.cols[i]});
-    }
   }
   updateField(event) {
     if (this._utilService.isNullOrUndefined(event.data.lastname)) {

@@ -70,23 +70,28 @@ export class ProblemListComponent implements OnInit {
   setPriceForPart() {
     let phoneBrand = this.phoneGroup.controls['phoneBrand'].value.toLowerCase();
     let phoneModel = this.phoneGroup.controls['phoneModel'].value.toLowerCase();
+    this.setPriceOnGUI(phoneBrand, phoneModel);
+  }
+
+  private setPriceOnGUI(phoneBrand: string, phoneModel: string) {
     this._phoneListService.getPartPrices().subscribe(parts => {
       this.problemsPriceList = [];
       parts.forEach(snapshot => {
         this.problemsPriceList.push(new ProblemPrice(snapshot.problemId, snapshot.phoneBrand, snapshot.phoneModel, snapshot.price));
       })
-        const items = this.problemsPriceList.filter(phone => {
-          return phone._phoneBrand.toLowerCase() === phoneBrand
-            && phone._phoneModel.toLowerCase() ===phoneModel
-            && phone._problemId.toLowerCase() === this.selectedProblem.toLowerCase();
-        });
-        if (items[0] !== undefined) {
-          this.problemListGroup.controls['pricePerPart'].setValue(items[0]._price)
-        } else {
-          this.problemListGroup.controls['pricePerPart'].setValue(0);
-        }
+      const items = this.problemsPriceList.filter(phone => {
+        return phone._phoneBrand.toLowerCase() === phoneBrand
+          && phone._phoneModel.toLowerCase() === phoneModel
+          && phone._problemId.toLowerCase() === this.selectedProblem.toLowerCase();
+      });
+      if (items[0] !== undefined) {
+        this.problemListGroup.controls['pricePerPart'].setValue(items[0]._price)
+      } else {
+        this.problemListGroup.controls['pricePerPart'].setValue(0);
+      }
     })
   }
+
   get partName() {
     //noinspection TypeScriptUnresolvedFunction
     return this.problemListGroup.get('partName');
