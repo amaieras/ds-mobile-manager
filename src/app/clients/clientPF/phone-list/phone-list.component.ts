@@ -6,7 +6,6 @@ import {UtilService} from "../../../utils/util.service";
 import {forbiddenStringInput} from "../../../shared/forbiddenStringInput";
 import {ProblemPrice} from "../../../model/ProblemPrice";
 import {PhoneListService} from "./phone-list.service";
-import {imeiValidator} from "../../../shared/imei-validator.directive";
 
 @Component({
   selector: 'app-phone-list',

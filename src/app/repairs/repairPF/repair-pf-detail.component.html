@@ -4,11 +4,14 @@
       <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
       <input #gb  pInputText size="50" placeholder="Cauta peste tot">
     </div>
-    <p-dataTable [value]="repairsPF" [editable]="true" [paginator]="true" rows="10" [rowsPerPageOptions]="[5,10,20]" [globalFilter]="gb" [responsive]="true"
+    <p-dataTable  [value]="repairsPF" [editable]="true" [paginator]="true" rows="50" [rowsPerPageOptions]="[10,20,50,100]" [globalFilter]="gb" [responsive]="true"
                  (onEditComplete)="updateField($event)" [loading]="loading" [rowStyleClass]="disabledRow">
-      <p-header>
-        Reparatii pentru clientii PF
-      </p-header>
+        <p-header>
+          <div style="text-align:left">
+          <p-multiSelect [options]="columnOptions" [(ngModel)]="cols"></p-multiSelect>
+          </div>
+          Reparatii pentru clientii PF
+        </p-header>
       <p-column *ngFor="let column of cols" [field]="column.field" [header]="column.header" [filter]="column.filter" [editable]="column.editable" [sortable]="column.sortable" >
 
         <ng-container *ngIf="column.field == 'addedDate'">
@@ -80,5 +83,4 @@
         </ng-container>
       </p-column>
     </p-dataTable>
-
 </div>

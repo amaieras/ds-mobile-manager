@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, HostListener, OnInit, Renderer2} from '@angular/core';
 import { RepairPFDetailService } from "./repair-pf-detail.service"
 import {SelectItem, Message, LazyLoadEvent} from "primeng/primeng";
 import {Observable} from "rxjs/Observable";
@@ -7,7 +7,10 @@ import {UtilService} from "../../utils/util.service";
 
 @Component({
   selector: 'repair-pf-detail',
-  templateUrl: './repair-pf-detail.component.html'
+  templateUrl: './repair-pf-detail.component.html',
+  host: {
+    '(window:scroll)': 'updateHeader($event)'
+  }
 })
 export class RepairPFDetailComponent implements OnInit {
   repairsPF: ClientPF[];
@@ -19,8 +22,11 @@ export class RepairPFDetailComponent implements OnInit {
   testingValues: any[];
   defaultDate: Date = new Date();
   totalRecords: number;
-
-  constructor(private repairPFService:RepairPFDetailService, private _utilService: UtilService) {
+  isScrolled = false;
+  currPos: Number = 0;
+  startPos: Number = 0;
+  changePos: Number = 100;
+  constructor(private repairPFService:RepairPFDetailService, private _utilService: UtilService, private _renderer: Renderer2) {
   }
 
   ngOnInit() {
@@ -32,7 +38,6 @@ export class RepairPFDetailComponent implements OnInit {
         this.totalRecords = this.dataSource.length;
         this.repairsPF = this.dataSource;
         this.loading = false;
-        console.log(this.repairsPF)
         this.testingValues = [{label: 'DA', value: 'DA'},{label: 'NU', value: 'NU'}];
         this.cols = [
           {field: 'addedDate', header: 'Data introducerii', filter: true, sortable: true},
@@ -128,5 +133,24 @@ export class RepairPFDetailComponent implements OnInit {
     return rowData.isRepaired ? 'disabled-account-row' : '';
   }
 
+  updateHeader(evt) {
 
+    console.log('updateheader' + evt)
+    this.currPos = (window.pageYOffset || evt.target.scrollTop) - (evt.target.clientTop || 0);
+    if(this.currPos >= this.changePos ) {
+      this.isScrolled = true;
+    } else {
+      this.isScrolled = false;
+    }
+  }
+  @HostListener("scroll", [])
+  onWindowScroll() {
+    let number = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    // if (number > 100) {
+    //   this.navIsFixed = true;
+    // } else if (this.navIsFixed && number < 10) {
+    //   this.navIsFixed = false;
+    // }
+    console.log('test')
+  }
 }

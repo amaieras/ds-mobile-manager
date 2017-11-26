@@ -19,6 +19,8 @@ import 'hammerjs';
 import {RepairModule} from './repairs/repair.module';
 import {RepairCenterRoutingModule} from './repairs/repair-center-routing.module';
 import {AngularFirestoreModule} from "angularfire2/firestore";
+import {NgStickyDirective} from "ng-sticky";
+import {ScrollerDirective} from 'app/shared/scroller-directive';
 
 export const firebaseConfigProd = {
   apiKey: 'AIzaSyAexP1Haz3RsxHqPX--XncgC1Rxef_wMDA',
@@ -48,11 +50,11 @@ export const environment = {
     messagingSenderId: '662623055885'
   }
 }
-export const firebaseConfig = environment.firebaseConfigProd
+export const firebaseConfig = environment.firebaseConfig
 
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
     ],
     imports: [
         BrowserModule,
@@ -74,7 +76,9 @@ export const firebaseConfig = environment.firebaseConfigProd
         AngularFireModule.initializeApp(firebaseConfig),
         AngularFireDatabaseModule,
         AngularFireAuthModule,
-        AngularFirestoreModule
+        AngularFirestoreModule,
+
+      ScrollerDirective
     ],
     providers: [AppToolbarService],
     bootstrap: [AppComponent]

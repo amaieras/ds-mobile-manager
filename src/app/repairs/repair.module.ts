@@ -33,7 +33,7 @@ import { RepairGSMDetailService } from "./repairGSM/repair-gsm-detail.service";
   declarations: [
     RepairTypeListComponent,
     RepairPFDetailComponent,
-    RepairGSMDetailComponent,
+    RepairGSMDetailComponent
 
   ],
   providers: [
