@@ -19,17 +19,7 @@ import 'hammerjs';
 import {RepairModule} from './repairs/repair.module';
 import {RepairCenterRoutingModule} from './repairs/repair-center-routing.module';
 import {AngularFirestoreModule} from "angularfire2/firestore";
-import {NgStickyDirective} from "ng-sticky";
-import {ScrollerDirective} from 'app/shared/scroller-directive';
 
-export const firebaseConfigProd = {
-  apiKey: 'AIzaSyAexP1Haz3RsxHqPX--XncgC1Rxef_wMDA',
-  authDomain: 'ds-mobile-prod.firebaseapp.com',
-  databaseURL: 'https://ds-mobile-prod.firebaseio.com',
-  projectId: 'ds-mobile-prod',
-  storageBucket: '',
-  messagingSenderId: '662623055885'
-};
 
 export const environment = {
   production: false,
@@ -76,9 +66,7 @@ export const firebaseConfig = environment.firebaseConfig
         AngularFireModule.initializeApp(firebaseConfig),
         AngularFireDatabaseModule,
         AngularFireAuthModule,
-        AngularFirestoreModule,
-
-      ScrollerDirective
+        AngularFirestoreModule
     ],
     providers: [AppToolbarService],
     bootstrap: [AppComponent]

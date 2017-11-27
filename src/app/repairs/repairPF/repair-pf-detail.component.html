@@ -6,7 +6,7 @@
     </div>
     <p-dataTable  [value]="repairsPF" [editable]="true" [paginator]="true" rows="50" [rowsPerPageOptions]="[10,20,50,100]" [globalFilter]="gb" [responsive]="true"
                  (onEditComplete)="updateField($event)" [loading]="loading" [rowStyleClass]="disabledRow">
-        <p-header>
+        <p-header #fixedBox>
           <div style="text-align:left">
           <p-multiSelect [options]="columnOptions" [(ngModel)]="cols"></p-multiSelect>
           </div>
@@ -83,4 +83,5 @@
         </ng-container>
       </p-column>
     </p-dataTable>
+  <table id="sticky-head" *ngIf="isSticky"></table>
 </div>

@@ -92,7 +92,7 @@ nav a.active {
   border-left: 5px solid #a94442; /* red */
 }
 mat-sidenav-content {
-  margin-left: 180px !important;
+  //margin-left: 180px !important;
   overflow-y: auto !important;
 }
 
@@ -130,3 +130,7 @@ table {
   height: auto !important;
 }
 
+.sticky-head{
+  position: fixed;
+  top: 0px;
+}

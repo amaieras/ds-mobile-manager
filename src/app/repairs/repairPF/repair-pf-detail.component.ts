@@ -1,16 +1,14 @@
-import {Component, HostListener, OnInit, Renderer2} from '@angular/core';
+import {Component, ElementRef, Inject, OnInit, Renderer2, ViewChild} from '@angular/core';
 import { RepairPFDetailService } from "./repair-pf-detail.service"
-import {SelectItem, Message, LazyLoadEvent} from "primeng/primeng";
+import {SelectItem, Message} from "primeng/primeng";
 import {Observable} from "rxjs/Observable";
 import {ClientPF} from "../../model/ClientPF";
 import {UtilService} from "../../utils/util.service";
+import {DOCUMENT} from "@angular/common";
 
 @Component({
   selector: 'repair-pf-detail',
-  templateUrl: './repair-pf-detail.component.html',
-  host: {
-    '(window:scroll)': 'updateHeader($event)'
-  }
+  templateUrl: './repair-pf-detail.component.html'
 })
 export class RepairPFDetailComponent implements OnInit {
   repairsPF: ClientPF[];
@@ -22,14 +20,15 @@ export class RepairPFDetailComponent implements OnInit {
   testingValues: any[];
   defaultDate: Date = new Date();
   totalRecords: number;
-  isScrolled = false;
-  currPos: Number = 0;
-  startPos: Number = 0;
-  changePos: Number = 100;
-  constructor(private repairPFService:RepairPFDetailService, private _utilService: UtilService, private _renderer: Renderer2) {
+
+  constructor(private repairPFService:RepairPFDetailService, private _utilService: UtilService
+  ,private _renderer2: Renderer2, private _el: ElementRef) {
   }
 
   ngOnInit() {
+
+    window.addEventListener('scroll', this.scroll, true); //third parameter
+
     this.defaultDate.setHours(12,0);
     setTimeout(() => {
       this.loading = true;
@@ -66,8 +65,21 @@ export class RepairPFDetailComponent implements OnInit {
         this.loading = false;
       });
     }, 0)
-
   }
+
+  ngOnDestroy() {
+    window.removeEventListener('scroll', this.scroll, true);
+  }
+
+  scroll = (): void => {
+    let tableOffset = this._el.nativeElement.querySelector('table').getBoundingClientRect().top;
+    if (tableOffset < 0) {
+      this._el.nativeElement.querySelector('thead').classList.add('sticky-head')
+    }
+    else {
+      this._el.nativeElement.querySelector('thead').classList.remove('sticky-head')
+    }
+  };
   updateField(event) {
     if (this._utilService.isNullOrUndefined(event.data.lastname)) {
       this.repairPFService.updateItem(event.data.$key, {lastname: event.data.lastname});
@@ -133,24 +145,4 @@ export class RepairPFDetailComponent implements OnInit {
     return rowData.isRepaired ? 'disabled-account-row' : '';
   }
 
-  updateHeader(evt) {
-
-    console.log('updateheader' + evt)
-    this.currPos = (window.pageYOffset || evt.target.scrollTop) - (evt.target.clientTop || 0);
-    if(this.currPos >= this.changePos ) {
-      this.isScrolled = true;
-    } else {
-      this.isScrolled = false;
-    }
-  }
-  @HostListener("scroll", [])
-  onWindowScroll() {
-    let number = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-    // if (number > 100) {
-    //   this.navIsFixed = true;
-    // } else if (this.navIsFixed && number < 10) {
-    //   this.navIsFixed = false;
-    // }
-    console.log('test')
-  }
 }
