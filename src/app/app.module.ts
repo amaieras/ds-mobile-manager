@@ -19,6 +19,10 @@ import 'hammerjs';
 import {RepairModule} from './repairs/repair.module';
 import {RepairCenterRoutingModule} from './repairs/repair-center-routing.module';
 import {AngularFirestoreModule} from "angularfire2/firestore";
+import {CheckoutModule} from "./checkout/checkout.module";
+import {CheckoutCenterRoutingModule} from "./checkout/checkout-center-routing.module";
+import {ChartModule} from "./chart/chart.module";
+import {ChartCenterRoutingModule} from "./chart/chart-center-routing.module";
 
 
 export const environment = {
@@ -56,8 +60,11 @@ export const firebaseConfig = environment.firebaseConfig
         RouterModule,
         ClientModule,
         RepairModule,
+        CheckoutModule,
+        ChartModule,
+        CheckoutCenterRoutingModule,
+        ChartCenterRoutingModule,
         ClientCenterRoutingModule,
-        RepairModule,
         RepairCenterRoutingModule,
         RouterModule.forRoot([{
             path: '', redirectTo: '/client', pathMatch: 'full'

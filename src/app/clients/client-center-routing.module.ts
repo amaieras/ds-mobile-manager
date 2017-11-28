@@ -31,7 +31,7 @@ const clientsCenterRoutes: Routes = [
         }
       ],
     data: {
-      title: 'Client'
+      title: 'Adaugă clienţi'
     }
   }
 ];

@@ -31,7 +31,7 @@ const repairsCenterRoutes: Routes = [
       }
     ],
     data: {
-      title: 'Repair'
+      title: 'Reparaţii'
     }
   }
 ];

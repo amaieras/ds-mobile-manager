@@ -8,13 +8,15 @@ import { AppToolbarService, MenuItem } from './app-toolbar/app-toolbar.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-    appName = '';
     isDarkTheme = false;
     mainMenuItems;
     activeMenuItem$: Observable<MenuItem>;
 
     constructor(private toolbarService: AppToolbarService) {
         this.mainMenuItems = this.toolbarService.getMenuItems();
+        //push first element to end of array
+        this.mainMenuItems.push(this.mainMenuItems.shift());
+        this.mainMenuItems.push(this.mainMenuItems.shift());
         this.activeMenuItem$ = this.toolbarService.activeMenuItem$;
     }
 }

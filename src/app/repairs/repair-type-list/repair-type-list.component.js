@@ -9,26 +9,23 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 require("rxjs/add/operator/finally");
 var RepairTypeListComponent = /** @class */ (function () {
-    function RepairTypeListComponent(repairTypeService, route, router) {
-        this.repairTypeService = repairTypeService;
+    function RepairTypeListComponent(clientTypeService, route, router) {
+        this.clientTypeService = clientTypeService;
         this.route = route;
         this.router = router;
         this.isLoading = false;
     }
     RepairTypeListComponent.prototype.ngOnInit = function () {
-        this.getRepairTypes();
+        this.getClientTypes();
         this.selectedClientType = null;
     };
-    RepairTypeListComponent.prototype.getRepairTypes = function () {
+    RepairTypeListComponent.prototype.getClientTypes = function () {
         var _this = this;
         this.isLoading = true;
-        this.repairTypes = this.repairTypeService.getRepairTypes()
+        this.clientTypes = this.clientTypeService.getClientTypes()
             .finally(function () { return _this.isLoading = false; });
+        this.clientTypes.subscribe(function (data) { return ''; }, function (err) { return console.log(err + ' Error fetching client types.'); });
         this.selectedClientType = undefined;
-    };
-    RepairTypeListComponent.prototype.select = function (repairType) {
-        this.selectedId = repairType.id;
-        this.router.navigate([repairType.id], { relativeTo: this.route });
     };
     RepairTypeListComponent = __decorate([
         core_1.Component({
