@@ -130,7 +130,15 @@ table {
   height: auto !important;
 }
 
-.sticky-head{
+.sticky-head {
   position: fixed;
   top: 0px;
+  width: 97.4%;
+  display: table;
 }
+
+.ui-state-default.ui-unselectable-text.ui-sortable-column span.ui-column-title {
+  display: block;
+  height: 35px;
+}
+

@@ -4,7 +4,6 @@ import {SelectItem, Message} from "primeng/primeng";
 import {Observable} from "rxjs/Observable";
 import {ClientPF} from "../../model/ClientPF";
 import {UtilService} from "../../utils/util.service";
-import {DOCUMENT} from "@angular/common";
 
 @Component({
   selector: 'repair-pf-detail',
@@ -21,8 +20,7 @@ export class RepairPFDetailComponent implements OnInit {
   defaultDate: Date = new Date();
   totalRecords: number;
 
-  constructor(private repairPFService:RepairPFDetailService, private _utilService: UtilService
-  ,private _renderer2: Renderer2, private _el: ElementRef) {
+  constructor(private repairPFService:RepairPFDetailService, private _utilService: UtilService, private _el: ElementRef) {
   }
 
   ngOnInit() {
@@ -44,9 +42,9 @@ export class RepairPFDetailComponent implements OnInit {
           {field: 'firstname', header: 'Prenume', filter: true, editable: true, sortable: true},
           {field: 'email', header: 'Email', filter: true, editable: true, sortable: true},
           {field: 'firm', header: 'Firma', filter: true, editable: true, sortable: true},
-          {field: 'phone', header: 'Numar telefon', filter: true, editable: true, sortable: true},
-          {field: 'phoneList', header: 'Model Telefon', filter: true, sortable: true},
-          {field: 'problem', header: 'Solicitare/Problema', filter: true, sortable: true},
+          {field: 'phone', header: 'Telefon', filter: true, editable: true, sortable: true},
+          {field: 'phoneList', header: 'Model', filter: true, sortable: true},
+          {field: 'problem', header: 'Problema', filter: true, sortable: true},
           {field: 'imei', header: 'IMEI', filter: true, sortable: true},
           {field: 'priceOffer', header: 'Oferta pret', filter: true, editable: true, sortable: true},
           {field: 'appointmentDate', header: 'Data si ora programarii', filter: true, editable: true, sortable: true},
