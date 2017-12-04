@@ -240,7 +240,7 @@ export class ClientPfDetailComponent implements OnInit {
             Validators.required
           ]),
       imei: new FormControl('', [
-        Validators.maxLength(14),
+        Validators.maxLength(15),
         // imeiValidator(/^\d+$/i)
       ])
     });
@@ -248,6 +248,7 @@ export class ClientPfDetailComponent implements OnInit {
 
   getPhoneItem(val) {
     this.phoneItem = val;
+    console.log()
   }
 
   initForm() {

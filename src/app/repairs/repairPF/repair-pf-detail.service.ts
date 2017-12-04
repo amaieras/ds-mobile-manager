@@ -1,4 +1,4 @@
-import {Component, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import { AngularFireList, AngularFireDatabase } from 'angularfire2/database';
 import {ClientPF} from '../../model/ClientPF';
 
