@@ -1,7 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppCommonModule } from './app-common/app-common.module';
 import { RouterModule } from '@angular/router';
@@ -23,6 +22,7 @@ import {CheckoutModule} from "./checkout/checkout.module";
 import {CheckoutCenterRoutingModule} from "./checkout/checkout-center-routing.module";
 import {ChartModule} from "./chart/chart.module";
 import {ChartCenterRoutingModule} from "./chart/chart-center-routing.module";
+import {HttpClientModule} from "@angular/common/http";
 
 
 export const environment = {
@@ -53,7 +53,7 @@ export const firebaseConfig = environment.firebaseConfig
     imports: [
         BrowserModule,
         FormsModule,
-        HttpModule,
+        HttpClientModule,
         BrowserAnimationsModule,
         AppCommonModule,
         AppRoutingModule,

@@ -4,12 +4,14 @@ import {Component, OnInit} from "@angular/core";
 
 @Component({
   selector: 'checkout',
-  templateUrl: './checkout.component.html'
+  templateUrl: './checkout.component.html',
+  styleUrls: ['./checkout.component.scss']
 })
-export class CheckoutPfComponent implements OnInit {
 
+export class CheckoutPfComponent implements OnInit {
+  currentDate: Date;
   constructor() {}
   ngOnInit() {
-    // console.log('test')
+    this.currentDate = new Date();
   }
 }

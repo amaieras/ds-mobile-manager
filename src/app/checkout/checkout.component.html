@@ -1,4 +1,142 @@
+<amexio-card-pane [enableFooter]="false">
+  <amexio-pane-header>
+    <h1>Casa final de zi - {{currentDate | date:"dd-MM-yyyy"}}</h1>
+  </amexio-pane-header>
+  <amexio-pane-body>
+    <div class="card">
+      <div class="card-block">
+        <div class="row">
+          <div class="col-lg-6">
+            <amexio-datapoints [west]="true" [center]="true" [east]="true" [south]="true" [backgroundColor]="'#efa64c'" [fontColor]="'#ffffff'">
+              <amexio-west [contentalign]="'center'" [width]="'100px'">
+                <amexio-image [imageClass]="'fa fa-line-chart fa-3x'"></amexio-image>
+              </amexio-west>
+              <amexio-center [contentalign]="'right'">
+                <amexio-datapoints [north]="true" [center]="true" [south]="true">
+                  <amexio-north [cClass]="'datapoint-north'">
+                    100
+                  </amexio-north>
+                  <amexio-center [cClass]="'datapoint-center'">
+                    Total clienti
+                  </amexio-center>
+                </amexio-datapoints>
+              </amexio-center>
+              <amexio-south [contentalign]="'center'" [backgroundColor]="'#d97c3e'">10% More than last year</amexio-south>
+            </amexio-datapoints>
+          </div>
+          <div class="col-lg-6">
+            <amexio-datapoints [west]="true" [center]="true" [east]="true" [south]="true" [backgroundColor]="'#68bafc'" [fontColor]="'#ffffff'">
+              <amexio-west [contentalign]="'center'" [width]="'100px'">
+                <amexio-image [imageClass]="'fa fa-line-chart fa-3x'"></amexio-image>
+              </amexio-west>
+              <amexio-center [contentalign]="'right'">
+                <amexio-datapoints [north]="true" [center]="true" [south]="true">
+                  <amexio-north [cClass]="'datapoint-north'">
+                    $10 Million
+                  </amexio-north>
+                  <amexio-center [cClass]="'datapoint-center'">
+                    Total incasari
+                  </amexio-center>
+                </amexio-datapoints>
+              </amexio-center>
+              <amexio-south [contentalign]="'center'" [backgroundColor]="'#3192e1'">5% more than last year</amexio-south>
+            </amexio-datapoints>
+          </div>
 
-<div class="container">
-  <h1>Work in progress...</h1>
-</div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-lg-3">
+            <amexio-datapoints [west]="true" [center]="true" [east]="true" [south]="true" [backgroundColor]="'#4CAF50'" [fontColor]="'#ffffff'">
+              <amexio-west [contentalign]="'center'">
+                <amexio-image [imageClass]="'fa fa-check fa-3x'"></amexio-image>
+              </amexio-west>
+              <amexio-center [contentalign]="'right'">
+                <amexio-datapoints [north]="true" [center]="true" [south]="true">
+                  <amexio-north [cClass]="'datapoint-north'">
+                    212
+                  </amexio-north>
+                  <amexio-center [cClass]="'datapoint-center'">
+                    Inchise
+                  </amexio-center>
+                </amexio-datapoints>
+              </amexio-center>
+            </amexio-datapoints>
+          </div>
+          <div class="col-lg-3">
+            <amexio-datapoints [west]="true" [center]="true" [east]="true" [south]="true" [backgroundColor]="'#FF9800'" [fontColor]="'#ffffff'">
+              <amexio-west [contentalign]="'center'">
+                <amexio-image [imageClass]="'fa fa-envelope-open-o fa-3x'"></amexio-image>
+              </amexio-west>
+              <amexio-center [contentalign]="'right'">
+                <amexio-datapoints [north]="true" [center]="true" [south]="true">
+                  <amexio-north [cClass]="'datapoint-north'">
+                    20
+                  </amexio-north>
+                  <amexio-center [cClass]="'datapoint-center'">
+                    Deschise
+                  </amexio-center>
+                </amexio-datapoints>
+              </amexio-center>
+            </amexio-datapoints>
+          </div>
+
+          <div class="col-lg-3">
+            <amexio-datapoints [west]="true" [center]="true" [east]="true" [south]="true" [backgroundColor]="'#68bafc'" [fontColor]="'#ffffff'">
+              <amexio-west [contentalign]="'center'">
+                <amexio-image [imageClass]="'fa fa-money fa-3x'"></amexio-image>
+              </amexio-west>
+              <amexio-center [contentalign]="'right'">
+                <amexio-datapoints [north]="true" [center]="true" [south]="true">
+                  <amexio-north [cClass]="'datapoint-north'">
+                    800 RON
+                  </amexio-north>
+                  <amexio-center [cClass]="'datapoint-center'">
+                    Total Cash
+                  </amexio-center>
+                </amexio-datapoints>
+              </amexio-center>
+            </amexio-datapoints>
+          </div>
+
+          <div class="col-lg-3">
+            <amexio-datapoints [west]="true" [center]="true" [east]="true" [south]="true" [backgroundColor]="'#607D8B'" [fontColor]="'#ffffff'">
+              <amexio-west [contentalign]="'center'">
+                <amexio-image [imageClass]="'fa fa-credit-card fa-3x'"></amexio-image>
+              </amexio-west>
+              <amexio-center [contentalign]="'right'">
+                <amexio-datapoints [north]="true" [center]="true" [south]="true">
+                  <amexio-north [cClass]="'datapoint-north'">
+                    300 RON
+                  </amexio-north>
+                  <amexio-center [cClass]="'datapoint-center'">
+                    Total card
+                  </amexio-center>
+                </amexio-datapoints>
+              </amexio-center>
+            </amexio-datapoints>
+          </div>
+
+          <!--<div class="col-lg-2">-->
+            <!--<amexio-datapoints [west]="true" [center]="true" [east]="true" [south]="true" [backgroundColor]="'#00BCD4'" [fontColor]="'#ffffff'">-->
+              <!--<amexio-west [contentalign]="'center'">-->
+                <!--<amexio-image [imageClass]="'fa fa-low-vision fa-3x'"></amexio-image>-->
+              <!--</amexio-west>-->
+              <!--<amexio-center [contentalign]="'right'">-->
+                <!--<amexio-datapoints [north]="true" [center]="true" [south]="true">-->
+                  <!--<amexio-north [cClass]="'datapoint-north'">-->
+                    <!--10-->
+                  <!--</amexio-north>-->
+                  <!--<amexio-center [cClass]="'datapoint-center'">-->
+                    <!--Low-->
+                  <!--</amexio-center>-->
+                <!--</amexio-datapoints>-->
+              <!--</amexio-center>-->
+            <!--</amexio-datapoints>-->
+          <!--</div>-->
+
+        </div>
+      </div>
+    </div>
+  </amexio-pane-body>
+</amexio-card-pane>
