@@ -12,7 +12,6 @@ export class RepairPFDetailService {
   }
 
   getClientsPFList() {
-    this.repairsPF = this.db.list('/clients/pf');
     //noinspection TypeScriptUnresolvedFunction
     return this.repairsPF.snapshotChanges().map(arr => {
       return arr.map(snap => Object.assign(snap.payload.val(), {$key: snap.key}));

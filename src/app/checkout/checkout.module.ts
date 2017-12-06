@@ -3,6 +3,7 @@ import {CheckoutPfComponent} from "./checkout-pf.component";
 import {AmexioDashboardModule} from "amexio-ng-extensions/dashboard";
 import {AmexioWidgetModule} from "amexio-ng-extensions";
 import {CommonModule} from "@angular/common";
+import {CheckoutService} from "./checkout.service";
 
 @NgModule({
   imports: [
@@ -14,6 +15,7 @@ import {CommonModule} from "@angular/common";
     CheckoutPfComponent
   ],
   providers: [
+    CheckoutService
   ]
 })
 export class CheckoutModule { }

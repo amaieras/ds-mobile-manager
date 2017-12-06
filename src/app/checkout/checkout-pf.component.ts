@@ -1,6 +1,8 @@
 
 
 import {Component, OnInit} from "@angular/core";
+import {CheckoutService} from "./checkout.service";
+import {ClientPF} from "../model/ClientPF";
 
 @Component({
   selector: 'checkout',
@@ -9,9 +11,17 @@ import {Component, OnInit} from "@angular/core";
 })
 
 export class CheckoutPfComponent implements OnInit {
-  currentDate: Date;
-  constructor() {}
+  clientsPerDay: ClientPF[];
+  totalClientsPerDay = 0;
+  constructor(private _checkoutService: CheckoutService) {}
   ngOnInit() {
-    this.currentDate = new Date();
+    const currDay = new Date();
+    this._checkoutService.getClientsCurrDay().subscribe(item => {
+      this.clientsPerDay = item.filter(function(client) {
+        const clientDate = new Date(+client.addedDate);
+        return clientDate.toDateString() === currDay.toDateString();
+      })
+      this.totalClientsPerDay = this.clientsPerDay.length;
+    });
   }
 }
