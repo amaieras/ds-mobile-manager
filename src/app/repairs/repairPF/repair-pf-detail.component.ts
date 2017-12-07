@@ -79,28 +79,12 @@ export class RepairPFDetailComponent implements OnInit {
     }
   };
   updateField(event) {
-    if (this._utilService.isNullOrUndefined(event.data.lastname)) {
-      this.repairPFService.updateItem(event.data.$key, {lastname: event.data.lastname});
-    }
-    if (this._utilService.isNullOrUndefined(event.data.firstname)) {
-      this.repairPFService.updateItem(event.data.$key, {firstname: event.data.firstname});
-    }
-    if (this._utilService.isNullOrUndefined(event.data.firm)) {
-      this.repairPFService.updateItem(event.data.$key, {firm: event.data.firm});
-    }
-    if (this._utilService.isNullOrUndefined(event.data.phoneModel)) {
-      this.repairPFService.updateItem(event.data.$key, {phoneModel: event.data.phoneModel});
-    }
-    if (this._utilService.isNullOrUndefined(event.data.problem)) {
-      this.repairPFService.updateItem(event.data.$key, {problem: event.data.problem});
-    }
-    if (this._utilService.isNullOrUndefined(event.data.imei)) {
-      this.repairPFService.updateItem(event.data.$key, {imei: event.data.imei});
-    }
-    this.repairPFService.updateItem(event.data.$key, {phone: event.data.phone});
-    this.repairPFService.updateItem(event.data.$key, {priceOffer: event.data.priceOffer});
-    this.repairPFService.updateItem(event.data.$key, {aboutUs: event.data.aboutUs});
-    this.successMessage(event.data.lastname, event.data.firstname,'Valoare')
+    const fieldName = event.column.field;
+    const fieldVal = event.data[fieldName];
+    let obj = {};
+    obj[fieldName] = fieldVal;
+    this.repairPFService.updateItem(event.data.$key, obj);
+    this.successMessage(event.data.lastname, event.data.firstname,'Valoare');
   }
 
   getClientsPFList(): Observable<any> {
