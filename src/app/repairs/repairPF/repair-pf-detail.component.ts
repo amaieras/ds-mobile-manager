@@ -19,11 +19,13 @@ export class RepairPFDetailComponent implements OnInit {
   testingValues: any[];
   defaultDate: Date = new Date();
   totalRecords: number;
-
+  csvSeparator: string;
   constructor(private repairPFService:RepairPFDetailService, private _utilService: UtilService, private _el: ElementRef) {
   }
 
   ngOnInit() {
+
+    this.csvSeparator = ',';
 
     window.addEventListener('scroll', this.scroll, true); //third parameter
 
@@ -126,5 +128,99 @@ export class RepairPFDetailComponent implements OnInit {
   disabledRow(rowData: ClientPF) {
     return rowData.isRepaired ? 'disabled-account-row' : '';
   }
+
+
+  exportTable(){
+    {
+      var data = this.dataSource;
+      var csv = '\ufeff';
+      var exportFilename="file";
+
+      for (var i = 0; i < this.cols.length; i++) {
+
+        var column = this.cols[i];
+        if (column.field) {
+          csv += '"' + (column.header || column.field) + '"';
+          if (i < (this.cols.length - 1)) {
+            csv += this.csvSeparator;
+          }
+        }
+      }
+
+      //body
+      data.forEach(entry => {
+           csv += '\n';
+
+          for (var i_1 = 0; i_1 < this.cols.length; i_1++) {
+
+          var column = this.cols[i_1];
+            csv += '"' + this.resolveFieldData(entry, column.field) + '"';
+            if (i_1 < (this.cols.length - 1)) {
+              csv += this.csvSeparator;
+            }
+        }
+      });
+
+      var blob = new Blob([csv], {
+        type: 'text/csv;charset=utf-8;'
+      });
+      if (window.navigator.msSaveOrOpenBlob) {
+        navigator.msSaveOrOpenBlob(blob, exportFilename + '.csv');
+      }
+      else {
+        var link = document.createElement("a");
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        if (link.download !== undefined) {
+          link.setAttribute('href', URL.createObjectURL(blob));
+          link.setAttribute('download', exportFilename + '.csv');
+          link.click();
+        }
+        else {
+          csv = 'data:text/csv;charset=utf-8,' + csv;
+          window.open(encodeURI(csv));
+        }
+        document.body.removeChild(link);
+      }
+    };
+  }
+  resolveFieldData(data, field) {
+
+    if (data && field) {
+      if (field.indexOf('.') == -1) {
+        var auxDate = '';
+        if(field == 'addedDate' || field == 'appointmentDate' || field === 'deliveredDate' || field === 'phoneList'){
+          if (field === 'phoneList') {
+            return data[field][0].phoneBrand + " " +data[field][0].phoneModel + " " +data[field][0].phoneColor;
+          }
+
+          else{
+            if(data[field] == '' || data[field] == null) {
+              return '';
+            }else
+              var d = new Date(+data[field]);
+              auxDate = d.toLocaleDateString()  + "  " + d.toLocaleTimeString();
+            }
+          return auxDate;
+        }else
+        return data[field];
+      }
+      else {
+        var fields = field.split('.');
+        var value = data;
+        for (var i = 0, len = fields.length; i < len; ++i) {
+          if (value == null) {
+            return null;
+          }
+          value = value[fields[i]];
+        }
+        return value;
+      }
+    }
+    else {
+      return null;
+    }
+  };
+
 
 }
