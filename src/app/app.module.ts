@@ -20,7 +20,7 @@ import {RepairCenterRoutingModule} from './repairs/repair-center-routing.module'
 import {AngularFirestoreModule} from "angularfire2/firestore";
 import {CheckoutModule} from "./checkout/checkout.module";
 import {CheckoutCenterRoutingModule} from "./checkout/checkout-center-routing.module";
-import {ChartModule} from "./chart/chart.module";
+import {ChartsModule} from "./chart/chart.module";
 import {ChartCenterRoutingModule} from "./chart/chart-center-routing.module";
 import {HttpClientModule} from "@angular/common/http";
 
@@ -61,7 +61,7 @@ export const firebaseConfig = environment.firebaseConfig
         ClientModule,
         RepairModule,
         CheckoutModule,
-        ChartModule,
+        ChartsModule,
         CheckoutCenterRoutingModule,
         ChartCenterRoutingModule,
         ClientCenterRoutingModule,

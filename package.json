@@ -31,6 +31,7 @@
     "@types/jasmine": "^2.5.54",
     "amexio-ng-extensions": "^2.1.5",
     "angularfire2": "^5.0.0-rc.3",
+    "chart.js": "^2.7.1",
     "codelyzer": "^2.1.1",
     "core-js": "^2.4.1",
     "firebase": "^4.6.0",

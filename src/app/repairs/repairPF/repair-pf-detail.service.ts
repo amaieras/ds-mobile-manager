@@ -18,6 +18,17 @@ export class RepairPFDetailService {
     });
   }
 
+
+  getClientsPfListByYear(year:number){
+    return this.repairsPF.snapshotChanges()
+      .map(arr => {
+        return arr
+          .map(snap =>
+             Object.assign(snap.payload.val(), {$key: snap.key})
+        );
+      });
+  }
+
   updateItem(key: string, value: any): void {
     this.repairsPF.update(key, value)
       .catch(error => this.handleError(error));
