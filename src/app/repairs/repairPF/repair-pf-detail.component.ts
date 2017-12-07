@@ -132,9 +132,9 @@ export class RepairPFDetailComponent implements OnInit {
 
   exportTable(){
     {
-      var data = this.dataSource;
-      var csv = '\ufeff';
-      var exportFilename="file";
+      let data = this.dataSource;
+      let csv = '\ufeff';
+      let exportFilename = this.getDate();
 
       for (var i = 0; i < this.cols.length; i++) {
 
@@ -221,6 +221,17 @@ export class RepairPFDetailComponent implements OnInit {
       return null;
     }
   };
+
+  getDate() {
+    const today = new Date();
+    let month = today.getMonth() + 1;
+    let day = today.getDate().toString();
+    let hours = today.getHours().toString();
+    let minutes = today.getMinutes().toString();
+    let seconds = today.getSeconds().toString();
+    let year = today.getFullYear().toString();
+    return day + month + year + '_' + hours + minutes + seconds;
+  }
 
 
 }
