@@ -86,7 +86,7 @@ export class RepairPFDetailComponent implements OnInit {
     let obj = {};
     obj[fieldName] = fieldVal;
     this.repairPFService.updateItem(event.data.$key, obj);
-    this.successMessage(event.data.lastname, event.data.firstname,'Valoare');
+    this.successMessage(event.data.lastname, event.data.firstname, event.data.phone,'Valoare');
   }
 
   getClientsPFList(): Observable<any> {
@@ -107,20 +107,27 @@ export class RepairPFDetailComponent implements OnInit {
     this.repairPFService.updateItem(row.$key, {appointmentDate: date});
     this.defaultDate = new Date();
     this.defaultDate.setHours(12,0);
-    this.successMessage(row.lastname, row.firstname, 'Data programarii')
+    this.successMessage(row.lastname, row.firstname, row.phone,'Data programarii a fost')
   }
 
   updateTestedItem(row) {
     this.repairPFService.updateItem(row.$key, {tested: row.tested});
-    this.successMessage(row.lastname, row.firstname, 'Valoarea `testat` a fost')
+    this.successMessage(row.lastname, row.firstname,row.phone, 'Valoarea `testat` a fost')
   }
 
 
-  successMessage(lastname, firstname, msg) {
+  successMessage(lastname, firstname, phone, msg) {
     this.msgs = [];
+    let msgAux = '';
+    if (lastname === undefined || firstname === undefined) {
+      msgAux = ' modificata pentru clientul cu numarul de telefon: ' + phone;
+    }
+    else {
+      msgAux = ' modificata pentru clientul: ' + lastname + ' ' + firstname;
+    }
     this.msgs.push({
       severity: 'success',
-      summary: msg + ' modificata pentru clientul: ' + lastname + ' ' + firstname,
+      summary: msg  + msgAux,
       detail: 'Date modificate.'
     });
   }
