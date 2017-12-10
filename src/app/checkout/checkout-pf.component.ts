@@ -2,7 +2,6 @@
 
 import {Component, OnInit} from "@angular/core";
 import {CheckoutService} from "./checkout.service";
-import {ClientPF} from "../model/ClientPF";
 import {Checkout} from "../model/Checkout";
 
 @Component({
@@ -16,11 +15,10 @@ export class CheckoutPfComponent implements OnInit {
   currDay = new Date();
   constructor(private _checkoutService: CheckoutService) {}
   ngOnInit() {
-    this.getCheckoutInfo();
+    this.getCheckoutForDate(new Date());
   }
 
-  private getCheckoutInfo() {
-    const currDay = new Date();
+  getCheckoutForDate(event) {
     let clientsPerDay = 0;
     let totalIsRepaired = 0;
     let totalInProgress = 0;
@@ -29,15 +27,15 @@ export class CheckoutPfComponent implements OnInit {
       let totalCash = 0;
       clientsPerDay = item.filter(function (client) {
         const clientDate = new Date(+client.addedDate);
-        return clientDate.toDateString() === currDay.toDateString();
+        return clientDate.toDateString() === event.toDateString();
       }).length
       clientIsRepaired = item.filter(function (client) {
-        const clientDate = new Date(+client.addedDate);
-        return clientDate.toDateString() === currDay.toDateString() && client.isRepaired === true;
+        const clientDate = new Date(+client.deliveredDate);
+        return clientDate.toDateString() === event.toDateString() && client.isRepaired === true;
       })
       totalInProgress = item.filter(function (client) {
         const clientDate = new Date(+client.addedDate);
-        return  clientDate.toDateString() === currDay.toDateString() && client.isRepaired === false;
+        return  clientDate.toDateString() === event.toDateString() && client.isRepaired === false;
       }).length
       clientIsRepaired.forEach(c => {
         totalCash = totalCash + +c.priceOffer;

@@ -317,8 +317,10 @@ export class ClientPfDetailComponent implements OnInit {
     }
   }
   print() {
-      this.clientPFForm.patchValue({appointment: this.defaultDate.getTime().toString()});
-      this.child.print();
+    this.clientPFForm.patchValue({appointment: this.defaultDate.getTime().toString()});
+    this.child.print();
+    let event: Event;
+    this.onSubmit(event);
   }
 
   searchClient(clientLastName) {

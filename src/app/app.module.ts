@@ -11,6 +11,7 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { DateFilterComponent} from "./shared/date-filter-component/date-filter.component";
 import { AppToolbarService } from './app-toolbar/app-toolbar.service';
 import { ClientModule } from './clients/client.module';
 import { ClientCenterRoutingModule } from './clients/client-center-routing.module';
@@ -48,7 +49,7 @@ export const firebaseConfig = environment.firebaseConfig
 
 @NgModule({
     declarations: [
-        AppComponent,
+        AppComponent
     ],
     imports: [
         BrowserModule,

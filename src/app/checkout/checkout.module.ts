@@ -4,15 +4,21 @@ import {AmexioDashboardModule} from "amexio-ng-extensions/dashboard";
 import {AmexioWidgetModule} from "amexio-ng-extensions";
 import {CommonModule} from "@angular/common";
 import {CheckoutService} from "./checkout.service";
+import {DateFilterComponent} from "../shared/date-filter-component/date-filter.component";
+import {DropdownModule} from "primeng/primeng";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   imports: [
     AmexioDashboardModule,
     AmexioWidgetModule,
-    CommonModule
+    CommonModule,
+    DropdownModule,
+    FormsModule
   ],
   declarations: [
-    CheckoutPfComponent
+    CheckoutPfComponent,
+    DateFilterComponent
   ],
   providers: [
     CheckoutService
