@@ -4,6 +4,7 @@ import {SelectItem, Message} from "primeng/primeng";
 import {Observable} from "rxjs/Observable";
 import {ClientPF} from "../../model/ClientPF";
 import {UtilService} from "../../utils/util.service";
+import {FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'repair-pf-detail',
@@ -20,6 +21,10 @@ export class RepairPFDetailComponent implements OnInit {
   defaultDate: Date = new Date();
   totalRecords: number;
   csvSeparator: string;
+  noOfClients: number;
+  clientPFForm: FormGroup;
+  totalPrice = 0;
+
   constructor(private repairPFService:RepairPFDetailService, private _utilService: UtilService, private _el: ElementRef) {
   }
 
@@ -239,6 +244,11 @@ export class RepairPFDetailComponent implements OnInit {
     let year = today.getFullYear().toString();
     return day + month + year + '_' + hours + minutes + seconds;
   }
-
+  printRepair(repair) {
+    alert('Work in progress :)')
+    this.noOfClients = 24;
+    this.clientPFForm = repair;
+    this.totalPrice = 0;
+  }
 
 }

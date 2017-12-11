@@ -139,11 +139,8 @@
     </div>
 
     <div class="form-group formBtn">
-      <button type="submit" class="btn btn-default"
-              [disabled]="clientPFForm.invalid">Salveaza
-      </button>
       <button type="button" class="btn btn-default"
-              [disabled]="clientPFForm.invalid" (click)="print()">Printeaza/Salveaza
+              [disabled]="clientPFForm.invalid" (click)="print()">Salveaza/Printeaza
       </button>
       <app-print-receipt [noOfClients]="noOfClients" [clientPF]="clientPFForm" [totalPrice]="totalPrice"></app-print-receipt>
     </div>

@@ -4,6 +4,14 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import 'rxjs/add/operator/delay';
 
+@Injectable()
+export class ClientTypeService {
+  getClientTypes(): Observable<ClientType[]> {
+    return of(clientTypes);
+  }
+}
+
+
 export class ClientType {
   constructor(public id: number, public type: string, public url: string) { }
 }
@@ -21,17 +29,8 @@ export const clientTypes: ClientType[] = [
   },
   {
     id: 3,
-    type: 'GSM-Display',
+    type: 'GSM-Vanzare/Imprumut Display',
     url: 'gsm-display'
   }
 ];
 
-
-@Injectable()
-export class ClientTypeService {
-  getClientTypes(): Observable<ClientType[]> {
-    return of(clientTypes);
-  }
-
-
-}

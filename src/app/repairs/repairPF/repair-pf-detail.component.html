@@ -83,5 +83,13 @@
           </ng-template>
         </ng-container>
       </p-column>
+      <p-column styleClass="col-button">
+        <ng-template pTemplate="header">
+          Printeaza
+        </ng-template>
+        <ng-template let-repair="rowData" pTemplate="body">
+          <button type="button" pButton (click)="printRepair(repair)" icon="fa-print"></button>
+        </ng-template>
+      </p-column>
     </p-dataTable>
 </div>

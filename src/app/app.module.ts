@@ -11,7 +11,7 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { DateFilterComponent} from "./shared/date-filter-component/date-filter.component";
+
 import { AppToolbarService } from './app-toolbar/app-toolbar.service';
 import { ClientModule } from './clients/client.module';
 import { ClientCenterRoutingModule } from './clients/client-center-routing.module';
@@ -24,6 +24,7 @@ import {CheckoutCenterRoutingModule} from "./checkout/checkout-center-routing.mo
 import {ChartsModule} from "./chart/chart.module";
 import {ChartCenterRoutingModule} from "./chart/chart-center-routing.module";
 import {HttpClientModule} from "@angular/common/http";
+import {PrintReceiptComponent} from "./print/print-receipt.component";
 
 
 export const environment = {
@@ -45,7 +46,7 @@ export const environment = {
     messagingSenderId: '662623055885'
   }
 }
-export const firebaseConfig = environment.firebaseConfig
+export const firebaseConfig = environment.firebaseConfigProd
 
 @NgModule({
     declarations: [

@@ -47,6 +47,7 @@ import {
   MatTooltipModule,
   MatStepperModule,
 } from '@angular/material';
+import {PrintReceiptComponent} from "../print/print-receipt.component";
 // import {MatRepairPfDetailComponent} from "./repairPF/mat-repair-pf-detail.component";
 
 @NgModule({
@@ -102,8 +103,7 @@ import {
   declarations: [
     RepairTypeListComponent,
     RepairPFDetailComponent,
-    RepairGSMDetailComponent,
-    // MatRepairPfDetailComponent
+    RepairGSMDetailComponent
 
   ],
   providers: [
