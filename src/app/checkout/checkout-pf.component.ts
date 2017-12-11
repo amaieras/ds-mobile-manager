@@ -12,13 +12,14 @@ import {Checkout} from "../model/Checkout";
 
 export class CheckoutPfComponent implements OnInit {
   checkout: Checkout = new Checkout(0, 0, 0, 0);
-  currDay = new Date();
+  currDate = new Date();
   constructor(private _checkoutService: CheckoutService) {}
   ngOnInit() {
     this.getCheckoutForDate(new Date());
   }
 
   getCheckoutForDate(event) {
+    this.currDate = event;
     let clientsPerDay = 0;
     let totalIsRepaired = 0;
     let totalInProgress = 0;
