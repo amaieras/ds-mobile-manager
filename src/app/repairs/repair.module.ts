@@ -50,6 +50,7 @@ import {
 import {PrintReceiptComponent} from "../shared/print/print-receipt.component";
 import {SharedDsModule} from "../shared/shared-ds.module";
 
+
 @NgModule({
   exports: [
     CdkTableModule,

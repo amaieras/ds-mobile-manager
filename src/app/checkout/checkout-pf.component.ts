@@ -11,6 +11,7 @@ import {Checkout} from "../model/Checkout";
 })
 
 export class CheckoutPfComponent implements OnInit {
+
   checkout: Checkout = new Checkout(0, 0, 0, 0, 0);
   currDate = new Date();
   constructor(private _checkoutService: CheckoutService) {}
