@@ -12,10 +12,6 @@ export class ChartPfComponent implements OnInit {
   data: any;
   date: number;
 
-  selectedYear: SelectItem;
-  selectedMonth: SelectItem;
-  selectedDay: SelectItem;
-
   years: SelectItem[];
   months: SelectItem[];
   days: SelectItem[];
@@ -23,7 +19,6 @@ export class ChartPfComponent implements OnInit {
   avgDM: any;
   avgDY: any;
   avgMY: any;
-
 
   constructor(private repairPFService:RepairPFDetailService) {
     this.date = new Date().getTime();
@@ -36,11 +31,11 @@ export class ChartPfComponent implements OnInit {
     this.initMonths();
     this.daysInMonth(auxMonth, auxYear);
 
-    this.selectedDay = this.days[auxDate-1];
-    this.selectedYear = this.years.filter(fl => fl.value === auxYear).slice()[0];
-    this.selectedMonth = this.months.filter(fl => fl.value === auxMonth).slice()[0];
-
-    this.getStatisticsByYear( this.selectedYear, this.selectedMonth, this.selectedDay);
+    // let day = this.days[auxDate-1];
+    // let year = this.years.filter(fl => fl.value === auxYear).slice()[0];
+    // let month =  this.months.filter(fl => fl.value === auxMonth).slice()[0];
+  // console.log(day)
+    this.getStatisticsByYear( new Date());
 
   }
 
@@ -122,57 +117,57 @@ export class ChartPfComponent implements OnInit {
     }
   }
 
-  getStatisticsByYear(auxYear: any, auxMonth: any, auxDay: any) {
+  getStatisticsByYear(event) {
+    let auxYear = event.getFullYear(),
+        auxMonth = event.getMonth(),
+        auxDay = event.getDate();
 
     if(auxMonth != null && auxYear != null)
-      this.daysInMonth(auxMonth.value, auxYear.value);
+      this.daysInMonth(auxMonth, auxYear);
 
     if(auxMonth != null && auxYear != null && auxDay != null)
 
+      this.repairPFService.getClientsPFList().subscribe(item => {
 
-    this.repairPFService.getClientsPFList().subscribe(item => {
+        this.data = {
+          labels: [ 'Zi (Medie ZI/LUNA)','Luna (MEDIE LUNA/AN)','Anul (MEDIA ZI/AN)'],
+          datasets: []
+        };
 
-      this.data = {
-        labels: [ 'Zi (Medie ZI/LUNA)','Luna (MEDIE LUNA/AN)','Anul (MEDIA ZI/AN)'],
-        datasets: []
-      };
+        let newItems = item.filter(function (fl) {
+          return new Date(+fl.addedDate).getFullYear() === auxYear
+        });
 
-      let newItems = item.filter(function (fl) {
-        return new Date(+fl.addedDate).getFullYear() === auxYear.value
-      });
+        let monthItems = newItems.filter(fi => {
+          return new Date(+fi.addedDate).getMonth() === auxMonth
+        });
 
-      let monthItems = newItems.filter(fi => {
-        return new Date(+fi.addedDate).getMonth() === auxMonth.value
-      });
+        let dayItems = monthItems.filter(fi => {
+          return new Date(+fi.addedDate).getDate() === auxDay
+        });
 
-      let dayItems = monthItems.filter(fi => {
-        return new Date(+fi.addedDate).getDate() === auxDay.value
-      });
+        let count = newItems.length;
+        let monthCount = monthItems.length;
+        let dayCount = dayItems.length;
 
-      let count = newItems.length;
-      let monthCount = monthItems.length;
-      let dayCount = dayItems.length;
+        this.avgDM = this.getAveragePerDayInMonth(monthCount, auxMonth, auxYear);
+        this.avgDY = this.getAveragePerDayInYear(count, auxYear);
+        this.avgMY = this.getAveragePerMonthOfYear(count, auxYear);
 
-      this.avgDM = this.getAveragePerDayInMonth(monthCount, auxMonth.value, auxYear.value);
-      this.avgDY = this.getAveragePerDayInYear(count, auxYear.value);
-      this.avgMY = this.getAveragePerMonthOfYear(count, auxYear.value);
-
-
-
-      let obj = {
-        label: 'Statistici: '+ auxDay.label + " " +auxMonth.label+" "+auxYear.label,
-        backgroundColor: '#42f571',
-        borderColor: '#36e53e',
-        data: [dayCount, monthCount, count]
-      };
-      let obj2 = {
-        label: 'Media',
-        backgroundColor: '#1d19f5',
-        borderColor: '#0b1de5',
-        data: [this.avgDM, this.avgMY, this.avgDY]
-      };
-      this.data.datasets.push(obj);
-      this.data.datasets.push(obj2);
+        let obj = {
+          label: 'Statistici: '+ auxDay + " " + (auxMonth+1) + " " + auxYear,
+          backgroundColor: '#42f571',
+          borderColor: '#36e53e',
+          data: [dayCount, monthCount, count]
+        };
+        let obj2 = {
+          label: 'Media',
+          backgroundColor: '#1d19f5',
+          borderColor: '#0b1de5',
+          data: [this.avgDM, this.avgMY, this.avgDY]
+        };
+        this.data.datasets.push(obj);
+        this.data.datasets.push(obj2);
     });
   }
 

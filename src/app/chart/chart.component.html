@@ -1,37 +1,5 @@
-<!--<date-filter (onDatePicked)="getCheckoutForDate($event)"></date-filter>-->
+<date-filter (onDatePicked)="getStatisticsByYear($event)"></date-filter>
 
 <div class="container">
-<!--<h3>Alege-ti data</h3>-->
-  <!--<p-dropdown [options]="years" [(ngModel)]="selectedYear" placeholder="Selecteaza anul" optionLabel="label" (onChange)="getStatisticsByYear(selectedYear, selectedMonth, selectedDay)">-->
-    <!--<ng-template let-car pTemplate="item">-->
-      <!--<div class="ui-helper-clearfix" style="position: relative;height: 25px;">-->
-        <!--<div style="font-size:14px;float:right;margin-top:4px">{{car.label}}</div>-->
-      <!--</div>-->
-    <!--</ng-template>-->
-  <!--</p-dropdown>-->
-
-  <!--<p-dropdown [options]="months" [(ngModel)]="selectedMonth" placeholder="Selecteaza luna" optionLabel="label" (onChange)="getStatisticsByYear(selectedYear, selectedMonth, selectedDay)">-->
-    <!--<ng-template let-car pTemplate="item">-->
-      <!--<div class="ui-helper-clearfix" style="position: relative;height: 25px;">-->
-        <!--<div style="font-size:14px;float:right;margin-top:4px">{{car.label}}</div>-->
-      <!--</div>-->
-    <!--</ng-template>-->
-  <!--</p-dropdown>-->
-
-  <!--<p-dropdown [options]="days" [(ngModel)]="selectedDay" placeholder="Selecteaza ziua" optionLabel="label" (onChange)="getStatisticsByYear(selectedYear, selectedMonth, selectedDay)">-->
-    <!--<ng-template let-car pTemplate="item">-->
-      <!--<div class="ui-helper-clearfix" style="position: relative;height: 25px;">-->
-        <!--<div style="font-size:14px;float:right;margin-top:4px">{{car.label}}</div>-->
-      <!--</div>-->
-    <!--</ng-template>-->
-  <!--</p-dropdown>-->
-
   <p-chart type="bar" [data]="data"></p-chart>
-
 </div>
-
-
-
-<!--[Dev] Add new section 'Grafice' some basic charts first. -->
-<!--How many clients were added today, this week etc. -->
-<!--https://www.primefaces.org/primeng/#/chart/bar - like here-->
