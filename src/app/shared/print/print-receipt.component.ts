@@ -1,6 +1,6 @@
 import {ChangeDetectorRef, Component, Input, OnInit} from "@angular/core";
 import {FormGroup} from "@angular/forms";
-import {WarrantyInfo} from "../model/WarrantyInfo";
+import {WarrantyInfo} from "../../model/WarrantyInfo";
 
 @Component({
   selector: 'app-print-receipt',
@@ -15,21 +15,20 @@ export class PrintReceiptComponent implements OnInit {
   constructor(private _changeDetector: ChangeDetectorRef) {
     this.dsMobilePhone = '0734.588.883';
   }
-  @Input('clientPF') clientPF: FormGroup;
-  @Input('totalPrice') totalPrice: number;
-  @Input('noOfClients') noOfClients: number;
+  @Input('clientPFInfo') clientPFInfo: WarrantyInfo;
   ngOnInit() {
     this.insertDataToRecipe();
   }
 
-  print() {
+  print(warranty) {
+    console.log(warranty.lastname  + ' clientPFInfo')
     this.insertDataToRecipe();
     if (!this._changeDetector['destroyed']) {
       this._changeDetector.detectChanges();
     }
-    const formModel = this.clientPF.value;
-    this.warrantyInfo.brandName = formModel.phoneList[0].phoneBrand;
-    this.warrantyInfo.modelName = formModel.phoneList[0].phoneModel;
+    // const formModel = this.clientPF.value;
+    // this.warrantyInfo.brandName = formModel.phoneList[0].phoneBrand;
+    // this.warrantyInfo.modelName = formModel.phoneList[0].phoneModel;
     if (!this._changeDetector['destroyed']) {
       this._changeDetector.detectChanges();
     }
@@ -118,16 +117,16 @@ export class PrintReceiptComponent implements OnInit {
   }
 
   insertDataToRecipe() {
-    const formModel = this.clientPF.value;
-    let problems = [];
-    formModel.phoneList[0].problems.forEach(prbl=> {
-      let problemName = prbl.problem.toLowerCase() === 'altele' ? prbl.partName : prbl.problem;
-      problems.push(problemName);
-      this.warrantyInfo = new WarrantyInfo(formModel.lastname,
-        formModel.firstname, formModel.phone, this.totalPrice, formModel.phoneList[0].phoneColor, formModel.phoneList[0].imei, '', '',
-        formModel.phoneList[0].observation, formModel.tested, formModel.aboutUs, problems, formModel.appointment, formModel.phoneList[0].phoneCode,
-        this.noOfClients)
-    })
+    // const formModel = this.clientPF.value;
+    // let problems = [];
+    // formModel.phoneList[0].problems.forEach(prbl=> {
+    //   let problemName = prbl.problem.toLowerCase() === 'altele' ? prbl.partName : prbl.problem;
+    //   problems.push(problemName);
+    //   this.warrantyInfo = new WarrantyInfo(formModel.lastname,
+    //     formModel.firstname, formModel.phone, this.totalPrice, formModel.phoneList[0].phoneColor, formModel.phoneList[0].imei, '', '',
+    //     formModel.phoneList[0].observation, formModel.tested, formModel.aboutUs, problems, formModel.appointment, formModel.phoneList[0].phoneCode,
+    //     this.noOfClients)
+    // })
   }
 
 }

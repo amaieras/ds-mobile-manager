@@ -10,7 +10,8 @@ import {ProblemListService} from './phone-list/problem-list/problem-list.service
 import {AboutUsService} from './phone-list/about-us/about-us.service';
 import {Observable} from 'rxjs/Observable';
 import {PhoneListService} from 'app/clients/clientPF/phone-list/phone-list.service';
-import {PrintReceiptComponent} from "../../print/print-receipt.component";
+import {PrintReceiptComponent} from "../../shared/print/print-receipt.component";
+import {WarrantyInfo} from "../../model/WarrantyInfo";
 
 @Component({
   selector: 'app-client-pf-detail',
@@ -34,6 +35,7 @@ export class ClientPfDetailComponent implements OnInit {
   totalPrice = 0;
   noOfClients: number = 0;
   existingPartPrices = [];
+  warrantyInfo: WarrantyInfo;
 
   @ViewChild(PrintReceiptComponent ) child: PrintReceiptComponent;
 
@@ -318,9 +320,21 @@ export class ClientPfDetailComponent implements OnInit {
   }
   print() {
     this.clientPFForm.patchValue({appointment: this.defaultDate.getTime().toString()});
-    this.child.print();
     let event: Event;
-    this.onSubmit(event);
+    // this.onSubmit(event);
+    const formModel = this.clientPFForm.value;
+    // this.warrantyInfo.brandName = formModel.phoneList[0].phoneBrand;
+    // this.warrantyInfo.modelName = formModel.phoneList[0].phoneModel;
+    let problems = [];
+    formModel.phoneList[0].problems.forEach(prbl=> {
+      let problemName = prbl.problem.toLowerCase() === 'altele' ? prbl.partName : prbl.problem;
+      problems.push(problemName);
+      this.warrantyInfo = new WarrantyInfo(formModel.lastname,
+        formModel.firstname, formModel.phone, this.totalPrice, formModel.phoneList[0].phoneColor, formModel.phoneList[0].imei, '', '',
+        formModel.phoneList[0].observation, formModel.tested, formModel.aboutUs, problems, formModel.appointment, formModel.phoneList[0].phoneCode,
+        this.noOfClients)
+    })
+    this.child.print(this.warrantyInfo);
   }
 
   searchClient(clientLastName) {

@@ -47,8 +47,8 @@ import {
   MatTooltipModule,
   MatStepperModule,
 } from '@angular/material';
-import {PrintReceiptComponent} from "../print/print-receipt.component";
-// import {MatRepairPfDetailComponent} from "./repairPF/mat-repair-pf-detail.component";
+import {PrintReceiptComponent} from "../shared/print/print-receipt.component";
+import {SharedDsModule} from "../shared/shared-ds.module";
 
 @NgModule({
   exports: [
@@ -98,7 +98,9 @@ import {PrintReceiptComponent} from "../print/print-receipt.component";
     DropdownModule,
     CalendarModule,
 //primeng
-    GrowlModule
+    GrowlModule,
+
+    SharedDsModule
   ],
   declarations: [
     RepairTypeListComponent,

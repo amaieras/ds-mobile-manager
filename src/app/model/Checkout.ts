@@ -2,25 +2,21 @@
 
 
 export class Checkout {
-  get totalCash(): number {
-    return this._totalCash;
-  }
-
-  set totalCash(value: number) {
-    this._totalCash = value;
-  }
 
   private _totalClientsPerDay: number;
   private _totalIsRepaired: number;
+  private _totalInProgressPerDay: number;
   private _totalInProgress: number;
   private _totalCash: number;
 
-  constructor(totalClientsPerDay: number, totalIsRepaired: number, totalInProgress: number, _totalCash: number) {
+  constructor(totalClientsPerDay: number, totalIsRepaired: number, totalInProgressPerDay: number, _totalCash: number, totalInProgress: number) {
     this._totalClientsPerDay = totalClientsPerDay;
     this._totalIsRepaired = totalIsRepaired;
-    this._totalInProgress = totalInProgress;
+    this._totalInProgressPerDay = totalInProgressPerDay;
     this._totalCash = _totalCash;
+    this._totalInProgress = totalInProgress;
   }
+
   get totalClientsPerDay(): number {
     return this._totalClientsPerDay;
   }
@@ -44,6 +40,19 @@ export class Checkout {
   set totalInProgress(value: number) {
     this._totalInProgress = value;
   }
+  get totalInProgressPerDay(): number {
+    return this._totalInProgressPerDay;
+  }
 
+  set totalInProgressPerDay(value: number) {
+    this._totalInProgressPerDay = value;
+  }
+  get totalCash(): number {
+    return this._totalCash;
+  }
+
+  set totalCash(value: number) {
+    this._totalCash = value;
+  }
 
 }

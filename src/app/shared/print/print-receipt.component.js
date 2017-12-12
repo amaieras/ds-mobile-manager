@@ -7,7 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var WarrantyInfo_1 = require("../model/WarrantyInfo");
+var WarrantyInfo_1 = require("../../model/WarrantyInfo");
 var PrintReceiptComponent = /** @class */ (function () {
     function PrintReceiptComponent(_changeDetector) {
         this._changeDetector = _changeDetector;

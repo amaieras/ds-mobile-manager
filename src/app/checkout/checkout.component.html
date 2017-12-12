@@ -17,7 +17,9 @@
                 <amexio-center [contentalign]="'right'">
                   <amexio-datapoints [north]="true" [center]="true" [south]="true">
                     <amexio-north [cClass]="'datapoint-north'">
-                      {{checkout.totalClientsPerDay}}
+                      <div class="data-counts">
+                        {{checkout.totalClientsPerDay}}
+                      </div>
                     </amexio-north>
                     <amexio-center [cClass]="'datapoint-center'">
                       Total clienti adaugati la data selectata
@@ -35,7 +37,9 @@
                 <amexio-center [contentalign]="'right'">
                   <amexio-datapoints [north]="true" [center]="true" [south]="true">
                     <amexio-north [cClass]="'datapoint-north'">
-                      {{checkout.totalCash}} RON
+                      <div class="data-counts">
+                        {{checkout.totalCash}} RON
+                      </div>
                     </amexio-north>
                     <amexio-center [cClass]="'datapoint-center'">
                       Total incasari
@@ -49,7 +53,7 @@
           </div>
           <br>
           <div class="row">
-            <div class="col-lg-3">
+            <div class="col-lg-2">
               <amexio-datapoints [west]="true" [center]="true" [east]="true" [south]="true" [backgroundColor]="'#4CAF50'" [fontColor]="'#ffffff'">
                 <amexio-west [contentalign]="'center'">
                   <amexio-image [imageClass]="'fa fa-check fa-4x'"></amexio-image>
@@ -57,7 +61,9 @@
                 <amexio-center [contentalign]="'right'">
                   <amexio-datapoints [north]="true" [center]="true" [south]="true">
                     <amexio-north [cClass]="'datapoint-north'">
-                      {{checkout.totalIsRepaired}}
+                      <div class="data-counts">
+                        {{checkout.totalIsRepaired}}
+                      </div>
                     </amexio-north>
                     <amexio-center [cClass]="'datapoint-center'">
                       Reparatii finalizate
@@ -66,7 +72,7 @@
                 </amexio-center>
               </amexio-datapoints>
             </div>
-            <div class="col-lg-3">
+            <div class="col-lg-2">
               <amexio-datapoints [west]="true" [center]="true" [east]="true" [south]="true" [backgroundColor]="'#FF9800'" [fontColor]="'#ffffff'">
                 <amexio-west [contentalign]="'center'">
                   <amexio-image [imageClass]="'fa fa-envelope-open-o fa-4x'"></amexio-image>
@@ -74,7 +80,28 @@
                 <amexio-center [contentalign]="'right'">
                   <amexio-datapoints [north]="true" [center]="true" [south]="true">
                     <amexio-north [cClass]="'datapoint-north'">
-                      {{checkout.totalInProgress}}
+                      <div class="data-counts">
+                        {{checkout.totalInProgressPerDay}}
+                      </div>
+                    </amexio-north>
+                    <amexio-center [cClass]="'datapoint-center'">
+                      Reparatii ramase/zi
+                    </amexio-center>
+                  </amexio-datapoints>
+                </amexio-center>
+              </amexio-datapoints>
+            </div>
+            <div class="col-lg-2">
+              <amexio-datapoints [west]="true" [center]="true" [east]="true" [south]="true" [backgroundColor]="'#00BCD4'" [fontColor]="'#ffffff'">
+                <amexio-west [contentalign]="'center'">
+                  <amexio-image [imageClass]="'fa fa-globe fa-3x'"></amexio-image>
+                </amexio-west>
+                <amexio-center [contentalign]="'right'">
+                  <amexio-datapoints [north]="true" [center]="true" [south]="true">
+                    <amexio-north [cClass]="'datapoint-north'">
+                      <div class="data-counts">
+                        {{checkout.totalInProgress}}
+                      </div>
                     </amexio-north>
                     <amexio-center [cClass]="'datapoint-center'">
                       Reparatii ramase
@@ -92,7 +119,9 @@
                 <amexio-center [contentalign]="'right'">
                   <amexio-datapoints [north]="true" [center]="true" [south]="true">
                     <amexio-north [cClass]="'datapoint-north'">
-                      {{checkout.totalCash}} RON
+                      <div class="data-counts">
+                        {{checkout.totalCash}} RON
+                      </div>
                     </amexio-north>
                     <amexio-center [cClass]="'datapoint-center'">
                       Total Cash
@@ -119,25 +148,6 @@
                 </amexio-center>
               </amexio-datapoints>
             </div>
-
-            <!--<div class="col-lg-2">-->
-              <!--<amexio-datapoints [west]="true" [center]="true" [east]="true" [south]="true" [backgroundColor]="'#00BCD4'" [fontColor]="'#ffffff'">-->
-                <!--<amexio-west [contentalign]="'center'">-->
-                  <!--<amexio-image [imageClass]="'fa fa-low-vision fa-3x'"></amexio-image>-->
-                <!--</amexio-west>-->
-                <!--<amexio-center [contentalign]="'right'">-->
-                  <!--<amexio-datapoints [north]="true" [center]="true" [south]="true">-->
-                    <!--<amexio-north [cClass]="'datapoint-north'">-->
-                      <!--10-->
-                    <!--</amexio-north>-->
-                    <!--<amexio-center [cClass]="'datapoint-center'">-->
-                      <!--Low-->
-                    <!--</amexio-center>-->
-                  <!--</amexio-datapoints>-->
-                <!--</amexio-center>-->
-              <!--</amexio-datapoints>-->
-            <!--</div>-->
-
           </div>
         </div>
       </div>

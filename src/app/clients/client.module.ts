@@ -20,7 +20,7 @@ import {PhoneCascadeService} from '../shared/phone-cascade.service';
 import {AboutUsService} from 'app/clients/clientPF/phone-list/about-us/about-us.service';
 import {ClientGSMDisplayComponent} from "./clientGSMDisplay/client-gsm-display.component";
 import {PhoneListService} from "./clientPF/phone-list/phone-list.service";
-import {PrintReceiptComponent} from "../print/print-receipt.component";
+import {SharedDsModule} from "../shared/shared-ds.module";
 
 
 @NgModule({
@@ -34,7 +34,8 @@ import {PrintReceiptComponent} from "../print/print-receipt.component";
     DropdownModule,
     CalendarModule,
     SpinnerModule,
-    TooltipModule
+    TooltipModule,
+    SharedDsModule
   ],
   declarations: [
     ClientTypeListComponent,
@@ -44,8 +45,7 @@ import {PrintReceiptComponent} from "../print/print-receipt.component";
     ProblemListComponent,
     ProblemGSMListComponent,
     PhoneGSMListComponent,
-    ClientGSMDisplayComponent,
-    PrintReceiptComponent
+    ClientGSMDisplayComponent
 
   ],
   providers: [

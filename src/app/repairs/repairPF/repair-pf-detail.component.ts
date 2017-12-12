@@ -5,6 +5,7 @@ import {Observable} from "rxjs/Observable";
 import {ClientPF} from "../../model/ClientPF";
 import {UtilService} from "../../utils/util.service";
 import {FormGroup} from "@angular/forms";
+import {ClientPFService} from "../../clients/clientPF/client-pf-detail.service";
 
 @Component({
   selector: 'repair-pf-detail',
@@ -25,7 +26,7 @@ export class RepairPFDetailComponent implements OnInit {
   clientPFForm: FormGroup;
   totalPrice = 0;
 
-  constructor(private repairPFService:RepairPFDetailService, private _utilService: UtilService, private _el: ElementRef) {
+  constructor(private repairPFService:RepairPFDetailService, private _clientPFService: ClientPFService, private _el: ElementRef) {
   }
 
   ngOnInit() {
@@ -245,8 +246,11 @@ export class RepairPFDetailComponent implements OnInit {
     return day + month + year + '_' + hours + minutes + seconds;
   }
   printRepair(repair) {
-    alert('Work in progress :)')
-    this.noOfClients = 24;
+    console.log(repair)
+    this._clientPFService.getAllClients().subscribe( client => {
+      this.noOfClients = client.length;
+    })
+    this.noOfClients = 0;
     this.clientPFForm = repair;
     this.totalPrice = 0;
   }
