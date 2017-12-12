@@ -165,12 +165,22 @@ export class RepairPFDetailComponent implements OnInit {
            csv += '\n';
 
           for (var i_1 = 0; i_1 < this.cols.length; i_1++) {
-
           var column = this.cols[i_1];
-            csv += '"' + this.resolveFieldData(entry, column.field) + '"';
-            if (i_1 < (this.cols.length - 1)) {
-              csv += this.csvSeparator;
+          if(column.field === 'imei' || column.field === 'problem'){
+            if(column.field === 'imei'){
+              csv += '"' + this.resolveFieldData(entry, 'phoneList_imei') + '"';
             }
+            if(column.field === 'problem'){
+              csv += '"' + this.resolveFieldData(entry, 'phoneList_problem') + '"';
+
+            }
+          }
+          else {
+            csv += '"' + this.resolveFieldData(entry, column.field) + '"';
+          }
+          if (i_1 < (this.cols.length - 1)) {
+            csv += this.csvSeparator;
+          }
         }
       });
 
@@ -198,25 +208,56 @@ export class RepairPFDetailComponent implements OnInit {
     };
   }
   resolveFieldData(data, field) {
-
     if (data && field) {
       if (field.indexOf('.') == -1) {
         var auxDate = '';
-        if(field == 'addedDate' || field == 'appointmentDate' || field === 'deliveredDate' || field === 'phoneList'){
-          if (field === 'phoneList') {
-            return data[field][0].phoneBrand + " " +data[field][0].phoneModel + " " +data[field][0].phoneColor;
-          }
+        var auxPhones = '';
+        if (field === 'phoneList') {
+          data[field].forEach(phone => auxPhones += phone.phoneBrand + " " +phone.phoneModel + " " +phone.phoneColor + " ");
+          return auxPhones;
+        }
+        let imeiCount = '';
+        if(field === 'phoneList_imei') {
+          data['phoneList'].forEach(phone => {
+            if(phone.imei === '' || phone.imei === 'undefined')
+              imeiCount += "";
+            else imeiCount += phone.imei + " "
+          });
+          return imeiCount;
+        }
+        let problemsCount ='';
+        if(field === 'phoneList_problem'){
+          data['phoneList'].forEach(phone =>  {
+            phone.problems.forEach(problem => {
+              if(problem.problem === 'undefined' || problem.problem === '')
+                problemsCount += '';
+              else problemsCount += problem.problem + " "
+            })
+          });
+          return problemsCount;
+        }
+        if(field === 'isRepaired'){
+          if(data[field] === true) return 'DA';
+          else return 'NU';
+        }
 
-          else{
-            if(data[field] == '' || data[field] == null) {
+        if(field == 'addedDate' || field == 'appointmentDate' || field === 'deliveredDate'){
+            if(data[field] == '' || data[field] == null || data[field] === 'undefined') {
               return '';
             }else
               var d = new Date(+data[field]);
               auxDate = d.toLocaleDateString()  + "  " + d.toLocaleTimeString();
-            }
           return auxDate;
-        }else
-        return data[field];
+
+        }else{
+          if (data[field] === null || data[field] === '-' || data[field] === undefined)
+            return '';
+          else {
+            // if(data[field])
+              return data[field];
+            // else return '';
+          }
+        }
       }
       else {
         var fields = field.split('.');
