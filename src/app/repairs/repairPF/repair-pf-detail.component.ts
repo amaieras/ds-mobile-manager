@@ -6,6 +6,8 @@ import {ClientPF} from "../../model/ClientPF";
 import {UtilService} from "../../utils/util.service";
 import {FormGroup} from "@angular/forms";
 import {ClientPFService} from "../../clients/clientPF/client-pf-detail.service";
+import {PrintReceiptComponent} from "../../shared/print/print-receipt.component";
+import {WarrantyInfo} from "../../model/WarrantyInfo";
 
 @Component({
   selector: 'repair-pf-detail',
@@ -22,9 +24,7 @@ export class RepairPFDetailComponent implements OnInit {
   defaultDate: Date = new Date();
   totalRecords: number;
   csvSeparator: string;
-  noOfClients: number;
-  clientPFForm: FormGroup;
-  totalPrice = 0;
+  @ViewChild(PrintReceiptComponent) child: PrintReceiptComponent;
 
   constructor(private repairPFService:RepairPFDetailService, private _clientPFService: ClientPFService, private _el: ElementRef) {
   }
@@ -287,13 +287,16 @@ export class RepairPFDetailComponent implements OnInit {
     return day + month + year + '_' + hours + minutes + seconds;
   }
   printRepair(repair) {
-    console.log(repair)
+    let problems = [];
     this._clientPFService.getAllClients().subscribe( client => {
-      this.noOfClients = client.length;
+    repair.phoneList[0].problems.forEach(prbl => {
+      let problemName = prbl.problem.toLowerCase() === 'altele' ? prbl.partName : prbl.problem;
+      problems.push(problemName);
+      let warrantyInfo = new WarrantyInfo(repair.lastname, repair.firstname, repair.phone, repair.priceOffer, repair.phoneList[0].phoneColor,
+        repair.phoneList[0].imei, repair.phoneList[0].phoneBrand, repair.phoneList[0].phoneModel, repair.phoneList[0].observation, repair.tested,
+        repair.aboutUs, problems, repair.deliveredDate, repair.phoneList[0].phoneCode, client.length);
+      this.child.print(warrantyInfo);
+      })
     })
-    this.noOfClients = 0;
-    this.clientPFForm = repair;
-    this.totalPrice = 0;
   }
-
 }

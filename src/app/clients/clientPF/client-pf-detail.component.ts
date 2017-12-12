@@ -320,21 +320,23 @@ export class ClientPfDetailComponent implements OnInit {
   }
   print() {
     this.clientPFForm.patchValue({appointment: this.defaultDate.getTime().toString()});
+    this.setWarrantyInfo();
+    this.child.print(this.warrantyInfo);
     let event: Event;
-    // this.onSubmit(event);
+    this.onSubmit(event);
+  }
+
+  private setWarrantyInfo() {
     const formModel = this.clientPFForm.value;
-    // this.warrantyInfo.brandName = formModel.phoneList[0].phoneBrand;
-    // this.warrantyInfo.modelName = formModel.phoneList[0].phoneModel;
     let problems = [];
-    formModel.phoneList[0].problems.forEach(prbl=> {
+    formModel.phoneList[0].problems.forEach(prbl => {
       let problemName = prbl.problem.toLowerCase() === 'altele' ? prbl.partName : prbl.problem;
       problems.push(problemName);
       this.warrantyInfo = new WarrantyInfo(formModel.lastname,
-        formModel.firstname, formModel.phone, this.totalPrice, formModel.phoneList[0].phoneColor, formModel.phoneList[0].imei, '', '',
-        formModel.phoneList[0].observation, formModel.tested, formModel.aboutUs, problems, formModel.appointment, formModel.phoneList[0].phoneCode,
-        this.noOfClients)
+        formModel.firstname, formModel.phone, this.totalPrice, formModel.phoneList[0].phoneColor, formModel.phoneList[0].imei, formModel.phoneList[0].phoneBrand
+        , formModel.phoneList[0].phoneModel, formModel.phoneList[0].observation, formModel.tested, formModel.aboutUs, problems, formModel.appointment,
+        formModel.phoneList[0].phoneCode, this.noOfClients)
     })
-    this.child.print(this.warrantyInfo);
   }
 
   searchClient(clientLastName) {
