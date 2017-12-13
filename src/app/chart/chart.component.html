@@ -1,5 +1,9 @@
-<date-filter (onDatePicked)="getStatisticsByYear($event)"></date-filter>
+<nav>
+  <a routerLink="client-chart"><button mat-raised-button>Client Chart</button></a>
+  <a routerLink="phones-chart"><button mat-raised-button>Phones Chart</button></a>
+  <a routerLink="aboutUs-chart">About Us Chart</a>
+  <a routerLink="money-chart">Money Chart</a>
 
-<div class="container">
-  <p-chart type="bar" [data]="data"></p-chart>
-</div>
+</nav>
+<router-outlet></router-outlet>
+
