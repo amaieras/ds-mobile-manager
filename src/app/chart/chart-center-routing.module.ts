@@ -1,6 +1,12 @@
 import {RouterModule, Routes} from "@angular/router";
 import {ChartPfComponent} from "./chart-pf.component";
 import {NgModule} from "@angular/core";
+import {ClientPfDetailComponent} from "../clients/clientPF/client-pf-detail.component";
+import {ClientGSMDetailComponent} from "../clients/clientGSM/client-gsm-detail.component";
+import {PhonesChartComponent} from "./phones-chart/phones-chart.component";
+import {AboutUsChartComponent} from "./about-us-chart/about-us-chart.component";
+import {ClientChartComponent} from "./client-chart/client-chart.component";
+import {MoneyChartComponent} from "./money-chart/money-chart.component";
 
 
 const chartCenterRoutes: Routes = [
@@ -14,17 +20,21 @@ const chartCenterRoutes: Routes = [
         pathMatch: 'full'
       },
       {
-        path: 'chart-pf',
-        component: ChartPfComponent
+        path: 'phones-chart',
+        component: PhonesChartComponent
       },
-      // {
-      //   path: 'gsm',
-      //   component: ClientGSMDetailComponent
-      // },
-      // {
-      //   path: 'gsm-display',
-      //   component: ClientGSMDisplayComponent
-      // }
+      {
+        path: 'aboutUs-chart',
+        component: AboutUsChartComponent
+      },
+      {
+        path: 'client-chart',
+        component: ClientChartComponent
+      },
+      {
+        path: 'money-chart',
+        component: MoneyChartComponent
+      }
     ],
     data: {
       title: 'Grafice'
