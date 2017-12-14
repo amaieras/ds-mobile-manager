@@ -6,7 +6,7 @@
           <div class="form-group">
             <div class="col-md-3">
               <label for="phoneBrand" style="display: block">Telefon</label>
-              <p-dropdown id="phoneBrand" [(ngModel)]="newItem.phoneId" [options]="phoneBrandsArray"
+              <p-dropdown id="phoneBrand" [(ngModel)]="selectedBrand" [options]="phoneBrandsArray"
                           [style]="{'width':'150px'}" filter="true" (onChange)="onSelect($event.value)" formControlName="phoneBrand">
                 <ng-template let-phone pTemplate="item">
                   <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
@@ -67,14 +67,17 @@
               <input placeholder="Cantitate" id="phoneQuantity" class="form-control" formControlName="phoneQuantity">
             </div>
           </div>
-          <div formArrayName="problems" class="col-md-12">
-            <div *ngFor="let email of phoneListGroup.controls['problems']['controls']; let i=index" class="panel panel-default">
-              <div class="panel-heading">
-                <span>Lista piese: {{i + 1}}</span>
-                <span class="glyphicon glyphicon-remove pull-right" *ngIf="phoneListGroup.controls.problems.controls.length > 1" (click)="removeProblem(i)"></span>
-              </div>
-              <div class="panel-body" [formGroupName]="i">
-                <app-problem-gsm-list [group]="phoneListGroup.controls['problems']['controls'][i]"></app-problem-gsm-list>
+          <div class="col-md-12 phone-list-pad">
+            <div formArrayName="problems">
+              <div *ngFor="let email of phoneListGroup.controls['problems']['controls']; let i=index" class="panel panel-primary">
+                <div class="panel-heading">
+                  <span>Lista piese: {{i + 1}}</span>
+                  <span class="glyphicon glyphicon-remove pull-right" *ngIf="phoneListGroup.controls.problems.controls.length > 1" (click)="removeProblem(i)"></span>
+                </div>
+                <div class="panel-body" [formGroupName]="i">
+                  <!--<app-problem-gsm-list [group]="phoneListGroup.controls['problems']['controls'][i]"></app-problem-gsm-list>-->
+                  <app-problem-list (selectedPartName)="setPartName($event)" [phoneGroup]="phoneListGroup" [group]="phoneListGroup.controls['problems']['controls'][i]"></app-problem-list>
+                </div>
               </div>
             </div>
           </div>

@@ -15,6 +15,7 @@ export class ClientGSMDetailComponent implements OnInit {
   clientGSMForm: FormGroup;
   clientGSM: ClientGSM = new ClientGSM();
   saveClientGSM: ClientGSM = new ClientGSM();
+  totalPrice = 0;
   constructor(
     private fb: FormBuilder,
     private clientGSMService: ClientGSMService,
@@ -27,22 +28,22 @@ export class ClientGSMDetailComponent implements OnInit {
         Validators.required
       ]),
       'firstname': new FormControl('', [
-        Validators.required
+        // Validators.required
       ]),
       'firm': new FormControl('', [
-        Validators.required
+        // Validators.required
       ]),
       'phone': new FormControl('', [
         Validators.required
       ]),
       'email': new FormControl('', [
-        Validators.required
+        // Validators.required
       ]),
       'priceOffer': new FormControl('', [
-        Validators.required
+        // Validators.required
       ]),
       'country': new FormControl('', [
-        Validators.required
+        // Validators.required
       ]),
       phoneList: this.fb.array([ ]),
       'city': new FormControl('', [
@@ -61,6 +62,19 @@ export class ClientGSMDetailComponent implements OnInit {
   removeFromPhoneList(idx: number) {
     const phoneListArray = <FormArray>this.clientGSMForm.controls['phoneList'];
     phoneListArray.removeAt(idx);
+  }
+  calculateTotalPrice() {
+    const formModel = this.clientGSMForm.value;
+    let totalPrice = 0;
+    for (let i = 0; i < formModel.phoneList.length; i++) {
+      for (let j = 0; j < formModel.phoneList[i].problems.length; j++) {
+        const item = formModel.phoneList[i].problems[j];
+        if (item.pricePerPart !== '') {
+          totalPrice = totalPrice + item.pricePerPart;
+        }
+      }
+    }
+    this.totalPrice = totalPrice;
   }
   initPhoneList() {
     return this.fb.group({

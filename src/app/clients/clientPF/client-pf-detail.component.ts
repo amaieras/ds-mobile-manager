@@ -6,7 +6,7 @@ import {isValidPhoneNumber} from '../../shared/phone-validator.directive';
 import {ClientPF} from '../../model/ClientPF';
 import {ClientPFService} from './client-pf-detail.service';
 import {PhoneList} from '../../model/PhoneList';
-import {ProblemListService} from './phone-list/problem-list/problem-list.service';
+import {ProblemListService} from '../shared/problem-list/problem-list.service';
 import {AboutUsService} from './phone-list/about-us/about-us.service';
 import {Observable} from 'rxjs/Observable';
 import {PhoneListService} from 'app/clients/clientPF/phone-list/phone-list.service';

@@ -1,224 +1,223 @@
 <p-growl [(value)]="msgs"></p-growl>
-<div class="container">
+<div class="col-md-offset-1 col-md-9">
   <h1>Client - GSM</h1>
   <form [formGroup]="clientGSMForm" (ngSubmit)="onSubmit($event)" novalidate #formGSM="ngForm">
-          <div class="form-group">
-            <label for="lastname">Nume</label>
-            <div class="ui-inputgroup">
-              <span class="ui-inputgroup-addon"><i class="fa fa-user"></i></span>
-              <input placeholder="Nume" id="lastname" class="form-control" formControlName="lastname" required>
-            </div>
-            <div *ngIf="lastname.invalid && (lastname.dirty || lastname.touched)"
-                 class="alert alert-danger">
-              <div *ngIf="lastname.errors.required">
-                Numele nu este completat.
-              </div>
-            </div>
-          </div>
-          <!--<div class="form-group">-->
-            <!--<label for="firstname">Prenume</label>-->
-            <!--<div class="ui-inputgroup">-->
-              <!--<span class="ui-inputgroup-addon"><i class="fa fa-user"></i></span>-->
-              <!--<input placeholder="Prenume" id="firstname" class="form-control" formControlName="firstname" required>-->
-            <!--</div>-->
-            <!--<div *ngIf="firstname.invalid && (firstname.dirty || firstname.touched)"-->
-                 <!--class="alert alert-danger">-->
-              <!--<div *ngIf="firstname.errors.required">-->
-                <!--Prenumele nu este completat.-->
-              <!--</div>-->
-            <!--</div>-->
-          <!--</div>-->
-          <!--<div class="form-group">-->
-            <!--<label for="firm">Firma</label>-->
-            <!--<input placeholder="Firma" id="firm" class="form-control" formControlName="firm" required>-->
-            <!--<div *ngIf="firm.invalid && (firm.dirty || firm.touched)"-->
-                 <!--class="alert alert-danger">-->
-              <!--<div *ngIf="firm.errors.required">-->
-                <!--Numele firmei nu este completat.-->
-              <!--</div>-->
-            <!--</div>-->
-          <!--</div>-->
-          <div class="form-group">
-            <label for="phone">Numar de telefon</label>
-            <input placeholder="Numar de telefon" id="phone" class="form-control" formControlName="phone" required>
-            <div *ngIf="phone.invalid && (phone.dirty || phone.touched)"
-                 class="alert alert-danger">
-              <div *ngIf="phone.errors.required">
-                Numarul de telefon nu este completat.
-              </div>
-            </div>
-          </div>
-        <!--<div class="form-group">-->
-          <!--<label for="email">E-mail</label>-->
-          <!--<input placeholder="E-mail" id="email" class="form-control" formControlName="email" required>-->
-          <!--<div *ngIf="email.invalid && (email.dirty || email.touched)"-->
-               <!--class="alert alert-danger">-->
-            <!--<div *ngIf="email.errors.required">-->
-             <!--E-mail-ul nu este completat.-->
-            <!--</div>-->
-          <!--</div>-->
-        <!--</div>-->
-        <div formArrayName="phoneList" class="well well-lg">
-          <div *ngFor="let phone of clientGSMForm.controls['phoneList']['controls']; let i=index" >
-            <div class="panel-heading">
-              <h3>Lista numarul: #{{i + 1}}</h3>
-              <span class="glyphicon glyphicon-remove pull-right" *ngIf="clientGSMForm.controls.phoneList.controls.length > 1" (click)="removeFromPhoneList(i)"></span>
-            </div>
-            <div class="panel-body" [formGroupName]="i">
-              <phone-gsm-list [group]="clientGSMForm.controls['phoneList']['controls'][i]"></phone-gsm-list>
-            </div>
-            <br>
-          </div>
-          <button type="button" class="btn btn-primary" (click)="addInPhoneList()">Adauga alt telefon +</button>
+      <div class="form-group">
+        <label for="lastname">Nume</label>
+        <div class="ui-inputgroup">
+          <span class="ui-inputgroup-addon"><i class="fa fa-user"></i></span>
+          <input placeholder="Nume" id="lastname" class="form-control" formControlName="lastname" required>
         </div>
-        <div class="form-group">
-          <label for="priceOffer">Total de plata</label>
-          <div class="ui-inputgroup">
-            <span class="ui-inputgroup-addon">RON</span>
-            <!--<p-spinner size="30" id="priceOffer" [(ngModel)]="price" [ngModelOptions]="{standalone: true}" ></p-spinner>-->
-            <input placeholder="Total de plata" id="priceOffer" class="form-control" formControlName="priceOffer" [(ngModel)]="saveClientGSM.priceOffer" required>
-          </div>
-          <div *ngIf="priceOffer.invalid && (priceOffer.dirty || priceOffer.touched)"
-               class="alert alert-danger">
-            <div *ngIf="priceOffer.errors.required">
-              Totalul de plata nu este completat.
-            </div>
+        <div *ngIf="lastname.invalid && (lastname.dirty || lastname.touched)"
+             class="alert alert-danger">
+          <div *ngIf="lastname.errors.required">
+            Numele nu este completat.
           </div>
         </div>
-        <!--<div class="form-group">-->
-          <!--<label for="country">Tara</label>-->
-          <!--<input placeholder="Tara" id="country" class="form-control" formControlName="country" required>-->
-          <!--<div *ngIf="country.invalid && (country.dirty || country.touched)"-->
-               <!--class="alert alert-danger">-->
-            <!--<div *ngIf="country.errors.required">-->
-              <!--Tara nu este completata.-->
-            <!--</div>-->
+      </div>
+      <!--<div class="form-group">-->
+        <!--<label for="firstname">Prenume</label>-->
+        <!--<div class="ui-inputgroup">-->
+          <!--<span class="ui-inputgroup-addon"><i class="fa fa-user"></i></span>-->
+          <!--<input placeholder="Prenume" id="firstname" class="form-control" formControlName="firstname" required>-->
+        <!--</div>-->
+        <!--<div *ngIf="firstname.invalid && (firstname.dirty || firstname.touched)"-->
+             <!--class="alert alert-danger">-->
+          <!--<div *ngIf="firstname.errors.required">-->
+            <!--Prenumele nu este completat.-->
           <!--</div>-->
         <!--</div>-->
-        <div class="form-group">
-          <label for="city">Orasul</label>
-          <input placeholder="Orasul" id="city" class="form-control" formControlName="city" required>
-          <div *ngIf="city.invalid && (city.dirty || city.touched)"
-               class="alert alert-danger">
-            <div *ngIf="email.errors.required">
-              Orasul nu este completat.
-            </div>
+      <!--</div>-->
+      <!--<div class="form-group">-->
+        <!--<label for="firm">Firma</label>-->
+        <!--<input placeholder="Firma" id="firm" class="form-control" formControlName="firm" required>-->
+        <!--<div *ngIf="firm.invalid && (firm.dirty || firm.touched)"-->
+             <!--class="alert alert-danger">-->
+          <!--<div *ngIf="firm.errors.required">-->
+            <!--Numele firmei nu este completat.-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+      <div class="form-group">
+        <label for="phone">Numar de telefon</label>
+        <input placeholder="Numar de telefon" id="phone" class="form-control" formControlName="phone" required>
+        <div *ngIf="phone.invalid && (phone.dirty || phone.touched)"
+             class="alert alert-danger">
+          <div *ngIf="phone.errors.required">
+            Numarul de telefon nu este completat.
           </div>
         </div>
-        <!--<div class="form-group">-->
-          <!--<div formArrayName="billingAddress" class="well well-lg">-->
-            <!--<div *ngFor="let address of billingAddress.controls; let i=index" [formGroupName]="i" >-->
-              <!--<h4>Adresa de facturare</h4>-->
-              <!--<div style="margin-left: 1em;">-->
-                <!--<div class="form-group">-->
-                  <!--<label class="center-block">Denumire:-->
-                    <!--<input placeholder="Denumire" class="form-control" formControlName="denomination">-->
-                  <!--</label>-->
-                <!--</div>-->
-                <!--<div class="form-group">-->
-                  <!--<label class="center-block">CIF/CNP:-->
-                    <!--<input placeholder="CIF/CNP" class="form-control" formControlName="cif">-->
-                  <!--</label>-->
-                <!--</div>-->
-                <!--<div class="form-group">-->
-                  <!--<label class="center-block">Reg com:-->
-                    <!--<input placeholder="Reg com" class="form-control" formControlName="regcom">-->
-                  <!--</label>-->
-                <!--</div>-->
-                <!--<div class="form-group">-->
-                  <!--<label class="center-block">Adresa:-->
-                  <!--<textarea placeholder="Adresa" rows="3" class="form-control" formControlName="address"></textarea>-->
-                  <!--</label>-->
-                <!--</div>-->
-                <!--<div class="form-group">-->
-                  <!--<label class="center-block">Localitate:-->
-                    <!--<input placeholder="Localitate" class="form-control" formControlName="city">-->
-                  <!--</label>-->
-                <!--</div>-->
-                <!--<div class="form-group">-->
-                  <!--<label class="center-block">Judet:-->
-                    <!--<input placeholder="Judet" class="form-control" formControlName="county">-->
-                  <!--</label>-->
-                <!--</div>-->
-                <!--<div class="form-group">-->
-                  <!--<label class="center-block">Tara:-->
-                    <!--<input placeholder="Tara" class="form-control" formControlName="country">-->
-                  <!--</label>-->
-                <!--</div>-->
-                <!--<div class="form-group">-->
-                  <!--<label class="center-block">IBAN:-->
-                    <!--<input placeholder="IBAN" class="form-control" formControlName="iban">-->
-                  <!--</label>-->
-                <!--</div>-->
-                <!--<div class="form-group">-->
-                  <!--<label class="center-block">Banca:-->
-                    <!--<input placeholder="Banca" class="form-control" formControlName="bank">-->
-                  <!--</label>-->
-                <!--</div>-->
-              <!--</div>-->
-              <!--<br>-->
-            <!--</div>-->
-            <!--<button (click)="addBillingAddress()" type="button">Adauga adresa de facturare</button>-->
-          <!--</div>-->
+      </div>
+    <!--<div class="form-group">-->
+      <!--<label for="email">E-mail</label>-->
+      <!--<input placeholder="E-mail" id="email" class="form-control" formControlName="email" required>-->
+      <!--<div *ngIf="email.invalid && (email.dirty || email.touched)"-->
+           <!--class="alert alert-danger">-->
+        <!--<div *ngIf="email.errors.required">-->
+         <!--E-mail-ul nu este completat.-->
         <!--</div>-->
-        <!--<div class="form-group">-->
-          <!--<div formArrayName="shipmentAddress" class="well well-lg">-->
-            <!--<div *ngFor="let address of shipmentAddress.controls; let i=index" [formGroupName]="i" >-->
-              <!--<h4>Adresa de livrare</h4>-->
-              <!--<div style="margin-left: 1em;">-->
-                <!--<div class="form-group">-->
-                  <!--<label class="center-block">Denumire:-->
-                    <!--<input placeholder="Denumire" class="form-control" formControlName="denomination">-->
-                  <!--</label>-->
-                <!--</div>-->
-                <!--<div class="form-group">-->
-                  <!--<label class="center-block">CIF/CNP:-->
-                    <!--<input placeholder="CIF/CNP" class="form-control" formControlName="cif">-->
-                  <!--</label>-->
-                <!--</div>-->
-                <!--<div class="form-group">-->
-                  <!--<label class="center-block">Reg com:-->
-                    <!--<input placeholder="Reg com" class="form-control" formControlName="regcom">-->
-                  <!--</label>-->
-                <!--</div>-->
-                <!--<div class="form-group">-->
-                  <!--<label class="center-block">Adresa:-->
-                    <!--<textarea placeholder="Adresa" rows="3" class="form-control" formControlName="address"></textarea>-->
-                  <!--</label>-->
-                <!--</div>-->
-                <!--<div class="form-group">-->
-                  <!--<label class="center-block">Localitate:-->
-                    <!--<input placeholder="Localitate" class="form-control" formControlName="city">-->
-                  <!--</label>-->
-                <!--</div>-->
-                <!--<div class="form-group">-->
-                  <!--<label class="center-block">Judet:-->
-                    <!--<input placeholder="Judet" class="form-control" formControlName="county">-->
-                  <!--</label>-->
-                <!--</div>-->
-                <!--<div class="form-group">-->
-                  <!--<label class="center-block">Tara:-->
-                    <!--<input placeholder="Tara" class="form-control" formControlName="country">-->
-                  <!--</label>-->
-                <!--</div>-->
-                <!--<div class="form-group">-->
-                  <!--<label class="center-block">IBAN:-->
-                    <!--<input placeholder="IBAN" class="form-control" formControlName="iban">-->
-                  <!--</label>-->
-                <!--</div>-->
-                <!--<div class="form-group">-->
-                  <!--<label class="center-block">Banca:-->
-                    <!--<input placeholder="Banca" class="form-control" formControlName="bank">-->
-                  <!--</label>-->
-                <!--</div>-->
-              <!--</div>-->
-              <!--<br>-->
-            <!--</div>-->
-            <!--<button (click)="addShipmentAddress()" type="button">Adauga adresa de livrare</button>-->
-          <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+    <div formArrayName="phoneList" class="well well-lg">
+      <div *ngFor="let phone of clientGSMForm.controls['phoneList']['controls']; let i=index" >
+        <div class="panel-heading">
+          <h3>Lista numarul: #{{i + 1}}</h3>
+          <span class="glyphicon glyphicon-remove pull-right" *ngIf="clientGSMForm.controls.phoneList.controls.length > 1" (click)="removeFromPhoneList(i)"></span>
+        </div>
+        <div class="panel-body" [formGroupName]="i">
+          <phone-gsm-list [group]="clientGSMForm.controls['phoneList']['controls'][i]"></phone-gsm-list>
+        </div>
+        <br>
+      </div>
+      <button type="button" class="btn btn-primary" (click)="addInPhoneList()">Adauga alt telefon +</button>
+    </div>
+    <div class="form-group">
+      <label for="priceOffer">Total de plata</label>
+      <div class="ui-inputgroup">
+        <span class="ui-inputgroup-addon" style="width: 50px;">RON</span>
+        <!--<p-spinner size="30" id="priceOffer" [(ngModel)]="price" [ngModelOptions]="{standalone: true}" ></p-spinner>-->
+        <input placeholder="Total de plata" id="priceOffer" class="form-control" [(ngModel)]="totalPrice" formControlName="priceOffer" style="width: auto !important;">
+        <div class="col-md-3">
+          <button type="button" (click)="calculateTotalPrice()" class="btn btn-success">
+            Calculeaza pretul total
+          </button>
+        </div>
+      </div>
+    </div>
+    <!--<div class="form-group">-->
+      <!--<label for="country">Tara</label>-->
+      <!--<input placeholder="Tara" id="country" class="form-control" formControlName="country" required>-->
+      <!--<div *ngIf="country.invalid && (country.dirty || country.touched)"-->
+           <!--class="alert alert-danger">-->
+        <!--<div *ngIf="country.errors.required">-->
+          <!--Tara nu este completata.-->
         <!--</div>-->
-        <button type="submit" class="btn btn-default"
-                [disabled]="clientGSMForm.invalid">Salveaza</button>
-      </form>
+      <!--</div>-->
+    <!--</div>-->
+    <div class="form-group">
+      <label for="city">Orasul</label>
+      <input placeholder="Orasul" id="city" class="form-control" formControlName="city" required>
+      <div *ngIf="city.invalid && (city.dirty || city.touched)"
+           class="alert alert-danger">
+        <div *ngIf="email.errors.required">
+          Orasul nu este completat.
+        </div>
+      </div>
+    </div>
+    <!--<div class="form-group">-->
+      <!--<div formArrayName="billingAddress" class="well well-lg">-->
+        <!--<div *ngFor="let address of billingAddress.controls; let i=index" [formGroupName]="i" >-->
+          <!--<h4>Adresa de facturare</h4>-->
+          <!--<div style="margin-left: 1em;">-->
+            <!--<div class="form-group">-->
+              <!--<label class="center-block">Denumire:-->
+                <!--<input placeholder="Denumire" class="form-control" formControlName="denomination">-->
+              <!--</label>-->
+            <!--</div>-->
+            <!--<div class="form-group">-->
+              <!--<label class="center-block">CIF/CNP:-->
+                <!--<input placeholder="CIF/CNP" class="form-control" formControlName="cif">-->
+              <!--</label>-->
+            <!--</div>-->
+            <!--<div class="form-group">-->
+              <!--<label class="center-block">Reg com:-->
+                <!--<input placeholder="Reg com" class="form-control" formControlName="regcom">-->
+              <!--</label>-->
+            <!--</div>-->
+            <!--<div class="form-group">-->
+              <!--<label class="center-block">Adresa:-->
+              <!--<textarea placeholder="Adresa" rows="3" class="form-control" formControlName="address"></textarea>-->
+              <!--</label>-->
+            <!--</div>-->
+            <!--<div class="form-group">-->
+              <!--<label class="center-block">Localitate:-->
+                <!--<input placeholder="Localitate" class="form-control" formControlName="city">-->
+              <!--</label>-->
+            <!--</div>-->
+            <!--<div class="form-group">-->
+              <!--<label class="center-block">Judet:-->
+                <!--<input placeholder="Judet" class="form-control" formControlName="county">-->
+              <!--</label>-->
+            <!--</div>-->
+            <!--<div class="form-group">-->
+              <!--<label class="center-block">Tara:-->
+                <!--<input placeholder="Tara" class="form-control" formControlName="country">-->
+              <!--</label>-->
+            <!--</div>-->
+            <!--<div class="form-group">-->
+              <!--<label class="center-block">IBAN:-->
+                <!--<input placeholder="IBAN" class="form-control" formControlName="iban">-->
+              <!--</label>-->
+            <!--</div>-->
+            <!--<div class="form-group">-->
+              <!--<label class="center-block">Banca:-->
+                <!--<input placeholder="Banca" class="form-control" formControlName="bank">-->
+              <!--</label>-->
+            <!--</div>-->
+          <!--</div>-->
+          <!--<br>-->
+        <!--</div>-->
+        <!--<button (click)="addBillingAddress()" type="button">Adauga adresa de facturare</button>-->
+      <!--</div>-->
+    <!--</div>-->
+    <!--<div class="form-group">-->
+      <!--<div formArrayName="shipmentAddress" class="well well-lg">-->
+        <!--<div *ngFor="let address of shipmentAddress.controls; let i=index" [formGroupName]="i" >-->
+          <!--<h4>Adresa de livrare</h4>-->
+          <!--<div style="margin-left: 1em;">-->
+            <!--<div class="form-group">-->
+              <!--<label class="center-block">Denumire:-->
+                <!--<input placeholder="Denumire" class="form-control" formControlName="denomination">-->
+              <!--</label>-->
+            <!--</div>-->
+            <!--<div class="form-group">-->
+              <!--<label class="center-block">CIF/CNP:-->
+                <!--<input placeholder="CIF/CNP" class="form-control" formControlName="cif">-->
+              <!--</label>-->
+            <!--</div>-->
+            <!--<div class="form-group">-->
+              <!--<label class="center-block">Reg com:-->
+                <!--<input placeholder="Reg com" class="form-control" formControlName="regcom">-->
+              <!--</label>-->
+            <!--</div>-->
+            <!--<div class="form-group">-->
+              <!--<label class="center-block">Adresa:-->
+                <!--<textarea placeholder="Adresa" rows="3" class="form-control" formControlName="address"></textarea>-->
+              <!--</label>-->
+            <!--</div>-->
+            <!--<div class="form-group">-->
+              <!--<label class="center-block">Localitate:-->
+                <!--<input placeholder="Localitate" class="form-control" formControlName="city">-->
+              <!--</label>-->
+            <!--</div>-->
+            <!--<div class="form-group">-->
+              <!--<label class="center-block">Judet:-->
+                <!--<input placeholder="Judet" class="form-control" formControlName="county">-->
+              <!--</label>-->
+            <!--</div>-->
+            <!--<div class="form-group">-->
+              <!--<label class="center-block">Tara:-->
+                <!--<input placeholder="Tara" class="form-control" formControlName="country">-->
+              <!--</label>-->
+            <!--</div>-->
+            <!--<div class="form-group">-->
+              <!--<label class="center-block">IBAN:-->
+                <!--<input placeholder="IBAN" class="form-control" formControlName="iban">-->
+              <!--</label>-->
+            <!--</div>-->
+            <!--<div class="form-group">-->
+              <!--<label class="center-block">Banca:-->
+                <!--<input placeholder="Banca" class="form-control" formControlName="bank">-->
+              <!--</label>-->
+            <!--</div>-->
+          <!--</div>-->
+          <!--<br>-->
+        <!--</div>-->
+        <!--<button (click)="addShipmentAddress()" type="button">Adauga adresa de livrare</button>-->
+      <!--</div>-->
+    <!--</div>-->
+    <button type="submit" class="btn btn-default"
+            [disabled]="clientGSMForm.invalid">Salveaza/Printeaza</button>
+  </form>
 
 </div>
