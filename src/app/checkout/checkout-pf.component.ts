@@ -20,7 +20,9 @@ export class CheckoutPfComponent implements OnInit {
   }
 
   getCheckoutForDate(event) {
-    this.currDate = event;
+    // let a = event.split(/[^0-9]/);
+    // const d = new Date (a[0],a[1]-1,a/[2],a[3],a[4],a[5] );
+     this.currDate = event;
     let clientsPerDay = 0;
     let totalIsRepaired = 0;
     let totalInProgressPerDay = 0;

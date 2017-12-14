@@ -41,11 +41,11 @@ export class PhoneGSMListComponent implements OnInit {
     problemArray.removeAt(idx);
   }
 
-  onSelect() {
+  onSelect(event) {
 
   }
 
-  onModelSelect() {
+  onModelSelect(event) {
 
   }
   private initProblem() {
