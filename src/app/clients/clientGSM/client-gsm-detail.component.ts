@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {Message} from "primeng/primeng";
 import {FormControl, FormGroup, Validators, FormBuilder, FormArray} from "@angular/forms";
 import { ClientGSMService} from "./client-gsm-detail.service";
-import {UtilService} from "../../utils/util.service";
 import {Address} from "../../model/Address";
 import {ClientGSM} from "../../model/ClientGSM";
+import {PhoneList} from "../../model/PhoneList";
 
 @Component({
   selector: 'client-gsm-detail',
@@ -18,8 +18,7 @@ export class ClientGSMDetailComponent implements OnInit {
   totalPrice = 0;
   constructor(
     private fb: FormBuilder,
-    private clientGSMService: ClientGSMService,
-    private utilService: UtilService
+    private clientGSMService: ClientGSMService
   ) { }
 
   ngOnInit() {
@@ -27,30 +26,28 @@ export class ClientGSMDetailComponent implements OnInit {
       'lastname': new FormControl('', [
         Validators.required
       ]),
-      'firstname': new FormControl('', [
-        // Validators.required
-      ]),
-      'firm': new FormControl('', [
-        // Validators.required
-      ]),
+      // 'firstname': new FormControl('', [
+      //   // Validators.required
+      // ]),
+      // 'firm': new FormControl('', [
+      //   // Validators.required
+      // ]),
       'phone': new FormControl('', [
         Validators.required
       ]),
-      'email': new FormControl('', [
-        // Validators.required
-      ]),
-      'priceOffer': new FormControl('', [
-        // Validators.required
-      ]),
-      'country': new FormControl('', [
-        // Validators.required
-      ]),
+      // 'email': new FormControl('', [
+      //   // Validators.required
+      // ]),
+      'priceOffer': new FormControl({value: 0, disabled: true}),
+      // 'country': new FormControl('', [
+      //   // Validators.required
+      // ]),
       phoneList: this.fb.array([ ]),
       'city': new FormControl('', [
         Validators.required
       ]),
-      'billingAddress': this.fb.array([]),
-      'shipmentAddress': this.fb.array([])
+      // 'billingAddress': this.fb.array([]),
+      // 'shipmentAddress': this.fb.array([])
     });
     this.addInPhoneList();
   }
@@ -88,10 +85,8 @@ export class ClientGSMDetailComponent implements OnInit {
   }
   onSubmit(event: Event) {
     this.prepareSaveClientGSM();
+    this.clientGSM = this.saveClientGSM;
     event.preventDefault();
-    if (!this.utilService.isNullOrUndefined(this.clientGSM.firm)) {
-      this.clientGSM.firm = null;
-    }
     this.clientGSMService.addGSMClient(this.clientGSM);
     this.clientGSMForm.reset();
     this.clientGSM = new ClientGSM();
@@ -99,6 +94,7 @@ export class ClientGSMDetailComponent implements OnInit {
   }
 
   prepareSaveClientGSM(){
+    console.log(this.lastname)
     const formModel = this.clientGSMForm.value;
     const billingAddressDeepCopy: Address[] = formModel.billingAddress.map(
       (address: Address) => Object.assign({}, address)
@@ -106,12 +102,13 @@ export class ClientGSMDetailComponent implements OnInit {
     const shipmentAddressDeepCopy: Address[] = formModel.shipmentAddress.map(
       (address: Address) => Object.assign({}, address)
     );
+    const PhoneListDeepCopy: PhoneList[] = formModel.phoneList.map(
+      (phoneList: PhoneList) => Object.assign({}, phoneList)
+    );
     this.saveClientGSM.billingAddress = billingAddressDeepCopy;
     this.saveClientGSM.shipmentAddress = shipmentAddressDeepCopy;
-    this.saveClientGSM.addedDate.day = new Date().getUTCDate().toString();
-    this.saveClientGSM.addedDate.month = (new Date().getUTCMonth() + 1) .toString();
-    this.saveClientGSM.addedDate.year = new Date().getUTCFullYear().toString();
-    this.saveClientGSM.addedDate.timestamp = new Date().getTime().toString();
+    this.saveClientGSM.phoneList = PhoneListDeepCopy;
+    this.saveClientGSM.addedDate = new Date().getTime().toString();
   }
 
   addBillingAddress() {

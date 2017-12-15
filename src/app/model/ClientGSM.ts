@@ -4,7 +4,7 @@ import {Address} from "./Address";
 
 export class ClientGSM {
   constructor() { }
-  addedDate: AppointmentDate
+  addedDate: string
   lastname: string;
   firstname: string;
   firm: string;
