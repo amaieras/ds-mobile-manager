@@ -56,8 +56,8 @@ export class PhonesChartComponent implements OnInit {
             });
 
           let auxOthers = it.phoneList.filter(ph => {
-            return ph.phoneBrand !== 'Samsung' ||  ph.phoneBrand === 'SAMSUNG' ||
-                   ph.phoneBrand === 'Iphone' || ph.phoneBrand === 'APPLE'
+            return ph.phoneBrand !== 'Samsung' &&  ph.phoneBrand !== 'SAMSUNG' &&
+                   ph.phoneBrand !== 'Iphone' && ph.phoneBrand !== 'APPLE'
           });
           if(auxOthers.length > 0)
             others.push({

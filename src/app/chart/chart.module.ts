@@ -10,6 +10,7 @@ import { AboutUsChartComponent } from './about-us-chart/about-us-chart.component
 import {ChartService} from "./chart.service";
 import { ClientChartComponent } from './client-chart/client-chart.component';
 import { MoneyChartComponent } from './money-chart/money-chart.component';
+import { PhoneDetailedComponent } from './phone-detailed/phone-detailed.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { MoneyChartComponent } from './money-chart/money-chart.component';
     PhonesChartComponent,
     AboutUsChartComponent,
     ClientChartComponent,
-    MoneyChartComponent
+    MoneyChartComponent,
+    PhoneDetailedComponent
   ],
   providers: [
     ChartModule, ChartService
