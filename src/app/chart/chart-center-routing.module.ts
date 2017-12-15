@@ -7,6 +7,7 @@ import {PhonesChartComponent} from "./phones-chart/phones-chart.component";
 import {AboutUsChartComponent} from "./about-us-chart/about-us-chart.component";
 import {ClientChartComponent} from "./client-chart/client-chart.component";
 import {MoneyChartComponent} from "./money-chart/money-chart.component";
+import {PhoneDetailedComponent} from "./phone-detailed/phone-detailed.component";
 
 
 const chartCenterRoutes: Routes = [
@@ -34,6 +35,10 @@ const chartCenterRoutes: Routes = [
       {
         path: 'money-chart',
         component: MoneyChartComponent
+      },
+      {
+        path: 'phoneDetailed-chart',
+        component: PhoneDetailedComponent
       }
     ],
     data: {
