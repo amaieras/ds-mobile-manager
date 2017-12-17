@@ -49,7 +49,6 @@ export class ClientPfDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this._clientPFService.getAllClients().subscribe( client => {
       this.noOfClients = client.length;
     })

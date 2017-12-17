@@ -50,7 +50,9 @@ export class ClientGSMDetailComponent implements OnInit {
       // 'shipmentAddress': this.fb.array([])
     });
     this.addInPhoneList();
+    this.priceOffer.setValue(0);
   }
+
   addInPhoneList(): any {
     const phoneListArray = <FormArray>this.clientGSMForm.controls['phoneList'];
     const newPhone = this.initPhoneList();
@@ -88,26 +90,33 @@ export class ClientGSMDetailComponent implements OnInit {
     this.clientGSM = this.saveClientGSM;
     event.preventDefault();
     this.clientGSMService.addGSMClient(this.clientGSM);
-    this.clientGSMForm.reset();
-    this.clientGSM = new ClientGSM();
+    this.resetAfterSubumit();
     this.successMessage();
   }
-
-  prepareSaveClientGSM(){
-    console.log(this.lastname)
+  private resetAfterSubumit() {
+    this.clientGSM = new ClientGSM();
+    this.clientGSMForm.controls['phoneList'] = this.fb.array([]);
+    this.clientGSMForm.reset();
+    this.ngOnInit();
+  }
+  prepareSaveClientGSM() {
     const formModel = this.clientGSMForm.value;
-    const billingAddressDeepCopy: Address[] = formModel.billingAddress.map(
-      (address: Address) => Object.assign({}, address)
-    );
-    const shipmentAddressDeepCopy: Address[] = formModel.shipmentAddress.map(
-      (address: Address) => Object.assign({}, address)
-    );
+    // const billingAddressDeepCopy: Address[] = formModel.billingAddress.map(
+    //   (address: Address) => Object.assign({}, address)
+    // );
+    // const shipmentAddressDeepCopy: Address[] = formModel.shipmentAddress.map(
+    //   (address: Address) => Object.assign({}, address)
+    // );
     const PhoneListDeepCopy: PhoneList[] = formModel.phoneList.map(
       (phoneList: PhoneList) => Object.assign({}, phoneList)
     );
-    this.saveClientGSM.billingAddress = billingAddressDeepCopy;
-    this.saveClientGSM.shipmentAddress = shipmentAddressDeepCopy;
+    // this.saveClientGSM.billingAddress = billingAddressDeepCopy;
+    // this.saveClientGSM.shipmentAddress = shipmentAddressDeepCopy;
     this.saveClientGSM.phoneList = PhoneListDeepCopy;
+    this.saveClientGSM.lastname = formModel.lastname;
+    this.saveClientGSM.phone = formModel.phone;
+    this.saveClientGSM.city = formModel.city;
+    this.saveClientGSM.priceOffer = this.totalPrice;
     this.saveClientGSM.addedDate = new Date().getTime().toString();
   }
 

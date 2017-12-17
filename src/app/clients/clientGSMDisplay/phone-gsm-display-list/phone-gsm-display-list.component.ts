@@ -1,17 +1,17 @@
 import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {Observable} from "rxjs/Observable";
+import {SelectItem} from "primeng/primeng";
 import {PhoneListService} from "../../clientPF/phone-list/phone-list.service";
+import {UtilService} from "../../../utils/util.service";
 import {ProblemPrice} from "../../../model/ProblemPrice";
 import {forbiddenStringInput} from "../../../shared/forbiddenStringInput";
-import {Observable} from "rxjs/Observable";
-import {UtilService} from "../../../utils/util.service";
-import {SelectItem} from "primeng/primeng";
 
 @Component({
-  selector: 'phone-gsm-list',
-  templateUrl: 'phone-gsm-list.component.html'
+  selector: 'app-phone-gsm-display-list',
+  templateUrl: 'phone-gsm-display-list.component.html'
 })
-export class PhoneGSMListComponent implements OnInit {
+export class PhoneGSMDisplayListComponent implements OnInit {
   @Input('group') phoneListGroup: FormGroup;
   @Output('change') phoneItem = new EventEmitter<any>();
 

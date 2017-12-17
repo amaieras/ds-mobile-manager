@@ -1,4 +1,4 @@
-import {AppointmentDate} from "./AppointmentDate";
+
 import {PhoneList} from "./PhoneList";
 import {Address} from "./Address";
 
@@ -11,7 +11,7 @@ export class ClientGSM {
   phone: string;
   email: string;
   phoneList: PhoneList[];
-  priceOffer: string;
+  priceOffer: number;
   country: string;
   city: string;
   billingAddress: Address[];

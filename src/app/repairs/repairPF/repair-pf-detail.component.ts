@@ -26,7 +26,7 @@ export class RepairPFDetailComponent implements OnInit {
   csvSeparator: string;
   @ViewChild(PrintReceiptComponent) child: PrintReceiptComponent;
 
-  constructor(private repairPFService:RepairPFDetailService, private _clientPFService: ClientPFService, private _el: ElementRef) {
+  constructor(private repairPFService:RepairPFDetailService, private _clientPFService: ClientPFService, private _el: ElementRef, private _utilService: UtilService) {
   }
 
   ngOnInit() {
@@ -143,11 +143,11 @@ export class RepairPFDetailComponent implements OnInit {
   }
 
 
-  exportTable(){
+  exportTable() {
     {
       let data = this.dataSource;
       let csv = '\ufeff';
-      let exportFilename = this.getDate();
+      let exportFilename = this._utilService.getDate();
 
       for (var i = 0; i < this.cols.length; i++) {
 
@@ -276,16 +276,6 @@ export class RepairPFDetailComponent implements OnInit {
     }
   };
 
-  getDate() {
-    const today = new Date();
-    let month = today.getMonth() + 1;
-    let day = today.getDate().toString();
-    let hours = today.getHours().toString();
-    let minutes = today.getMinutes().toString();
-    let seconds = today.getSeconds().toString();
-    let year = today.getFullYear().toString();
-    return day + month + year + '_' + hours + minutes + seconds;
-  }
   printRepair(repair) {
     let problems = [];
     this._clientPFService.getAllClients().subscribe( client => {

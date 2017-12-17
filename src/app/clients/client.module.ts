@@ -2,7 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import {GrowlModule, DropdownModule, CalendarModule, SpinnerModule, TooltipModule} from 'primeng/primeng';
+import {
+  GrowlModule, DropdownModule, CalendarModule, SpinnerModule, TooltipModule,
+  SelectButtonModule
+} from 'primeng/primeng';
 
 import { ClientTypeListComponent } from './client-type-list/client-type-list.component';
 import { ClientTypeService } from './client-type-list/client-type.service';
@@ -20,6 +23,8 @@ import {AboutUsService} from 'app/clients/clientPF/phone-list/about-us/about-us.
 import {ClientGSMDisplayComponent} from "./clientGSMDisplay/client-gsm-display.component";
 import {PhoneListService} from "./clientPF/phone-list/phone-list.service";
 import {SharedDsModule} from "../shared/shared-ds.module";
+import {ClientGSMDisplayService} from "./clientGSMDisplay/client-gsm-display-detail.service";
+import {PhoneGSMDisplayListComponent} from "./clientGSMDisplay/phone-gsm-display-list/phone-gsm-display-list.component";
 
 
 @NgModule({
@@ -34,7 +39,8 @@ import {SharedDsModule} from "../shared/shared-ds.module";
     CalendarModule,
     SpinnerModule,
     TooltipModule,
-    SharedDsModule
+    SharedDsModule,
+    SelectButtonModule
   ],
   declarations: [
     ClientTypeListComponent,
@@ -43,6 +49,7 @@ import {SharedDsModule} from "../shared/shared-ds.module";
     PhoneListComponent,
     ProblemListComponent,
     PhoneGSMListComponent,
+    PhoneGSMDisplayListComponent,
     ClientGSMDisplayComponent
 
   ],
@@ -55,7 +62,8 @@ import {SharedDsModule} from "../shared/shared-ds.module";
     ClientTypeService,
     PhoneCascadeService,
     AboutUsService,
-    PhoneListService
+    PhoneListService,
+    ClientGSMDisplayService
   ]
 })
 export class ClientModule { }

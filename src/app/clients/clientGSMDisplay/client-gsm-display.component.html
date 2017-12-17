@@ -1,1 +1,69 @@
-<h1>Client GSM Display</h1>
+<p-growl [(value)]="msgs"></p-growl>
+<div class="col-md-offset-1 col-md-9">
+  <h1>Client - GSM - Vanzare/Imprumut Display</h1>
+  <form [formGroup]="clientGSMDisplayForm" (ngSubmit)="onSubmit($event)" novalidate #formGSMDisplay="ngForm">
+    <div class="form-group">
+      <label for="lastname">Nume</label>
+      <div class="ui-inputgroup">
+        <span class="ui-inputgroup-addon"><i class="fa fa-user"></i></span>
+        <input placeholder="Nume" id="lastname" class="form-control" formControlName="lastname" required>
+      </div>
+      <div *ngIf="lastname.invalid && (lastname.dirty || lastname.touched)"
+           class="alert alert-danger">
+        <div *ngIf="lastname.errors.required">
+          Numele nu este completat.
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="phone">Numar de telefon</label>
+      <input placeholder="Numar de telefon" id="phone" class="form-control" formControlName="phone" required>
+      <div *ngIf="phone.invalid && (phone.dirty || phone.touched)"
+           class="alert alert-danger">
+        <div *ngIf="phone.errors.required">
+          Numarul de telefon nu este completat.
+        </div>
+      </div>
+    </div>
+    <div formArrayName="phoneList" class="well well-lg">
+      <div *ngFor="let phone of clientGSMDisplayForm.controls['phoneList']['controls']; let i=index" >
+        <div class="panel-heading">
+          <h3>Lista numarul: #{{i + 1}}</h3>
+          <span class="glyphicon glyphicon-remove pull-right" *ngIf="clientGSMDisplayForm.controls.phoneList.controls.length > 1" (click)="removeFromPhoneList(i)"></span>
+        </div>
+        <div class="panel-body" [formGroupName]="i">
+          <app-phone-gsm-display-list [group]="clientGSMDisplayForm.controls['phoneList']['controls'][i]"></app-phone-gsm-display-list>
+        </div>
+
+        <br>
+      </div>
+      <button type="button" class="btn btn-primary" (click)="addInPhoneList()">Adauga alt telefon +</button>
+    </div>
+    <div class="form-group">
+      <label for="priceOffer">Total de plata</label>
+      <div class="ui-inputgroup">
+        <span class="ui-inputgroup-addon" style="width: 50px;">RON</span>
+        <!--<p-spinner size="30" id="priceOffer" [(ngModel)]="price" [ngModelOptions]="{standalone: true}" ></p-spinner>-->
+        <input placeholder="Total de plata" id="priceOffer" class="form-control" [(ngModel)]="totalPrice" formControlName="priceOffer" style="width: auto !important;">
+        <div class="col-md-3">
+          <button type="button" (click)="calculateTotalPrice()" class="btn btn-success">
+            Calculeaza pretul total
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="city">Orasul</label>
+      <input placeholder="Orasul" id="city" class="form-control" formControlName="city" required>
+      <div *ngIf="city.invalid && (city.dirty || city.touched)"
+           class="alert alert-danger">
+        <div *ngIf="email.errors.required">
+          Orasul nu este completat.
+        </div>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-default"
+            [disabled]="clientGSMDisplayForm.invalid">Salveaza/Printeaza</button>
+  </form>
+
+</div>

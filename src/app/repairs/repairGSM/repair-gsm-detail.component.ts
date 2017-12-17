@@ -3,72 +3,219 @@ import { SelectItem,Message } from "primeng/primeng";
 import { RepairGSMDetailService } from "./repair-gsm-detail.service";
 import {Observable} from "rxjs/Observable";
 import {ClientGSM} from "../../model/ClientGSM";
+import {UtilService} from "../../utils/util.service";
 
 @Component({
   selector: 'repair-gsm-detail',
   templateUrl: './repair-gsm-detail.component.html'
 })
 export class RepairGSMDetailComponent implements OnInit{
-  repairsGSM: Observable<ClientGSM[]>;
+  repairsGSM: ClientGSM[];
   cols: any[];
   columnOptions: SelectItem[];
   msgs: Message[] = [];
-  constructor(private repairGSMService: RepairGSMDetailService) { }
+  dataSource: ClientGSM[];
+  loading = true;
+  totalRecords: number;
+  csvSeparator: string;
+
+  constructor(private repairGSMService: RepairGSMDetailService, private _utilService: UtilService) { }
 
   ngOnInit() {
-    this.getClientsGSMList();
-    this.cols = [
-      {field: 'addedDate.day', header: 'Data introducerii', filter: true},
-      {field: 'lastname', header: 'Nume', filter: true},
-      {field: 'firstname', header: 'Prenume', filter: true},
-      {field: 'firm', header: 'Firma', filter: true},
-      {field: 'phone', header: 'Numar telefon', filter: true},
-      {field: 'email', header: 'E-mail', filter: true},
-      {field: 'country', header: 'Tara', filter: true},
-      {field: 'city', header: 'Orasul', filter: true},
-      {field: 'billingAddress.0.country', header: 'Adresa de facturare', filter: true},
-      {field: 'shipmentAddress.0.country', header: 'Adresa de livrare', filter: true}
-    ];
+    this.getClientsGSMList().subscribe(clientGSM => {
+      this.dataSource = clientGSM;
+      this.totalRecords = this.dataSource.length;
+      this.repairsGSM = this.dataSource;
+      this.loading = false;
+      this.cols = [
+        {field: 'addedDate', header: 'Data introducerii', filter: true, sortable: true},
+        {field: 'lastname', header: 'Nume', filter: true, editable: true, sortable: true},
+        {field: 'phone', header: 'Numar telefon', filter: true, editable: true, sortable: true},
+        {field: 'phoneList', header: 'Model', filter: true, sortable: true},
+        {field: 'problem', header: 'Problema', filter: true, sortable: true},
+        {field: 'priceOffer', header: 'Oferta Pret', filter: true, editable: true, sortable: true},
+        {field: 'city', header: 'Orasul', filter: true, editable: true, sortable: true},
+        {field: 'deliveredDate', header: 'Data Predarii', filter: true, editable: false, sortable: true},
+        {field: 'isRepaired', header: 'Finalizat?', filter: true, editable: false , sortable: true}
+      ];
 
-    this.columnOptions = [];
+      this.columnOptions = [];
 
-    for(let i = 0; i < this.cols.length; i++) {
-      this.columnOptions.push({label: this.cols[i].header, value: this.cols[i]});
-    }
+      for(let i = 0; i < this.cols.length; i++) {
+        this.columnOptions.push({label: this.cols[i].header, value: this.cols[i]});
+      }
+    });
+
   }
 
   updateField(event) {
-    this.repairGSMService.updateItem(event.data.$key, { lastname: event.data.lastname});
-    this.repairGSMService.updateItem(event.data.$key, { firstname: event.data.firstname});
-    if (this.check(event.data.firm)) {
-      this.repairGSMService.updateItem(event.data.$key, {firm: event.data.firm});
+    const fieldName = event.column.field;
+    const fieldVal = event.data[fieldName];
+    let obj = {};
+    obj[fieldName] = fieldVal;
+    this.repairGSMService.updateItem(event.data.$key, obj);
+    this.successMessage(event.data.lastname, event.data.firstname, event.data.phone,'Valoare');
+  }
+
+  getClientsGSMList(): Observable<any> {
+    return this.repairGSMService.getClientsGSMList();
+  }
+
+  updateCheckedItem(row) {
+    this.repairGSMService.updateItem(row.$key, {isRepaired: row.isRepaired});
+
+    if(row.isRepaired) {
+      let date = new Date().getTime().toString();
+      this.repairGSMService.updateItem(row.$key, {deliveredDate: date});
     }
-    this.repairGSMService.updateItem(event.data.$key, { phone: event.data.phone});
-    this.repairGSMService.updateItem(event.data.$key, { email: event.data.email});
-    this.repairGSMService.updateItem(event.data.$key, { country: event.data.country});
-    this.repairGSMService.updateItem(event.data.$key, { city: event.data.city});
-    this.successMessage(event.data.lastname, event.data.firstname)
   }
-  getClientsGSMList() {
-    this.repairsGSM = this.repairGSMService
-      .getClientsGSMList();
+
+  exportTable() {
+    {
+      let data = this.dataSource;
+      let csv = '\ufeff';
+      let exportFilename = this._utilService.getDate();
+
+      for (var i = 0; i < this.cols.length; i++) {
+
+        var column = this.cols[i];
+        if (column.field) {
+          csv += '"' + (column.header || column.field) + '"';
+          if (i < (this.cols.length - 1)) {
+            csv += this.csvSeparator;
+          }
+        }
+      }
+
+      //body
+      data.forEach(entry => {
+        csv += '\n';
+
+        for (var i_1 = 0; i_1 < this.cols.length; i_1++) {
+          var column = this.cols[i_1];
+          if(column.field === 'imei' || column.field === 'problem'){
+            if(column.field === 'imei'){
+              csv += '"' + this.resolveFieldData(entry, 'phoneList_imei') + '"';
+            }
+            if(column.field === 'problem'){
+              csv += '"' + this.resolveFieldData(entry, 'phoneList_problem') + '"';
+
+            }
+          }
+          else {
+            csv += '"' + this.resolveFieldData(entry, column.field) + '"';
+          }
+          if (i_1 < (this.cols.length - 1)) {
+            csv += this.csvSeparator;
+          }
+        }
+      });
+
+      var blob = new Blob([csv], {
+        type: 'text/csv;charset=utf-8;'
+      });
+      if (window.navigator.msSaveOrOpenBlob) {
+        navigator.msSaveOrOpenBlob(blob, exportFilename + '.csv');
+      }
+      else {
+        var link = document.createElement("a");
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        if (link.download !== undefined) {
+          link.setAttribute('href', URL.createObjectURL(blob));
+          link.setAttribute('download', exportFilename + '.csv');
+          link.click();
+        }
+        else {
+          csv = 'data:text/csv;charset=utf-8,' + csv;
+          window.open(encodeURI(csv));
+        }
+        document.body.removeChild(link);
+      }
+    };
   }
-  successMessage(lastname, firstname) {
+
+  resolveFieldData(data, field) {
+    if (data && field) {
+      if (field.indexOf('.') == -1) {
+        var auxDate = '';
+        var auxPhones = '';
+        if (field === 'phoneList') {
+          data[field].forEach(phone => auxPhones += phone.phoneBrand + " " +phone.phoneModel + " " +phone.phoneColor + " ");
+          return auxPhones;
+        }
+        let imeiCount = '';
+        if(field === 'phoneList_imei') {
+          data['phoneList'].forEach(phone => {
+            if(phone.imei === '' || phone.imei === 'undefined')
+              imeiCount += "";
+            else imeiCount += phone.imei + " "
+          });
+          return imeiCount;
+        }
+        let problemsCount ='';
+        if(field === 'phoneList_problem'){
+          data['phoneList'].forEach(phone =>  {
+            phone.problems.forEach(problem => {
+              if(problem.problem === 'undefined' || problem.problem === '')
+                problemsCount += '';
+              else problemsCount += problem.problem + " "
+            })
+          });
+          return problemsCount;
+        }
+        if(field === 'isRepaired'){
+          if(data[field] === true) return 'DA';
+          else return 'NU';
+        }
+
+        if(field == 'addedDate' || field == 'appointmentDate' || field === 'deliveredDate'){
+          if(data[field] == '' || data[field] == null || data[field] === 'undefined') {
+            return '';
+          }else
+            var d = new Date(+data[field]);
+          auxDate = d.toLocaleDateString()  + "  " + d.toLocaleTimeString();
+          return auxDate;
+
+        }else{
+          if (data[field] === null || data[field] === '-' || data[field] === undefined)
+            return '';
+          else {
+            // if(data[field])
+            return data[field];
+            // else return '';
+          }
+        }
+      }
+      else {
+        var fields = field.split('.');
+        var value = data;
+        for (var i = 0, len = fields.length; i < len; ++i) {
+          if (value == null) {
+            return null;
+          }
+          value = value[fields[i]];
+        }
+        return value;
+      }
+    }
+    else {
+      return null;
+    }
+  };
+  successMessage(lastname, firstname, phone, msg) {
     this.msgs = [];
-    this.msgs.push({severity:'success', summary:'Valoare modificata pentru clientul: ' + lastname + ' ' + firstname, detail:'Date modificate.'});
-  }
-  check(x) {
-    if (x == null) {
-      return false;
+    let msgAux = '';
+    if (lastname === undefined || firstname === undefined) {
+      msgAux = ' modificata pentru clientul cu numarul de telefon: ' + phone;
     }
-
-    if (x === null) {
-      return false;
+    else {
+      msgAux = ' modificata pentru clientul: ' + lastname + ' ' + firstname;
     }
-
-    if (typeof x === 'undefined') {
-      return false;
-    }
-    return true;
+    this.msgs.push({
+      severity: 'success',
+      summary: msg  + msgAux,
+      detail: 'Date modificate.'
+    });
   }
 }

@@ -4,15 +4,33 @@ import {AngularFireDatabase, AngularFireList} from "angularfire2/database";
 
 @Injectable()
 export class CheckoutService {
-  dailyClients: AngularFireList<any> = null;
+  dailyClientsPF: AngularFireList<any> = null;
+  dailyClientsGSM: AngularFireList<any> = null;
+  dailyClientsGSMDisplay: AngularFireList<any> = null;
 
   constructor(private db: AngularFireDatabase) {
-    this.dailyClients = db.list('/clients/pf');
+    this.dailyClientsPF = db.list('/clients/pf');
+    this.dailyClientsGSM = db.list('/clients/gsm');
+    this.dailyClientsGSMDisplay = db.list('/clients/gsm-display');
   }
-  getClientsCurrDay() {
+  getClientsPFCurrDay() {
     // this.dailyClients.update("test", {id:20})
-    return this.dailyClients.snapshotChanges().map(arr => {
+    return this.dailyClientsPF.snapshotChanges().map(arr => {
       return arr.map(snap => Object.assign(snap.payload.val(), {$key: snap.key}));
     });
   }
+  getClientsGSMCurrDay() {
+    // this.dailyClients.update("test", {id:20})
+    return this.dailyClientsGSM.snapshotChanges().map(arr => {
+      return arr.map(snap => Object.assign(snap.payload.val(), {$key: snap.key}));
+    });
+  }
+
+  getClientsGSMDisplayCurrDay() {
+    // this.dailyClients.update("test", {id:20})
+    return this.dailyClientsGSMDisplay.snapshotChanges().map(arr => {
+      return arr.map(snap => Object.assign(snap.payload.val(), {$key: snap.key}));
+    });
+  }
+
 }

@@ -63,4 +63,15 @@ export class UtilService {
       }))
       return maxId;
   }
+
+  getDate() {
+    const today = new Date();
+    let month = today.getMonth() + 1;
+    let day = today.getDate().toString();
+    let hours = today.getHours().toString();
+    let minutes = today.getMinutes().toString();
+    let seconds = today.getSeconds().toString();
+    let year = today.getFullYear().toString();
+    return day + month + year + '_' + hours + minutes + seconds;
+  }
 }
