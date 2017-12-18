@@ -203,6 +203,10 @@ export class RepairGSMDisplayDetailComponent implements OnInit{
       return null;
     }
   };
+
+  disabledRow(rowData: ClientGSMDisplay) {
+    return rowData.isRepaired ? 'disabled-account-row' : '';
+  }
   successMessage(lastname, firstname, phone, msg) {
     this.msgs = [];
     let msgAux = '';

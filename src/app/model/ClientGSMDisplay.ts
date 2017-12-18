@@ -9,5 +9,8 @@ export class ClientGSMDisplay {
   phone: string;
   phoneList: PhoneList[];
   priceOffer: number;
+  totalQuantity: number;
   city: string;
+  isRepaired = false;
+  deliveredDate: string;
 }

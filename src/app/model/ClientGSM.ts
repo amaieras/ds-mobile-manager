@@ -12,6 +12,8 @@ export class ClientGSM {
   email: string;
   phoneList: PhoneList[];
   priceOffer: number;
+  isRepaired = false;
+  deliveredDate: string;
   country: string;
   city: string;
   billingAddress: Address[];

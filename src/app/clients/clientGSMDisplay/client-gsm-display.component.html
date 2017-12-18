@@ -45,12 +45,20 @@
         <span class="ui-inputgroup-addon" style="width: 50px;">RON</span>
         <!--<p-spinner size="30" id="priceOffer" [(ngModel)]="price" [ngModelOptions]="{standalone: true}" ></p-spinner>-->
         <input placeholder="Total de plata" id="priceOffer" class="form-control" [(ngModel)]="totalPrice" formControlName="priceOffer" style="width: auto !important;">
-        <div class="col-md-3">
-          <button type="button" (click)="calculateTotalPrice()" class="btn btn-success">
-            Calculeaza pretul total
-          </button>
-        </div>
       </div>
+    </div>
+    <div class="form-group">
+      <label for="totalQuantity">Total cantitate</label>
+      <div class="ui-inputgroup">
+        <span class="ui-inputgroup-addon" style="width: 50px;"><i class="fa fa-mobile" aria-hidden="true"></i></span>
+        <!--<p-spinner size="30" id="priceOffer" [(ngModel)]="price" [ngModelOptions]="{standalone: true}" ></p-spinner>-->
+        <input placeholder="Total cantitate" id="totalQuantity" class="form-control" [(ngModel)]="totalNoQuantity" formControlName="totalQuantity" style="width: auto !important;">
+      </div>
+    </div>
+    <div class="form-group">
+      <button type="button" (click)="calculateTotalQuantity()" class="btn btn-success">
+        Calculeaza pretul si cantitatea totala
+      </button>
     </div>
     <div class="form-group">
       <label for="city">Orasul</label>

@@ -19,6 +19,7 @@ export class ClientGSMDisplayComponent implements OnInit {
   clientGSMDisplay: ClientGSMDisplay = new ClientGSMDisplay();
   saveclientGSMDisplay: ClientGSMDisplay = new ClientGSMDisplay();
   totalPrice = 0;
+  totalNoQuantity = 0;
 
   constructor( private fb: FormBuilder, private _clientGSMDisplayService: ClientGSMDisplayService) {
   }
@@ -32,6 +33,7 @@ export class ClientGSMDisplayComponent implements OnInit {
         Validators.required
       ]),
       'priceOffer': new FormControl({value: 0, disabled: true}),
+      'totalQuantity': new FormControl({value: 0, disabled: true}),
       phoneList: this.fb.array([ ]),
       'city': new FormControl('', [
         Validators.required
@@ -59,12 +61,12 @@ export class ClientGSMDisplayComponent implements OnInit {
     const PhoneListDeepCopy: PhoneList[] = formModel.phoneList.map(
       (phoneList: PhoneList) => Object.assign({}, phoneList)
     );
-    console.log(formModel);
     this.saveclientGSMDisplay.phoneList = PhoneListDeepCopy;
     this.saveclientGSMDisplay.lastname = formModel.lastname;
     this.saveclientGSMDisplay.phone = formModel.phone;
     this.saveclientGSMDisplay.city = formModel.city;
     this.saveclientGSMDisplay.priceOffer = this.totalPrice;
+    this.saveclientGSMDisplay.totalQuantity = this.totalNoQuantity;
     this.saveclientGSMDisplay.addedDate = new Date().getTime().toString();
   }
 
@@ -91,7 +93,16 @@ export class ClientGSMDisplayComponent implements OnInit {
     }
     this.totalPrice = totalPrice;
   }
-
+  calculateTotalQuantity() {
+    this.calculateTotalPrice();
+    const formModel = this.clientGSMDisplayForm.value;
+    let totalQuantity = 0;
+    for (let i = 0; i < formModel.phoneList.length; i++) {
+      const item = formModel.phoneList[i];
+      totalQuantity = totalQuantity + +item.phoneQuantity;
+    }
+    this.totalNoQuantity = totalQuantity;
+  }
   initPhoneList() {
     return this.fb.group({
       phoneBrand: '',
@@ -101,7 +112,6 @@ export class ClientGSMDisplayComponent implements OnInit {
       problems: this.fb.array([]),
       observation: '',
       displayOpType: ''
-
     })
   }
   successMessage() {
@@ -111,5 +121,6 @@ export class ClientGSMDisplayComponent implements OnInit {
   get lastname() { return this.clientGSMDisplayForm.get('lastname'); }
   get phone() { return this.clientGSMDisplayForm.get('phone'); }
   get priceOffer() { return this.clientGSMDisplayForm.get('priceOffer'); }
+  get totalQuantity() { return this.clientGSMDisplayForm.get('totalQuantity'); }
   get city() { return this.clientGSMDisplayForm.get('city'); }
 }

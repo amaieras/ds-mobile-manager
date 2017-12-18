@@ -16,158 +16,38 @@ export class CheckoutComponent implements OnInit {
 
   checkout: Checkout[] = [new Checkout(0,0,0,0)];
   currDate = new Date();
-  totalPFClientsPerDay = 0;
+  //total
+  totalClientsPerDay = 0;
+  totalIsRepairedPerDay = 0;
+  totalIsRemainingPerDay = 0;
+  totalIsRemaining = 0;
   totalCash = 0;
   totalCard = 0;
+
+  //PF
+  totalPFClientsPerDay = 0;
+  totalPFIsRepaired = 0;
   constructor(private _checkoutService: CheckoutService) {
     this.currDate = new Date();
   }
   ngOnInit() {
-    this.getPFCheckoutForDate(new Date());
-    console.log(this.checkout)
-    // this.getGSMCheckoutForDate(new Date());
-    // this.getGSMDisplayCheckoutForDate(new Date());
+    this.getTotalClientsPerDay(new Date());
+    this.getTotalIsRepairedPerDay(new Date());
+    this.getTotalIsRemainingPerDay(new Date());
+    this.getTotalIsRemaining(new Date());
     this.getTotalReceipts(new Date());
   }
-
-  getPFCheckoutForDate(event){
-    // let a = event.split(/[^0-9]/);
-    // const d = new Date (a[0],a[1]-1,a/[2],a[3],a[4],a[5] );
-    let clientsPFPerDay = 0;
-    let totalPFIsRepaired = 0;
-    let totalPFInProgressPerDay = 0;
-    let totalPFInProgress = 0;
-    let clientPFIsRepaired;
-
-    let clientsGSMPerDay = 0;
-    let totalGSMIsRepaired = 0;
-    let totalGSMInProgressPerDay = 0;
-    let totalGSMInProgress = 0;
-    let clientGSMIsRepaired;
-
-    let clientsGSMDisplayPerDay = 0;
-    let totalGSMDisplayIsRepaired = 0;
-    let totalGSMDisplayInProgressPerDay = 0;
-    let totalGSMDisplayInProgress = 0;
-    let clientGSMDisplayIsRepaired;
-
-    this._checkoutService.getClientsPFCurrDay().subscribe(pf => {
-      this._checkoutService.getClientsGSMCurrDay().subscribe(gsm => {
-        this._checkoutService.getClientsGSMDisplayCurrDay().subscribe(gsmDisplay => {
-          clientsPFPerDay = pf.filter(function (client) {
-            const clientDate = new Date(+client.addedDate);
-            return clientDate.toDateString() === event.toDateString();
-          }).length
-          this.totalPFClientsPerDay = clientsPFPerDay;
-          clientPFIsRepaired = pf.filter(function (client) {
-            const clientDate = new Date(+client.deliveredDate);
-            return clientDate.toDateString() === event.toDateString() && client.isRepaired === true;
-          })
-          totalPFInProgressPerDay = pf.filter(function (client) {
-            const clientDate = new Date(+client.addedDate);
-            return  clientDate.toDateString() === event.toDateString() && client.isRepaired === false;
-          }).length
-          totalPFInProgress = pf.filter(function (client) {
-            return client.isRepaired === false;
-          }).length
-          totalPFIsRepaired = clientPFIsRepaired.length;
-          this.checkout.push(new Checkout(clientsPFPerDay, totalPFIsRepaired, totalPFInProgressPerDay, totalPFInProgress));
-
-        clientsGSMPerDay = gsm.filter(function (client) {
-          const clientDate = new Date(+client.addedDate);
-          return clientDate.toDateString() === event.toDateString();
-        }).length
-        clientGSMIsRepaired = gsm.filter(function (client) {
-          const clientDate = new Date(+client.deliveredDate);
-          return clientDate.toDateString() === event.toDateString() && client.isRepaired === true;
-        })
-        totalGSMInProgressPerDay = gsm.filter(function (client) {
-          const clientDate = new Date(+client.addedDate);
-          return  clientDate.toDateString() === event.toDateString() && client.isRepaired === false;
-        }).length
-        totalGSMInProgress = gsm.filter(function (client) {
-          return client.isRepaired === false;
-        }).length
-        totalGSMIsRepaired = clientGSMIsRepaired.length;
-        this.checkout.push(new Checkout(clientsGSMPerDay, totalGSMIsRepaired, totalGSMInProgressPerDay, totalGSMInProgress));
-
-          clientsGSMDisplayPerDay = gsmDisplay.filter(function (client) {
-            const clientDate = new Date(+client.addedDate);
-            return clientDate.toDateString() === event.toDateString();
-          }).length
-          clientGSMDisplayIsRepaired = gsmDisplay.filter(function (client) {
-            const clientDate = new Date(+client.deliveredDate);
-            return clientDate.toDateString() === event.toDateString() && client.isRepaired === true;
-          })
-          totalGSMDisplayInProgressPerDay = gsmDisplay.filter(function (client) {
-            const clientDate = new Date(+client.addedDate);
-            return  clientDate.toDateString() === event.toDateString() && client.isRepaired === false;
-          }).length
-          totalGSMDisplayInProgress = gsmDisplay.filter(function (client) {
-            return client.isRepaired === false;
-          }).length
-          totalGSMDisplayIsRepaired = clientGSMDisplayIsRepaired.length;
-          this.checkout.push(new Checkout(clientsGSMDisplayPerDay, totalGSMDisplayIsRepaired, totalGSMDisplayInProgressPerDay, totalGSMDisplayInProgress));
-        });
-      });
-    });
+  getCheckoutForDate(event) {
+    this.currDate = event;
+    this.getTotalClientsPerDay(event);
+    this.getTotalIsRepairedPerDay(event);
+    this.getTotalIsRemainingPerDay(event);
+    this.getTotalIsRemaining(event);
+    this.getTotalReceipts(event);
   }
 
-  getGSMCheckoutForDate(event) {
-    let clientsGSMPerDay = 0;
-    let totalGSMIsRepaired = 0;
-    let totalGSMInProgressPerDay = 0;
-    let totalGSMInProgress = 0;
-    let clientGSMIsRepaired;
-    this._checkoutService.getClientsGSMCurrDay().subscribe(gsm => {
-      clientsGSMPerDay = gsm.filter(function (client) {
-        const clientDate = new Date(+client.addedDate);
-        return clientDate.toDateString() === event.toDateString();
-      }).length
-      clientGSMIsRepaired = gsm.filter(function (client) {
-        const clientDate = new Date(+client.deliveredDate);
-        return clientDate.toDateString() === event.toDateString() && client.isRepaired === true;
-      })
-      totalGSMInProgressPerDay = gsm.filter(function (client) {
-        const clientDate = new Date(+client.addedDate);
-        return  clientDate.toDateString() === event.toDateString() && client.isRepaired === false;
-      }).length
-      totalGSMInProgress = gsm.filter(function (client) {
-        return client.isRepaired === false;
-      }).length
-      totalGSMIsRepaired = clientGSMIsRepaired.length;
-      this.checkout.push(new Checkout(clientsGSMPerDay, totalGSMIsRepaired, totalGSMInProgressPerDay, totalGSMInProgress));
-    })
-   }
 
-  getGSMDisplayCheckoutForDate(event) {
-    let clientsGSMDisplayPerDay = 0;
-    let totalGSMDisplayIsRepaired = 0;
-    let totalGSMDisplayInProgressPerDay = 0;
-    let totalGSMDisplayInProgress = 0;
-    let clientGSMDisplayIsRepaired;
-    this._checkoutService.getClientsGSMDisplayCurrDay().subscribe(gsmDisplay => {
-      clientsGSMDisplayPerDay = gsmDisplay.filter(function (client) {
-        const clientDate = new Date(+client.addedDate);
-        return clientDate.toDateString() === event.toDateString();
-      }).length
-      clientGSMDisplayIsRepaired = gsmDisplay.filter(function (client) {
-        const clientDate = new Date(+client.deliveredDate);
-        return clientDate.toDateString() === event.toDateString() && client.isRepaired === true;
-      })
-      totalGSMDisplayInProgressPerDay = gsmDisplay.filter(function (client) {
-        const clientDate = new Date(+client.addedDate);
-        return  clientDate.toDateString() === event.toDateString() && client.isRepaired === false;
-      }).length
-      totalGSMDisplayInProgress = gsmDisplay.filter(function (client) {
-        return client.isRepaired === false;
-      }).length
-      totalGSMDisplayIsRepaired = clientGSMDisplayIsRepaired.length;
-      this.checkout.push(new Checkout(clientsGSMDisplayPerDay, totalGSMDisplayIsRepaired, totalGSMDisplayInProgressPerDay, totalGSMDisplayInProgress));
-    });
-  }
-
-  getTotalReceipts(event){
+  getTotalReceipts(event) {
     let clientPFIsRepaired;
     let clientGSMIsRepaired;
     let clientGSMDisplayIsRepaired;
@@ -177,15 +57,15 @@ export class CheckoutComponent implements OnInit {
           let totalCash = 0;
           clientPFIsRepaired = pf.filter(function (client) {
             const clientDate = new Date(+client.deliveredDate);
-            return clientDate.toDateString() === event.toDateString() && client.isRepaired === true;
+            return clientDate.toDateString() === event.toDateString() && client.isRepaired;
           });
           clientGSMIsRepaired = gsm.filter(function (client) {
             const clientDate = new Date(+client.deliveredDate);
-            return clientDate.toDateString() === event.toDateString() && client.isRepaired === true;
+            return clientDate.toDateString() === event.toDateString() && client.isRepaired;
           });
           clientGSMDisplayIsRepaired = gsmDisplay.filter(function (client) {
             const clientDate = new Date(+client.deliveredDate);
-            return clientDate.toDateString() === event.toDateString() && client.isRepaired === true;
+            return clientDate.toDateString() === event.toDateString() && client.isRepaired;
           });
           clientPFIsRepaired.forEach(c => {
             totalCash = totalCash + +c.priceOffer;
@@ -198,8 +78,105 @@ export class CheckoutComponent implements OnInit {
           });
           this.totalCash = totalCash;
         });
-      })
-    })
+      });
+    });
   }
 
+  getTotalClientsPerDay(event) {
+    let clientPFPerDay;
+    let clientGSMPerDay;
+    let clientGSMDisplayPerDay;
+    this._checkoutService.getClientsPFCurrDay().subscribe(pf => {
+      this._checkoutService.getClientsGSMCurrDay().subscribe(gsm => {
+        this._checkoutService.getClientsGSMDisplayCurrDay().subscribe(gsmDisplay => {
+          clientPFPerDay = pf.filter(function (client) {
+            const clientDate = new Date(+client.addedDate);
+            return clientDate.toDateString() === event.toDateString();
+          }).length;
+          clientGSMPerDay = gsm.filter(function (client) {
+            const clientDate = new Date(+client.addedDate);
+            return clientDate.toDateString() === event.toDateString();
+          }).length;
+          clientGSMDisplayPerDay = gsmDisplay.filter(function (client) {
+            const clientDate = new Date(+client.addedDate);
+            return clientDate.toDateString() === event.toDateString();
+          }).length;
+          this.totalClientsPerDay = clientPFPerDay + clientGSMPerDay  + clientGSMDisplayPerDay;
+        });
+      });
+    });
+  }
+
+
+  getTotalIsRepairedPerDay(event) {
+    let clientPFIsRepairedPerDay;
+    let clientGSMIsRepairedPerDay;
+    let clientGSMDisplayIsRepairedPerDay;
+    this._checkoutService.getClientsPFCurrDay().subscribe(pf => {
+      this._checkoutService.getClientsGSMCurrDay().subscribe(gsm => {
+        this._checkoutService.getClientsGSMDisplayCurrDay().subscribe(gsmDisplay => {
+          clientPFIsRepairedPerDay = pf.filter(function (client) {
+            const clientDate = new Date(+client.deliveredDate);
+            return clientDate.toDateString() === event.toDateString()  && client.isRepaired;
+          }).length;
+          clientGSMIsRepairedPerDay = gsm.filter(function (client) {
+            const clientDate = new Date(+client.deliveredDate);
+            return clientDate.toDateString() === event.toDateString()  && client.isRepaired;
+          }).length;
+          clientGSMDisplayIsRepairedPerDay = gsmDisplay.filter(function (client) {
+            const clientDate = new Date(+client.deliveredDate);
+            return clientDate.toDateString() === event.toDateString()  && client.isRepaired;
+          }).length;
+          this.totalIsRepairedPerDay = clientPFIsRepairedPerDay + clientGSMIsRepairedPerDay  + clientGSMDisplayIsRepairedPerDay;
+        });
+      });
+    });
+  }
+
+  getTotalIsRemainingPerDay(event) {
+    let clientPFIsRemainingPerDay;
+    let clientGSMIsRemainingPerDay;
+    let clientGSMDisplayIsRemainingPerDay;
+    this._checkoutService.getClientsPFCurrDay().subscribe(pf => {
+      this._checkoutService.getClientsGSMCurrDay().subscribe(gsm => {
+        this._checkoutService.getClientsGSMDisplayCurrDay().subscribe(gsmDisplay => {
+          clientPFIsRemainingPerDay = pf.filter(function (client) {
+            const clientDate = new Date(+client.addedDate);
+            return clientDate.toDateString() === event.toDateString()  && !client.isRepaired;
+          }).length;
+          clientGSMIsRemainingPerDay = gsm.filter(function (client) {
+            const clientDate = new Date(+client.addedDate);
+            return clientDate.toDateString() === event.toDateString()  && !client.isRepaired;
+          }).length;
+          clientGSMDisplayIsRemainingPerDay = gsmDisplay.filter(function (client) {
+            const clientDate = new Date(+client.addedDate);
+            return clientDate.toDateString() === event.toDateString()  && !client.isRepaired;
+          }).length;
+          this.totalIsRemainingPerDay = clientPFIsRemainingPerDay + clientGSMIsRemainingPerDay  + clientGSMDisplayIsRemainingPerDay;
+        });
+      });
+    });
+  }
+
+  getTotalIsRemaining(event) {
+    let clientPFIsRemaining;
+    let clientGSMIsRemaining;
+    let clientGSMDisplayIsRemaining;
+    this._checkoutService.getClientsPFCurrDay().subscribe(pf => {
+      this._checkoutService.getClientsGSMCurrDay().subscribe(gsm => {
+        this._checkoutService.getClientsGSMDisplayCurrDay().subscribe(gsmDisplay => {
+          clientPFIsRemaining = pf.filter(function (client) {
+            return !client.isRepaired;
+          }).length;
+          clientGSMIsRemaining = gsm.filter(function (client) {
+            return !client.isRepaired;
+          }).length;
+          clientGSMDisplayIsRemaining = gsmDisplay.filter(function (client) {
+            return !client.isRepaired;
+          }).length;
+          this.totalIsRemaining = clientPFIsRemaining + clientGSMIsRemaining  + clientGSMDisplayIsRemaining;
+        });
+      });
+    });
+  }
 }
