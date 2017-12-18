@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable }        from 'rxjs/Observable';
 import 'rxjs/add/operator/finally';
-import { ActivatedRoute, Router } from "@angular/router";
 import { ClientType, ClientTypeService } from "../../clients/client-type-list/client-type.service"
 
 @Component({
@@ -13,7 +12,7 @@ export class RepairTypeListComponent implements OnInit {
   isLoading = false;
   selectedClientType: ClientType;
 
-  constructor(private clientTypeService: ClientTypeService,  private route: ActivatedRoute, private router: Router) { }
+  constructor(private clientTypeService: ClientTypeService) { }
 
   ngOnInit() {
     this.getClientTypes();

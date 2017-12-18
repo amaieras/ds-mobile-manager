@@ -5,6 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { RepairTypeListComponent } from "./repair-type-list/repair-type-list.component"
 import { RepairPFDetailComponent } from "./repairPF/repair-pf-detail.component"
 import { RepairGSMDetailComponent } from "./repairGSM/repair-gsm-detail.component"
+import {RepairGSMDisplayDetailComponent} from "./repairGSMDisplay/repair-gsm-display-detail.component";
 
 
 const repairsCenterRoutes: Routes = [
@@ -18,7 +19,7 @@ const repairsCenterRoutes: Routes = [
         pathMatch: 'full'
       },
       {
-        path: 'PF',
+        path: 'pf',
         component: RepairPFDetailComponent,
         // canDeactivate: [CanDeactivateGuard],
         // resolve: {
@@ -26,8 +27,12 @@ const repairsCenterRoutes: Routes = [
         // }
       },
       {
-        path: 'GSM',
+        path: 'gsm',
         component: RepairGSMDetailComponent
+      },
+      {
+        path: 'gsm-display',
+        component: RepairGSMDisplayDetailComponent
       }
     ],
     data: {

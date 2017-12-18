@@ -47,8 +47,9 @@ import {
   MatTooltipModule,
   MatStepperModule,
 } from '@angular/material';
-import {PrintReceiptComponent} from "../shared/print/print-receipt.component";
 import {SharedDsModule} from "../shared/shared-ds.module";
+import {RepairGSMDisplayDetailService} from "./repairGSMDisplay/repair-gsm-display-detail.service";
+import {RepairGSMDisplayDetailComponent} from "./repairGSMDisplay/repair-gsm-display-detail.component";
 
 
 @NgModule({
@@ -106,12 +107,14 @@ import {SharedDsModule} from "../shared/shared-ds.module";
   declarations: [
     RepairTypeListComponent,
     RepairPFDetailComponent,
-    RepairGSMDetailComponent
+    RepairGSMDetailComponent,
+    RepairGSMDisplayDetailComponent
 
   ],
   providers: [
     RepairPFDetailService,
-    RepairGSMDetailService
+    RepairGSMDetailService,
+    RepairGSMDisplayDetailService
   ]
 })
 export class RepairModule { }

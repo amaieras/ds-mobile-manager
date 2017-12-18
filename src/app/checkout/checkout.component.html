@@ -18,7 +18,7 @@
                   <amexio-datapoints [north]="true" [center]="true" [south]="true">
                     <amexio-north [cClass]="'datapoint-north'">
                       <div class="data-counts">
-                        {{checkout.totalClientsPerDay}}
+                        {{totalPFClientsPerDay}}
                       </div>
                     </amexio-north>
                     <amexio-center [cClass]="'datapoint-center'">
@@ -62,7 +62,7 @@
                   <amexio-datapoints [north]="true" [center]="true" [south]="true">
                     <amexio-north [cClass]="'datapoint-north'">
                       <div class="data-counts">
-                        {{checkout.totalIsRepaired}}
+                        {{checkout["1"].totalIsRepaired}}
                       </div>
                     </amexio-north>
                     <amexio-center [cClass]="'datapoint-center'">
@@ -81,7 +81,7 @@
                   <amexio-datapoints [north]="true" [center]="true" [south]="true">
                     <amexio-north [cClass]="'datapoint-north'">
                       <div class="data-counts">
-                        {{checkout.totalInProgressPerDay}}
+                        {{checkout["1"].totalInProgressPerDay}}
                       </div>
                     </amexio-north>
                     <amexio-center [cClass]="'datapoint-center'">
@@ -100,7 +100,7 @@
                   <amexio-datapoints [north]="true" [center]="true" [south]="true">
                     <amexio-north [cClass]="'datapoint-north'">
                       <div class="data-counts">
-                        {{checkout.totalInProgress}}
+                        {{checkout['1'].totalInProgress}}
                       </div>
                     </amexio-north>
                     <amexio-center [cClass]="'datapoint-center'">
@@ -149,6 +149,65 @@
               </amexio-datapoints>
             </div>
           </div>
+          <!--<div class="row">-->
+            <!--<div class="col-lg-2">-->
+              <!--<amexio-datapoints [west]="true" [center]="true" [east]="true" [south]="true" [backgroundColor]="'#4CAF50'" [fontColor]="'#ffffff'">-->
+                <!--<amexio-west [contentalign]="'center'">-->
+                  <!--<amexio-image [imageClass]="'fa fa-check fa-4x'"></amexio-image>-->
+                <!--</amexio-west>-->
+                <!--<amexio-center [contentalign]="'right'">-->
+                  <!--<amexio-datapoints [north]="true" [center]="true" [south]="true">-->
+                    <!--<amexio-north [cClass]="'datapoint-north'">-->
+                      <!--<div class="data-counts">-->
+                        <!--{{checkout[2].totalIsRepaired}}-->
+                      <!--</div>-->
+                    <!--</amexio-north>-->
+                    <!--<amexio-center [cClass]="'datapoint-center'">-->
+                      <!--Reparatii/GSM finalizate-->
+                    <!--</amexio-center>-->
+                  <!--</amexio-datapoints>-->
+                <!--</amexio-center>-->
+              <!--</amexio-datapoints>-->
+            <!--</div>-->
+            <!--<div class="col-lg-2">-->
+              <!--<amexio-datapoints [west]="true" [center]="true" [east]="true" [south]="true" [backgroundColor]="'#FF9800'" [fontColor]="'#ffffff'">-->
+                <!--<amexio-west [contentalign]="'center'">-->
+                  <!--<amexio-image [imageClass]="'fa fa-envelope-open-o fa-4x'"></amexio-image>-->
+                <!--</amexio-west>-->
+                <!--<amexio-center [contentalign]="'right'">-->
+                  <!--<amexio-datapoints [north]="true" [center]="true" [south]="true">-->
+                    <!--<amexio-north [cClass]="'datapoint-north'">-->
+                      <!--<div class="data-counts">-->
+                        <!--{{checkout[2].totalInProgressPerDay}}-->
+                      <!--</div>-->
+                    <!--</amexio-north>-->
+                    <!--<amexio-center [cClass]="'datapoint-center'">-->
+                      <!--Reparatii/GSM ramase/zi-->
+                    <!--</amexio-center>-->
+                  <!--</amexio-datapoints>-->
+                <!--</amexio-center>-->
+              <!--</amexio-datapoints>-->
+            <!--</div>-->
+            <!--<div class="col-lg-2">-->
+              <!--<amexio-datapoints [west]="true" [center]="true" [east]="true" [south]="true" [backgroundColor]="'#00BCD4'" [fontColor]="'#ffffff'">-->
+                <!--<amexio-west [contentalign]="'center'">-->
+                  <!--<amexio-image [imageClass]="'fa fa-globe fa-3x'"></amexio-image>-->
+                <!--</amexio-west>-->
+                <!--<amexio-center [contentalign]="'right'">-->
+                  <!--<amexio-datapoints [north]="true" [center]="true" [south]="true">-->
+                    <!--<amexio-north [cClass]="'datapoint-north'">-->
+                      <!--<div class="data-counts">-->
+                        <!--{{checkout[2].totalInProgress}}-->
+                      <!--</div>-->
+                    <!--</amexio-north>-->
+                    <!--<amexio-center [cClass]="'datapoint-center'">-->
+                      <!--Reparatii/GSM ramase-->
+                    <!--</amexio-center>-->
+                  <!--</amexio-datapoints>-->
+                <!--</amexio-center>-->
+              <!--</amexio-datapoints>-->
+            <!--</div>-->
+          <!--</div>-->
         </div>
       </div>
     </amexio-pane-body>

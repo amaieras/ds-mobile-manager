@@ -1,21 +1,21 @@
 import {RouterModule, Routes} from "@angular/router";
-import {CheckoutPfComponent} from "./checkout-pf.component";
+import {CheckoutComponent} from "./checkout.component";
 import {NgModule} from "@angular/core";
 
 
 const checkoutCenterRoutes: Routes = [
   {
     path: 'checkout',
-    component: CheckoutPfComponent,
+    component: CheckoutComponent,
     children: [
       {
         path: '',
-        redirectTo: 'checkout-pf',
+        redirectTo: '',
         pathMatch: 'full'
       },
       {
-        path: 'checkout-pf',
-        component: CheckoutPfComponent
+        path: '',
+        component: CheckoutComponent
       },
       // {
       //   path: 'gsm',

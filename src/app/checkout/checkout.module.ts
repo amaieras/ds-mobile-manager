@@ -1,5 +1,5 @@
 import {NgModule} from "@angular/core";
-import {CheckoutPfComponent} from "./checkout-pf.component";
+import {CheckoutComponent} from "./checkout.component";
 import {AmexioDashboardModule} from "amexio-ng-extensions/dashboard";
 import {AmexioWidgetModule} from "amexio-ng-extensions";
 import {CommonModule} from "@angular/common";
@@ -18,7 +18,7 @@ import {SharedDsModule} from "../shared/shared-ds.module";
     SharedDsModule
   ],
   declarations: [
-    CheckoutPfComponent
+    CheckoutComponent
   ],
   providers: [
     CheckoutService

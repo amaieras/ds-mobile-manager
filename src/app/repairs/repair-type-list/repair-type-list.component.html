@@ -4,7 +4,7 @@
 
   <nav>
     <a *ngFor="let clientType of clientTypes | async"
-       [routerLink]="[clientType.type]">{{clientType.type}}</a>
+       [routerLink]="[clientType.url]">{{clientType.type}}</a>
   </nav>
   <div *ngIf="selectedClientType">
     <hr>
