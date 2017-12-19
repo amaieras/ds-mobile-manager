@@ -16,6 +16,7 @@ export class ClientGSMDetailComponent implements OnInit {
   clientGSM: ClientGSM = new ClientGSM();
   saveClientGSM: ClientGSM = new ClientGSM();
   totalPrice = 0;
+  totalNoQuantity = 0;
   constructor(
     private fb: FormBuilder,
     private clientGSMService: ClientGSMService
@@ -39,6 +40,7 @@ export class ClientGSMDetailComponent implements OnInit {
       //   // Validators.required
       // ]),
       'priceOffer': new FormControl({value: 0, disabled: true}),
+      'totalQuantity': new FormControl({value: 0, disabled: true}),
       // 'country': new FormControl('', [
       //   // Validators.required
       // ]),
@@ -74,6 +76,16 @@ export class ClientGSMDetailComponent implements OnInit {
       }
     }
     this.totalPrice = totalPrice;
+  }
+  calculateTotalQuantity() {
+    this.calculateTotalPrice();
+    const formModel = this.clientGSMForm.value;
+    let totalQuantity = 0;
+    for (let i = 0; i < formModel.phoneList.length; i++) {
+      const item = formModel.phoneList[i];
+      totalQuantity = totalQuantity + +item.phoneQuantity;
+    }
+    this.totalNoQuantity = totalQuantity;
   }
   initPhoneList() {
     return this.fb.group({
@@ -145,6 +157,7 @@ export class ClientGSMDetailComponent implements OnInit {
   get priceOffer() { return this.clientGSMForm.get('priceOffer'); }
   get country() { return this.clientGSMForm.get('country'); }
   get city() { return this.clientGSMForm.get('city'); }
+  get totalQuantity() { return this.clientGSMForm.get('totalQuantity'); }
   get billingAddress(): FormArray {
     return this.clientGSMForm.get('billingAddress') as FormArray;
   }

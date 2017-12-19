@@ -55,6 +55,8 @@ export class RepairPFDetailComponent implements OnInit {
           {field: 'problem', header: 'Problema', filter: true, sortable: true},
           {field: 'imei', header: 'IMEI', filter: true, sortable: true},
           {field: 'priceOffer', header: 'Oferta pret', filter: true, editable: true, sortable: true},
+          {field: 'priceOfferCash', header: 'Total cash', filter: true, editable: true, sortable: true},
+          {field: 'priceOfferCard', header: 'Total card', filter: true, editable: true, sortable: true},
           {field: 'appointmentDate', header: 'Data si ora programarii', filter: true, editable: true, sortable: true},
           {field: 'tested', header: 'Testat?', filter: true, editable: true, sortable: true},
           {field: 'aboutUs', header: 'Cum a aflat de noi?', filter: true, editable: false, sortable: true},
@@ -92,6 +94,23 @@ export class RepairPFDetailComponent implements OnInit {
     let obj = {};
     obj[fieldName] = fieldVal;
     this.repairPFService.updateItem(event.data.$key, obj);
+    if(fieldName === "priceOfferCard" || fieldName === "priceOfferCash") {
+      let poVal = event.data['priceOffer']
+      if(fieldName === "priceOfferCard") {
+        obj['priceOfferCash'] = +poVal - +obj[fieldName];
+        if (obj['priceOfferCash'] > 0) {
+          this.repairPFService.updateItem(event.data.$key, obj);
+        }
+      }
+      else {
+        obj['priceOfferCard'] = +poVal - +obj[fieldName];
+        if (obj['priceOfferCard'] > 0) {
+          this.repairPFService.updateItem(event.data.$key, obj);
+        }
+      }
+      obj['priceOffer'] = +obj['priceOfferCard'] + +obj['priceOfferCash'];
+      this.repairPFService.updateItem(event.data.$key, obj);
+    }
     this.successMessage(event.data.lastname, event.data.firstname, event.data.phone,'Valoare');
   }
 
