@@ -1,0 +1,96 @@
+<p-growl [(value)]="msgs"></p-growl>
+<div class="content">
+  <div class="ui-widget-header" style="padding:4px 10px;border-bottom: 0 none">
+    <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+    <input #gb  pInputText size="50" placeholder="Cauta peste tot">
+  </div>
+  <p-dataTable #dt [value]="repairsPF" [editable]="true" [paginator]="true" rows="50" [rowsPerPageOptions]="[10,20,50,100]" [globalFilter]="gb" [responsive]="true"
+               (onEditComplete)="updateField($event)" [sortOrder]="-1" sortField="addedDate" [loading]="loading" [rowStyleClass]="disabledRow" [reorderableColumns]="true">
+    <p-header #fixedBox>
+      <div style="text-align:left">
+        <button type="button" pButton icon="fa-file-o" iconPos="left" label="Excel" style="float:right" (click)="exportTable()"></button>
+        <p-multiSelect [options]="columnOptions" [(ngModel)]="cols"></p-multiSelect>
+      </div>
+      Reparatii pentru clientii PF
+    </p-header>
+    <p-column *ngFor="let column of cols" [field]="column.field" [header]="column.header" [filter]="column.filter" [editable]="column.editable" [sortable]="column.sortable" >
+
+      <ng-container *ngIf="column.field == 'addedDate'">
+        <ng-template let-col let-row="rowData" pTemplate="body">
+          <span [style.color]="row[col.field]">{{row[col.field] | date:"dd-MM-yyyy HH:mm"}}</span>
+        </ng-template>
+      </ng-container>
+      <ng-container *ngIf="column.field == 'appointmentDate'">
+        <ng-template let-col let-row="rowData" pTemplate="body">
+          {{row[col.field] | date:"dd-MM-yyyy HH:mm"}}
+        </ng-template>
+        <ng-template let-col let-row="rowData" pTemplate="editor">
+          <p-calendar [(ngModel)]="row[appointmentDate]"
+                      [ngModelOptions]="{standalone: true}"
+                      appendTo="body"
+                      [defaultDate]="defaultDate" [showTime]="true" [showIcon]="true" readonlyInput="readonlyInput"
+                      [stepMinute]="15">
+            <p-footer>
+              <div class="ui-datepicker-buttonbar ui-widget-header ng-tns-c8-2">
+                <div class="ui-g">
+                  <div class="ui-g-6 ui-g-offset-6">
+                    <button class="ng-tns-c8-2 ui-button-secondary ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" pbutton ng-reflect-ng-class="ui-button-secondary" ng-reflect-label="Ok" type="button" (click)="updateAppointmentDate(row, row[appointmentDate])">
+                      <span class="ui-button-text ui-clickable">Salveaza</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </p-footer>
+          </p-calendar>
+        </ng-template>
+      </ng-container>
+      <ng-container *ngIf="column.field == 'tested'" >
+        <ng-template  let-col let-row="rowData" pTemplate="editor">
+          <p-dropdown  [(ngModel)]="row[col.field]" [options]="testingValues" [autoWidth]="false" [style]="{'width':'100%'}" appendTo="body" (onChange)="updateTestedItem(row)"></p-dropdown>
+        </ng-template>
+      </ng-container>
+      <ng-container *ngIf="column.field === 'deliveredDate'" >
+        <ng-template let-col let-row="rowData" pTemplate="body">
+          <span *ngIf="row.isRepaired">{{row[col.field] | date:"dd-MM-yyyy HH:mm"}}</span>
+        </ng-template>
+      </ng-container>
+      <ng-container *ngIf="column.field === 'isRepaired'">
+        <ng-template pTemplate="body" let-col let-row="rowData">
+          <p-checkbox [(ngModel)]="row[col.field]" binary="true" (onChange)="updateCheckedItem(row)"></p-checkbox>
+        </ng-template>
+      </ng-container>
+      <ng-container *ngIf="column.field == 'phoneList'" >
+        <ng-template let-col let-childs="rowData.phoneList"  pTemplate="body">
+          <div class="ui-grid ui-grid-responsive ui-grid-pad" *ngFor="let item of childs">
+            <div class="ui-grid-col-10">{{item.phoneBrand}} {{item.phoneModel}};</div>
+          </div>
+        </ng-template>
+      </ng-container>
+      <ng-container *ngIf="column.field == 'imei'" >
+        <ng-template let-col let-childs="rowData.phoneList"  pTemplate="body">
+          <div class="ui-grid ui-grid-responsive ui-grid-pad" *ngFor="let item of childs">
+            <div class="ui-grid-col-10">{{item.imei}};</div>
+          </div>
+        </ng-template>
+      </ng-container>
+      <ng-container *ngIf="column.field == 'problem'" >
+        <ng-template let-col let-childs="rowData.phoneList"  pTemplate="body">
+          <div class="ui-grid ui-grid-responsive ui-grid-pad" *ngFor="let item of childs">
+            <div class="ui-grid-row" *ngFor="let it of item.problems">
+              <div class="ui-grid-col-10">{{it.problem}};</div>
+            </div>
+          </div>
+        </ng-template>
+      </ng-container>
+    </p-column>
+    <p-column styleClass="col-button">
+      <ng-template pTemplate="header">
+        Printeaza
+      </ng-template>
+      <ng-template let-repair="rowData" pTemplate="body">
+        <button type="button" pButton (click)="printRepair(repair)" icon="fa-print"></button>
+      </ng-template>
+    </p-column>
+  </p-dataTable>
+  <app-print-receipt></app-print-receipt>
+</div>

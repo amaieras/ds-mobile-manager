@@ -1,33 +1,32 @@
 import { Component, OnInit } from "@angular/core";
 import { SelectItem,Message } from "primeng/primeng";
-import { RepairGSMDetailService } from "./repair-gsm-detail.service";
 import {Observable} from "rxjs/Observable";
-import {ClientGSM} from "../../model/ClientGSM";
-import {UtilService} from "../../utils/util.service";
-
+import {ClientGSMDisplay} from "../../../model/ClientGSMDisplay";
+import {RepairGSMDisplayDetailService} from "../../repairGSMDisplay/repair-gsm-display-detail.service";
+import {UtilService} from "../../../utils/util.service";
 @Component({
-  selector: 'repair-gsm-detail',
-  templateUrl: './repair-gsm-detail.component.html'
+  selector: 'app-repair-gsm-display-done',
+  templateUrl: './repair-gsm-display-done.component.html'
 })
-export class RepairGSMDetailComponent implements OnInit{
-  repairsGSM: ClientGSM[];
+export class RepairGsmDisplayDoneComponent implements OnInit{
+  repairsGSMDisplay: ClientGSMDisplay[];
   cols: any[];
   columnOptions: SelectItem[];
   msgs: Message[] = [];
-  dataSource: ClientGSM[];
+  dataSource: ClientGSMDisplay[];
   loading = true;
   totalRecords: number;
   csvSeparator: string;
 
-  constructor(private repairGSMService: RepairGSMDetailService, private _utilService: UtilService) { }
+  constructor(private _repairGSMDisplayService: RepairGSMDisplayDetailService, private _utilService: UtilService) { }
 
   ngOnInit() {
-    this.getClientsGSMList().subscribe(clientGSM => {
-      this.dataSource = clientGSM.filter(function(item) {
-        return !item.isRepaired;
+    this.getClientsGSMDisplayList().subscribe(clientGSMDisplay => {
+      this.dataSource = clientGSMDisplay.filter(function(item) {
+        return item.isRepaired;
       });
       this.totalRecords = this.dataSource.length;
-      this.repairsGSM = this.dataSource;
+      this.repairsGSMDisplay = this.dataSource;
       this.loading = false;
       this.cols = [
         {field: 'addedDate', header: 'Data introducerii', filter: true, sortable: true},
@@ -51,43 +50,42 @@ export class RepairGSMDetailComponent implements OnInit{
     });
 
   }
-
   updateField(event) {
     const fieldName = event.column.field;
     const fieldVal = event.data[fieldName];
     let obj = {};
     obj[fieldName] = fieldVal;
-    this.repairGSMService.updateItem(event.data.$key, obj);
+    this._repairGSMDisplayService.updateItem(event.data.$key, obj);
     if(fieldName === "priceOfferCard" || fieldName === "priceOfferCash") {
       let poVal = event.data['priceOffer']
       if(fieldName === "priceOfferCard") {
         obj['priceOfferCash'] = +poVal - +obj[fieldName];
         if (obj['priceOfferCash'] > 0) {
-          this.repairGSMService.updateItem(event.data.$key, obj);
+          this._repairGSMDisplayService.updateItem(event.data.$key, obj);
         }
       }
       else {
         obj['priceOfferCard'] = +poVal - +obj[fieldName];
         if (obj['priceOfferCard'] > 0) {
-          this.repairGSMService.updateItem(event.data.$key, obj);
+          this._repairGSMDisplayService.updateItem(event.data.$key, obj);
         }
       }
       obj['priceOffer'] = +obj['priceOfferCard'] + +obj['priceOfferCash'];
-      this.repairGSMService.updateItem(event.data.$key, obj);
+      this._repairGSMDisplayService.updateItem(event.data.$key, obj);
     }
     this.successMessage(event.data.lastname, event.data.firstname, event.data.phone,'Valoare');
   }
 
-  getClientsGSMList(): Observable<any> {
-    return this.repairGSMService.getClientsGSMList();
+  getClientsGSMDisplayList(): Observable<any> {
+    return this._repairGSMDisplayService.getClientsGSMDisplayList();
   }
 
   updateCheckedItem(row) {
-    this.repairGSMService.updateItem(row.$key, {isRepaired: row.isRepaired});
+    this._repairGSMDisplayService.updateItem(row.$key, {isRepaired: row.isRepaired});
 
     if(row.isRepaired) {
       let date = new Date().getTime().toString();
-      this.repairGSMService.updateItem(row.$key, {deliveredDate: date});
+      this._repairGSMDisplayService.updateItem(row.$key, {deliveredDate: date});
     }
   }
 
@@ -224,10 +222,10 @@ export class RepairGSMDetailComponent implements OnInit{
       return null;
     }
   };
-  disabledRow(rowData: ClientGSM) {
+
+  disabledRow(rowData: ClientGSMDisplay) {
     return rowData.isRepaired ? 'disabled-account-row' : '';
   }
-
   successMessage(lastname, firstname, phone, msg) {
     this.msgs = [];
     let msgAux = '';

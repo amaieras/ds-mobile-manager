@@ -50,6 +50,9 @@ import {
 import {SharedDsModule} from "../shared/shared-ds.module";
 import {RepairGSMDisplayDetailService} from "./repairGSMDisplay/repair-gsm-display-detail.service";
 import {RepairGSMDisplayDetailComponent} from "./repairGSMDisplay/repair-gsm-display-detail.component";
+import {RepairPfDoneComponent} from 'app/repairs/repairs-done/repairs-pf-done/repair-pf-done.component';
+import {RepairGsmDoneComponent} from "./repairs-done/repairs-gsm-done/repair-gsm-done.component";
+import {RepairGsmDisplayDoneComponent} from "./repairs-done/repairs-gsm-display-done/repair-gsm-display-done.component";
 
 
 @NgModule({
@@ -108,7 +111,10 @@ import {RepairGSMDisplayDetailComponent} from "./repairGSMDisplay/repair-gsm-dis
     RepairTypeListComponent,
     RepairPFDetailComponent,
     RepairGSMDetailComponent,
-    RepairGSMDisplayDetailComponent
+    RepairGSMDisplayDetailComponent,
+    RepairPfDoneComponent,
+    RepairGsmDoneComponent,
+    RepairGsmDisplayDoneComponent
 
   ],
   providers: [

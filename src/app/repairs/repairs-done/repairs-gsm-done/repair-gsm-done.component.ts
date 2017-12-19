@@ -1,15 +1,15 @@
 import { Component, OnInit } from "@angular/core";
 import { SelectItem,Message } from "primeng/primeng";
-import { RepairGSMDetailService } from "./repair-gsm-detail.service";
 import {Observable} from "rxjs/Observable";
-import {ClientGSM} from "../../model/ClientGSM";
-import {UtilService} from "../../utils/util.service";
+import {ClientGSM} from "../../../model/ClientGSM";
+import {RepairGSMDetailService} from "../../repairGSM/repair-gsm-detail.service";
+import {UtilService} from "../../../utils/util.service";
 
 @Component({
-  selector: 'repair-gsm-detail',
-  templateUrl: './repair-gsm-detail.component.html'
+  selector: 'repair-gsm-done',
+  templateUrl: './repair-gsm-done.component.html'
 })
-export class RepairGSMDetailComponent implements OnInit{
+export class RepairGsmDoneComponent implements OnInit{
   repairsGSM: ClientGSM[];
   cols: any[];
   columnOptions: SelectItem[];
@@ -24,7 +24,7 @@ export class RepairGSMDetailComponent implements OnInit{
   ngOnInit() {
     this.getClientsGSMList().subscribe(clientGSM => {
       this.dataSource = clientGSM.filter(function(item) {
-        return !item.isRepaired;
+        return item.isRepaired;
       });
       this.totalRecords = this.dataSource.length;
       this.repairsGSM = this.dataSource;

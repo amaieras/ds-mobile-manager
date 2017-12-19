@@ -22,8 +22,10 @@ export class RepairGSMDisplayDetailComponent implements OnInit{
   constructor(private _repairGSMDisplayService: RepairGSMDisplayDetailService, private _utilService: UtilService) { }
 
   ngOnInit() {
-    this.getClientsGSMDisplayList().subscribe(clientGSM => {
-      this.dataSource = clientGSM;
+    this.getClientsGSMDisplayList().subscribe(clientGSMDisplay => {
+      this.dataSource = clientGSMDisplay.filter(function(item) {
+        return !item.isRepaired;
+      });
       this.totalRecords = this.dataSource.length;
       this.repairsGSMDisplay = this.dataSource;
       this.loading = false;
@@ -33,7 +35,9 @@ export class RepairGSMDisplayDetailComponent implements OnInit{
         {field: 'phone', header: 'Numar telefon', filter: true, editable: true, sortable: true},
         {field: 'phoneList', header: 'Model', filter: true, sortable: true},
         {field: 'problem', header: 'Problema', filter: true, sortable: true},
-        {field: 'priceOffer', header: 'Oferta Pret', filter: true, editable: true, sortable: true},
+        {field: 'priceOffer', header: 'Oferta pret', filter: true, editable: true, sortable: true},
+        {field: 'priceOfferCash', header: 'Total cash', filter: true, editable: true, sortable: true},
+        {field: 'priceOfferCard', header: 'Total card', filter: true, editable: true, sortable: true},
         {field: 'city', header: 'Orasul', filter: true, editable: true, sortable: true},
         {field: 'deliveredDate', header: 'Data Predarii', filter: true, editable: false, sortable: true},
         {field: 'isRepaired', header: 'Finalizat?', filter: true, editable: false , sortable: true}
@@ -47,13 +51,29 @@ export class RepairGSMDisplayDetailComponent implements OnInit{
     });
 
   }
-
   updateField(event) {
     const fieldName = event.column.field;
     const fieldVal = event.data[fieldName];
     let obj = {};
     obj[fieldName] = fieldVal;
     this._repairGSMDisplayService.updateItem(event.data.$key, obj);
+    if(fieldName === "priceOfferCard" || fieldName === "priceOfferCash") {
+      let poVal = event.data['priceOffer']
+      if(fieldName === "priceOfferCard") {
+        obj['priceOfferCash'] = +poVal - +obj[fieldName];
+        if (obj['priceOfferCash'] > 0) {
+          this._repairGSMDisplayService.updateItem(event.data.$key, obj);
+        }
+      }
+      else {
+        obj['priceOfferCard'] = +poVal - +obj[fieldName];
+        if (obj['priceOfferCard'] > 0) {
+          this._repairGSMDisplayService.updateItem(event.data.$key, obj);
+        }
+      }
+      obj['priceOffer'] = +obj['priceOfferCard'] + +obj['priceOfferCash'];
+      this._repairGSMDisplayService.updateItem(event.data.$key, obj);
+    }
     this.successMessage(event.data.lastname, event.data.firstname, event.data.phone,'Valoare');
   }
 

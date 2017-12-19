@@ -38,7 +38,7 @@
                   <amexio-datapoints [north]="true" [center]="true" [south]="true">
                     <amexio-north [cClass]="'datapoint-north'">
                       <div class="data-counts">
-                        {{totalCash}} RON
+                        {{total}} RON
                       </div>
                     </amexio-north>
                     <amexio-center [cClass]="'datapoint-center'">
@@ -139,7 +139,9 @@
                 <amexio-center [contentalign]="'right'">
                   <amexio-datapoints [north]="true" [center]="true" [south]="true">
                     <amexio-north [cClass]="'datapoint-north'">
-                      Work In Progress
+                      <div class="data-counts">
+                        {{totalCard}} RON
+                      </div>
                     </amexio-north>
                     <amexio-center [cClass]="'datapoint-center'">
                       Total card

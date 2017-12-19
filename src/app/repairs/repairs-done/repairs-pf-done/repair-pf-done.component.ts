@@ -1,19 +1,18 @@
-import {Component, ElementRef, Inject, OnInit, Renderer2, ViewChild} from '@angular/core';
-import { RepairPFDetailService } from "./repair-pf-detail.service"
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {SelectItem, Message} from "primeng/primeng";
 import {Observable} from "rxjs/Observable";
-import {ClientPF} from "../../model/ClientPF";
-import {UtilService} from "../../utils/util.service";
-import {FormGroup} from "@angular/forms";
-import {ClientPFService} from "../../clients/clientPF/client-pf-detail.service";
-import {PrintReceiptComponent} from "../../shared/print/print-receipt.component";
-import {WarrantyInfo} from "../../model/WarrantyInfo";
+import {ClientPF} from "../../../model/ClientPF";
+import {PrintReceiptComponent} from "../../../shared/print/print-receipt.component";
+import {RepairPFDetailService} from "../../repairPF/repair-pf-detail.service";
+import {ClientPFService} from "../../../clients/clientPF/client-pf-detail.service";
+import {WarrantyInfo} from "../../../model/WarrantyInfo";
+import {UtilService} from "../../../utils/util.service";
 
 @Component({
-  selector: 'repair-pf-detail',
-  templateUrl: './repair-pf-detail.component.html'
+  selector: 'repair-pf-done',
+  templateUrl: './repair-pf-done.component.html'
 })
-export class RepairPFDetailComponent implements OnInit {
+export class RepairPfDoneComponent implements OnInit {
   repairsPF: ClientPF[];
   dataSource: ClientPF[];
   loading = true;
@@ -30,7 +29,6 @@ export class RepairPFDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-
     this.csvSeparator = ',';
 
     window.addEventListener('scroll', this.scroll, true); //third parameter
@@ -40,7 +38,7 @@ export class RepairPFDetailComponent implements OnInit {
       this.loading = true;
       this.getClientsPFList().subscribe(clientPF => {
         this.dataSource = clientPF.filter(function(item) {
-          return !item.isRepaired;
+          return item.isRepaired;
         });
         this.totalRecords = this.dataSource.length;
         this.repairsPF = this.dataSource;
@@ -183,9 +181,9 @@ export class RepairPFDetailComponent implements OnInit {
 
       //body
       data.forEach(entry => {
-           csv += '\n';
+        csv += '\n';
 
-          for (var i_1 = 0; i_1 < this.cols.length; i_1++) {
+        for (var i_1 = 0; i_1 < this.cols.length; i_1++) {
           var column = this.cols[i_1];
           if(column.field === 'imei' || column.field === 'problem'){
             if(column.field === 'imei'){
@@ -263,11 +261,11 @@ export class RepairPFDetailComponent implements OnInit {
         }
 
         if(field == 'addedDate' || field == 'appointmentDate' || field === 'deliveredDate'){
-            if(data[field] == '' || data[field] == null || data[field] === 'undefined') {
-              return '';
-            }else
-              var d = new Date(+data[field]);
-              auxDate = d.toLocaleDateString()  + "  " + d.toLocaleTimeString();
+          if(data[field] == '' || data[field] == null || data[field] === 'undefined') {
+            return '';
+          }else
+            var d = new Date(+data[field]);
+          auxDate = d.toLocaleDateString()  + "  " + d.toLocaleTimeString();
           return auxDate;
 
         }else{
@@ -275,7 +273,7 @@ export class RepairPFDetailComponent implements OnInit {
             return '';
           else {
             // if(data[field])
-              return data[field];
+            return data[field];
             // else return '';
           }
         }
@@ -300,13 +298,13 @@ export class RepairPFDetailComponent implements OnInit {
   printRepair(repair) {
     let problems = [];
     this._clientPFService.getAllClients().subscribe( client => {
-    repair.phoneList[0].problems.forEach(prbl => {
-      let problemName = prbl.problem.toLowerCase() === 'altele' ? prbl.partName : prbl.problem;
-      problems.push(problemName);
-      let warrantyInfo = new WarrantyInfo(repair.lastname, repair.firstname, repair.phone, repair.priceOffer, repair.phoneList[0].phoneColor,
-        repair.phoneList[0].imei, repair.phoneList[0].phoneBrand, repair.phoneList[0].phoneModel, repair.phoneList[0].observation, repair.tested,
-        repair.aboutUs, problems, repair.deliveredDate, repair.phoneList[0].phoneCode, client.length);
-      this.child.print(warrantyInfo);
+      repair.phoneList[0].problems.forEach(prbl => {
+        let problemName = prbl.problem.toLowerCase() === 'altele' ? prbl.partName : prbl.problem;
+        problems.push(problemName);
+        let warrantyInfo = new WarrantyInfo(repair.lastname, repair.firstname, repair.phone, repair.priceOffer, repair.phoneList[0].phoneColor,
+          repair.phoneList[0].imei, repair.phoneList[0].phoneBrand, repair.phoneList[0].phoneModel, repair.phoneList[0].observation, repair.tested,
+          repair.aboutUs, problems, repair.deliveredDate, repair.phoneList[0].phoneCode, client.length);
+        this.child.print(warrantyInfo);
       })
     })
   }
