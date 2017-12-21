@@ -77,7 +77,8 @@ export class PhoneListService implements OnInit {
   public getModelsOfBrands(brand: string){
     return this.modelList.snapshotChanges().map(arr => {
       return arr
-        .filter(snap => {return snap.payload.val().phoneId === brand})
+        .filter(snap => {
+          return snap.payload.val().phoneId.toLowerCase() === brand.toLowerCase()})
         .map(snap => Object.assign(snap.payload.val(), {$key: snap.key})
       )
     })

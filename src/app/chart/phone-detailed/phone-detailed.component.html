@@ -9,5 +9,5 @@
 
 <p-dropdown [options]="series" [(ngModel)]="selectedSeries" id="seriesDropdown" optionLabel="name" [disabled]="isDisabled" (onChange)="getStatisticsForSeries(selectedYear.name, $event)" placeholder="Selecteaza seria"></p-dropdown>
 <div class="container">
-  <p-chart type="bar" [data]="data"></p-chart>
+  <p-chart #chart type="bar" [data]="data"></p-chart>
 </div>

@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { ViewChild, Component, OnInit } from '@angular/core';
 import {RepairPFDetailService} from "../../repairs/repairPF/repair-pf-detail.service";
 import {PhoneListService} from "../../clients/clientPF/phone-list/phone-list.service";
 import {SelectItem} from "primeng/primeng";
+import {UIChart} from "primeng/components/chart/chart";
 
 @Component({
   selector: 'app-phone-detailed',
@@ -17,100 +18,17 @@ export class PhoneDetailedComponent implements OnInit {
   selectedYear: SelectItem;
   selectedSeries: SelectItem;
 
+  @ViewChild('chart') chart : UIChart;
+
   constructor(private repairPFService: RepairPFDetailService, private phoneService: PhoneListService) {
+
     this.isDisabled = true;
-
     this.series = [{name: 'S'},{name: 'A'},{name: 'J'}, {name: 'NOTE'}];
-
-     this.initChartDataset();
-
+    this.initChartDataset();
 
     this.phoneService.getBrandList().subscribe(item => {
       this.phoneBrands =  item
     });
-
-    // this.repairPFService.getClientsPFList().subscribe(item => {
-    //
-    //   this.initChartDataset();
-    //   let iphones=[], htc=[], samsung=[], huawei=[];
-    //
-    //   item.forEach(it => {
-    //
-    //     let auxI = it.phoneList.filter(ph =>
-    //     {
-    //       return ph.phoneBrand === 'Iphone' || ph.phoneBrand === 'APPLE'
-    //     });
-    //     if (auxI.length > 0)
-    //     iphones.push({
-    //       phone: auxI,
-    //       data: it.addedDate
-    //     });
-    //
-    //     let auxS = it.phoneList.filter(ph => {
-    //       return ph.phoneBrand === 'Samsung'
-    //     });
-    //     if(auxS.length > 0)
-    //       samsung.push({
-    //         phone: auxS,
-    //         data: it.addedDate
-    //       });
-    //
-    //
-    //     let auxHt = it.phoneList.filter(ph => {
-    //       return ph.phoneBrand === 'HTC'
-    //     });
-    //     if(auxHt.length > 0)
-    //       htc.push({
-    //         phone: auxHt,
-    //         data: it.addedDate
-    //       });
-    //
-    //     let auxHw = it.phoneList.filter(ph => {
-    //       return ph.phoneBrant === 'Huawei'
-    //     });
-    //     if(auxHw.length > 0)
-    //       huawei.push({
-    //         phone: auxHw,
-    //         data: it.addedDate
-    //       });
-    //   });
-    //
-    //   let obj: any;
-    //
-    //   let headers = {
-    //     label: 'IPHONE',
-    //     backgroundColor: '#0b1de5',
-    //     borderColor: '#1d19f5',
-    //   };
-    //
-    //   this.data.datasets.push(this.getDataset(this.getMonthlyCount(iphones), headers));
-    //
-    //
-    //   headers = {
-    //     label: 'SAMSUNG',
-    //     backgroundColor: '#e3e4e6',
-    //     borderColor: '#b6b7b9',
-    //   };
-    //
-    //   this.data.datasets.push(this.getDataset(this.getMonthlyCount(samsung), headers));
-    //
-    //   headers = {
-    //     label: 'HTC',
-    //     backgroundColor: '#36e53e',
-    //     borderColor: '#42f571',
-    //   };
-    //
-    //   this.data.datasets.push(this.getDataset(this.getMonthlyCount(htc), headers));
-    //
-    //   headers = {
-    //     label: 'HUAWEI',
-    //     backgroundColor: '#e5e50a',
-    //     borderColor: '#f5f240',
-    //   };
-    //
-    //   this.data.datasets.push(this.getDataset(this.getMonthlyCount(huawei), headers));
-    //
-    // });
 
   }
 
@@ -123,14 +41,6 @@ export class PhoneDetailedComponent implements OnInit {
   }
 
   getDataset(item, headers){
-
-    let hidden: boolean;
-    hidden = true;
-
-    if(headers.label === 'IPHONE')
-      hidden = false;
-
-
     let obj = {
       label: headers.label,
       backgroundColor: headers.backgroundColor,
@@ -174,7 +84,6 @@ export class PhoneDetailedComponent implements OnInit {
     let data = {jan: jan, feb: feb, mar: mar, apr: apr, mai: mai, iun: iun,
             iul: iul, aug: aug, sep: sep, oct: oct, nov: nov, dec: dec
     };
-console.log(data);
     return data;
   }
 
@@ -182,80 +91,84 @@ console.log(data);
   }
 
   getStatisticsForBrand(event){
+
     if(event.value.name === 'Samsung'){
       this.isDisabled = false;
     }
+
     else {
       this.isDisabled = true;
+      this.getStatisticsForSeries(event.value.name, event)
     }
   }
+
   getStatisticsForSeries(brand, event){
     this.data.datasets = [];
-    this.phoneService.getModelsOfSeries(brand.toLowerCase(), event.value.name).subscribe(item => {
+
+    if(brand === event.value.name) {
+
+      this.phoneService.getModelsOfBrands(brand).subscribe(item => {
+        item.forEach(it => {
+          this.pushModelToDataset(it);
+        })
+      });
+    }
+
+    else
+      this.phoneService.getModelsOfSeries(brand.toLowerCase(), event.value.name).subscribe(item => {
+
       item.forEach(it => {
-        let phones = [];
-        this.repairPFService.getClientsPFList().subscribe(clients => {
-          this.initChartDataset();
-
-
-          clients.forEach(client => {
-            let auxI = client.phoneList.filter(ph => {
-              return ph.phoneModel === it.name
-            });
-            if(auxI.length > 0)
-              phones.push({
-                phone: auxI,
-                data: client.addedDate
-              })
-          });
-          if(phones.length > 0){
-
-            let headers = {
-              label: it.name,
-              backgroundColor: '#0b1de5',
-              borderColor: '#1d19f5',
-              data: [0,0,0,0,0,0,0,0,1,1,1,0]
-            };
-            //this.data.datasets.push(this.getDataset(this.getMonthlyCount(phones), headers));
-            this.data.datasets.push(headers);
-            console.log(this.data.datasets)
-          }
-        });
-
-
+        this.pushModelToDataset(it);
       })
+
     });
 
-    // this.phoneService.getModelsOfBrands(this.selectedYear.name).subscribe(it => {
-    //   it.forEach(item => {
-    //     console.log('abc');
-    //     console.log(item);
-    //     // this.initChartDataset();
-    //
-    //     this.repairPFService.getClientsPFList().subscribe(clients => {
-    //       clients.forEach(client => {
-    //         console.log('haa')
-    //
-    //         let auxI = client.phoneList.filter(ph =>
-    //         {
-    //           console.log(event.value.name);
-    //           ph.phoneModel.match(event.value.name);
-    //           return ph.phoneBrand === this.selectedYear.value
-    //         });
-    //
-    //         if (auxI.length > 0)
-    //           phones.push({
-    //             phone: auxI,
-    //             data: client.addedDate
-    //           });
-    //       })
-    //     })
-    //
-    //   })
-    //
-    // })
+  }
+
+  private pushModelToDataset(it) {
+
+    let phones = [];
+
+    this.repairPFService.getClientsPFList().subscribe(clients => {
+
+      clients.forEach(client => {
+
+        let auxI = client.phoneList.filter(ph => {
+          return ph.phoneModel === it.name
+        });
+
+        if (auxI.length > 0)
+          phones.push({
+            phone: auxI,
+            data: client.addedDate
+          });
+      });
+
+      if (phones.length > 0) {
+
+        let headers = {
+          label: it.name,
+          backgroundColor: this.getRandomColor(),
+          borderColor: this.getRandomColor(),
+        };
+
+        this.data.datasets.push(this.getDataset(this.getMonthlyCount(phones), headers));
+        this.chart.refresh();
+
+      }
+
+    })
 
   }
+
+  private getRandomColor() {
+  var letters = '0123456789ABCDEF'.split('');
+  var color = '#';
+  for (var i = 0; i < 6; i++ ) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
 
 }
 
