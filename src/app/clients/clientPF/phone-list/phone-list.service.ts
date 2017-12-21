@@ -65,6 +65,7 @@ export class PhoneListService implements OnInit {
     });
 
   }
+
   public addNewBrand(brandName: string) {
     this.brandList.push({name: brandName});
   }
@@ -72,4 +73,36 @@ export class PhoneListService implements OnInit {
   public addNewModel(modelName: string, brandId: string) {
     this.modelList.push({name: modelName, phoneId: brandId});
   }
+
+  public getModelsOfBrands(brand: string){
+    return this.modelList.snapshotChanges().map(arr => {
+      return arr
+        .filter(snap => {return snap.payload.val().phoneId === brand})
+        .map(snap => Object.assign(snap.payload.val(), {$key: snap.key})
+      )
+    })
+  }
+
+  public getModelsOfSeries(brand:string, series: string){
+   return this.modelList.snapshotChanges().map(arr => {
+      return arr
+        .filter(snap => {
+          if(series === 'NOTE') {
+            if (snap.payload.val().name.includes(series) && snap.payload.val().phoneId === brand) {
+              return true
+            } else return false
+
+          }else{
+            if (snap.payload.val().name.startsWith(series) && snap.payload.val().phoneId === brand)
+              return true;
+            else return false;
+          }
+        })
+        .map(snap => Object.assign(snap.payload.val(), {$key: snap.key})
+        )
+   })
+
+  }
+
+
 }
