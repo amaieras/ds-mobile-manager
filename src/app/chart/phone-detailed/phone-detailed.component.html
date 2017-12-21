@@ -1,3 +1,13 @@
+<h3>Alege-ti modelul</h3>
+<p-dropdown [options]="phoneBrands" [(ngModel)]="selectedYear" placeholder="Selecteaza modelul" optionLabel="name" (onChange)="getStatisticsForBrand($event)">
+  <ng-template let-car pTemplate="item">
+    <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+      <div style="font-size:14px;float:right;margin-top:4px">{{car.label}}</div>
+    </div>
+  </ng-template>
+</p-dropdown>
+
+<p-dropdown [options]="series" [(ngModel)]="selectedSeries" id="seriesDropdown" optionLabel="name" [disabled]="isDisabled" (onChange)="getStatisticsForSeries(selectedYear.name, $event)" placeholder="Selecteaza seria"></p-dropdown>
 <div class="container">
-  <p-chart type="bar" [data]="data"></p-chart>
+  <p-chart #chart type="bar" [data]="data"></p-chart>
 </div>
