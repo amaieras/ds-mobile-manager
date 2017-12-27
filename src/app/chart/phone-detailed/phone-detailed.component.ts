@@ -13,10 +13,10 @@ export class PhoneDetailedComponent implements OnInit {
 
   data: any;
   series: any;
-  phoneBrands: SelectItem[];
+  phoneBrands: any[];
   isDisabled: boolean;
-  selectedYear: SelectItem;
-  selectedSeries: SelectItem;
+  selectedYear: any;
+  selectedSeries: any;
 
   @ViewChild('chart') chart : UIChart;
 

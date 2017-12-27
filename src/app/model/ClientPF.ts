@@ -18,6 +18,7 @@ export class ClientPF {
   appointmentDate:string;
   aboutUs:string;
   aboutUsName: string;
+  priceOfferCash:string;
   deliveredDate: string;
   isRepaired = false;
 

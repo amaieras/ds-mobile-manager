@@ -125,7 +125,8 @@ export class ClientPfDetailComponent implements OnInit {
     this.saveClientPF.phone = formModel.phone;
     this.saveClientPF.tested = formModel.tested;
     this.saveClientPF.aboutUs = this.selectedOtherName !== '' ? this.selectedOtherName : formModel.aboutUs;
-    this.saveClientPF.priceOffer = this.totalPrice === null ? '0' : this.totalPrice.toString() ;
+    this.saveClientPF.priceOffer = this.totalPrice === null ? '0' : this.totalPrice.toString();
+    this.saveClientPF.priceOfferCash = this.totalPrice === null ? '0' : this.totalPrice.toString() ;
     this.saveClientPF.appointmentDate = this.defaultDate.getTime().toString();
   }
 

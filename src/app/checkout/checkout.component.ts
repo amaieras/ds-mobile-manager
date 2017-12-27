@@ -71,20 +71,27 @@ export class CheckoutComponent implements OnInit {
             return clientDate.toDateString() === event.toDateString() && client.isRepaired;
           });
           clientPFIsRepaired.forEach(c => {
-            totalCash = totalCash + +c.priceOfferCash;
-            totalCard = totalCard + +c.priceOfferCard;
+            let priceCardAux = c.priceOfferCard === undefined ? 0 : c.priceOfferCard;
+            let priceCashAux = c.priceOfferCash === undefined ? 0 : c.priceOfferCash;
+            totalCash = totalCash + +priceCashAux;
+            totalCard = totalCard + +priceCardAux;
             total = total + +c.priceOffer;
           });
           clientGSMIsRepaired.forEach(c => {
-            totalCash = totalCash + +c.priceOfferCash;
-            totalCard = totalCard + +c.priceOfferCard;
+            let priceCardAux = c.priceOfferCard === undefined ? 0 : c.priceOfferCard;
+            let priceCashAux = c.priceOfferCash === undefined ? 0 : c.priceOfferCash;
+            totalCash = totalCash + +priceCashAux;
+            totalCard = totalCard + +priceCardAux;
             total = total + +c.priceOffer;
           });
           clientGSMDisplayIsRepaired.forEach(c => {
-            totalCash = totalCash + +c.priceOfferCash;
-            totalCard = totalCard + +c.priceOfferCard;
+            let priceCardAux = c.priceOfferCard === undefined ? 0 : c.priceOfferCard;
+            let priceCashAux = c.priceOfferCash === undefined ? 0 : c.priceOfferCash;
+            totalCash = totalCash + +priceCashAux;
+            totalCard = totalCard + +priceCardAux;
             total = total + +c.priceOffer;
           });
+
           this.totalCash = totalCash || 0;
           this.totalCard = totalCard  || 0;
           this.total = total || 0;
