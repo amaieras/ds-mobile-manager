@@ -37,7 +37,7 @@ export class DateFilterComponent implements OnInit {
     this.years = [];
     let currentYear = new Date().getFullYear();
     for(let i = 2017; i <= currentYear; i++){
-      this.years.push({label:""+currentYear, value: currentYear})
+      this.years.push({label:""+i, value: i})
     }
   }
   private initMonths() {
