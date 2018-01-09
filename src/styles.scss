@@ -140,9 +140,12 @@ table {
 
 .ui-state-default.ui-unselectable-text.ui-sortable-column span.ui-column-title {
   display: block;
-  height: 35px;
+  height: 55px;
 }
 
+.ui-state-default.ui-unselectable-text.ui-sortable-column.ng-star-inserted {
+  padding: 3px !important;
+}
 .data-counts {
   font-size: 1.5em;
 }
