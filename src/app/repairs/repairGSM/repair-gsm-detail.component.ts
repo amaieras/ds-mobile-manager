@@ -34,6 +34,8 @@ export class RepairGSMDetailComponent implements OnInit{
         {field: 'lastname', header: 'Nume', filter: true, editable: true, sortable: true},
         {field: 'phone', header: 'Numar telefon', filter: true, editable: true, sortable: true},
         {field: 'phoneList', header: 'Model', filter: true, sortable: true},
+        {field: 'observation', header: 'Observatii', filter: true, editable: true, sortable: true},
+        {field: 'phoneColor', header: 'Culoare', filter: true, editable: true, sortable: true},
         {field: 'problem', header: 'Problema', filter: true, sortable: true},
         {field: 'priceOffer', header: 'Oferta pret', filter: true, editable: true, sortable: true},
         {field: 'priceOfferCash', header: 'Total cash', filter: true, editable: true, sortable: true},
@@ -75,9 +77,18 @@ export class RepairGSMDetailComponent implements OnInit{
       obj['priceOffer'] = +obj['priceOfferCard'] + +obj['priceOfferCash'];
       this.repairGSMService.updateItem(event.data.$key, obj);
     }
-    this.successMessage(event.data.lastname, event.data.firstname, event.data.phone,'Valoare');
+    this.updateArrayItem(fieldName, event, fieldVal);
+    this.successMessage(event.data.lastname, event.data.phone,'Valoare');
   }
 
+  private updateArrayItem(fieldName: any, event, fieldVal: any) {
+    let obj = {};
+    if (fieldName === "observation" || fieldName === "phoneColor") {
+      event.data.phoneList[0][fieldName] = fieldVal;
+      obj['phoneList'] = event.data.phoneList;
+      this.repairGSMService.updateItem(event.data.$key, obj);
+    }
+  }
   getClientsGSMList(): Observable<any> {
     return this.repairGSMService.getClientsGSMList();
   }
@@ -228,14 +239,14 @@ export class RepairGSMDetailComponent implements OnInit{
     return rowData.isRepaired ? 'disabled-account-row' : '';
   }
 
-  successMessage(lastname, firstname, phone, msg) {
+  successMessage(lastname, phone, msg) {
     this.msgs = [];
     let msgAux = '';
-    if (lastname === undefined || firstname === undefined) {
+    if (lastname === undefined) {
       msgAux = ' modificata pentru clientul cu numarul de telefon: ' + phone;
     }
     else {
-      msgAux = ' modificata pentru clientul: ' + lastname + ' ' + firstname;
+      msgAux = ' modificata pentru clientul: ' + lastname;
     }
     this.msgs.push({
       severity: 'success',

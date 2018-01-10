@@ -52,6 +52,9 @@ export class RepairPfDoneComponent implements OnInit {
           {field: 'firm', header: 'Firma', filter: true, editable: true, sortable: true},
           {field: 'phone', header: 'Telefon', filter: true, editable: true, sortable: true},
           {field: 'phoneList', header: 'Model', filter: true, sortable: true},
+          {field: 'observation', header: 'Observatii', filter: true, editable: true, sortable: true},
+          {field: 'phoneColor', header: 'Culoare', filter: true, editable: true, sortable: true},
+          {field: 'phoneCode', header: 'Cod Telefon', filter: true, editable: true, sortable: true},
           {field: 'problem', header: 'Problema', filter: true, sortable: true},
           {field: 'imei', header: 'IMEI', filter: true, sortable: true},
           {field: 'priceOffer', header: 'Oferta pret', filter: true, editable: true, sortable: true},
@@ -111,9 +114,18 @@ export class RepairPfDoneComponent implements OnInit {
       obj['priceOffer'] = +obj['priceOfferCard'] + +obj['priceOfferCash'];
       this.repairPFService.updateItem(event.data.$key, obj);
     }
+    this.updateArrayItem(fieldName, event, fieldVal);
     this.successMessage(event.data.lastname, event.data.firstname, event.data.phone,'Valoare');
   }
 
+  private updateArrayItem(fieldName: any, event, fieldVal: any) {
+    let obj = {};
+    if (fieldName === "observation" || fieldName === "phoneColor" || fieldName === "phoneCode") {
+      event.data.phoneList[0][fieldName] = fieldVal;
+      obj['phoneList'] = event.data.phoneList;
+      this.repairPFService.updateItem(event.data.$key, obj);
+    }
+  }
   getClientsPFList(): Observable<any> {
     return this.repairPFService.getClientsPFList();
   }

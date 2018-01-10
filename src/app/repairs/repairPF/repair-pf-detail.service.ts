@@ -34,6 +34,10 @@ export class RepairPFDetailService {
       .catch(error => this.handleError(error));
   }
 
+  updateArrayItem(key: string, value: any): void {
+    this.repairsPF.set(key, value)
+      .catch(error => this.handleError(error));
+  }
   private handleError(error) {
     console.log(error);
   }

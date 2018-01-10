@@ -15,7 +15,7 @@
       Reparatii pentru clientii GSM
     </p-header>
     <p-column *ngFor="let column of cols" [field]="column.field" [header]="column.header" [filter]="column.filter" [editable]="column.editable" [sortable]="column.sortable" >
-      <ng-container *ngIf="column.field == 'addedDate'">
+      <ng-container *ngIf="column.field === 'addedDate'">
         <ng-template let-col let-row="rowData" pTemplate="body">
           <span [style.color]="row[col.field]">{{row[col.field] | date:"dd-MM-yyyy HH:mm"}}</span>
         </ng-template>
@@ -34,14 +34,28 @@
           <p-checkbox [(ngModel)]="row[col.field]" binary="true" (onChange)="updateCheckedItem(row)"></p-checkbox>
         </ng-template>
       </ng-container>
-      <ng-container *ngIf="column.field == 'phoneList'" >
+      <ng-container *ngIf="column.field === 'phoneList'" >
         <ng-template let-col let-childs="rowData.phoneList"  pTemplate="body">
           <div class="ui-grid ui-grid-responsive ui-grid-pad" *ngFor="let item of childs">
             <div class="ui-grid-col-10">{{item.phoneBrand}} {{item.phoneModel}};</div>
           </div>
         </ng-template>
       </ng-container>
-      <ng-container *ngIf="column.field == 'problem'" >
+      <ng-container *ngIf="column.field === 'observation'" >
+        <ng-template let-col let-childs="rowData.phoneList"  pTemplate="body">
+          <div class="ui-grid ui-grid-responsive ui-grid-pad" *ngFor="let item of childs">
+            <div class="ui-grid-col-10">{{item.observation}};</div>
+          </div>
+        </ng-template>
+      </ng-container>
+      <ng-container *ngIf="column.field === 'phoneColor'" >
+        <ng-template let-col let-childs="rowData.phoneList"  pTemplate="body">
+          <div class="ui-grid ui-grid-responsive ui-grid-pad" *ngFor="let item of childs">
+            <div class="ui-grid-col-10">{{item.phoneColor}};</div>
+          </div>
+        </ng-template>
+      </ng-container>
+      <ng-container *ngIf="column.field === 'problem'" >
         <ng-template let-col let-childs="rowData.phoneList"  pTemplate="body">
           <div class="ui-grid ui-grid-responsive ui-grid-pad" *ngFor="let item of childs">
             <div class="ui-grid-row" *ngFor="let it of item.problems">

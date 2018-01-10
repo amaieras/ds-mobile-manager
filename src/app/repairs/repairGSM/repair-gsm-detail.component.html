@@ -41,6 +41,20 @@
           </div>
         </ng-template>
       </ng-container>
+      <ng-container *ngIf="column.field == 'observation'" >
+        <ng-template let-col let-childs="rowData.phoneList"  pTemplate="body">
+          <div class="ui-grid ui-grid-responsive ui-grid-pad" *ngFor="let item of childs">
+            <div class="ui-grid-col-10">{{item.observation}};</div>
+          </div>
+        </ng-template>
+      </ng-container>
+      <ng-container *ngIf="column.field == 'phoneColor'" >
+        <ng-template let-col let-childs="rowData.phoneList"  pTemplate="body">
+          <div class="ui-grid ui-grid-responsive ui-grid-pad" *ngFor="let item of childs">
+            <div class="ui-grid-col-10">{{item.phoneColor}};</div>
+          </div>
+        </ng-template>
+      </ng-container>
       <ng-container *ngIf="column.field == 'problem'" >
         <ng-template let-col let-childs="rowData.phoneList"  pTemplate="body">
           <div class="ui-grid ui-grid-responsive ui-grid-pad" *ngFor="let item of childs">
