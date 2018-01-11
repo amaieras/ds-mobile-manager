@@ -1,5 +1,6 @@
 
 export class WarrantyInfo {
+  private _dateAdded: string;
   private _lastname: string;
   private _firstname: string;
   private _phoneNumber: string;
@@ -16,9 +17,10 @@ export class WarrantyInfo {
   private _phoneCode: string;
   private _noOfClients: number;
 
-  constructor(lastname: string, firstname: string, phoneNumber: string, price: number, phoneColor: string, imei: string, brandName: string,
+  constructor(dateAdded: string, lastname: string, firstname: string, phoneNumber: string, price: number, phoneColor: string, imei: string, brandName: string,
               modelName: string, observation: string, tested: string, aboutUs: string, parts: string[], deliveredTime: string, phoneCode: string,
               noOfClients: number) {
+    this._dateAdded = dateAdded;
     this._lastname = lastname;
     this._firstname = firstname;
     this._phoneNumber = phoneNumber;
@@ -36,7 +38,13 @@ export class WarrantyInfo {
     this._noOfClients = noOfClients;
   }
 
+  get dateAdded(): string {
+    return this._dateAdded;
+  }
 
+  set dateAdded(value: string) {
+    this._dateAdded = value;
+  }
   get noOfClients(): number {
     return this._noOfClients;
   }

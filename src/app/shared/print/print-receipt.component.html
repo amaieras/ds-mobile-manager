@@ -31,7 +31,7 @@
         <th>Culoare: <span class="input-data">{{warrantyInfo.phoneColor}}</span></th>
       </tr>
       <tr>
-        <th>Data Primirii: <span class="input-data">{{dateObj | date:'dd/MM/yyyy, hh:mm a'}}</span></th>
+        <th>Data Primirii: <span class="input-data">{{warrantyInfo.dateAdded | date:'dd/MM/yyyy, hh:mm a'}}</span></th>
         <th>IMEI: <span class="input-data">{{warrantyInfo.imei !== '' ? warrantyInfo.imei : 'No IMEI'}}</span></th>
       </tr>
       <tr>

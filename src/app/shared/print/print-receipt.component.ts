@@ -1,5 +1,4 @@
 import {ChangeDetectorRef, Component, Input, OnInit} from "@angular/core";
-import {FormGroup} from "@angular/forms";
 import {WarrantyInfo} from "../../model/WarrantyInfo";
 
 @Component({
