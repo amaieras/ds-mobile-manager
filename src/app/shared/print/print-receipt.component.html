@@ -19,52 +19,50 @@
     </div>
 
     <table class="table table-bordered">
-      <thead>
-      <tr>
-        <th>Tip Telefon: <span class="input-data">{{warrantyInfo.brandName}}</span></th>
-        <th>MODEL: <span class="input-data">{{warrantyInfo.modelName}}</span></th>
-      </tr>
-      </thead>
       <tbody>
       <tr>
-        <th></th>
-        <th>Culoare: <span class="input-data">{{warrantyInfo.phoneColor}}</span></th>
+        <td>Marca telefon: <span class="input-data">{{warrantyInfo.brandName}}</span></td>
+        <td>Nume client: <span class="input-data">{{warrantyInfo.lastname}} {{warrantyInfo.firstname}}</span></td>
       </tr>
       <tr>
-        <th>Data Primirii: <span class="input-data">{{dateObj | date:'dd/MM/yyyy, hh:mm a'}}</span></th>
-        <th>IMEI: <span class="input-data">{{warrantyInfo.imei !== '' ? warrantyInfo.imei : 'No IMEI'}}</span></th>
+        <td>Model telefon: <span class="input-data">{{warrantyInfo.modelName}}</span></td>
+        <td>Numar telefon client: <span class="input-data">{{warrantyInfo.phoneNumber}}</span></td>
       </tr>
       <tr>
-        <th></th>
-        <th>Acumulator: DA__NU__Seria:__________</th>
+        <td>Culoare: <span class="input-data">{{warrantyInfo.phoneColor}}</span></td>
+        <td>Data primirii: <span class="input-data">{{dateObj | date:'dd/MM/yyyy, hh:mm a'}}</span></td>
       </tr>
       <tr>
-        <th>Garanție:______DA__NU__</th>
-        <th>Încărcător: Seria:__________</th>
+        <td>IMEI: <span class="input-data">{{warrantyInfo.imei !== '' ? warrantyInfo.imei : 'No IMEI'}}</span></td>
+        <td>Termen de reparatie: <span class="input-data">____zile</span></td>
       </tr>
       <tr>
-        <th>Defect Constatat: <span *ngFor="let part of warrantyInfo.parts" class="input-data">{{part}}; </span></th>
-        <th>Piese  înlocuite: <span *ngFor="let part of warrantyInfo.parts" class="input-data">{{part}}; </span></th>
+        <td>Defect Constatat: <span *ngFor="let part of warrantyInfo.parts" class="input-data">{{part}}; </span></td>
+        <td>Data predarii: <span class="input-data">{{warrantyInfo.deliveredTime | date:'dd/MM/yyyy, hh:mm a'}}</span></td>
       </tr>
       <tr>
-        <th>Termen de reparare:________ zile</th>
-        <th>Data predării: <span class="input-data">{{warrantyInfo.deliveredTime | date:'dd/MM/yyyy, hh:mm a'}}</span></th>
+        <td>Preț estimativ: <span class="input-data">{{warrantyInfo.price}} RON </span></td>
+        <td>Garanție:______DA__NU__</td>
       </tr>
       <tr>
-        <th>Preț estimativ: <span class="input-data">{{warrantyInfo.price}} RON</span></th>
-        <th>Preț achitat:</th>
+        <td>Piese  înlocuite: <span *ngFor="let part of warrantyInfo.parts" class="input-data">{{part}}; </span></td>
+        <td>Observatii:</td>
       </tr>
       <tr>
-        <th>Nume client: <span class="input-data"> {{warrantyInfo.lastname}} {{warrantyInfo.firstname}}</span></th>
-        <th>Număr telefon: <span class="input-data"> {{warrantyInfo.phoneNumber}}</span></th>
+        <td>Valoare achitata: </td>
+        <td></td>
       </tr>
       <tr>
-        <th>Am luat la cunoștință / Semnătură predare telefon (client):</th>
-        <th>Am luat la cunoștință / Semnătură primire telefon (client):</th>
+        <td><span class="empty-cells">s</span></td>
+        <td> </td>
       </tr>
       <tr>
-        <th>Semnătură primire telefon (reprezentant service):</th>
-        <th>Semnătură predare telefon (reprezentant service):</th>
+        <td><span class="empty-cells">s</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Semnătură primire telefon in service (rep. DS mobile):</td>
+        <td>Semnătură primire telefon (client):</td>
       </tr>
       </tbody>
     </table>
@@ -101,64 +99,54 @@
       </div>
 
       <table class="table table-bordered">
-        <thead>
-        <tr>
-          <th>Tip Telefon: <span class="input-data">{{warrantyInfo.brandName}}</span></th>
-          <th>MODEL: <span class="input-data">{{warrantyInfo.modelName}}</span></th>
-        </tr>
-        </thead>
         <tbody>
         <tr>
-          <th></th>
-          <th>Culoare: <span class="input-data">{{warrantyInfo.phoneColor}}</span></th>
+          <td>Marcă telefon: <span class="input-data">{{warrantyInfo.brandName}}</span></td>
+          <td>Nume client: <span class="input-data">{{warrantyInfo.lastname}} {{warrantyInfo.firstname}}</span></td>
         </tr>
         <tr>
-          <th>Data Primirii: <span class="input-data">{{dateObj | date:'dd/MM/yyyy, hh:mm a'}}</span></th>
-          <th>IMEI: <span class="input-data">{{warrantyInfo.imei !== '' ? warrantyInfo.imei : 'No IMEI'}}</span></th>
+          <td>Model telefon: <span class="input-data">{{warrantyInfo.modelName}}</span></td>
+          <td>Număr telefon: <span class="input-data">{{warrantyInfo.phoneNumber}}</span></td>
         </tr>
         <tr>
-          <th></th>
-          <th>Acumulator: DA__NU__Seria:__________</th>
+          <td>Culoare: <span class="input-data">{{warrantyInfo.phoneColor}}</span></td>
+          <td>Proveniență client: <span class="input-data">{{dateObj | date:'dd/MM/yyyy, hh:mm a'}}</span></td>
+
         </tr>
         <tr>
-          <th>Garanție:______DA__NU__</th>
-          <th>Încărcător: Seria:__________</th>
+          <td>IMEI: <span class="input-data">{{warrantyInfo.imei !== '' ? warrantyInfo.imei : 'No IMEI'}}</span></td>
+          <td>Data primirii: <span class="input-data">{{dateObj | date:'dd/MM/yyyy, hh:mm a'}}</span></td>
         </tr>
         <tr>
-          <th></th>
-          <th>Cod Telefon: <span class="input-data">{{warrantyInfo.phoneCode}}</span></th>
+          <td>Cod telefon: <span class="input-data">{{warrantyInfo.phoneCode}}</span></td>
+          <td>Termen de reparație: <span class="input-data">____zile</span></td>
         </tr>
         <tr>
-          <th>Defect Constatat: <span *ngFor="let part of warrantyInfo.parts" class="input-data">{{part}}; </span></th>
-          <th>Piese  înlocuite: <span *ngFor="let part of warrantyInfo.parts" class="input-data">{{part}}; </span></th>
+          <td>Testat?: <span class="input-data">{{warrantyInfo.tested}}</span></td>
+          <td>Data predării: <span class="input-data">{{warrantyInfo.deliveredTime | date:'dd/MM/yyyy, hh:mm a'}}</span></td>
         </tr>
         <tr>
-          <th>Termen de reparare:________ zile</th>
-          <th>Data predării: <span class="input-data">{{warrantyInfo.deliveredTime | date:'dd/MM/yyyy, hh:mm a'}}</span></th>
+          <td>Defect Constatat: <span *ngFor="let part of warrantyInfo.parts" class="input-data">{{part}}; </span></td>
+          <td>Garanție:______DA__NU__</td>
         </tr>
         <tr>
-          <th>Preț estimativ: <span class="input-data">{{warrantyInfo.price}} RON</span></th>
-          <th>Preț achitat:</th>
+          <td>Preț estimativ: <span class="input-data">{{warrantyInfo.price}} RON </span></td>
+          <td>Observații:</td>
         </tr>
         <tr>
-          <th>Observații: <span class="input-data">{{warrantyInfo.observation}}</span></th>
-          <th>Testat?: <span class="input-data">{{warrantyInfo.tested}}</span></th>
+          <td>Piese  înlocuite: <span *ngFor="let part of warrantyInfo.parts" class="input-data">{{part}}; </span></td>
         </tr>
         <tr>
-          <th>Nume client: <span class="input-data"> {{warrantyInfo.lastname}} {{warrantyInfo.firstname}}</span></th>
-          <th>Număr telefon: <span class="input-data"> {{warrantyInfo.phoneNumber}}</span></th>
+          <td>Valoare achitată: </td>
+          <td></td>
         </tr>
         <tr>
-          <th>Proveniență client: <span class="input-data"> {{warrantyInfo.aboutUs}}</span></th>
-          <th></th>
+          <td><span class="empty-cells">s</span></td>
+          <td> </td>
         </tr>
         <tr>
-          <th>Semnătură predare telefon (client):</th>
-          <th>Semnătură primire telefon (client):</th>
-        </tr>
-        <tr>
-          <th>Semnătură primire telefon (reprezentant service):</th>
-          <th>Semnătură predare telefon (reprezentant service):</th>
+          <td>Semnătură primire telefon in service (rep. DS mobile):</td>
+          <td>Semnătură primire telefon (client):</td>
         </tr>
         </tbody>
       </table>

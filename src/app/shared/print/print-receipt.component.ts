@@ -52,6 +52,7 @@ export class PrintReceiptComponent implements OnInit {
             border:2px solid black !important;
             padding: 4px !important;
             text-align: left;
+            font-weight: bold;
           }
           .table-bordered {
             border: 2px solid black !important;
@@ -104,6 +105,9 @@ export class PrintReceiptComponent implements OnInit {
           }
           .col-md-offset-6{
             margin-left: 40%;
+          }
+          .empty-cells {
+            visibility:hidden
           }
         </style>
       </head>
