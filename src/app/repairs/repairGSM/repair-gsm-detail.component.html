@@ -70,9 +70,10 @@
       <ng-template pTemplate="header">
         Printeaza
       </ng-template>
-      <ng-template let-repair="rowData" pTemplate="body">
-        <button type="button" pButton (click)="printRepair(repair)" icon="fa-print"></button>
+      <ng-template let-repairGSM="rowData" pTemplate="body">
+        <button type="button" pButton (click)="printGSMRepair(repairGSM)" icon="fa-print"></button>
       </ng-template>
     </p-column>
   </p-dataTable>
+  <app-print-gsm-receipt></app-print-gsm-receipt>
 </div>

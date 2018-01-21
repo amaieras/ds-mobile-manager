@@ -30,7 +30,7 @@
       </tr>
       <tr>
         <td>Culoare: <span class="input-data">{{warrantyInfo.phoneColor}}</span></td>
-        <td>Data primirii: <span class="input-data">{{dateObj | date:'dd/MM/yyyy, hh:mm a'}}</span></td>
+        <td>Data primirii: <span class="input-data">{{warrantyInfo.dateAdded | date:'dd/MM/yyyy, hh:mm a'}}</span></td>
       </tr>
       <tr>
         <td>IMEI: <span class="input-data">{{warrantyInfo.imei !== '' ? warrantyInfo.imei : 'No IMEI'}}</span></td>
@@ -110,12 +110,12 @@
         </tr>
         <tr>
           <td>Culoare: <span class="input-data">{{warrantyInfo.phoneColor}}</span></td>
-          <td>Proveniență client: <span class="input-data">{{dateObj | date:'dd/MM/yyyy, hh:mm a'}}</span></td>
+          <td>Proveniență client: <span class="input-data">{{warrantyInfo.aboutUs}}</span></td>
 
         </tr>
         <tr>
           <td>IMEI: <span class="input-data">{{warrantyInfo.imei !== '' ? warrantyInfo.imei : 'No IMEI'}}</span></td>
-          <td>Data primirii: <span class="input-data">{{dateObj | date:'dd/MM/yyyy, hh:mm a'}}</span></td>
+          <td>Data primirii: <span class="input-data">{{warrantyInfo.dateAdded | date:'dd/MM/yyyy, hh:mm a'}}</span></td>
         </tr>
         <tr>
           <td>Cod telefon: <span class="input-data">{{warrantyInfo.phoneCode}}</span></td>

@@ -1,6 +1,5 @@
 import {ChangeDetectorRef, Component, Input, OnInit} from "@angular/core";
-import {FormGroup} from "@angular/forms";
-import {WarrantyInfo} from "../../model/WarrantyInfo";
+import {WarrantyInfo} from "../../../model/WarrantyInfo";
 
 @Component({
   selector: 'app-print-receipt',
@@ -10,7 +9,6 @@ import {WarrantyInfo} from "../../model/WarrantyInfo";
 export class PrintReceiptComponent implements OnInit {
   warrantyInfo: WarrantyInfo;
   dsMobilePhone: string;
-  dateObj = Date.now();
 
   constructor(private _changeDetector: ChangeDetectorRef) {
     this.dsMobilePhone = '0734.588.883';
@@ -20,7 +18,6 @@ export class PrintReceiptComponent implements OnInit {
   }
 
   print(warranty) {
-
     this.warrantyInfo = warranty;
     if (!this._changeDetector['destroyed']) {
       this._changeDetector.detectChanges();

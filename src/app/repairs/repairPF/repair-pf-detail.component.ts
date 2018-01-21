@@ -1,12 +1,11 @@
-import {Component, ElementRef, Inject, OnInit, Renderer2, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import { RepairPFDetailService } from "./repair-pf-detail.service"
 import {SelectItem, Message} from "primeng/primeng";
 import {Observable} from "rxjs/Observable";
 import {ClientPF} from "../../model/ClientPF";
 import {UtilService} from "../../utils/util.service";
-import {FormGroup} from "@angular/forms";
 import {ClientPFService} from "../../clients/clientPF/client-pf-detail.service";
-import {PrintReceiptComponent} from "../../shared/print/print-receipt.component";
+import {PrintReceiptComponent} from "../../shared/print/print-pf/print-receipt.component";
 import {WarrantyInfo} from "../../model/WarrantyInfo";
 
 @Component({
@@ -316,7 +315,7 @@ export class RepairPFDetailComponent implements OnInit {
     repair.phoneList[0].problems.forEach(prbl => {
       let problemName = prbl.problem.toLowerCase() === 'altele' ? prbl.partName : prbl.problem;
       problems.push(problemName);
-      let warrantyInfo = new WarrantyInfo(repair.lastname, repair.firstname, repair.phone, repair.priceOffer, repair.phoneList[0].phoneColor,
+      let warrantyInfo = new WarrantyInfo(repair.addedDate, repair.lastname, repair.firstname, repair.phone, repair.priceOffer, repair.phoneList[0].phoneColor,
         repair.phoneList[0].imei, repair.phoneList[0].phoneBrand, repair.phoneList[0].phoneModel, repair.phoneList[0].observation, repair.tested,
         repair.aboutUs, problems, repair.deliveredDate, repair.phoneList[0].phoneCode, client.length);
       this.child.print(warrantyInfo);

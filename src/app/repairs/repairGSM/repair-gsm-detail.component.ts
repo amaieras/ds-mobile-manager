@@ -1,9 +1,12 @@
-import { Component, OnInit } from "@angular/core";
+import {Component, OnInit, ViewChild} from "@angular/core";
 import { SelectItem,Message } from "primeng/primeng";
 import { RepairGSMDetailService } from "./repair-gsm-detail.service";
 import {Observable} from "rxjs/Observable";
 import {ClientGSM} from "../../model/ClientGSM";
 import {UtilService} from "../../utils/util.service";
+import {ClientGSMService} from "../../clients/clientGSM/client-gsm-detail.service";
+import {WarrantyGSMInfo} from "../../model/WarrantyGSMInfo";
+import {PrintGsmReceiptComponent} from "../../shared/print/print-gsm/print-gsm-receipt.component";
 
 @Component({
   selector: 'repair-gsm-detail',
@@ -18,8 +21,9 @@ export class RepairGSMDetailComponent implements OnInit{
   loading = true;
   totalRecords: number;
   csvSeparator: string;
+  @ViewChild(PrintGsmReceiptComponent) child: PrintGsmReceiptComponent;
 
-  constructor(private repairGSMService: RepairGSMDetailService, private _utilService: UtilService) { }
+  constructor(private repairGSMService: RepairGSMDetailService, private _clientGSMService: ClientGSMService, private _utilService: UtilService) { }
 
   ngOnInit() {
     this.getClientsGSMList().subscribe(clientGSM => {
@@ -238,7 +242,19 @@ export class RepairGSMDetailComponent implements OnInit{
   disabledRow(rowData: ClientGSM) {
     return rowData.isRepaired ? 'disabled-account-row' : '';
   }
+  printGSMRepair(repairGSM) {
+    let problems = [];
+    this._clientGSMService.getAllClients().subscribe( client => {
+      repairGSM.phoneList[0].problems.forEach(prbl => {
 
+        let problemName = prbl.problem.toLowerCase() === 'altele' ? prbl.partName : prbl.problem;
+        problems.push(problemName);
+        let warrantyGSMInfo = new WarrantyGSMInfo(repairGSM.addedDate, repairGSM.lastname, repairGSM.phone, repairGSM.priceOffer, repairGSM.phoneList[0].phoneColor,
+          repairGSM.phoneList[0].phoneBrand, repairGSM.phoneList[0].phoneModel, repairGSM.phoneList[0].observation, client.length);
+          this.child.print(warrantyGSMInfo);
+      })
+    })
+  }
   successMessage(lastname, phone, msg) {
     this.msgs = [];
     let msgAux = '';

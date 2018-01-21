@@ -1,40 +1,26 @@
 
-export class WarrantyInfo {
+export class WarrantyGSMInfo {
   private _dateAdded: string;
   private _lastname: string;
-  private _firstname: string;
   private _phoneNumber: string;
   private _price: number;
   private _phoneColor: string;
-  private _imei: string;
   private _brandName: string;
   private _modelName: string;
   private _observation: string;
-  private _tested: string;
-  private _aboutUs: string;
-  private _parts: string[];
-  private _deliveredTime : string;
-  private _phoneCode: string;
+
   private _noOfClients: number;
 
-  constructor(dateAdded: string, lastname: string, firstname: string, phoneNumber: string, price: number, phoneColor: string, imei: string, brandName: string,
-              modelName: string, observation: string, tested: string, aboutUs: string, parts: string[], deliveredTime: string, phoneCode: string,
-              noOfClients: number) {
+  constructor(dateAdded: string, lastname: string, phoneNumber: string, price: number, phoneColor: string, brandName: string,
+              modelName: string, observation: string, noOfClients: number) {
     this._dateAdded = dateAdded;
     this._lastname = lastname;
-    this._firstname = firstname;
     this._phoneNumber = phoneNumber;
     this._price = price;
     this._phoneColor = phoneColor;
-    this._imei = imei;
     this._brandName = brandName;
     this._modelName = modelName;
     this._observation = observation;
-    this._tested = tested;
-    this._aboutUs = aboutUs;
-    this._parts = parts;
-    this._deliveredTime = deliveredTime;
-    this._phoneCode = phoneCode;
     this._noOfClients = noOfClients;
   }
 
@@ -53,44 +39,6 @@ export class WarrantyInfo {
     this._noOfClients = value;
   }
 
-  get phoneCode(): string {
-    return this._phoneCode;
-  }
-
-  set phoneCode(value: string) {
-    this._phoneCode = value;
-  }
-
-  get deliveredTime(): string {
-    return this._deliveredTime;
-  }
-
-  set deliveredTime(value: string) {
-    this._deliveredTime = value;
-  }
-
-  get parts(): string[] {
-    return this._parts;
-  }
-
-  set parts(value: string[]) {
-    this._parts = value;
-  }
-
-  get tested(): string {
-    return this._tested;
-  }
-
-  set tested(value: string) {
-    this._tested = value;
-  }
-  get aboutUs(): string {
-    return this._aboutUs;
-  }
-
-  set aboutUs(value: string) {
-    this._aboutUs = value;
-  }
   get observation(): string {
     return this._observation;
   }
@@ -105,14 +53,6 @@ export class WarrantyInfo {
 
   set lastname(value: string) {
     this._lastname = value;
-  }
-
-  get firstname(): string {
-    return this._firstname;
-  }
-
-  set firstname(value: string) {
-    this._firstname = value;
   }
 
   get phoneNumber(): string {
@@ -137,14 +77,6 @@ export class WarrantyInfo {
 
   set phoneColor(value: string) {
     this._phoneColor = value;
-  }
-
-  get imei(): string {
-    return this._imei;
-  }
-
-  set imei(value: string) {
-    this._imei = value;
   }
 
   get brandName(): string {
