@@ -225,7 +225,9 @@
       <!--</div>-->
     <!--</div>-->
       <button type="submit" class="btn btn-default btn-bottom"
-              [disabled]="clientGSMForm.invalid">Salveaza/Printeaza</button>
+              [disabled]="clientGSMForm.invalid"
+              (click)="print()">Salveaza/Printeaza</button>
+    <app-print-gsm-receipt></app-print-gsm-receipt>
   </form>
 
 </div>

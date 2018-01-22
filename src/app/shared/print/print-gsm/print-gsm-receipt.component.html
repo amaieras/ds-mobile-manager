@@ -6,7 +6,7 @@
         </div>
         <div class="col-md-3" style="margin-left: 11%;">
           <h4 class="center-title title-epmhasis">Proces verbal de primire/ predare în service <br>(garanție)</h4>
-          <h3 class="center-title title-epmhasis">Fișă Client </h3>
+          <h3 class="center-title title-epmhasis">Fișă GSM </h3>
         </div>
         <div class="col-md-3" style="margin-left: 17%; width:22% !important; margin-bottom: 7%;">
           <h3 class="title-epmhasis">Nr.: <span class="input-data">{{warrantyGSMInfo.noOfClients + 1}}</span></h3>
@@ -19,133 +19,37 @@
     </div>
 
     <table class="table table-bordered">
+      <thead>
+      <tr>
+        <th><span class="head-1-gsm">Nume: <span class="input-data">{{warrantyGSMInfo.lastname}}</span></span></th>
+        <th><span class="head-1-gsm">Data intrare: <span class="input-data">{{warrantyGSMInfo.dateAdded | date:'dd/MM/yyyy, hh:mm a'}}</span></span></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th><span class="head-1-gsm">Nr telefon: <span class="input-data">{{warrantyGSMInfo.phoneNumber}}</span></span></th>
+      </tr>
+      <tr>
+        <th>Tip telefon</th>
+        <th>Model</th>
+        <th>Culoare</th>
+        <th>Cantitate</th>
+        <th>Solicitare/problema</th>
+        <th>Pret</th>
+        <th>Observatii</th>
+      </tr>
+      </thead>
       <tbody>
-      <tr>
-        <td>Marca telefon: <span class="input-data">{{warrantyGSMInfo.brandName}}</span></td>
-        <td>Nume client: <span class="input-data">{{warrantyGSMInfo.lastname}}</span></td>
-      </tr>
-      <tr>
-        <td>Model telefon: <span class="input-data">{{warrantyGSMInfo.modelName}}</span></td>
-        <td>Numar telefon client: <span class="input-data">{{warrantyGSMInfo.phoneNumber}}</span></td>
-      </tr>
-      <tr>
-        <td>Culoare: <span class="input-data">{{warrantyGSMInfo.phoneColor}}</span></td>
-        <td>Data primirii: <span class="input-data">{{warrantyGSMInfo.dateAdded | date:'dd/MM/yyyy, hh:mm a'}}</span></td>
-      </tr>
-      <tr>
-        <td>Termen de reparatie: <span class="input-data">____zile</span></td>
-      </tr>
-      <tr>
-        <td>Defect Constatat: <span *ngFor="let part of warrantyGSMInfo.parts" class="input-data">{{part}}; </span></td>
-        <td>Data predarii: <span class="input-data">{{warrantyGSMInfo.deliveredTime | date:'dd/MM/yyyy, hh:mm a'}}</span></td>
-      </tr>
-      <tr>
-        <td>Preț estimativ: <span class="input-data">{{warrantyGSMInfo.price}} RON </span></td>
-        <td>Garanție:______DA__NU__</td>
-      </tr>
-      <tr>
-        <td>Piese  înlocuite: <span *ngFor="let part of warrantyGSMInfo.parts" class="input-data">{{part}}; </span></td>
-        <td>Observatii:</td>
-      </tr>
-      <tr>
-        <td>Valoare achitata: </td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><span class="empty-cells">s</span></td>
-        <td> </td>
-      </tr>
-      <tr>
-        <td><span class="empty-cells">s</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>Semnătură primire telefon in service (rep. DS mobile):</td>
-        <td>Semnătură primire telefon (client):</td>
+      <tr *ngFor="let phone of warrantyGSMInfo.phoneList">
+        <td>{{phone.phoneBrand}}</td>
+        <td>{{phone.phoneModel}}</td>
+        <td>{{phone.phoneColor}}</td>
+        <td>{{phone.phoneQuantity}}</td>
+        <td><span *ngFor="let part of warrantyGSMInfo.parts">{{part}};</span></td>
+        <td>{{warrantyGSMInfo.price}}</td>
+        <td>{{phone.observation}}</td>
       </tr>
       </tbody>
     </table>
-    <div class="footer">
-      <span class="title-epmhasis">Notă: </span> Garanția se acordă doar pentru
-      defecțiunea remediată și nu pentru alte defecțiuni nesolicitate sau apărute pe parcursul garanției. În cazul telefoanelor cu defecțiuni grave, firma
-      nu își asumă nici un fel de responsabilitate dacă în urma procesului de reparație, acesta manifestă și alte defecte decât acelea pentru care a fost
-      solicitată reparația( nu pornește, nu are semnal, nu încarcă, etc.).<br/>
-      <span style="padding-left:4em">DS Mobile oferă 2 ani garanție pe manoperă si 30 de zile garanție pentru ecranele cu sticla schimbată, ecrane vândute,
-      baterie sau piese înlocuite. Orice problemă apărută, în această perioadă( mai puțin situațiile enumerate mai jos) se va remedia în cel mult 4 zile lucrătoare, în mod
-      gratuit.</span><br/><br/>
-      <span class="title-epmhasis" >GARANŢIA nu acoperă următoarele situații: </span>
-      <ul>
-        <li>contactul cu lichide</li>
-        <li>șocuri mecanice și urme de lovituri pe display sau ramă</li>
-        <li>sticlă spartă sau display (lcd/ecran) spart</li>
-        <li><span class="title-epmhasis">dacă apar dungi pe display, situație valabilă pentru modelele Samsung S7 EDGE</span></li>
-      </ul>
-      <span class="title-epmhasis">ATENŢIE:</span>  În cazul operațiunilor de programare software, datele personale din telefon( contacte, calendar, albume,
-      multimedia, etc.) pot fi șterse irecuperabil. Aparatele vor fi predate în maxim 30 de zile de la data reparației. După acest termen, firma nu mai
-      răspunde de acestea!
-    </div>
-  </div>
-
-  <div class="dotted-border">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-3" style="margin-left: 11%;">
-          <h3 class="center-title title-epmhasis">DS Mobile </h3>
-        </div>
-        <div class="col-md-3" style="margin-left: 17%; width:22% !important;">
-          <h3 class="title-epmhasis">Nr.: <span class="input-data">{{warrantyGSMInfo.noOfClients + 1}}</span></h3>
-        </div>
-      </div>
-
-      <table class="table table-bordered">
-        <tbody>
-        <tr>
-          <td>Marcă telefon: <span class="input-data">{{warrantyGSMInfo.brandName}}</span></td>
-          <td>Nume client: <span class="input-data">{{warrantyGSMInfo.lastname}}</span></td>
-        </tr>
-        <tr>
-          <td>Model telefon: <span class="input-data">{{warrantyGSMInfo.modelName}}</span></td>
-          <td>Număr telefon: <span class="input-data">{{warrantyGSMInfo.phoneNumber}}</span></td>
-        </tr>
-        <tr>
-          <td>Culoare: <span class="input-data">{{warrantyGSMInfo.phoneColor}}</span></td>
-
-        </tr>
-        <tr>
-          <td>Data primirii: <span class="input-data">{{warrantyGSMInfo.dateAdded | date:'dd/MM/yyyy, hh:mm a'}}</span></td>
-        </tr>
-        <tr>
-          <td>Termen de reparație: <span class="input-data">____zile</span></td>
-        </tr>
-        <tr>
-          <td>Data predării: <span class="input-data">{{warrantyGSMInfo.deliveredTime | date:'dd/MM/yyyy, hh:mm a'}}</span></td>
-        </tr>
-        <tr>
-          <td>Defect Constatat: <span *ngFor="let part of warrantyGSMInfo.parts" class="input-data">{{part}}; </span></td>
-          <td>Garanție:______DA__NU__</td>
-        </tr>
-        <tr>
-          <td>Preț estimativ: <span class="input-data">{{warrantyGSMInfo.price}} RON </span></td>
-          <td>Observații:</td>
-        </tr>
-        <tr>
-          <td>Piese  înlocuite: <span *ngFor="let part of warrantyGSMInfo.parts" class="input-data">{{part}}; </span></td>
-        </tr>
-        <tr>
-          <td>Valoare achitată: </td>
-          <td></td>
-        </tr>
-        <tr>
-          <td><span class="empty-cells">s</span></td>
-          <td> </td>
-        </tr>
-        <tr>
-          <td>Semnătură primire telefon in service (rep. DS mobile):</td>
-          <td>Semnătură primire telefon (client):</td>
-        </tr>
-        </tbody>
-      </table>
-
-    </div>
   </div>
 </div>

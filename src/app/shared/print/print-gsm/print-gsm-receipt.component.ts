@@ -105,6 +105,9 @@ export class PrintGsmReceiptComponent implements OnInit {
           .empty-cells {
             visibility:hidden
           }
+           .head-1-gsm{
+            font-size: 2em;
+          }
         </style>
       </head>
   <body>${innerContents}</body>

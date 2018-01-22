@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Message} from "primeng/primeng";
 import {FormControl, FormGroup, Validators, FormBuilder, FormArray} from "@angular/forms";
 import { ClientGSMService} from "./client-gsm-detail.service";
 import {Address} from "../../model/Address";
 import {ClientGSM} from "../../model/ClientGSM";
 import {PhoneList} from "../../model/PhoneList";
+import {WarrantyGSMInfo} from "../../model/WarrantyGSMInfo";
+import {PrintGsmReceiptComponent} from "../../shared/print/print-gsm/print-gsm-receipt.component";
 
 @Component({
   selector: 'client-gsm-detail',
@@ -15,14 +17,22 @@ export class ClientGSMDetailComponent implements OnInit {
   clientGSMForm: FormGroup;
   clientGSM: ClientGSM = new ClientGSM();
   saveClientGSM: ClientGSM = new ClientGSM();
+  defaultDate: Date = new Date();
   totalPrice = 0;
   totalNoQuantity = 0;
+  warrantyGSMInfo: WarrantyGSMInfo;
+  @ViewChild(PrintGsmReceiptComponent ) child: PrintGsmReceiptComponent;
+  noOfClients: number = 0;
+
   constructor(
     private fb: FormBuilder,
     private clientGSMService: ClientGSMService
   ) { }
 
   ngOnInit() {
+    this.clientGSMService.getAllClients().subscribe( client => {
+      this.noOfClients = client.length;
+    })
     this.clientGSMForm = new FormGroup({
       'lastname': new FormControl('', [
         Validators.required
@@ -100,7 +110,6 @@ export class ClientGSMDetailComponent implements OnInit {
   onSubmit(event: Event) {
     this.prepareSaveClientGSM();
     this.clientGSM = this.saveClientGSM;
-    event.preventDefault();
     this.clientGSMService.addGSMClient(this.clientGSM);
     this.resetAfterSubumit();
     this.successMessage();
@@ -143,7 +152,26 @@ export class ClientGSMDetailComponent implements OnInit {
       this.shipmentAddress.push(this.fb.group(new Address()));
     }
   }
+  print() {
+    this.clientGSMForm.patchValue({appointment: this.defaultDate.getTime().toString()});
+    this.setWarrantyInfo();
+    this.child.print(this.warrantyGSMInfo);
+    let event: Event;
+    this.onSubmit(event);
+  }
 
+  private setWarrantyInfo() {
+    const formModel = this.clientGSMForm.value;
+    let problems = [];
+    formModel.phoneList[0].problems.forEach(prbl => {
+      let problemName = prbl.problem.toLowerCase() === 'altele' ? prbl.partName : prbl.problem;
+      problems.push(problemName);
+      let dateNow = Date.now().toString();
+      this.warrantyGSMInfo = new WarrantyGSMInfo(dateNow, formModel.lastname, formModel.phone, this.totalPrice,
+        formModel.phoneList[0].phoneColor, formModel.phoneList[0].phoneBrand
+        , formModel.phoneList[0].phoneModel, formModel.phoneList[0].observation, this.noOfClients + 1, formModel.phoneList, problems)
+    })
+  }
   successMessage() {
     this.msgs = [];
     this.msgs.push({severity:'success', summary:'Adauga Client GSM', detail:'Client GSM adaugat cu success.'});

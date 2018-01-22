@@ -246,11 +246,12 @@ export class RepairGSMDetailComponent implements OnInit{
     let problems = [];
     this._clientGSMService.getAllClients().subscribe( client => {
       repairGSM.phoneList[0].problems.forEach(prbl => {
-
         let problemName = prbl.problem.toLowerCase() === 'altele' ? prbl.partName : prbl.problem;
         problems.push(problemName);
-        let warrantyGSMInfo = new WarrantyGSMInfo(repairGSM.addedDate, repairGSM.lastname, repairGSM.phone, repairGSM.priceOffer, repairGSM.phoneList[0].phoneColor,
-          repairGSM.phoneList[0].phoneBrand, repairGSM.phoneList[0].phoneModel, repairGSM.phoneList[0].observation, client.length);
+        let warrantyGSMInfo = new WarrantyGSMInfo(repairGSM.addedDate, repairGSM.lastname, repairGSM.phone,
+          repairGSM.priceOffer, repairGSM.phoneList[0].phoneColor, repairGSM.phoneList[0].phoneBrand,
+          repairGSM.phoneList[0].phoneModel, repairGSM.phoneList[0].observation, client.length,
+          repairGSM.phoneList, problems);
           this.child.print(warrantyGSMInfo);
       })
     })

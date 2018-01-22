@@ -8,11 +8,12 @@ export class WarrantyGSMInfo {
   private _brandName: string;
   private _modelName: string;
   private _observation: string;
-
+  private _phoneList: string[];
+  private _parts: string[];
   private _noOfClients: number;
 
   constructor(dateAdded: string, lastname: string, phoneNumber: string, price: number, phoneColor: string, brandName: string,
-              modelName: string, observation: string, noOfClients: number) {
+              modelName: string, observation: string, noOfClients: number, phoneList: string[], parts: string[]) {
     this._dateAdded = dateAdded;
     this._lastname = lastname;
     this._phoneNumber = phoneNumber;
@@ -22,6 +23,8 @@ export class WarrantyGSMInfo {
     this._modelName = modelName;
     this._observation = observation;
     this._noOfClients = noOfClients;
+    this._phoneList = phoneList;
+    this._parts = parts;
   }
 
   get dateAdded(): string {
@@ -93,5 +96,20 @@ export class WarrantyGSMInfo {
 
   set modelName(value: string) {
     this._modelName = value;
+  }
+  get phoneList(): string[] {
+    return this._phoneList;
+  }
+
+  set phoneList(value: string[]) {
+    this._phoneList = value;
+  }
+
+  get parts(): string[] {
+    return this._parts;
+  }
+
+  set parts(value: string[]) {
+    this._parts = value;
   }
 }

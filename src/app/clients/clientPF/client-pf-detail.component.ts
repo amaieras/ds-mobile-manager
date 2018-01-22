@@ -336,7 +336,7 @@ export class ClientPfDetailComponent implements OnInit {
       this.warrantyInfo = new WarrantyInfo(dateNow, formModel.lastname,
         formModel.firstname, formModel.phone, this.totalPrice, formModel.phoneList[0].phoneColor, formModel.phoneList[0].imei, formModel.phoneList[0].phoneBrand
         , formModel.phoneList[0].phoneModel, formModel.phoneList[0].observation, formModel.tested, formModel.aboutUs, problems, formModel.appointment,
-        formModel.phoneList[0].phoneCode, this.noOfClients)
+        formModel.phoneList[0].phoneCode, this.noOfClients + 1)
     })
   }
 
