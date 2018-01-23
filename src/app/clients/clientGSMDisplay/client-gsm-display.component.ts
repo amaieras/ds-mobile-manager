@@ -1,11 +1,11 @@
-
-
-import {Component, OnInit} from "@angular/core";
+import {Component, OnInit, ViewChild} from "@angular/core";
 import {FormGroup, FormControl, Validators, FormBuilder, FormArray} from "@angular/forms";
 import {PhoneList} from "../../model/PhoneList";
 import {ClientGSMDisplay} from "../../model/ClientGSMDisplay";
 import {ClientGSMDisplayService} from "./client-gsm-display-detail.service";
 import {Message} from "primeng/primeng";
+import {PrintGsmReceiptComponent} from "../../shared/print/print-gsm/print-gsm-receipt.component";
+import {WarrantyGSMInfo} from "../../model/WarrantyGSMInfo";
 
 
 @Component({
@@ -16,15 +16,22 @@ import {Message} from "primeng/primeng";
 export class ClientGSMDisplayComponent implements OnInit {
   msgs: Message[] = [];
   clientGSMDisplayForm: FormGroup;
+  defaultDate: Date = new Date();
   clientGSMDisplay: ClientGSMDisplay = new ClientGSMDisplay();
   saveclientGSMDisplay: ClientGSMDisplay = new ClientGSMDisplay();
   totalPrice = 0;
+  noOfClients: number = 0;
   totalNoQuantity = 0;
+  warrantyGSMInfo: WarrantyGSMInfo;
+  @ViewChild(PrintGsmReceiptComponent ) child: PrintGsmReceiptComponent;
 
   constructor( private fb: FormBuilder, private _clientGSMDisplayService: ClientGSMDisplayService) {
   }
 
   ngOnInit(){
+    this._clientGSMDisplayService.getAllClients().subscribe( client => {
+      this.noOfClients = client.length;
+    })
     this.clientGSMDisplayForm = new FormGroup({
       'lastname': new FormControl('', [
         Validators.required
@@ -45,7 +52,6 @@ export class ClientGSMDisplayComponent implements OnInit {
   onSubmit(event: Event) {
     this.prepareSaveclientGSMDisplay();
     this.clientGSMDisplay = this.saveclientGSMDisplay;
-    event.preventDefault();
     this._clientGSMDisplayService.addGSMDisplayClient(this.clientGSMDisplay);
     this.resetAfterSubumit();
     this.successMessage();
@@ -112,6 +118,26 @@ export class ClientGSMDisplayComponent implements OnInit {
       problems: this.fb.array([]),
       observation: '',
       displayOpType: ''
+    })
+  }
+  print() {
+    this.clientGSMDisplayForm.patchValue({appointment: this.defaultDate.getTime().toString()});
+    this.setWarrantyInfo();
+    this.child.print(this.warrantyGSMInfo);
+    let event: Event;
+    this.onSubmit(event);
+  }
+
+  private setWarrantyInfo() {
+    const formModel = this.clientGSMDisplayForm.value;
+    let problems = [];
+    formModel.phoneList[0].problems.forEach(prbl => {
+      let problemName = prbl.problem.toLowerCase() === 'altele' ? prbl.partName : prbl.problem;
+      problems.push(problemName);
+      let dateNow = Date.now().toString();
+      this.warrantyGSMInfo = new WarrantyGSMInfo(dateNow, formModel.lastname, formModel.phone, this.totalPrice,
+        formModel.phoneList[0].phoneColor, formModel.phoneList[0].phoneBrand
+        , formModel.phoneList[0].phoneModel, formModel.phoneList[0].observation, this.noOfClients + 1, formModel.phoneList, problems)
     })
   }
   successMessage() {

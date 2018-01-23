@@ -14,4 +14,10 @@ export class ClientGSMDisplayService {
   addGSMDisplayClient(clientsGSMDisplay: ClientGSMDisplay): void {
     this.clientsGSMDisplay.push(clientsGSMDisplay);
   }
+
+  public getAllClients() {
+    return this.clientsGSMDisplay.snapshotChanges().map(arr => {
+      return arr.map(snap => Object.assign(snap.payload.val(), {$key: snap.key}));
+    });
+  }
 }

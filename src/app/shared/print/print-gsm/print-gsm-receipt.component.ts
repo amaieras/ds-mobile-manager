@@ -8,6 +8,7 @@ import {WarrantyGSMInfo} from "../../../model/WarrantyGSMInfo";
 export class PrintGsmReceiptComponent implements OnInit {
   warrantyGSMInfo: WarrantyGSMInfo;
   dsMobilePhone: string;
+  warrantyGSMInfoDeepCopy: any;
 
   constructor(private _changeDetector: ChangeDetectorRef) {
     this.dsMobilePhone = '0734.588.883';
@@ -18,12 +19,14 @@ export class PrintGsmReceiptComponent implements OnInit {
 
   print(warranty) {
     this.warrantyGSMInfo = warranty;
+    this.addEmptyCells();
     if (!this._changeDetector['destroyed']) {
       this._changeDetector.detectChanges();
     }
     if (!this._changeDetector['destroyed']) {
       this._changeDetector.detectChanges();
     }
+    console.log()
     let popupWin;
     let innerContents = document.getElementById('print-section').innerHTML;
     popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
@@ -46,7 +49,7 @@ export class PrintGsmReceiptComponent implements OnInit {
           }
           th, td{
             border:2px solid black !important;
-            padding: 4px !important;
+            padding: 10px !important;
             text-align: left;
             font-weight: bold;
           }
@@ -57,9 +60,8 @@ export class PrintGsmReceiptComponent implements OnInit {
             font-size: 10px;
           }
           .dotted-border {
-            padding-top: 26px;
             border-top: 2px black dashed;
-            margin-top: 24px;
+            margin-top: 166px;
           }
           * {
             box-sizing: border-box;
@@ -83,7 +85,7 @@ export class PrintGsmReceiptComponent implements OnInit {
           .table {
             width: 100%;
             max-width: 100%;
-            font-size: 8px;
+            font-size: 10px;
           }
           table {
             background-color: transparent;
@@ -102,6 +104,12 @@ export class PrintGsmReceiptComponent implements OnInit {
           .col-md-offset-6{
             margin-left: 40%;
           }
+          .col-md-offset-8{
+            margin-left: 42%;
+          }
+          .col-md-offset-9 {
+              margin-left: 48%;
+          }
           .empty-cells {
             visibility:hidden
           }
@@ -113,5 +121,19 @@ export class PrintGsmReceiptComponent implements OnInit {
   <body>${innerContents}</body>
     </html>`
     );
+  }
+
+  /**
+   * add missing rows up to 10
+   */
+  addEmptyCells() {
+    let warrantyGSMInfoDeepCopy:any = Object.assign([],this.warrantyGSMInfo.phoneList);
+    const noOfPhones = this.warrantyGSMInfo.phoneList.length;
+    if (noOfPhones < 9) {
+      for(let i=0; i<9-noOfPhones; i++) {
+        warrantyGSMInfoDeepCopy.push('empty');
+      }
+    }
+    this.warrantyGSMInfoDeepCopy = warrantyGSMInfoDeepCopy;
   }
 }

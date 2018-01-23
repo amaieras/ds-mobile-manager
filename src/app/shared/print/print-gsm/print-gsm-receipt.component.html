@@ -6,7 +6,6 @@
         </div>
         <div class="col-md-3" style="margin-left: 11%;">
           <h4 class="center-title title-epmhasis">Proces verbal de primire/ predare în service <br>(garanție)</h4>
-          <h3 class="center-title title-epmhasis">Fișă GSM </h3>
         </div>
         <div class="col-md-3" style="margin-left: 17%; width:22% !important; margin-bottom: 7%;">
           <h3 class="title-epmhasis">Nr.: <span class="input-data">{{warrantyGSMInfo.noOfClients + 1}}</span></h3>
@@ -17,7 +16,59 @@
         <h4 class="title-epmhasis">Tel DS Mobile: <span class="input-data">{{dsMobilePhone}}</span></h4>
       </div>
     </div>
+    <div class="row">
+      <div style="margin-left: 36%;">
+        <h4 class="title-epmhasis">FIȘĂ CONȚINUT COLET</h4>
+      </div>
+    </div>
+    <table class="table table-bordered">
+      <thead>
+      <tr>
+        <th>MODEL DISPLAY</th>
+        <th>CANTITATE</th>
+        <th>CULOARE</th>
+        <th>OBSERVAȚII</th>
+        <th>VALOARE</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let phone of warrantyGSMInfoDeepCopy">
+        <td>{{phone.phoneBrand}} {{phone.phoneModel}}</td>
+        <td>{{phone.phoneQuantity}}</td>
+        <td>{{phone.phoneColor}}</td>
+        <td>{{phone.observation}}</td>
+        <td><span *ngIf="phone.phoneBrand">{{warrantyGSMInfo.price}}</span></td>
+      </tr>
+      </tbody>
+    </table>
 
+    <div class="row" style="margin-top: 15px;">
+      <div class="col-md-8" style="margin-bottom: 10px;">DATA PRIMIRE COLET:______________</div>
+      <div class="col-md-4 col-md-offset-8">TOTAL PLATA:______________</div>
+    </div>
+    <div class="row">
+      <div class="col-md-6" style=" position: absolute; margin-top: 29px;">DATA LIVRARE COLET:______________</div>
+    </div>
+  </div>
+  <div class="col-md-12">
+    <div class="col-md-offset-8">
+      <h3>Garanție</h3>
+    </div>
+    <div  class="footer">
+      Retururile sunt acceptate doar dacă sigiliile aplicate pe produse sunt intacte, iar produsele nu prezintă urme de deteriorare
+      (mufe rupte, cablu flex, rupt/tăiat, geam fisurat, display spart, display pătat, etc. ).
+      Pentru retur este necesară expedierea produsului defect la adresa noastră, iar acesta trebuie să fie ambalat corespunzător.
+      Rambursarea sumei se face doar dacă produsul corespunde din punct de vedere optic / funcțional.
+      Nu se acceptă produse ambalate, fără folii de protecție, fără sigilii.
+    </div>
+  </div>
+  <div class="dotted-border">
+    <div class="col-md-3">
+      <h3 class="center-title title-epmhasis">Fișă GSM </h3>
+    </div>
+    <div class="col-md-3" style="margin-left: 42%; width:22%">
+      <h3 class="title-epmhasis">Nr.: <span class="input-data">{{warrantyGSMInfo.noOfClients + 1}}</span></h3>
+    </div>
     <table class="table table-bordered">
       <thead>
       <tr>
@@ -40,13 +91,13 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let phone of warrantyGSMInfo.phoneList">
+      <tr *ngFor="let phone of warrantyGSMInfoDeepCopy">
         <td>{{phone.phoneBrand}}</td>
         <td>{{phone.phoneModel}}</td>
         <td>{{phone.phoneColor}}</td>
         <td>{{phone.phoneQuantity}}</td>
-        <td><span *ngFor="let part of warrantyGSMInfo.parts">{{part}};</span></td>
-        <td>{{warrantyGSMInfo.price}}</td>
+        <td><span *ngIf="phone.phoneBrand"><span *ngFor="let part of warrantyGSMInfo.parts">{{part}};</span></span></td>
+        <td><span *ngIf="phone.phoneBrand">{{warrantyGSMInfo.price}}</span></td>
         <td>{{phone.observation}}</td>
       </tr>
       </tbody>

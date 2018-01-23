@@ -1,9 +1,12 @@
-import { Component, OnInit } from "@angular/core";
+import {Component, OnInit, ViewChild} from "@angular/core";
 import { SelectItem,Message } from "primeng/primeng";
 import {Observable} from "rxjs/Observable";
 import {UtilService} from "../../utils/util.service";
 import {RepairGSMDisplayDetailService} from "./repair-gsm-display-detail.service";
 import {ClientGSMDisplay} from "../../model/ClientGSMDisplay";
+import {WarrantyGSMInfo} from "../../model/WarrantyGSMInfo";
+import {PrintGsmReceiptComponent} from "../../shared/print/print-gsm/print-gsm-receipt.component";
+import {ClientGSMDisplayService} from "../../clients/clientGSMDisplay/client-gsm-display-detail.service";
 
 @Component({
   selector: 'app-repair-gsm-display-detail',
@@ -18,8 +21,10 @@ export class RepairGSMDisplayDetailComponent implements OnInit{
   loading = true;
   totalRecords: number;
   csvSeparator: string;
+  @ViewChild(PrintGsmReceiptComponent) child: PrintGsmReceiptComponent;
 
-  constructor(private _repairGSMDisplayService: RepairGSMDisplayDetailService, private _utilService: UtilService) { }
+  constructor(private _repairGSMDisplayService: RepairGSMDisplayDetailService, private _utilService: UtilService,
+              private _clientGSMDisplayService: ClientGSMDisplayService,) { }
 
   ngOnInit() {
     this.getClientsGSMDisplayList().subscribe(clientGSMDisplay => {
@@ -237,6 +242,21 @@ export class RepairGSMDisplayDetailComponent implements OnInit{
 
   disabledRow(rowData: ClientGSMDisplay) {
     return rowData.isRepaired ? 'disabled-account-row' : '';
+  }
+
+  printGSMRepair(repairGSM) {
+    let problems = [];
+    this._clientGSMDisplayService.getAllClients().subscribe( client => {
+      repairGSM.phoneList[0].problems.forEach(prbl => {
+        let problemName = prbl.problem.toLowerCase() === 'altele' ? prbl.partName : prbl.problem;
+        problems.push(problemName);
+        let warrantyGSMInfo = new WarrantyGSMInfo(repairGSM.addedDate, repairGSM.lastname, repairGSM.phone,
+          repairGSM.priceOffer, repairGSM.phoneList[0].phoneColor, repairGSM.phoneList[0].phoneBrand,
+          repairGSM.phoneList[0].phoneModel, repairGSM.phoneList[0].observation, client.length,
+          repairGSM.phoneList, problems);
+        this.child.print(warrantyGSMInfo);
+      })
+    })
   }
   successMessage(lastname, firstname, phone, msg) {
     this.msgs = [];
