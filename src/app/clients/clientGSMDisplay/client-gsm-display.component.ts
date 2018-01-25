@@ -89,14 +89,20 @@ export class ClientGSMDisplayComponent implements OnInit {
   calculateTotalPrice() {
     const formModel = this.clientGSMDisplayForm.value;
     let totalPrice = 0;
+    let pricePerPhone = 0;
+    let totalPricePerPhone = 0;
+    let phoneQuantity = 0;
     for (let i = 0; i < formModel.phoneList.length; i++) {
+      phoneQuantity = +formModel.phoneList[i].phoneQuantity;
       for (let j = 0; j < formModel.phoneList[i].problems.length; j++) {
         const item = formModel.phoneList[i].problems[j];
-        if (item.pricePerPart !== '') {
-          totalPrice = totalPrice + item.pricePerPart;
-        }
+        pricePerPhone = pricePerPhone + item.pricePerPart;
       }
+      totalPricePerPhone = totalPricePerPhone + pricePerPhone * phoneQuantity;
     }
+    // if (item.pricePerPart !== '') {
+    totalPrice = totalPrice + totalPricePerPhone;
+    // }
     this.totalPrice = totalPrice;
   }
   calculateTotalQuantity() {
@@ -114,7 +120,7 @@ export class ClientGSMDisplayComponent implements OnInit {
       phoneBrand: '',
       phoneModel: '',
       phoneColor: '',
-      phoneQuantity: '',
+      phoneQuantity: '0',
       problems: this.fb.array([]),
       observation: '',
       displayOpType: ''

@@ -47,11 +47,13 @@ export class PrintGsmReceiptComponent implements OnInit {
           .inner-container{
             background: #9fdfbf;
           }
-          th, td{
+          td{
             border:2px solid black !important;
             padding: 10px !important;
-            text-align: left;
-            font-weight: bold;
+          }
+          th {
+          border:2px solid black !important;
+          padding: 4px !important;
           }
           .table-bordered {
             border: 2px solid black !important;
@@ -114,7 +116,7 @@ export class PrintGsmReceiptComponent implements OnInit {
             visibility:hidden
           }
            .head-1-gsm{
-            font-size: 2em;
+            font-size: 10px;
           }
         </style>
       </head>
