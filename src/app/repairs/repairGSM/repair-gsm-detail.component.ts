@@ -28,7 +28,7 @@ export class RepairGSMDetailComponent implements OnInit{
   ngOnInit() {
     this.getClientsGSMList().subscribe(clientGSM => {
       this.dataSource = clientGSM.filter(function(item) {
-        return !item.isRepaired;
+        return !item.isPayed;
       });
       this.totalRecords = this.dataSource.length;
       this.repairsGSM = this.dataSource;
@@ -45,8 +45,8 @@ export class RepairGSMDetailComponent implements OnInit{
         {field: 'priceOfferCash', header: 'Total cash', filter: true, editable: true, sortable: true},
         {field: 'priceOfferCard', header: 'Total card', filter: true, editable: true, sortable: true},
         {field: 'city', header: 'Orasul', filter: true, editable: true, sortable: true},
-        {field: 'deliveredDate', header: 'Data Predarii', filter: true, editable: false, sortable: true},
-        {field: 'isRepaired', header: 'Finalizat?', filter: true, editable: false , sortable: true}
+        {field: 'isRepaired', header: 'Reparat?', filter: true, editable: false , sortable: true},
+        {field: 'isPayed', header: 'Achitat?', filter: true, editable: false , sortable: true}
       ];
 
       this.columnOptions = [];
@@ -98,14 +98,16 @@ export class RepairGSMDetailComponent implements OnInit{
   }
 
   updateCheckedItem(row) {
-    this.repairGSMService.updateItem(row.$key, {isRepaired: row.isRepaired});
+    this.repairGSMService.updateItem(row.$key, {isPayed: row.isPayed});
 
-    if(row.isRepaired) {
+    if(row.isPayed) {
       let date = new Date().getTime().toString();
       this.repairGSMService.updateItem(row.$key, {deliveredDate: date});
     }
   }
-
+  updateRepairFinnish(row) {
+    this.repairGSMService.updateItem(row.$key, {isRepaired: row.isRepaired});
+  }
   exportTable() {
     {
       let data = this.dataSource;
@@ -200,7 +202,7 @@ export class RepairGSMDetailComponent implements OnInit{
           });
           return problemsCount;
         }
-        if(field === 'isRepaired'){
+        if(field === 'isPayed'){
           if(data[field] === true) return 'DA';
           else return 'NU';
         }
@@ -240,7 +242,10 @@ export class RepairGSMDetailComponent implements OnInit{
     }
   };
   disabledRow(rowData: ClientGSM) {
-    return rowData.isRepaired ? 'disabled-account-row' : '';
+    return rowData.isPayed ? 'disabled-account-row' : '';
+  }
+  isRepairDone(rowData: ClientGSM) {
+    return rowData.isRepaired ? 'repair-is-done' : '';
   }
   printGSMRepair(repairGSM) {
     this._clientGSMService.getAllClients().subscribe( client => {

@@ -26,10 +26,10 @@
       <p-column field="priceOffer" header="Oferta pret" [sortable]="true" [filter]="true" [editable]="true"></p-column>
       <ng-container *ngIf="column.field === 'deliveredDate'" >
         <ng-template let-col let-row="rowData" pTemplate="body">
-          <span *ngIf="row.isRepaired">{{row[col.field] | date:"dd-MM-yyyy HH:mm"}}</span>
+          <span *ngIf="row.isPayed">{{row[col.field] | date:"dd-MM-yyyy HH:mm"}}</span>
         </ng-template>
       </ng-container>
-      <ng-container *ngIf="column.field === 'isRepaired'">
+      <ng-container *ngIf="column.field === 'isPayed'">
         <ng-template pTemplate="body" let-col let-row="rowData">
           <p-checkbox [(ngModel)]="row[col.field]" binary="true" (onChange)="updateCheckedItem(row)"></p-checkbox>
         </ng-template>

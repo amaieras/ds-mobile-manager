@@ -6,7 +6,7 @@
   </div>
 
   <p-dataTable [value]="repairsGSMDisplay" [editable]="true" [paginator]="true" rows="50" [rowsPerPageOptions]="[10,20,50,100]" [globalFilter]="gb" [responsive]="true"
-               (onEditComplete)="updateField($event)" [sortOrder]="-1" sortField="addedDate" [loading]="loading" [rowStyleClass]="disabledRow" [reorderableColumns]="true">
+               (onEditComplete)="updateField($event)" [rowStyleClass]="isRepairDone" [sortOrder]="-1" sortField="addedDate" [loading]="loading" [rowStyleClass]="disabledRow" [reorderableColumns]="true">
     <p-header #fixedBox>
       <div style="text-align:left">
         <button type="button" pButton icon="fa-file-o" iconPos="left" label="Excel" style="float:right" (click)="exportTable()"></button>
@@ -30,6 +30,11 @@
         </ng-template>
       </ng-container>
       <ng-container *ngIf="column.field === 'isRepaired'">
+        <ng-template pTemplate="body" let-col let-row="rowData">
+          <p-checkbox [(ngModel)]="row[col.field]" binary="true" (onChange)="updateRepairFinnish(row)"></p-checkbox>
+        </ng-template>
+      </ng-container>
+      <ng-container *ngIf="column.field === 'isPayed'">
         <ng-template pTemplate="body" let-col let-row="rowData">
           <p-checkbox [(ngModel)]="row[col.field]" binary="true" (onChange)="updateCheckedItem(row)"></p-checkbox>
         </ng-template>

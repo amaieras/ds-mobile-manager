@@ -13,9 +13,11 @@ export class ClientGSM {
   phoneList: PhoneList[];
   priceOffer: number;
   isRepaired = false;
+  isPayed = false;
   deliveredDate: string;
   country: string;
   city: string;
+  priceOfferCash:number;
   billingAddress: Address[];
   shipmentAddress: Address[];
 }

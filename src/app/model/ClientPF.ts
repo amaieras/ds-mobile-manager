@@ -21,6 +21,7 @@ export class ClientPF {
   priceOfferCash:string;
   deliveredDate: string;
   isRepaired = false;
+  isPayed = false;
 
   constructor() {
 

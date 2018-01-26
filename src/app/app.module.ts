@@ -24,7 +24,6 @@ import {CheckoutCenterRoutingModule} from "./checkout/checkout-center-routing.mo
 import {ChartsModule} from "./chart/chart.module";
 import {ChartCenterRoutingModule} from "./chart/chart-center-routing.module";
 import {HttpClientModule} from "@angular/common/http";
-import {SharedDsModule} from "./shared/shared-ds.module";
 
 
 export const environment = {
@@ -46,7 +45,7 @@ export const environment = {
     messagingSenderId: '662623055885'
   }
 }
-export const firebaseConfig = environment.firebaseConfigProd;
+export const firebaseConfig = environment.firebaseConfig;
 
 @NgModule({
     declarations: [

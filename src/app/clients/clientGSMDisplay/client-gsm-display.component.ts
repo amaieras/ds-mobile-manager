@@ -73,6 +73,7 @@ export class ClientGSMDisplayComponent implements OnInit {
     this.saveclientGSMDisplay.city = formModel.city;
     this.saveclientGSMDisplay.priceOffer = this.totalPrice;
     this.saveclientGSMDisplay.totalQuantity = this.totalNoQuantity;
+    this.saveclientGSMDisplay.priceOfferCash = this.totalPrice === null ? 0 : +this.totalPrice;
     this.saveclientGSMDisplay.addedDate = new Date().getTime().toString();
   }
 

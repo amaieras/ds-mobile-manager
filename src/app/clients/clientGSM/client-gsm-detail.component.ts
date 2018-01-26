@@ -140,6 +140,7 @@ export class ClientGSMDetailComponent implements OnInit {
     this.saveClientGSM.phone = formModel.phone;
     this.saveClientGSM.city = formModel.city;
     this.saveClientGSM.priceOffer = this.totalPrice;
+    this.saveClientGSM.priceOfferCash = this.totalPrice === null ? 0 : +this.totalPrice;
     this.saveClientGSM.addedDate = new Date().getTime().toString();
   }
 

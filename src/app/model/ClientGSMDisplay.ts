@@ -12,5 +12,7 @@ export class ClientGSMDisplay {
   totalQuantity: number;
   city: string;
   isRepaired = false;
+  isPayed = false;
   deliveredDate: string;
+  priceOfferCash:number;
 }

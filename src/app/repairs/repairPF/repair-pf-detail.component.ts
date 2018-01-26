@@ -39,7 +39,7 @@ export class RepairPFDetailComponent implements OnInit {
       this.loading = true;
       this.getClientsPFList().subscribe(clientPF => {
         this.dataSource = clientPF.filter(function(item) {
-          return !item.isRepaired;
+          return !item.isPayed;
         });
         this.totalRecords = this.dataSource.length;
         this.repairsPF = this.dataSource;
@@ -64,14 +64,13 @@ export class RepairPFDetailComponent implements OnInit {
           {field: 'appointmentDate', header: 'Data si ora programarii', filter: true, editable: true, sortable: true},
           {field: 'tested', header: 'Testat?', filter: true, editable: true, sortable: true},
           {field: 'aboutUs', header: 'Cum a aflat de noi?', filter: true, editable: false, sortable: true},
-          {field: 'deliveredDate', header: 'Data Predarii', filter: true, editable: false, sortable: true},
-          {field: 'isRepaired', header: 'Finalizat?', filter: true, editable: false , sortable: true}
+          {field: 'isRepaired', header: 'Reparat?', filter: true, editable: false , sortable: true},
+          {field: 'isPayed', header: 'Achitat?', filter: true, editable: false , sortable: true}
         ];
 
         this.columnOptions = [];
-
         for (let i = 0; i < this.cols.length; i++) {
-          this.columnOptions.push({label: this.cols[i].header, value: this.cols[i]});
+            this.columnOptions.push({label: this.cols[i].header, value: this.cols[i]});
         }
       }, err => {
         this.loading = false;
@@ -133,14 +132,17 @@ export class RepairPFDetailComponent implements OnInit {
   }
 
   updateCheckedItem(row) {
-    this.repairPFService.updateItem(row.$key, {isRepaired: row.isRepaired});
+    this.repairPFService.updateItem(row.$key, {isPayed: row.isPayed});
 
-    if(row.isRepaired) {
+    if(row.isPayed) {
       let date = new Date().getTime().toString();
       this.repairPFService.updateItem(row.$key, {deliveredDate: date});
     }
   }
 
+  updateRepairFinnish(row) {
+    this.repairPFService.updateItem(row.$key, {isRepaired: row.isRepaired});
+  }
   updateAppointmentDate(row, time) {
     let date = new Date(time).getTime().toString();
     this.repairPFService.updateItem(row.$key, {appointmentDate: date});
@@ -174,7 +176,9 @@ export class RepairPFDetailComponent implements OnInit {
   disabledRow(rowData: ClientPF) {
     return rowData.isRepaired ? 'disabled-account-row' : '';
   }
-
+  isRepairDone(rowData: ClientPF) {
+    return rowData.isRepaired ? 'repair-is-done' : '';
+  }
 
   exportTable() {
     {
@@ -269,7 +273,7 @@ export class RepairPFDetailComponent implements OnInit {
           });
           return problemsCount;
         }
-        if(field === 'isRepaired'){
+        if(field === 'isPayed'){
           if(data[field] === true) return 'DA';
           else return 'NU';
         }

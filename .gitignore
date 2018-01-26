@@ -1,3 +1,8 @@
 /node_modules/
 /.idea/
 /dist/
+/.firebaserc
+/Efficient DevOps workflow standard with Git, Gerrit and Jenkins_v02.pptx
+/database.rules.json
+/firebase-debug.log
+/firebase.json
