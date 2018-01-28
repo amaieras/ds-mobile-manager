@@ -1,9 +1,12 @@
-import { Component, OnInit } from "@angular/core";
+import {Component, OnInit, ViewChild} from "@angular/core";
 import { SelectItem,Message } from "primeng/primeng";
 import {Observable} from "rxjs/Observable";
 import {ClientGSM} from "../../../model/ClientGSM";
 import {RepairGSMDetailService} from "../../repairGSM/repair-gsm-detail.service";
 import {UtilService} from "../../../utils/util.service";
+import {ClientGSMService} from "../../../clients/clientGSM/client-gsm-detail.service";
+import {WarrantyGSMInfo} from "../../../model/WarrantyGSMInfo";
+import {PrintGsmReceiptComponent} from "../../../shared/print/print-gsm/print-gsm-receipt.component";
 
 @Component({
   selector: 'repair-gsm-done',
@@ -18,8 +21,10 @@ export class RepairGsmDoneComponent implements OnInit{
   loading = true;
   totalRecords: number;
   csvSeparator: string;
+  @ViewChild(PrintGsmReceiptComponent) child: PrintGsmReceiptComponent;
 
-  constructor(private repairGSMService: RepairGSMDetailService, private _utilService: UtilService) { }
+  constructor(private repairGSMService: RepairGSMDetailService, private _utilService: UtilService,
+              private _clientGSMService: ClientGSMService) { }
 
   ngOnInit() {
     this.getClientsGSMList().subscribe(clientGSM => {
@@ -239,7 +244,13 @@ export class RepairGsmDoneComponent implements OnInit{
   disabledRow(rowData: ClientGSM) {
     return rowData.isRepaired ? 'disabled-account-row' : '';
   }
-
+  printGSMRepair(repairGSM) {
+    this._clientGSMService.getAllClients().subscribe( client => {
+      let warrantyGSMInfo = new WarrantyGSMInfo(repairGSM.addedDate, repairGSM.lastname, repairGSM.phone,
+        repairGSM.priceOffer, client.length, repairGSM.phoneList);
+      this.child.print(warrantyGSMInfo);
+    })
+  }
   successMessage(lastname, firstname, phone, msg) {
     this.msgs = [];
     let msgAux = '';

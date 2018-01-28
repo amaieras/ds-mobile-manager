@@ -107,7 +107,7 @@
       <input placeholder="Orasul" id="city" class="form-control" formControlName="city" required>
       <div *ngIf="city.invalid && (city.dirty || city.touched)"
            class="alert alert-danger">
-        <div *ngIf="email.errors.required">
+        <div *ngIf="city.errors.required">
           Orasul nu este completat.
         </div>
       </div>

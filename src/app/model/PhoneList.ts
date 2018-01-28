@@ -11,6 +11,7 @@ export class PhoneList {
   imei = '';
   phoneColor = '';
   phoneQuantity = 1;
+  totalPricePerPhone = 0;
   problems: ProblemList[]  = [];
   observation = '';
 }

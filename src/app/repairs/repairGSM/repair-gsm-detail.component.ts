@@ -243,17 +243,10 @@ export class RepairGSMDetailComponent implements OnInit{
     return rowData.isRepaired ? 'disabled-account-row' : '';
   }
   printGSMRepair(repairGSM) {
-    let problems = [];
     this._clientGSMService.getAllClients().subscribe( client => {
-      repairGSM.phoneList[0].problems.forEach(prbl => {
-        let problemName = prbl.problem.toLowerCase() === 'altele' ? prbl.partName : prbl.problem;
-        problems.push(problemName);
         let warrantyGSMInfo = new WarrantyGSMInfo(repairGSM.addedDate, repairGSM.lastname, repairGSM.phone,
-          repairGSM.priceOffer, repairGSM.phoneList[0].phoneColor, repairGSM.phoneList[0].phoneBrand,
-          repairGSM.phoneList[0].phoneModel, repairGSM.phoneList[0].observation, client.length,
-          repairGSM.phoneList, problems);
+          repairGSM.priceOffer, client.length, repairGSM.phoneList);
           this.child.print(warrantyGSMInfo);
-      })
     })
   }
   successMessage(lastname, phone, msg) {

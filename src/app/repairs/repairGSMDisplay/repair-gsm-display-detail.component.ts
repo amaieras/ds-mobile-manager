@@ -24,7 +24,7 @@ export class RepairGSMDisplayDetailComponent implements OnInit{
   @ViewChild(PrintGsmReceiptComponent) child: PrintGsmReceiptComponent;
 
   constructor(private _repairGSMDisplayService: RepairGSMDisplayDetailService, private _utilService: UtilService,
-              private _clientGSMDisplayService: ClientGSMDisplayService,) { }
+              private _clientGSMDisplayService: ClientGSMDisplayService) { }
 
   ngOnInit() {
     this.getClientsGSMDisplayList().subscribe(clientGSMDisplay => {
@@ -245,17 +245,10 @@ export class RepairGSMDisplayDetailComponent implements OnInit{
   }
 
   printGSMRepair(repairGSM) {
-    let problems = [];
     this._clientGSMDisplayService.getAllClients().subscribe( client => {
-      repairGSM.phoneList[0].problems.forEach(prbl => {
-        let problemName = prbl.problem.toLowerCase() === 'altele' ? prbl.partName : prbl.problem;
-        problems.push(problemName);
         let warrantyGSMInfo = new WarrantyGSMInfo(repairGSM.addedDate, repairGSM.lastname, repairGSM.phone,
-          repairGSM.priceOffer, repairGSM.phoneList[0].phoneColor, repairGSM.phoneList[0].phoneBrand,
-          repairGSM.phoneList[0].phoneModel, repairGSM.phoneList[0].observation, client.length,
-          repairGSM.phoneList, problems);
+          repairGSM.priceOffer, client.length, repairGSM.phoneList);
         this.child.print(warrantyGSMInfo);
-      })
     })
   }
   successMessage(lastname, firstname, phone, msg) {

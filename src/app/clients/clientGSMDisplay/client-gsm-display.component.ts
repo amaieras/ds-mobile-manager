@@ -86,23 +86,20 @@ export class ClientGSMDisplayComponent implements OnInit {
     const phoneListArray = <FormArray>this.clientGSMDisplayForm.controls['phoneList'];
     phoneListArray.removeAt(idx);
   }
+
+
   calculateTotalPrice() {
     const formModel = this.clientGSMDisplayForm.value;
     let totalPrice = 0;
-    let pricePerPhone = 0;
-    let totalPricePerPhone = 0;
-    let phoneQuantity = 0;
     for (let i = 0; i < formModel.phoneList.length; i++) {
-      phoneQuantity = +formModel.phoneList[i].phoneQuantity;
+      let phoneQuantity = +formModel.phoneList[i].phoneQuantity;
       for (let j = 0; j < formModel.phoneList[i].problems.length; j++) {
         const item = formModel.phoneList[i].problems[j];
-        pricePerPhone = pricePerPhone + item.pricePerPart;
+        if (item.pricePerPart !== '') {
+          totalPrice = totalPrice + item.pricePerPart * phoneQuantity;
+        }
       }
-      totalPricePerPhone = totalPricePerPhone + pricePerPhone * phoneQuantity;
     }
-    // if (item.pricePerPart !== '') {
-    totalPrice = totalPrice + totalPricePerPhone;
-    // }
     this.totalPrice = totalPrice;
   }
   calculateTotalQuantity() {
@@ -121,6 +118,7 @@ export class ClientGSMDisplayComponent implements OnInit {
       phoneModel: '',
       phoneColor: '',
       phoneQuantity: '0',
+      totalPricePerPhone: '0',
       problems: this.fb.array([]),
       observation: '',
       displayOpType: ''
@@ -136,15 +134,16 @@ export class ClientGSMDisplayComponent implements OnInit {
 
   private setWarrantyInfo() {
     const formModel = this.clientGSMDisplayForm.value;
-    let problems = [];
-    formModel.phoneList[0].problems.forEach(prbl => {
-      let problemName = prbl.problem.toLowerCase() === 'altele' ? prbl.partName : prbl.problem;
-      problems.push(problemName);
-      let dateNow = Date.now().toString();
-      this.warrantyGSMInfo = new WarrantyGSMInfo(dateNow, formModel.lastname, formModel.phone, this.totalPrice,
-        formModel.phoneList[0].phoneColor, formModel.phoneList[0].phoneBrand
-        , formModel.phoneList[0].phoneModel, formModel.phoneList[0].observation, this.noOfClients + 1, formModel.phoneList, problems)
+    formModel.phoneList.forEach(phone=> {
+      let totalPricePerPhone = 0;
+      phone.problems.forEach(prbl=> {
+        totalPricePerPhone = totalPricePerPhone + prbl.pricePerPart;
+      })
+      phone.totalPricePerPhone = totalPricePerPhone * phone.phoneQuantity;
     })
+    const dateNow = Date.now().toString();
+    this.warrantyGSMInfo = new WarrantyGSMInfo(dateNow, formModel.lastname, formModel.phone, this.totalPrice,
+                                                  this.noOfClients + 1, formModel.phoneList)
   }
   successMessage() {
     this.msgs = [];

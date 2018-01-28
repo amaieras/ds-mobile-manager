@@ -104,6 +104,7 @@ export class ClientGSMDetailComponent implements OnInit {
       phoneModel: '',
       phoneColor: '',
       phoneQuantity: '0',
+      totalPricePerPhone: '0',
       problems: this.fb.array([]),
       observation: ''
     })
@@ -163,16 +164,18 @@ export class ClientGSMDetailComponent implements OnInit {
 
   private setWarrantyInfo() {
     const formModel = this.clientGSMForm.value;
-    let problems = [];
-    formModel.phoneList[0].problems.forEach(prbl => {
-      let problemName = prbl.problem.toLowerCase() === 'altele' ? prbl.partName : prbl.problem;
-      problems.push(problemName);
-      let dateNow = Date.now().toString();
-      this.warrantyGSMInfo = new WarrantyGSMInfo(dateNow, formModel.lastname, formModel.phone, this.totalPrice,
-        formModel.phoneList[0].phoneColor, formModel.phoneList[0].phoneBrand
-        , formModel.phoneList[0].phoneModel, formModel.phoneList[0].observation, this.noOfClients + 1, formModel.phoneList, problems)
+    formModel.phoneList.forEach(phone=> {
+      let totalPricePerPhone = 0;
+      phone.problems.forEach(prbl=> {
+        totalPricePerPhone = totalPricePerPhone + prbl.pricePerPart;
+      })
+      phone.totalPricePerPhone = totalPricePerPhone * phone.phoneQuantity;
     })
+    const dateNow = Date.now().toString();
+    this.warrantyGSMInfo = new WarrantyGSMInfo(dateNow, formModel.lastname, formModel.phone, this.totalPrice,
+      this.noOfClients + 1, formModel.phoneList);
   }
+
   successMessage() {
     this.msgs = [];
     this.msgs.push({severity:'success', summary:'Adauga Client GSM', detail:'Client GSM adaugat cu success.'});

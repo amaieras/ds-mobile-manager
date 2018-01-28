@@ -64,7 +64,10 @@
   </div>
   <div class="dotted-border">
     <div class="col-md-3">
-      <h3 class="center-title title-epmhasis">Fișă GSM </h3>
+      <h3 class="center-title title-epmhasis">Fișă GSM  -
+        <span *ngIf="warrantyGSMInfo.phoneList[0].displayOpType">Vanzare/Imprumut Display</span>
+        <span *ngIf="!warrantyGSMInfo.phoneList[0].displayOpType">Service</span>
+      </h3>
     </div>
     <div class="col-md-3" style="margin-left: 42%; width:22%">
       <h3 class="title-epmhasis">Nr.: <span class="input-data">{{warrantyGSMInfo.noOfClients + 1}}</span></h3>
@@ -96,9 +99,14 @@
         <td>{{phone.phoneModel}}</td>
         <td>{{phone.phoneColor}}</td>
         <td>{{phone.phoneQuantity}}</td>
-        <td><span *ngIf="phone.phoneBrand"><span *ngFor="let part of warrantyGSMInfo.parts">{{part}};</span></span></td>
-        <td><span *ngIf="phone.phoneBrand">{{warrantyGSMInfo.price}}</span></td>
+        <td><span *ngIf="phone.phoneBrand"><span *ngFor="let part of phone.problems">{{part.problem}};</span></span></td>
+        <td><span *ngIf="phone.phoneBrand">{{phone.totalPricePerPhone}}</span></td>
         <td>{{phone.observation}}</td>
+      </tr>
+      <tr>
+        <td *ngFor="let i of [1,2,3,4,5]"></td>
+        <td><span class="title-epmhasis">Total: </span>{{warrantyGSMInfo.price}}</td>
+        <td></td>
       </tr>
       </tbody>
     </table>

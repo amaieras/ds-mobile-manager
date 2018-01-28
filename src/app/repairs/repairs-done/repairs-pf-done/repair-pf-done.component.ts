@@ -308,16 +308,10 @@ export class RepairPfDoneComponent implements OnInit {
   };
 
   printRepair(repair) {
-    let problems = [];
     this._clientPFService.getAllClients().subscribe( client => {
-      repair.phoneList[0].problems.forEach(prbl => {
-        let problemName = prbl.problem.toLowerCase() === 'altele' ? prbl.partName : prbl.problem;
-        problems.push(problemName);
-        let warrantyInfo = new WarrantyInfo(repair.addedDate, repair.lastname, repair.firstname, repair.phone, repair.priceOffer, repair.phoneList[0].phoneColor,
-          repair.phoneList[0].imei, repair.phoneList[0].phoneBrand, repair.phoneList[0].phoneModel, repair.phoneList[0].observation, repair.tested,
-          repair.aboutUs, problems, repair.deliveredDate, repair.phoneList[0].phoneCode, client.length);
-        this.child.print(warrantyInfo);
-      })
+      let warrantyInfo = new WarrantyInfo(repair.addedDate, repair.lastname, repair.firstname, repair.phone, repair.priceOffer,
+        repair.tested, repair.aboutUs, repair.phoneList, repair.deliveredDate,  client.length);
+      this.child.print(warrantyInfo);
     })
   }
 }

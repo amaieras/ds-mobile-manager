@@ -22,9 +22,6 @@ export class PrintReceiptComponent implements OnInit {
     if (!this._changeDetector['destroyed']) {
       this._changeDetector.detectChanges();
     }
-    if (!this._changeDetector['destroyed']) {
-      this._changeDetector.detectChanges();
-    }
     let popupWin;
     let innerContents = document.getElementById('print-section').innerHTML;
     popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');

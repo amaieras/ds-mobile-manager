@@ -328,16 +328,10 @@ export class ClientPfDetailComponent implements OnInit {
 
   private setWarrantyInfo() {
     const formModel = this.clientPFForm.value;
-    let problems = [];
-    formModel.phoneList[0].problems.forEach(prbl => {
-      let problemName = prbl.problem.toLowerCase() === 'altele' ? prbl.partName : prbl.problem;
-      problems.push(problemName);
       let dateNow = Date.now().toString();
-      this.warrantyInfo = new WarrantyInfo(dateNow, formModel.lastname,
-        formModel.firstname, formModel.phone, this.totalPrice, formModel.phoneList[0].phoneColor, formModel.phoneList[0].imei, formModel.phoneList[0].phoneBrand
-        , formModel.phoneList[0].phoneModel, formModel.phoneList[0].observation, formModel.tested, formModel.aboutUs, problems, formModel.appointment,
-        formModel.phoneList[0].phoneCode, this.noOfClients + 1)
-    })
+      console.log(formModel)
+      this.warrantyInfo = new WarrantyInfo(dateNow, formModel.lastname, formModel.firstname, formModel.phone, this.totalPrice,
+        formModel.tested, formModel.aboutUs,formModel.phoneList, formModel.appointment, this.noOfClients + 1);
   }
 
   searchClient(clientLastName) {

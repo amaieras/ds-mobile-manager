@@ -1,9 +1,14 @@
-import { Component, OnInit } from "@angular/core";
+import {Component, OnInit, ViewChild} from "@angular/core";
 import { SelectItem,Message } from "primeng/primeng";
 import {Observable} from "rxjs/Observable";
 import {ClientGSMDisplay} from "../../../model/ClientGSMDisplay";
 import {RepairGSMDisplayDetailService} from "../../repairGSMDisplay/repair-gsm-display-detail.service";
 import {UtilService} from "../../../utils/util.service";
+import {WarrantyGSMInfo} from "../../../model/WarrantyGSMInfo";
+import {ClientGSMDisplayService} from "../../../clients/clientGSMDisplay/client-gsm-display-detail.service";
+import {PrintGsmReceiptComponent} from "../../../shared/print/print-gsm/print-gsm-receipt.component";
+
+
 @Component({
   selector: 'app-repair-gsm-display-done',
   templateUrl: './repair-gsm-display-done.component.html'
@@ -17,8 +22,10 @@ export class RepairGsmDisplayDoneComponent implements OnInit{
   loading = true;
   totalRecords: number;
   csvSeparator: string;
+  @ViewChild(PrintGsmReceiptComponent) child: PrintGsmReceiptComponent;
 
-  constructor(private _repairGSMDisplayService: RepairGSMDisplayDetailService, private _utilService: UtilService) { }
+  constructor(private _repairGSMDisplayService: RepairGSMDisplayDetailService, private _utilService: UtilService,
+              private _clientGSMDisplayService: ClientGSMDisplayService) { }
 
   ngOnInit() {
     this.getClientsGSMDisplayList().subscribe(clientGSMDisplay => {
@@ -237,6 +244,13 @@ export class RepairGsmDisplayDoneComponent implements OnInit{
 
   disabledRow(rowData: ClientGSMDisplay) {
     return rowData.isRepaired ? 'disabled-account-row' : '';
+  }
+  printGSMRepair(repairGSM) {
+    this._clientGSMDisplayService.getAllClients().subscribe( client => {
+      let warrantyGSMInfo = new WarrantyGSMInfo(repairGSM.addedDate, repairGSM.lastname, repairGSM.phone,
+        repairGSM.priceOffer, client.length, repairGSM.phoneList);
+      this.child.print(warrantyGSMInfo);
+    })
   }
   successMessage(lastname, firstname, phone, msg) {
     this.msgs = [];

@@ -23,10 +23,6 @@ export class PrintGsmReceiptComponent implements OnInit {
     if (!this._changeDetector['destroyed']) {
       this._changeDetector.detectChanges();
     }
-    if (!this._changeDetector['destroyed']) {
-      this._changeDetector.detectChanges();
-    }
-    console.log()
     let popupWin;
     let innerContents = document.getElementById('print-section').innerHTML;
     popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
@@ -40,6 +36,7 @@ export class PrintGsmReceiptComponent implements OnInit {
           }
           .title-epmhasis {
             font-weight: bold;
+            width: 317px;
           }
           .input-data {
             font-style: italic;
