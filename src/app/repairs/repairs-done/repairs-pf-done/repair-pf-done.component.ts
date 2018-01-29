@@ -91,6 +91,7 @@ export class RepairPfDoneComponent implements OnInit {
       this._el.nativeElement.querySelector('thead').classList.remove('sticky-head')
     }
   };
+
   updateField(event) {
     const fieldName = event.column.field;
     const fieldVal = event.data[fieldName];
