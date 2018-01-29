@@ -60,40 +60,44 @@ export class CheckoutComponent implements OnInit {
           let total = 0;
           clientPFIsRepaired = pf.filter(function (client) {
             const clientDate = new Date(+client.deliveredDate);
-            return clientDate.toDateString() === event.toDateString() && client.isRepaired;
+            return clientDate.toDateString() === event.toDateString() && client.isPayed;
           });
           clientGSMIsRepaired = gsm.filter(function (client) {
             const clientDate = new Date(+client.deliveredDate);
-            return clientDate.toDateString() === event.toDateString() && client.isRepaired;
+            return clientDate.toDateString() === event.toDateString() && client.isPayed;
           });
           clientGSMDisplayIsRepaired = gsmDisplay.filter(function (client) {
             const clientDate = new Date(+client.deliveredDate);
-            return clientDate.toDateString() === event.toDateString() && client.isRepaired;
+            return clientDate.toDateString() === event.toDateString() && client.isPayed;
           });
           clientPFIsRepaired.forEach(c => {
             let priceCardAux = c.priceOfferCard === undefined ? 0 : c.priceOfferCard;
             let priceCashAux = c.priceOfferCash === undefined ? 0 : c.priceOfferCash;
+            let priceAux = c.priceOffer === undefined ? 0 : c.priceOffer;
             totalCash = totalCash + +priceCashAux;
             totalCard = totalCard + +priceCardAux;
-            total = total + +c.priceOffer;
+            total = total + +priceAux;
           });
           clientGSMIsRepaired.forEach(c => {
             let priceCardAux = c.priceOfferCard === undefined ? 0 : c.priceOfferCard;
             let priceCashAux = c.priceOfferCash === undefined ? 0 : c.priceOfferCash;
+            let priceAux = c.priceOffer === undefined ? 0 : c.priceOffer;
             totalCash = totalCash + +priceCashAux;
             totalCard = totalCard + +priceCardAux;
-            total = total + +c.priceOffer;
+            total = total + +priceAux;
           });
           clientGSMDisplayIsRepaired.forEach(c => {
             let priceCardAux = c.priceOfferCard === undefined ? 0 : c.priceOfferCard;
             let priceCashAux = c.priceOfferCash === undefined ? 0 : c.priceOfferCash;
+            let priceAux = c.priceOffer === undefined ? 0 : c.priceOffer;
             totalCash = totalCash + +priceCashAux;
             totalCard = totalCard + +priceCardAux;
-            total = total + +c.priceOffer;
+            total = total + +priceAux;
           });
 
           this.totalCash = totalCash || 0;
           this.totalCard = totalCard  || 0;
+
           this.total = total || 0;
         });
       });
@@ -135,15 +139,15 @@ export class CheckoutComponent implements OnInit {
         this._checkoutService.getClientsGSMDisplayCurrDay().subscribe(gsmDisplay => {
           clientPFIsRepairedPerDay = pf.filter(function (client) {
             const clientDate = new Date(+client.deliveredDate);
-            return clientDate.toDateString() === event.toDateString()  && client.isRepaired;
+            return clientDate.toDateString() === event.toDateString()  && client.isPayed;
           }).length;
           clientGSMIsRepairedPerDay = gsm.filter(function (client) {
             const clientDate = new Date(+client.deliveredDate);
-            return clientDate.toDateString() === event.toDateString()  && client.isRepaired;
+            return clientDate.toDateString() === event.toDateString()  && client.isPayed;
           }).length;
           clientGSMDisplayIsRepairedPerDay = gsmDisplay.filter(function (client) {
             const clientDate = new Date(+client.deliveredDate);
-            return clientDate.toDateString() === event.toDateString()  && client.isRepaired;
+            return clientDate.toDateString() === event.toDateString()  && client.isPayed;
           }).length;
           this.totalIsRepairedPerDay = clientPFIsRepairedPerDay + clientGSMIsRepairedPerDay  + clientGSMDisplayIsRepairedPerDay;
         });
@@ -160,15 +164,15 @@ export class CheckoutComponent implements OnInit {
         this._checkoutService.getClientsGSMDisplayCurrDay().subscribe(gsmDisplay => {
           clientPFIsRemainingPerDay = pf.filter(function (client) {
             const clientDate = new Date(+client.addedDate);
-            return clientDate.toDateString() === event.toDateString()  && !client.isRepaired;
+            return clientDate.toDateString() === event.toDateString()  && !client.isPayed;
           }).length;
           clientGSMIsRemainingPerDay = gsm.filter(function (client) {
             const clientDate = new Date(+client.addedDate);
-            return clientDate.toDateString() === event.toDateString()  && !client.isRepaired;
+            return clientDate.toDateString() === event.toDateString()  && !client.isPayed;
           }).length;
           clientGSMDisplayIsRemainingPerDay = gsmDisplay.filter(function (client) {
             const clientDate = new Date(+client.addedDate);
-            return clientDate.toDateString() === event.toDateString()  && !client.isRepaired;
+            return clientDate.toDateString() === event.toDateString()  && !client.isPayed;
           }).length;
           this.totalIsRemainingPerDay = clientPFIsRemainingPerDay + clientGSMIsRemainingPerDay  + clientGSMDisplayIsRemainingPerDay;
         });
@@ -184,13 +188,13 @@ export class CheckoutComponent implements OnInit {
       this._checkoutService.getClientsGSMCurrDay().subscribe(gsm => {
         this._checkoutService.getClientsGSMDisplayCurrDay().subscribe(gsmDisplay => {
           clientPFIsRemaining = pf.filter(function (client) {
-            return !client.isRepaired;
+            return !client.isPayed;
           }).length;
           clientGSMIsRemaining = gsm.filter(function (client) {
-            return !client.isRepaired;
+            return !client.isPayed;
           }).length;
           clientGSMDisplayIsRemaining = gsmDisplay.filter(function (client) {
-            return !client.isRepaired;
+            return !client.isPayed;
           }).length;
           this.totalIsRemaining = clientPFIsRemaining + clientGSMIsRemaining  + clientGSMDisplayIsRemaining;
         });
