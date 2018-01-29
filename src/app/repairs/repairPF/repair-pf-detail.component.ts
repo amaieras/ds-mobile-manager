@@ -23,15 +23,14 @@ export class RepairPFDetailComponent implements OnInit {
   defaultDate: Date = new Date();
   totalRecords: number;
   csvSeparator: string;
+  isPayedActive: false;
   @ViewChild(PrintReceiptComponent) child: PrintReceiptComponent;
 
   constructor(private repairPFService:RepairPFDetailService, private _clientPFService: ClientPFService, private _el: ElementRef, private _utilService: UtilService) {
   }
 
   ngOnInit() {
-
     this.csvSeparator = ',';
-
     window.addEventListener('scroll', this.scroll, true); //third parameter
 
     this.defaultDate.setHours(12,0);
@@ -142,6 +141,7 @@ export class RepairPFDetailComponent implements OnInit {
 
   updateRepairFinnish(row) {
     this.repairPFService.updateItem(row.$key, {isRepaired: row.isRepaired});
+    this.isPayedActive = row.isRepaired;
   }
   updateAppointmentDate(row, time) {
     let date = new Date(time).getTime().toString();

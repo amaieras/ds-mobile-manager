@@ -53,6 +53,7 @@ import {RepairGSMDisplayDetailComponent} from "./repairGSMDisplay/repair-gsm-dis
 import {RepairPfDoneComponent} from 'app/repairs/repairs-done/repairs-pf-done/repair-pf-done.component';
 import {RepairGsmDoneComponent} from "./repairs-done/repairs-gsm-done/repair-gsm-done.component";
 import {RepairGsmDisplayDoneComponent} from "./repairs-done/repairs-gsm-display-done/repair-gsm-display-done.component";
+import {TableModule} from "primeng/table";
 
 
 @NgModule({
@@ -105,7 +106,8 @@ import {RepairGsmDisplayDoneComponent} from "./repairs-done/repairs-gsm-display-
 //primeng
     GrowlModule,
 
-    SharedDsModule
+    SharedDsModule,
+    TableModule
   ],
   declarations: [
     RepairTypeListComponent,
