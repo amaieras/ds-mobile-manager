@@ -67,6 +67,7 @@ export class ClientGSMDisplayComponent implements OnInit {
     const PhoneListDeepCopy: PhoneList[] = formModel.phoneList.map(
       (phoneList: PhoneList) => Object.assign({}, phoneList)
     );
+    this.saveclientGSMDisplay.clientNo = this.noOfClients + 1;
     this.saveclientGSMDisplay.phoneList = PhoneListDeepCopy;
     this.saveclientGSMDisplay.lastname = formModel.lastname;
     this.saveclientGSMDisplay.phone = formModel.phone;

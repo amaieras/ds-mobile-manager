@@ -135,6 +135,7 @@ export class ClientGSMDetailComponent implements OnInit {
     );
     // this.saveClientGSM.billingAddress = billingAddressDeepCopy;
     // this.saveClientGSM.shipmentAddress = shipmentAddressDeepCopy;
+    this.saveClientGSM.clientNo = this.noOfClients + 1;
     this.saveClientGSM.phoneList = PhoneListDeepCopy;
     this.saveClientGSM.lastname = formModel.lastname;
     this.saveClientGSM.phone = formModel.phone;

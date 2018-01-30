@@ -5,6 +5,7 @@ import {PhoneList} from "./PhoneList";
 export class ClientPF {
 
   $key:string;
+  clientNo: number;
   addedDate:string;
   lastname:string;
   firstname:string;

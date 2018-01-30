@@ -122,6 +122,7 @@ export class ClientPfDetailComponent implements OnInit {
     this.removeCtrlForNewItems();
     this.addNewBrandModelSynced(formModel);
     this.addNewSingleModelSynced(formModel);
+    this.saveClientPF.clientNo = this.noOfClients + 1;
     this.saveClientPF.phone = formModel.phone;
     this.saveClientPF.tested = formModel.tested;
     this.saveClientPF.aboutUs = this.selectedOtherName !== '' ? this.selectedOtherName : formModel.aboutUs;

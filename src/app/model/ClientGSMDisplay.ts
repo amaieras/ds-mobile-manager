@@ -4,6 +4,7 @@ import {PhoneList} from "./PhoneList";
 
 export class ClientGSMDisplay {
   constructor() { }
+  clientNo: number;
   addedDate: string
   lastname: string;
   phone: string;

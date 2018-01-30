@@ -99,7 +99,7 @@ export class RepairPfDoneComponent implements OnInit {
     obj[fieldName] = fieldVal;
     this.repairPFService.updateItem(event.data.$key, obj);
     if(fieldName === "priceOfferCard" || fieldName === "priceOfferCash") {
-      let poVal = event.data['priceOffer']
+      let poVal = event.data['priceOffer'] || 0;
       if(fieldName === "priceOfferCard") {
         obj['priceOfferCash'] = +poVal - +obj[fieldName];
         if (obj['priceOfferCash'] > 0) {
@@ -113,6 +113,13 @@ export class RepairPfDoneComponent implements OnInit {
         }
       }
       obj['priceOffer'] = +obj['priceOfferCard'] + +obj['priceOfferCash'];
+      this.repairPFService.updateItem(event.data.$key, obj);
+    }
+    //add price difference to total cash when priceOffer is modified
+    if(fieldName === "priceOffer") {
+      let priceOffer = event.data['priceOffer'] || 0;
+      let priceOfferCard = event.data['priceOfferCard'] || 0;
+      obj['priceOfferCash'] = +priceOffer - +priceOfferCard;
       this.repairPFService.updateItem(event.data.$key, obj);
     }
     this.updateArrayItem(fieldName, event, fieldVal);
