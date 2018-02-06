@@ -17,6 +17,7 @@ export class AppComponent {
         //push first element to end of array
         this.mainMenuItems.push(this.mainMenuItems.shift());
         this.mainMenuItems.push(this.mainMenuItems.shift());
+        this.mainMenuItems.push(this.mainMenuItems.shift());
         this.activeMenuItem$ = this.toolbarService.activeMenuItem$;
     }
 }

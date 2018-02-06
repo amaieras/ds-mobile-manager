@@ -40,3 +40,4 @@ var ClientTypeListComponent = /** @class */ (function () {
     return ClientTypeListComponent;
 }());
 exports.ClientTypeListComponent = ClientTypeListComponent;
+//# sourceMappingURL=client-type-list.component.js.map

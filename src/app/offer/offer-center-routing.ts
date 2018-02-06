@@ -26,7 +26,7 @@ const offerCenterRoutes: Routes = [
       }
     ],
     data: {
-      title: 'Adaugă ofertă'
+      title: 'Ofertare'
     }
   }
 ];

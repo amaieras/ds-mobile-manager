@@ -9,6 +9,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var of_1 = require("rxjs/observable/of");
 require("rxjs/add/operator/delay");
+var ClientTypeService = /** @class */ (function () {
+    function ClientTypeService() {
+    }
+    ClientTypeService.prototype.getClientTypes = function () {
+        return of_1.of(exports.clientTypes);
+    };
+    ClientTypeService = __decorate([
+        core_1.Injectable()
+    ], ClientTypeService);
+    return ClientTypeService;
+}());
+exports.ClientTypeService = ClientTypeService;
 var ClientType = /** @class */ (function () {
     function ClientType(id, type, url) {
         this.id = id;
@@ -31,19 +43,8 @@ exports.clientTypes = [
     },
     {
         id: 3,
-        type: 'GSM-Display',
+        type: 'GSM-Vanzare/Imprumut Display',
         url: 'gsm-display'
     }
 ];
-var ClientTypeService = /** @class */ (function () {
-    function ClientTypeService() {
-    }
-    ClientTypeService.prototype.getClientTypes = function () {
-        return of_1.of(exports.clientTypes);
-    };
-    ClientTypeService = __decorate([
-        core_1.Injectable()
-    ], ClientTypeService);
-    return ClientTypeService;
-}());
-exports.ClientTypeService = ClientTypeService;
+//# sourceMappingURL=client-type.service.js.map

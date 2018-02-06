@@ -1,1 +1,12 @@
-<h1>Offer options</h1>
+<div class="container-fluid">
+  <nav>
+    <a *ngFor="let offerOption of offerOptions | async"
+       [routerLink]="[offerOption.url]">{{offerOption.type}}</a>
+  </nav>
+  <div *ngIf="selectedOfferOption">
+    <hr>
+    <h2>Adauga Oferta</h2>
+    <h3>{{selectedOfferOption.id}}</h3>
+  </div>
+</div>
+<router-outlet></router-outlet>

@@ -1,1 +1,41 @@
-<h1>Add offer</h1>
+<p-growl [(value)]="msgs"></p-growl>
+
+<div class="col-md-offset-1 col-md-9">
+  <h1>Ofertare</h1>
+
+  <form [formGroup]="offerPFForm" (ngSubmit)="onSubmit($event)" novalidate #formOffer="ngForm">
+    <div class="form-group">
+      <label for="name">Nume</label>
+      <div class="ui-inputgroup">
+        <span class="ui-inputgroup-addon"><i class="fa fa-user"></i></span>
+        <input placeholder="Nume" id="name" class="form-control" formControlName="name"
+               [(ngModel)]="saveOffer.name" >
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="phone">Numar de telefon</label>
+      <input placeholder="Numar de telefon" id="phone" class="form-control" formControlName="phone" required>
+      <div *ngIf="phone.invalid && (phone.dirty || phone.touched) && phone.errors.required"
+           class="alert alert-danger">
+        <div *ngIf="phone.errors.required">
+          Numarul de telefon nu este completat.
+        </div>
+      </div>
+    </div>
+    <div formArrayName="phoneList" class="well well-lg">
+      <div *ngFor="let phone of offerPFForm.controls['phoneList']['controls']; let i=index">
+        <div class="panel-heading">
+          <h3>Lista numarul: #{{i + 1}}</h3>
+          <span class="glyphicon glyphicon-remove pull-right"
+                *ngIf="offerPFForm.controls.phoneList.controls.length > 1" (click)="removeFromPhoneList(i)"></span>
+        </div>
+        <div class="panel-body" [formGroupName]="i">
+          <app-offer-phone-list [group]="offerPFForm.controls['phoneList']['controls'][i]"
+                          (change)="getPhoneItem($event)"></app-offer-phone-list>
+        </div>
+        <br>
+      </div>
+      <button type="button" class="btn btn-primary" (click)="addInPhoneList()">Adauga alt telefon +</button>
+    </div>
+  </form>
+</div>

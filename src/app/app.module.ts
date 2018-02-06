@@ -25,6 +25,8 @@ import {ChartsModule} from "./chart/chart.module";
 import {ChartCenterRoutingModule} from "./chart/chart-center-routing.module";
 import {HttpClientModule} from "@angular/common/http";
 import { AutocompleteModule } from 'ng2-input-autocomplete';
+import {OfferModule} from "./offer/offer.module";
+import {OfferCenterRouting} from "./offer/offer-center-routing";
 
 export const environment = {
   production: false,
@@ -63,6 +65,8 @@ export const firebaseConfig = environment.firebaseConfig;
         RepairModule,
         CheckoutModule,
         ChartsModule,
+        OfferModule,
+        OfferCenterRouting,
         CheckoutCenterRoutingModule,
         ChartCenterRoutingModule,
         ClientCenterRoutingModule,
