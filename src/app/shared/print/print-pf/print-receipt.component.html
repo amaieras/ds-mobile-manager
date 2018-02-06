@@ -131,7 +131,7 @@
         </tr>
         <tr>
           <td>Preț estimativ: <span class="input-data">{{warrantyInfo.price}} RON </span></td>
-          <td>Observații:</td>
+          <td>Observații: <span class="input-data">{{warrantyInfo.phoneList[0].observation}}</span></td>
         </tr>
         <tr>
           <td>Piese  înlocuite: <span *ngFor="let part of warrantyInfo.phoneList[0].problems" class="input-data">{{part.problem}}; </span></td>

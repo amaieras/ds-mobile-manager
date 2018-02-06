@@ -7,6 +7,8 @@ import {ClientGSM} from "../../model/ClientGSM";
 import {PhoneList} from "../../model/PhoneList";
 import {WarrantyGSMInfo} from "../../model/WarrantyGSMInfo";
 import {PrintGsmReceiptComponent} from "../../shared/print/print-gsm/print-gsm-receipt.component";
+import {Subject} from "rxjs/Subject";
+import {BehaviorSubject} from "rxjs/BehaviorSubject";
 
 @Component({
   selector: 'client-gsm-detail',
@@ -23,6 +25,17 @@ export class ClientGSMDetailComponent implements OnInit {
   warrantyGSMInfo: WarrantyGSMInfo;
   @ViewChild(PrintGsmReceiptComponent ) child: PrintGsmReceiptComponent;
   noOfClients: number = 0;
+  startAt: BehaviorSubject<string|null> = new BehaviorSubject("");
+  endAt: BehaviorSubject<string|null> = new BehaviorSubject("\uf8ff");
+  clientsGSM;
+  items2: any[] = [{id: 0, payload: {label: 'Tom'}},
+    {id: 1, payload: {label: 'John'}},
+    {id: 2, payload: {label: 'Lisa'}},
+    {id: 3, payload: {label: 'Js'}},
+    {id: 4, payload: {label: 'Java'}},
+    {id: 5, payload: {label: 'c'}},
+    {id: 6, payload: {label: 'vc'}}
+  ];
 
   constructor(
     private fb: FormBuilder,
@@ -30,8 +43,8 @@ export class ClientGSMDetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.clientGSMService.getAllClients().subscribe( client => {
-      this.noOfClients = client.length;
+    this.clientGSMService.getAllClients().subscribe( clients => {
+      this.noOfClients = clients.length;
     })
     this.clientGSMForm = new FormGroup({
       'lastname': new FormControl('', [
@@ -182,6 +195,16 @@ export class ClientGSMDetailComponent implements OnInit {
     this.msgs = [];
     this.msgs.push({severity:'success', summary:'Adauga Client GSM', detail:'Client GSM adaugat cu success.'});
   }
+
+  search($event) {
+    this.clientGSMService.getClientsByName(this.startAt, this.endAt).subscribe(clients => {
+      this.clientsGSM = clients;
+      let q = $event.target.value;
+      this.startAt.next(q)
+      this.endAt.next(q+"\uf8ff")
+    })
+  }
+
 
   get lastname() { return this.clientGSMForm.get('lastname'); }
   get firstname() { return this.clientGSMForm.get('firstname'); }

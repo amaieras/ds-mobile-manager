@@ -24,7 +24,7 @@ import {CheckoutCenterRoutingModule} from "./checkout/checkout-center-routing.mo
 import {ChartsModule} from "./chart/chart.module";
 import {ChartCenterRoutingModule} from "./chart/chart-center-routing.module";
 import {HttpClientModule} from "@angular/common/http";
-
+import { AutocompleteModule } from 'ng2-input-autocomplete';
 
 export const environment = {
   production: false,
@@ -74,7 +74,8 @@ export const firebaseConfig = environment.firebaseConfig;
         AngularFireModule.initializeApp(firebaseConfig),
         AngularFireDatabaseModule,
         AngularFireAuthModule,
-        AngularFirestoreModule
+        AngularFirestoreModule,
+        AutocompleteModule
     ],
     providers: [AppToolbarService],
     bootstrap: [AppComponent]

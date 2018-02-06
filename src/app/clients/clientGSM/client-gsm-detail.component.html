@@ -6,7 +6,13 @@
         <label for="lastname">Nume</label>
         <div class="ui-inputgroup">
           <span class="ui-inputgroup-addon"><i class="fa fa-user"></i></span>
-          <input placeholder="Nume" id="lastname" class="form-control" formControlName="lastname" required>
+          <input placeholder="Nume" id="lastname" class="form-control" (keydown)="search($event)" formControlName="lastname" required>
+        </div>
+        <div *ngFor="let clientGSM of clientsGSM">
+          <h4>{{clientGSM?.lastname}}</h4>
+          <p>
+            {{clientGSM?.phone}}
+          </p>
         </div>
         <div *ngIf="lastname.invalid && (lastname.dirty || lastname.touched)"
              class="alert alert-danger">

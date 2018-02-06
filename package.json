@@ -43,6 +43,7 @@
     "jasmine-spec-reporter": "^3.3.0",
     "jspdf": "^1.3.5",
     "karma": "^1.7.0",
+    "ng2-input-autocomplete": "^0.1.0",
     "primeng": "^5.2.0-rc.2",
     "rxjs": "^5.4.3",
     "ts-node": "^2.1.2",

@@ -30,6 +30,7 @@ export class RepairGSMDetailComponent implements OnInit{
       this.dataSource = clientGSM.filter(function(item) {
         return !item.isPayed;
       });
+      console.log()
       this.totalRecords = this.dataSource.length;
       this.repairsGSM = this.dataSource;
       this.loading = false;

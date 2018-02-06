@@ -1,10 +1,10 @@
 import {Component, OnInit} from "@angular/core";
 
 @Component({
-  selector: 'app-option-offer-list',
-  templateUrl: './offer-option-list.component.html'
+  selector: 'app-add-offer-list',
+  templateUrl: './add-offer.component.html'
 })
-export class OfferOptionListComponent implements OnInit {
+export class AddOfferComponent implements OnInit {
 
   constructor() { }
 
