@@ -8,9 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 var forms_1 = require("@angular/forms");
 var core_1 = require("@angular/core");
-var DropdownModel_1 = require("../../../model/DropdownModel");
+var DropdownModel_1 = require("../../model/DropdownModel");
 var Observable_1 = require("rxjs/Observable");
-var ProblemPrice_1 = require("../../../model/ProblemPrice");
+var ProblemPrice_1 = require("../../model/ProblemPrice");
 var ProblemListComponent = /** @class */ (function () {
     function ProblemListComponent(_problemListService, _utilService, _changeDetector, _phoneListService) {
         this._problemListService = _problemListService;

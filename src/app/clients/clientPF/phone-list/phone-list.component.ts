@@ -1,5 +1,5 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {PhoneCascadeService} from '../../../shared/phone-cascade.service';
 import {Observable} from 'rxjs/Observable';
 import {UtilService} from "../../../utils/util.service";
@@ -30,7 +30,7 @@ export class PhoneListComponent implements OnInit {
   selectedModel = 'iPhone 7 Plus';
   selectedBrand = 'Iphone';
   partName: string;
-  constructor(private fb: FormBuilder, private _utilService: UtilService,
+  constructor(private _fb: FormBuilder, private _utilService: UtilService,
               private _phoneListService: PhoneListService) {
   }
 
@@ -108,7 +108,7 @@ export class PhoneListComponent implements OnInit {
   }
 
   private initProblem() {
-    return this.fb.group({
+    return this._fb.group({
       problem: '',
       pricePerPart: new FormControl('', [
         Validators.required,

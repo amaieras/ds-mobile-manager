@@ -13,12 +13,12 @@ export class OfferOptionService {
 export const offerOptions: any[] = [
   {
     id: 1,
-    type: 'Add',
+    type: 'Adauga Oferta',
     url: 'add'
   },
   {
     id: 2,
-    type: 'View',
+    type: 'Vezi oferte',
     url: 'view'
   }
 ];

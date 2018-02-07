@@ -14,24 +14,24 @@
                 </div>
               </ng-template>
             </p-dropdown>
-            <!--<div *ngIf="isRequired" >-->
-              <!--<label for="newBrand">Denumire brand</label>-->
-              <!--<input placeholder="Denumire brand" id="newBrand" (ngModelChange)="checkIfNewBrandExists($event)" class="form-control" formControlName="newBrand" [required]="isRequired ? true : null">-->
-              <!--<div *ngIf="newBrandNameExists" class="alert alert-danger">-->
-                <!--<div *ngIf="newBrandNameExists">-->
-                  <!--Noul brand de telefon pe care vrei sa il introduci exista deja in lista `Telefon`.-->
-                <!--</div>-->
-              <!--</div>-->
-            <!--</div>-->
-            <!--<div *ngIf="isRequired">-->
-              <!--<label for="newModel">Denumire model</label>-->
-              <!--<input placeholder="Denumire model" id="newModel" (ngModelChange)="checkIfNewModelExists($event)" class="form-control" formControlName="newModel" [required]="isRequired ? true : null">-->
-              <!--<div *ngIf="newModelNameExists" class="alert alert-danger">-->
-                <!--<div *ngIf="newModelNameExists">-->
-                  <!--Noul model de telefon pe care vrei sa il introduci exista deja in lista `Model`.-->
-                <!--</div>-->
-              <!--</div>-->
-            <!--</div>-->
+            <div *ngIf="isRequired" >
+              <label for="newBrand">Denumire brand</label>
+              <input placeholder="Denumire brand" id="newBrand" (ngModelChange)="checkIfNewBrandExists($event)" class="form-control" formControlName="newBrand" [required]="isRequired ? true : null">
+              <div *ngIf="newBrandNameExists" class="alert alert-danger">
+                <div *ngIf="newBrandNameExists">
+                  Noul brand de telefon pe care vrei sa il introduci exista deja in lista `Telefon`.
+                </div>
+              </div>
+            </div>
+            <div *ngIf="isRequired">
+              <label for="newModel">Denumire model</label>
+              <input placeholder="Denumire model" id="newModel" (ngModelChange)="checkIfNewModelExists($event)" class="form-control" formControlName="newModel" [required]="isRequired ? true : null">
+              <div *ngIf="newModelNameExists" class="alert alert-danger">
+                <div *ngIf="newModelNameExists">
+                  Noul model de telefon pe care vrei sa il introduci exista deja in lista `Model`.
+                </div>
+              </div>
+            </div>
           </div>
           <div class="col-md-3">
             <label for="phoneModel" style="display: block">Model</label>
@@ -44,15 +44,15 @@
               </ng-template>
             </p-dropdown>
 
-            <!--<div *ngIf="isRequiredModel">-->
-              <!--<label for="newSingleModel">Denumire model</label>-->
-              <!--<input placeholder="Denumire model" id="newSingleModel" (ngModelChange)="checkIfNewModelExists($event)" class="form-control" formControlName="newSingleModel" [required]="isRequired ? true : null">-->
-              <!--<div *ngIf="newModelNameExists" class="alert alert-danger">-->
-                <!--<div *ngIf="newModelNameExists">-->
-                  <!--Noul model de telefon pe care vrei sa il introduci exista deja in lista `Model single`.-->
-                <!--</div>-->
-              <!--</div>-->
-            <!--</div>-->
+            <div *ngIf="isRequiredModel">
+              <label for="newSingleModel">Denumire model</label>
+              <input placeholder="Denumire model" id="newSingleModel" (ngModelChange)="checkIfNewModelExists($event)" class="form-control" formControlName="newSingleModel" [required]="isRequired ? true : null">
+              <div *ngIf="newModelNameExists" class="alert alert-danger">
+                <div *ngIf="newModelNameExists">
+                  Noul model de telefon pe care vrei sa il introduci exista deja in lista `Model single`.
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="col-md-12 phone-list-pad">
@@ -62,9 +62,9 @@
                 <span>Lista piese: {{i + 1}}</span>
                 <span class="glyphicon glyphicon-remove pull-right" *ngIf="phoneListGroup.controls.problems.controls.length > 1" (click)="removeProblem(i)"></span>
               </div>
-              <!--<div class="panel-body" [formGroupName]="i">-->
-                <!--<app-problem-list (selectedPartName)="setPartName($event)" [phoneGroup]="phoneListGroup" [group]="phoneListGroup.controls['problems']['controls'][i]"></app-problem-list>-->
-              <!--</div>-->
+              <div class="panel-body" [formGroupName]="i">
+                <app-problem-list (selectedPartName)="setPartName($event)" [phoneGroup]="phoneListGroup" [group]="phoneListGroup.controls['problems']['controls'][i]"></app-problem-list>
+              </div>
             </div>
           </div>
         </div>

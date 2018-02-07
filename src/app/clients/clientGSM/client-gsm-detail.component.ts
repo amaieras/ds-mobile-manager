@@ -7,7 +7,6 @@ import {ClientGSM} from "../../model/ClientGSM";
 import {PhoneList} from "../../model/PhoneList";
 import {WarrantyGSMInfo} from "../../model/WarrantyGSMInfo";
 import {PrintGsmReceiptComponent} from "../../shared/print/print-gsm/print-gsm-receipt.component";
-import {Subject} from "rxjs/Subject";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 
 @Component({
@@ -28,14 +27,6 @@ export class ClientGSMDetailComponent implements OnInit {
   startAt: BehaviorSubject<string|null> = new BehaviorSubject("");
   endAt: BehaviorSubject<string|null> = new BehaviorSubject("\uf8ff");
   clientsGSM;
-  items2: any[] = [{id: 0, payload: {label: 'Tom'}},
-    {id: 1, payload: {label: 'John'}},
-    {id: 2, payload: {label: 'Lisa'}},
-    {id: 3, payload: {label: 'Js'}},
-    {id: 4, payload: {label: 'Java'}},
-    {id: 5, payload: {label: 'c'}},
-    {id: 6, payload: {label: 'vc'}}
-  ];
 
   constructor(
     private fb: FormBuilder,

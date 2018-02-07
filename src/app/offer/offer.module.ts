@@ -9,6 +9,8 @@ import {GrowlModule} from "primeng/growl";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {OfferPhoneListComponent} from "./offer-add/offer-phone-list/offer-phone-list.component";
 import {DropdownModule} from "primeng/primeng";
+import {SharedDsModule} from "../shared/shared-ds.module";
+import {TableModule} from "primeng/table";
 
 
 @NgModule({
@@ -18,13 +20,16 @@ import {DropdownModule} from "primeng/primeng";
     GrowlModule,
     DropdownModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedDsModule,
+    TableModule
   ],
   declarations: [
     AddOfferComponent,
     ViewOfferComponent,
     OfferOptionListComponent,
     OfferPhoneListComponent
+
   ],
   providers: [OfferOptionService]
 })

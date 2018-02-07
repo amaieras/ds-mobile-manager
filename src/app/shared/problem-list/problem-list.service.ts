@@ -1,6 +1,6 @@
 import {Injectable, OnInit} from '@angular/core';
 import {AngularFireDatabase, AngularFireList} from 'angularfire2/database';
-import {UtilService} from '../../../utils/util.service';
+import {UtilService} from '../../utils/util.service';
 import 'rxjs/add/operator/take';
 import {Observable} from 'rxjs/Observable';
 

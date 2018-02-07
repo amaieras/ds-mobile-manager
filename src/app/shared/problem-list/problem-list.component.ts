@@ -1,11 +1,11 @@
 import {Form, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ChangeDetectorRef, Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
-import {UtilService} from '../../../utils/util.service';
-import {DropdownModel} from '../../../model/DropdownModel';
+import {UtilService} from '../../utils/util.service';
+import {DropdownModel} from '../../model/DropdownModel';
 import {Observable} from 'rxjs/Observable';
 import {ProblemListService} from './problem-list.service';
-import {ProblemPrice} from "../../../model/ProblemPrice";
-import {PhoneListService} from "../../clientPF/phone-list/phone-list.service";
+import {ProblemPrice} from "../../model/ProblemPrice";
+import {PhoneListService} from "../../clients/clientPF/phone-list/phone-list.service";
 
 
 @Component({

@@ -15,9 +15,8 @@ import { ClientGSMDetailComponent } from './clientGSM/client-gsm-detail.componen
 import { ClientGSMService } from './clientGSM/client-gsm-detail.service';
 import {UtilService} from '../utils/util.service';
 import {PhoneListComponent} from './clientPF/phone-list/phone-list.component';
-import {ProblemListComponent} from './shared/problem-list/problem-list.component';
 import {PhoneGSMListComponent} from './clientGSM/phone-gsm-list/phone-gsm-list.component';
-import {ProblemListService} from './shared/problem-list/problem-list.service';
+import {ProblemListService} from '../shared/problem-list/problem-list.service';
 import {PhoneCascadeService} from '../shared/phone-cascade.service';
 import {AboutUsService} from 'app/clients/clientPF/phone-list/about-us/about-us.service';
 import {ClientGSMDisplayComponent} from "./clientGSMDisplay/client-gsm-display.component";
@@ -29,8 +28,7 @@ import {PhoneGSMDisplayListComponent} from "./clientGSMDisplay/phone-gsm-display
 
 @NgModule({
   imports: [
-    CommonModule,
-    FormsModule,
+    SharedDsModule,
     ReactiveFormsModule,
     RouterModule,
     //primeng
@@ -39,15 +37,14 @@ import {PhoneGSMDisplayListComponent} from "./clientGSMDisplay/phone-gsm-display
     CalendarModule,
     SpinnerModule,
     TooltipModule,
-    SharedDsModule,
-    SelectButtonModule
+    SelectButtonModule,
+    //
   ],
   declarations: [
     ClientTypeListComponent,
     ClientPfDetailComponent,
     ClientGSMDetailComponent,
     PhoneListComponent,
-    ProblemListComponent,
     PhoneGSMListComponent,
     PhoneGSMDisplayListComponent,
     ClientGSMDisplayComponent
@@ -59,7 +56,6 @@ import {PhoneGSMDisplayListComponent} from "./clientGSMDisplay/phone-gsm-display
     ClientGSMService,
     UtilService,
     ProblemListService,
-    ClientTypeService,
     PhoneCascadeService,
     AboutUsService,
     PhoneListService,

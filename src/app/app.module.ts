@@ -27,6 +27,7 @@ import {HttpClientModule} from "@angular/common/http";
 import { AutocompleteModule } from 'ng2-input-autocomplete';
 import {OfferModule} from "./offer/offer.module";
 import {OfferCenterRouting} from "./offer/offer-center-routing";
+import {SharedDsModule} from "./shared/shared-ds.module";
 
 export const environment = {
   production: false,
@@ -51,7 +52,7 @@ export const firebaseConfig = environment.firebaseConfig;
 
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
     ],
     imports: [
         BrowserModule,
