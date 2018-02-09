@@ -1,9 +1,9 @@
 <div class="content">
-  <p-table [value]="offers">
+  <p-table #dt [value]="offers" [globalFilterFields]="['name','phone', 'observation', 'priceOffer', 'aboutUs']">
     <ng-template pTemplate="caption">
-      <div style="text-align: right">
+      <div style="text-align: left">
         <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
-        <input type="text" pInputText size="50" placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+        <input type="text" pInputText size="50" placeholder="Cauta in nume, telefon, observatii, oferta de pret" (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
       </div>
     </ng-template>
     <ng-template pTemplate="header">
@@ -13,10 +13,41 @@
         </th>
       </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-car>
+    <ng-template pTemplate="body" let-client>
       <tr>
         <td *ngFor="let col of cols">
-          {{car[col.field]}}
+          <ng-container *ngIf="col.field == 'addedDate'">
+              <span [style.color]="client[col.field]">{{client[col.field] | date:"dd-MM-yyyy HH:mm"}}</span>
+          </ng-container>
+          <ng-container *ngIf="col.field == 'name'">
+            <span [style.color]="client[col.field]">{{client[col.field]}}</span>
+          </ng-container>
+          <ng-container *ngIf="col.field == 'phone'">
+            <span [style.color]="client[col.field]">{{client[col.field]}}</span>
+          </ng-container>
+          <ng-container *ngIf="col.field === 'phoneList'">
+              <div class="ui-grid ui-grid-responsive ui-grid-pad" *ngFor="let item of client[col.field]">
+                <div class="ui-grid-col-10">{{item.phoneBrand}} {{item.phoneModel}};</div>
+              </div>
+          </ng-container>
+          <ng-container *ngIf="col.field === 'problems'">
+            <div class="ui-grid ui-grid-responsive ui-grid-pad" *ngFor="let item of client['phoneList']">
+              <div class="ui-grid-row" *ngFor="let it of item['problems']">
+                <div class="ui-grid-col-10">{{it.problem}};</div>
+              </div>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="col.field === 'observation'">
+            <div class="ui-grid ui-grid-responsive ui-grid-pad" *ngFor="let item of client['phoneList']">
+              <div class="ui-grid-col-10">{{item.observation}};</div>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="col.field == 'priceOffer'">
+            <span [style.color]="client[col.field]">{{client[col.field]}} RON</span>
+          </ng-container>
+          <ng-container *ngIf="col.field == 'aboutUs'">
+            <span [style.color]="client[col.field]">{{client[col.field]}}</span>
+          </ng-container>
         </td>
       </tr>
     </ng-template>

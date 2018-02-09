@@ -20,8 +20,8 @@ export class ViewOfferComponent implements OnInit {
       { field: 'addedDate', header: 'Data introducerii' },
       { field: 'name', header: 'Nume' },
       { field: 'phone', header: 'Numar telefon' },
-      { field: 'model', header: 'Model' },
-      { field: 'problem', header: 'Problema' },
+      { field: 'phoneList', header: 'Model' },
+      { field: 'problems', header: 'Problema' },
       { field: 'observation', header: 'Observatii' },
       { field: 'priceOffer', header: 'Oferta de pret' },
       { field: 'aboutUs', header: 'Cum a aflat de noi?' }
