@@ -7,16 +7,20 @@ import {ClientGSM} from "../../model/ClientGSM";
 import {PhoneList} from "../../model/PhoneList";
 import {WarrantyGSMInfo} from "../../model/WarrantyGSMInfo";
 import {PrintGsmReceiptComponent} from "../../shared/print/print-gsm/print-gsm-receipt.component";
-import {BehaviorSubject} from "rxjs/BehaviorSubject";
+import {Subject} from "rxjs/Subject";
+import {Observable} from "rxjs/Observable";
+import {debounceTime, distinctUntilChanged, switchMap} from "rxjs/operators";
 
 @Component({
   selector: 'client-gsm-detail',
-  templateUrl: './client-gsm-detail.component.html'
+  templateUrl: './client-gsm-detail.component.html',
+  styleUrls: ['./client-gsm-detail.component.css']
 })
 export class ClientGSMDetailComponent implements OnInit {
   msgs: Message[] = [];
   clientGSMForm: FormGroup;
   clientGSM: ClientGSM = new ClientGSM();
+  clientGSMSearch: Observable<ClientGSM[]>;
   saveClientGSM: ClientGSM = new ClientGSM();
   defaultDate: Date = new Date();
   totalPrice = 0;
@@ -24,19 +28,27 @@ export class ClientGSMDetailComponent implements OnInit {
   warrantyGSMInfo: WarrantyGSMInfo;
   @ViewChild(PrintGsmReceiptComponent ) child: PrintGsmReceiptComponent;
   noOfClients: number = 0;
-  startAt: BehaviorSubject<string|null> = new BehaviorSubject("");
-  endAt: BehaviorSubject<string|null> = new BehaviorSubject("\uf8ff");
-  clientsGSM;
+  private searchTerms = new Subject<string>();
 
   constructor(
     private fb: FormBuilder,
-    private clientGSMService: ClientGSMService
+    private _clientGSMService: ClientGSMService
   ) { }
 
   ngOnInit() {
-    this.clientGSMService.getAllClients().subscribe( clients => {
+    this._clientGSMService.getAllClients().subscribe( clients => {
       this.noOfClients = clients.length;
     })
+      // this.clientGSMSearch = this.searchTerms.pipe(
+      //   // wait 300ms after each keystroke before considering the term
+      //   debounceTime(300),
+      //
+      //   // ignore new term if same as previous term
+      //   distinctUntilChanged(),
+      //
+      //   // switch to new search observable each time the term changes
+      //   switchMap((term: string) => this._clientGSMService.getAllClients()),
+      // );
     this.clientGSMForm = new FormGroup({
       'lastname': new FormControl('', [
         Validators.required
@@ -48,7 +60,7 @@ export class ClientGSMDetailComponent implements OnInit {
       //   // Validators.required
       // ]),
       'phone': new FormControl('', [
-        Validators.required
+        // Validators.required
       ]),
       // 'email': new FormControl('', [
       //   // Validators.required
@@ -116,7 +128,7 @@ export class ClientGSMDetailComponent implements OnInit {
   onSubmit(event: Event) {
     this.prepareSaveClientGSM();
     this.clientGSM = this.saveClientGSM;
-    this.clientGSMService.addGSMClient(this.clientGSM);
+    this._clientGSMService.addGSMClient(this.clientGSM);
     this.resetAfterSubumit();
     this.successMessage();
   }
@@ -187,13 +199,8 @@ export class ClientGSMDetailComponent implements OnInit {
     this.msgs.push({severity:'success', summary:'Adauga Client GSM', detail:'Client GSM adaugat cu success.'});
   }
 
-  search($event) {
-    this.clientGSMService.getClientsByName(this.startAt, this.endAt).subscribe(clients => {
-      this.clientsGSM = clients;
-      let q = $event.target.value;
-      this.startAt.next(q)
-      this.endAt.next(q+"\uf8ff")
-    })
+  search(event) {
+    this.searchTerms.next(event);
   }
 
 

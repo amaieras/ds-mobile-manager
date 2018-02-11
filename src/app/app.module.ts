@@ -24,10 +24,8 @@ import {CheckoutCenterRoutingModule} from "./checkout/checkout-center-routing.mo
 import {ChartsModule} from "./chart/chart.module";
 import {ChartCenterRoutingModule} from "./chart/chart-center-routing.module";
 import {HttpClientModule} from "@angular/common/http";
-import { AutocompleteModule } from 'ng2-input-autocomplete';
 import {OfferModule} from "./offer/offer.module";
 import {OfferCenterRouting} from "./offer/offer-center-routing";
-import {SharedDsModule} from "./shared/shared-ds.module";
 
 export const environment = {
   production: false,
@@ -48,7 +46,7 @@ export const environment = {
     messagingSenderId: '662623055885'
   }
 }
-export const firebaseConfig = environment.firebaseConfig;
+export const firebaseConfig = environment.firebaseConfigProd;
 
 @NgModule({
     declarations: [
@@ -79,8 +77,7 @@ export const firebaseConfig = environment.firebaseConfig;
         AngularFireModule.initializeApp(firebaseConfig),
         AngularFireDatabaseModule,
         AngularFireAuthModule,
-        AngularFirestoreModule,
-        AutocompleteModule
+        AngularFirestoreModule
     ],
     providers: [AppToolbarService],
     bootstrap: [AppComponent]

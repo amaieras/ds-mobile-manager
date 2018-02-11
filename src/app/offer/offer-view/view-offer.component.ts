@@ -14,7 +14,7 @@ export class ViewOfferComponent implements OnInit {
 
   ngOnInit() {
     this._offerService.getAllOffers().subscribe(offers=> {
-      this.offers = offers
+      this.offers = offers;
     })
     this.cols = [
       { field: 'addedDate', header: 'Data introducerii' },

@@ -19,28 +19,38 @@ export class ClientGSMService {
     this.clientsGSM.push(clientGSM);
   }
 
+  /**
+   * Adds a new gsm client if does not exist
+   * @param {ClientGSM} clientGSM
+   */
+  addGSMClientList(clientGSM: ClientGSM): void {
+
+}
+
   public getAllClients() {
     return this.clientsGSM.snapshotChanges().map(arr => {
       return arr.map(snap => Object.assign(snap.payload.val(), {$key: snap.key}));
     });
   }
 
-  public getClientsByName(start: BehaviorSubject<string>, end: BehaviorSubject<string>): Observable<any[]> {
-    return Observable.zip(start, end).switchMap(param => {
-      return this.db
-        .list('/clients/gsm', ref =>
-          ref
-            .orderByChild("lastname")
-            .limitToFirst(10)
-            .startAt(param[0])
-            .endAt(param[1])
-        )
-        .snapshotChanges()
-        .map(changes => {
-          return changes.map(c => {
-            return { key: c.payload.key, ...c.payload.val() };
-          });
-        });
-    });
+  public searchClients(term: string) {
+    this.getAllClients().subscribe(item => {
+      return Observable.of(item);
+    })
+
+    // return Observable.zip().switchMap(param => {
+    //   return this.db
+    //     .list('/clients/gsm', ref =>
+    //       ref
+    //         .orderByChild("lastname")
+    //         .startAt(term)
+    //     )
+    //     .snapshotChanges()
+    //     .map(changes => {
+    //       return changes.map(c => {
+    //         return { key: c.payload.key, ...c.payload.val() };
+    //       });
+    //     });
+    // });
   }
 }
