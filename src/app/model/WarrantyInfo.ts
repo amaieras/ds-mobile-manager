@@ -1,12 +1,6 @@
 
 export class WarrantyInfo {
-  get phoneList(): string[] {
-    return this._phoneList;
-  }
 
-  set phoneList(value: string[]) {
-    this._phoneList = value;
-  }
   private _dateAdded: string;
   private _lastname: string;
   private _firstname: string;
@@ -31,7 +25,13 @@ export class WarrantyInfo {
     this._phoneList = phoneList;
     this._noOfClients = noOfClients;
   }
+  get phoneList(): string[] {
+    return this._phoneList;
+  }
 
+  set phoneList(value: string[]) {
+    this._phoneList = value;
+  }
   get dateAdded(): string {
     return this._dateAdded;
   }

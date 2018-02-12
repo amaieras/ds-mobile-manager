@@ -1,5 +1,5 @@
 <div class="content">
-  <p-table #dt [value]="offers" [globalFilterFields]="['name','phone', 'observation', 'priceOffer', 'aboutUs']">
+  <p-table (onEditComplete)="updateField($event)" #dt [value]="offers" [globalFilterFields]="['name','phone', 'observation', 'priceOffer', 'aboutUs']">
     <ng-template pTemplate="caption">
       <div style="text-align: left">
         <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
@@ -20,6 +20,14 @@
               <span [style.color]="client[col.field]">{{client[col.field] | date:"dd-MM-yyyy HH:mm"}}</span>
           </ng-container>
           <ng-container *ngIf="col.field == 'name'">
+            <!--<p-cellEditor>-->
+              <!--<ng-template pTemplate="input">-->
+                <!--<input type="text" [(ngModel)]="client[col.field]">-->
+              <!--</ng-template>-->
+              <!--<ng-template pTemplate="output">-->
+                <!--{{client[col.field]}}-->
+              <!--</ng-template>-->
+            <!--</p-cellEditor>-->
             <span [style.color]="client[col.field]">{{client[col.field]}}</span>
           </ng-container>
           <ng-container *ngIf="col.field == 'phone'">

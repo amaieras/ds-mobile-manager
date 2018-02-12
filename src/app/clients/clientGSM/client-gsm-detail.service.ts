@@ -4,15 +4,16 @@ import {ClientGSM} from "../../model/ClientGSM";
 import 'rxjs/add/observable/zip';
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {Observable} from "rxjs/Observable";
+import {ClientGSMType} from "../../model/ClientGSMType";
 
 
 
 @Injectable()
 export class ClientGSMService {
   clientsGSM: AngularFireList<ClientGSM> = null;
-
   constructor(private db: AngularFireDatabase) {
     this.clientsGSM = db.list('/clients/gsm');
+
   }
 
   addGSMClient(clientGSM: ClientGSM): void {
@@ -20,11 +21,11 @@ export class ClientGSMService {
   }
 
   /**
-   * Adds a new gsm client if does not exist
+   * Adds a new gsm client type if does not exist
    * @param {ClientGSM} clientGSM
    */
-  addGSMClientList(clientGSM: ClientGSM): void {
-
+  addGSMClientList(clientGSMType: ClientGSMType): void {
+    this.db.list("/client-gsm-list").push(clientGSMType);
 }
 
   public getAllClients() {
@@ -32,25 +33,39 @@ export class ClientGSMService {
       return arr.map(snap => Object.assign(snap.payload.val(), {$key: snap.key}));
     });
   }
+  public getAllClientsList() {
+    return this.db
+      .list("/client-gsm-list").snapshotChanges().map(arr => {
+      return arr.map(snap => Object.assign(snap.payload.val(), {$key: snap.key}));
+    });
+  }
 
-  public searchClients(term: string) {
-    this.getAllClients().subscribe(item => {
-      return Observable.of(item);
-    })
+  /**
+   * Return the list of client gsm types for a given string
+   * @param startAt
+   * @param endAt
+   * @returns {Observable<any>}
+   */
+  public getAllClientsListByName(startAt, endAt) {
+    return Observable.zip(startAt, endAt).switchMap(param => {
+      return this.db
+        .list("/client-gsm-list", ref =>
+          ref
+            .orderByChild("name")
+            .startAt(param[0])
+            .endAt(param[1])
+        )
+        .snapshotChanges()
+        .map(changes => {
+          return changes.map(c => {
+            return { key: c.payload.key, ...c.payload.val() };
+          });
+        });
+    });
+  }
 
-    // return Observable.zip().switchMap(param => {
-    //   return this.db
-    //     .list('/clients/gsm', ref =>
-    //       ref
-    //         .orderByChild("lastname")
-    //         .startAt(term)
-    //     )
-    //     .snapshotChanges()
-    //     .map(changes => {
-    //       return changes.map(c => {
-    //         return { key: c.payload.key, ...c.payload.val() };
-    //       });
-    //     });
-    // });
+  updateClientGSM(key: string, value: any): void {
+    this.db
+      .list("/client-gsm-list").update(key,{phone: value.phone, city: value.city} )
   }
 }

@@ -6,15 +6,15 @@
         <label for="lastname">Nume</label>
         <div class="ui-inputgroup">
           <span class="ui-inputgroup-addon"><i class="fa fa-user"></i></span>
-          <input placeholder="Nume" id="lastname" #searchBox class="form-control" (keydown)="search($event)" formControlName="lastname" required>
+          <input placeholder="Nume" id="lastname" #searchBox class="form-control" (keyup)="search(searchBox.value)" formControlName="lastname" required>
         </div>
-        <!--<ul class="search-result">-->
-          <!--<li *ngFor="let clientGSM of clientGSMSearch | async" >-->
-            <!--<a (click)="fillInfo(clientGSM.lastname)">-->
-              <!--{{clientGSM.lastname}}-->
-            <!--</a>-->
-          <!--</li>-->
-        <!--</ul>-->
+        <ul class="search-result">
+          <li *ngFor="let clientGSM of clientGSMSearch" >
+            <a (click)="fillInfo(clientGSM)">
+              {{clientGSM.name}} - {{clientGSM.phone}}
+            </a>
+          </li>
+        </ul>
         <div *ngIf="lastname.invalid && (lastname.dirty || lastname.touched)"
              class="alert alert-danger">
           <div *ngIf="lastname.errors.required">

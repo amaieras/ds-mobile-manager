@@ -28,4 +28,6 @@ export class ViewOfferComponent implements OnInit {
     ];
   }
 
+  updateField(val) {
+  }
 }

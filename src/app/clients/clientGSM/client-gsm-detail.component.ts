@@ -7,9 +7,9 @@ import {ClientGSM} from "../../model/ClientGSM";
 import {PhoneList} from "../../model/PhoneList";
 import {WarrantyGSMInfo} from "../../model/WarrantyGSMInfo";
 import {PrintGsmReceiptComponent} from "../../shared/print/print-gsm/print-gsm-receipt.component";
-import {Subject} from "rxjs/Subject";
-import {Observable} from "rxjs/Observable";
-import {debounceTime, distinctUntilChanged, switchMap} from "rxjs/operators";
+import {BehaviorSubject} from "rxjs/BehaviorSubject";
+import {UtilService} from "../../utils/util.service";
+import {ClientGSMType} from "../../model/ClientGSMType";
 
 @Component({
   selector: 'client-gsm-detail',
@@ -20,7 +20,9 @@ export class ClientGSMDetailComponent implements OnInit {
   msgs: Message[] = [];
   clientGSMForm: FormGroup;
   clientGSM: ClientGSM = new ClientGSM();
-  clientGSMSearch: Observable<ClientGSM[]>;
+  clientGSMSearch;
+  clientsGSM;
+  clientGSMTypeKey;
   saveClientGSM: ClientGSM = new ClientGSM();
   defaultDate: Date = new Date();
   totalPrice = 0;
@@ -28,27 +30,30 @@ export class ClientGSMDetailComponent implements OnInit {
   warrantyGSMInfo: WarrantyGSMInfo;
   @ViewChild(PrintGsmReceiptComponent ) child: PrintGsmReceiptComponent;
   noOfClients: number = 0;
-  private searchTerms = new Subject<string>();
-
+  startAt: BehaviorSubject<string|null> = new BehaviorSubject("cxzx");
+  endAt: BehaviorSubject<string|null> = new BehaviorSubject("cxzx\uf8ff");
+  newClientGSMExists: boolean = false;
   constructor(
     private fb: FormBuilder,
-    private _clientGSMService: ClientGSMService
+    private _clientGSMService: ClientGSMService,
+    private _utilService: UtilService
   ) { }
 
   ngOnInit() {
     this._clientGSMService.getAllClients().subscribe( clients => {
       this.noOfClients = clients.length;
+    });
+    this._clientGSMService.getAllClientsList().subscribe(itme => {
+      this.clientsGSM = [];
+      itme.forEach(snapshot => {
+        this.clientsGSM.push({label: snapshot.name, value: snapshot.name});
+      });
     })
-      // this.clientGSMSearch = this.searchTerms.pipe(
-      //   // wait 300ms after each keystroke before considering the term
-      //   debounceTime(300),
-      //
-      //   // ignore new term if same as previous term
-      //   distinctUntilChanged(),
-      //
-      //   // switch to new search observable each time the term changes
-      //   switchMap((term: string) => this._clientGSMService.getAllClients()),
-      // );
+    this._clientGSMService.getAllClientsListByName(this.startAt, this.endAt)
+      .subscribe(clientGSMSearch => {
+        this.clientGSMSearch = clientGSMSearch;
+
+      });
     this.clientGSMForm = new FormGroup({
       'lastname': new FormControl('', [
         Validators.required
@@ -159,6 +164,21 @@ export class ClientGSMDetailComponent implements OnInit {
     this.saveClientGSM.priceOffer = this.totalPrice;
     this.saveClientGSM.priceOfferCash = this.totalPrice === null ? 0 : +this.totalPrice;
     this.saveClientGSM.addedDate = new Date().getTime().toString();
+    let clientGSMObj = new ClientGSMType(this.clientGSMTypeKey, formModel.lastname, formModel.phone, formModel.city);
+    if (!this.checkIfNewClientGSMExists(formModel.lastname)){
+      this.addNewClientGSMType(clientGSMObj) ;
+    }
+    else {
+      this.updateClientGSMType(clientGSMObj);
+    }
+  }
+  private addNewClientGSMType(clientTypeGSM) {
+   this._clientGSMService.addGSMClientList(clientTypeGSM);
+   this.resetClientGSMListFilter('cxvx');
+  }
+
+  private updateClientGSMType(clientTypeGSM) {
+    this._clientGSMService.updateClientGSM(clientTypeGSM.$key, {phone:clientTypeGSM.phone, city:clientTypeGSM.city });
   }
 
   addBillingAddress() {
@@ -200,10 +220,29 @@ export class ClientGSMDetailComponent implements OnInit {
   }
 
   search(event) {
-    this.searchTerms.next(event);
+    if(event === "") {
+      this.resetClientGSMListFilter('cxzx');
+    } else {
+      this.resetClientGSMListFilter(event);
+    }
   }
 
+  fillInfo(clientGSM) {
+    this.resetClientGSMListFilter('cxzx');
+    this.clientGSMForm.patchValue({lastname: clientGSM.name, phone: clientGSM.phone, city: clientGSM.city});
+    this.clientGSMTypeKey = clientGSM.key;
+ }
 
+  private resetClientGSMListFilter(event) {
+    this.startAt.next(event);
+    this.endAt.next(event + "\uf8ff");
+  }
+  checkIfNewClientGSMExists(newClientGSM) {
+    if(this._utilService.isNullOrUndefined(newClientGSM)) {
+      this.newClientGSMExists = this._utilService.containsObject(newClientGSM, this.clientsGSM);
+    }
+    return this.newClientGSMExists;
+  }
   get lastname() { return this.clientGSMForm.get('lastname'); }
   get firstname() { return this.clientGSMForm.get('firstname'); }
   get firm() { return this.clientGSMForm.get('firm'); }
@@ -219,4 +258,5 @@ export class ClientGSMDetailComponent implements OnInit {
   get shipmentAddress(): FormArray {
     return this.clientGSMForm.get('shipmentAddress') as FormArray;
   }
+
 }
