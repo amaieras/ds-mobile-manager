@@ -29,6 +29,12 @@ export class OfferService {
     })
   }
 
+  updateItem(key: string, value: any): void {
+    delete(value.$key);
+    this.offers.update(key, value)
+  }
+
+
 }
 
 

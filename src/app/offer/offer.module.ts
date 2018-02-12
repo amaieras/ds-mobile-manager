@@ -8,7 +8,7 @@ import {OfferOptionService} from "./offer-option-list/offer-option.service";
 import {GrowlModule} from "primeng/growl";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {OfferPhoneListComponent} from "./offer-add/offer-phone-list/offer-phone-list.component";
-import {DropdownModule} from "primeng/primeng";
+import {DataTableModule, DropdownModule, MultiSelectModule} from "primeng/primeng";
 import {SharedDsModule} from "../shared/shared-ds.module";
 import {TableModule} from "primeng/table";
 
@@ -22,7 +22,9 @@ import {TableModule} from "primeng/table";
     FormsModule,
     ReactiveFormsModule,
     SharedDsModule,
-    TableModule
+    TableModule,
+    DataTableModule,
+    MultiSelectModule
   ],
   declarations: [
     AddOfferComponent,

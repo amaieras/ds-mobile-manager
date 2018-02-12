@@ -1,63 +1,120 @@
+<p-growl [(value)]="msgs"></p-growl>
 <div class="content">
-  <p-table (onEditComplete)="updateField($event)" #dt [value]="offers" [globalFilterFields]="['name','phone', 'observation', 'priceOffer', 'aboutUs']">
-    <ng-template pTemplate="caption">
-      <div style="text-align: left">
-        <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
-        <input type="text" pInputText size="50" placeholder="Cauta in nume, telefon, observatii, oferta de pret" (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+  <div class="ui-widget-header" style="padding:4px 10px;border-bottom: 0 none">
+    <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+    <input #gb type="text" pInputText size="50" placeholder="Cauta peste tot">
+  </div>
+  <p-dataTable [value]="offers" [editable]="true" [paginator]="true" rows="50" [rowsPerPageOptions]="[10,20,50,100]" [globalFilter]="gb" [responsive]="true"
+               (onEditComplete)="updateField($event)" [sortOrder]="-1" sortField="addedDate" [reorderableColumns]="true">
+    <p-header #fixedBox>
+      <div style="text-align:left">
+        <!--<button type="button" pButton icon="fa-file-o" iconPos="left" label="Excel" style="float:right" (click)="exportTable()"></button>-->
+        <p-multiSelect [options]="columnOptions" [(ngModel)]="cols"></p-multiSelect>
       </div>
-    </ng-template>
-    <ng-template pTemplate="header">
-      <tr>
-        <th *ngFor="let col of cols">
-          {{col.header}}
-        </th>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-client>
-      <tr>
-        <td *ngFor="let col of cols">
-          <ng-container *ngIf="col.field == 'addedDate'">
-              <span [style.color]="client[col.field]">{{client[col.field] | date:"dd-MM-yyyy HH:mm"}}</span>
-          </ng-container>
-          <ng-container *ngIf="col.field == 'name'">
-            <!--<p-cellEditor>-->
-              <!--<ng-template pTemplate="input">-->
-                <!--<input type="text" [(ngModel)]="client[col.field]">-->
-              <!--</ng-template>-->
-              <!--<ng-template pTemplate="output">-->
-                <!--{{client[col.field]}}-->
-              <!--</ng-template>-->
-            <!--</p-cellEditor>-->
-            <span [style.color]="client[col.field]">{{client[col.field]}}</span>
-          </ng-container>
-          <ng-container *ngIf="col.field == 'phone'">
-            <span [style.color]="client[col.field]">{{client[col.field]}}</span>
-          </ng-container>
-          <ng-container *ngIf="col.field === 'phoneList'">
-              <div class="ui-grid ui-grid-responsive ui-grid-pad" *ngFor="let item of client[col.field]">
-                <div class="ui-grid-col-10">{{item.phoneBrand}} {{item.phoneModel}};</div>
-              </div>
-          </ng-container>
-          <ng-container *ngIf="col.field === 'problems'">
-            <div class="ui-grid ui-grid-responsive ui-grid-pad" *ngFor="let item of client['phoneList']">
-              <div class="ui-grid-row" *ngFor="let it of item['problems']">
-                <div class="ui-grid-col-10">{{it.problem}};</div>
-              </div>
+      Reparatii pentru clientii GSM
+    </p-header>
+    <p-column *ngFor="let column of cols" [field]="column.field" [header]="column.header" [filter]="column.filter" [editable]="column.editable" [sortable]="column.sortable" >
+      <ng-container *ngIf="column.field == 'addedDate'">
+        <ng-template let-col let-row="rowData" pTemplate="body">
+          <span [style.color]="row[col.field]">{{row[col.field] | date:"dd-MM-yyyy HH:mm"}}</span>
+        </ng-template>
+      </ng-container>
+
+      <p-column field="name" header="Nume" [sortable]="true" [filter]="true" [editable]="true"></p-column>
+      <p-column field="phone" header="Numar telefon" [sortable]="true" [filter]="true" [editable]="true"></p-column>
+
+      <ng-container *ngIf="column.field == 'phoneList'" >
+        <ng-template let-col let-childs="rowData.phoneList"  pTemplate="body">
+          <div class="ui-grid ui-grid-responsive ui-grid-pad" *ngFor="let item of childs">
+            <div class="ui-grid-col-10">{{item.phoneBrand}} {{item.phoneModel}};</div>
+          </div>
+        </ng-template>
+      </ng-container>
+      <ng-container *ngIf="column.field == 'problem'" >
+        <ng-template let-col let-childs="rowData.phoneList"  pTemplate="body">
+          <div class="ui-grid ui-grid-responsive ui-grid-pad" *ngFor="let item of childs">
+            <div class="ui-grid-row" *ngFor="let it of item.problems">
+              <div class="ui-grid-col-10">{{it.problem}};</div>
             </div>
-          </ng-container>
-          <ng-container *ngIf="col.field === 'observation'">
-            <div class="ui-grid ui-grid-responsive ui-grid-pad" *ngFor="let item of client['phoneList']">
-              <div class="ui-grid-col-10">{{item.observation}};</div>
-            </div>
-          </ng-container>
-          <ng-container *ngIf="col.field == 'priceOffer'">
-            <span [style.color]="client[col.field]">{{client[col.field]}} RON</span>
-          </ng-container>
-          <ng-container *ngIf="col.field == 'aboutUs'">
-            <span [style.color]="client[col.field]">{{client[col.field]}}</span>
-          </ng-container>
-        </td>
-      </tr>
-    </ng-template>
-  </p-table>
+          </div>
+        </ng-template>
+
+      </ng-container>
+      <ng-container *ngIf="column.field == 'observation'" >
+        <ng-template let-col let-childs="rowData.phoneList"  pTemplate="body">
+          <div class="ui-grid ui-grid-responsive ui-grid-pad" *ngFor="let item of childs">
+            <div class="ui-grid-col-10">{{item.observation}};</div>
+          </div>
+        </ng-template>
+      </ng-container>
+      <p-column field="priceOffer" header="Oferta pret" [sortable]="true" [filter]="true" [editable]="true"></p-column>
+      <p-column field="aboutUs" header="Cum a aflat de noi?" [sortable]="true" [filter]="true" [editable]="true"></p-column>
+    </p-column>
+  </p-dataTable>
 </div>
+
+
+
+<!--<div class="content">-->
+  <!--<p-table (onEditComplete)="updateField($event)" #dt [value]="offers" [globalFilterFields]="['name','phone', 'observation', 'priceOffer', 'aboutUs']">-->
+    <!--<ng-template pTemplate="caption">-->
+      <!--<div style="text-align: left">-->
+        <!--<i class="fa fa-search" style="margin:4px 4px 0 0"></i>-->
+        <!--<input type="text" pInputText size="50" placeholder="Cauta in nume, telefon, observatii, oferta de pret" (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">-->
+      <!--</div>-->
+    <!--</ng-template>-->
+    <!--<ng-template pTemplate="header">-->
+      <!--<tr>-->
+        <!--<th *ngFor="let col of cols">-->
+          <!--{{col.header}}-->
+        <!--</th>-->
+      <!--</tr>-->
+    <!--</ng-template>-->
+    <!--<ng-template pTemplate="body" let-client>-->
+      <!--<tr>-->
+        <!--<td *ngFor="let col of cols">-->
+          <!--<ng-container *ngIf="col.field == 'addedDate'">-->
+              <!--<span [style.color]="client[col.field]">{{client[col.field] | date:"dd-MM-yyyy HH:mm"}}</span>-->
+          <!--</ng-container>-->
+          <!--<ng-container *ngIf="col.field == 'name'">-->
+            <!--&lt;!&ndash;<p-cellEditor>&ndash;&gt;-->
+              <!--&lt;!&ndash;<ng-template pTemplate="input">&ndash;&gt;-->
+                <!--&lt;!&ndash;<input type="text" [(ngModel)]="client[col.field]">&ndash;&gt;-->
+              <!--&lt;!&ndash;</ng-template>&ndash;&gt;-->
+              <!--&lt;!&ndash;<ng-template pTemplate="output">&ndash;&gt;-->
+                <!--&lt;!&ndash;{{client[col.field]}}&ndash;&gt;-->
+              <!--&lt;!&ndash;</ng-template>&ndash;&gt;-->
+            <!--&lt;!&ndash;</p-cellEditor>&ndash;&gt;-->
+            <!--<span [style.color]="client[col.field]">{{client[col.field]}}</span>-->
+          <!--</ng-container>-->
+          <!--<ng-container *ngIf="col.field == 'phone'">-->
+            <!--<span [style.color]="client[col.field]">{{client[col.field]}}</span>-->
+          <!--</ng-container>-->
+          <!--<ng-container *ngIf="col.field === 'phoneList'">-->
+              <!--<div class="ui-grid ui-grid-responsive ui-grid-pad" *ngFor="let item of client[col.field]">-->
+                <!--<div class="ui-grid-col-10">{{item.phoneBrand}} {{item.phoneModel}};</div>-->
+              <!--</div>-->
+          <!--</ng-container>-->
+          <!--<ng-container *ngIf="col.field === 'problems'">-->
+            <!--<div class="ui-grid ui-grid-responsive ui-grid-pad" *ngFor="let item of client['phoneList']">-->
+              <!--<div class="ui-grid-row" *ngFor="let it of item['problems']">-->
+                <!--<div class="ui-grid-col-10">{{it.problem}};</div>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</ng-container>-->
+          <!--<ng-container *ngIf="col.field === 'observation'">-->
+            <!--<div class="ui-grid ui-grid-responsive ui-grid-pad" *ngFor="let item of client['phoneList']">-->
+              <!--<div class="ui-grid-col-10">{{item.observation}};</div>-->
+            <!--</div>-->
+          <!--</ng-container>-->
+          <!--<ng-container *ngIf="col.field == 'priceOffer'">-->
+            <!--<span [style.color]="client[col.field]">{{client[col.field]}} RON</span>-->
+          <!--</ng-container>-->
+          <!--<ng-container *ngIf="col.field == 'aboutUs'">-->
+            <!--<span [style.color]="client[col.field]">{{client[col.field]}}</span>-->
+          <!--</ng-container>-->
+        <!--</td>-->
+      <!--</tr>-->
+    <!--</ng-template>-->
+  <!--</p-table>-->
+<!--</div>-->

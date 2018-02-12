@@ -25,6 +25,7 @@ export class ClientGSMService {
    * @param {ClientGSM} clientGSM
    */
   addGSMClientList(clientGSMType: ClientGSMType): void {
+    delete(clientGSMType.$key);
     this.db.list("/client-gsm-list").push(clientGSMType);
 }
 

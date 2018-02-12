@@ -1,5 +1,5 @@
 export class ClientGSMType {
-  private $key: string;
+  public $key: string;
   private name: string;
   private phone: string;
   private city: string;
