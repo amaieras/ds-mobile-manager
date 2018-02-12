@@ -46,7 +46,7 @@ export const environment = {
     messagingSenderId: '662623055885'
   }
 }
-export const firebaseConfig = environment.firebaseConfigProd;
+export const firebaseConfig = environment.firebaseConfig;
 
 @NgModule({
     declarations: [
