@@ -59,6 +59,7 @@ export class AddOfferComponent implements OnInit {
     }
     this.saveOffer.addedDate = new Date().getTime().toString();
     this.saveOffer.phoneList = PhoneListDeepCopy;
+    this.removeCtrlForNewItems();
     // this.removeCtrlForNewItems();
     // this.addNewBrandModelSynced(formModel);
     // this.addNewSingleModelSynced(formModel);
@@ -138,6 +139,29 @@ export class AddOfferComponent implements OnInit {
     return Observable
       .of(this._utilService.containsObject(this.selectedOtherName, aboutUs))
       .map(result => !result ? null : { invalid: true });
+  }
+
+  private removeCtrlForNewItems() {
+    this.saveOffer.phoneList.forEach(phone => {
+      phone.problems.forEach(problem => {
+        if (problem.partName !== undefined) {
+          problem.problem = problem.partName;
+          delete problem.partName;
+        }
+      })
+      if (phone.newBrand !== undefined) {
+        phone.phoneBrand = phone.newBrand
+        delete phone.newBrand;
+      }
+      if (phone.newModel !== undefined) {
+        phone.phoneModel = phone.newModel;
+        delete phone.newModel;
+      }
+      if (phone.newSingleModel !== undefined) {
+        phone.phoneModel = phone.newSingleModel;
+        delete phone.newSingleModel;
+      }
+    });
   }
   successMessage() {
     this.msgs = [];

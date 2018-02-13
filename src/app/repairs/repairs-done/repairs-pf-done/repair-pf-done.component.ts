@@ -173,6 +173,7 @@ export class RepairPfDoneComponent implements OnInit {
   }
 
   disabledRow(rowData: ClientPF) {
+    console.log(rowData)
     return rowData.isPayed ? 'disabled-account-row' : '';
   }
 

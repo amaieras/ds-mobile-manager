@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {OfferOptionListComponent} from "./offer-option-list/offer-option-list.component";
 import {AddOfferComponent} from "./offer-add/add-offer.component";
 import {ViewOfferComponent} from "./offer-view/view-offer.component";
+import {ViewOfferDoneComponent} from "./offer-view-done/view-offer-done.component";
 
 
 const offerCenterRoutes: Routes = [
@@ -17,12 +18,16 @@ const offerCenterRoutes: Routes = [
         pathMatch: 'full'
       },
       {
-        path: 'add',
+        path: 'add-offer',
         component: AddOfferComponent
       },
       {
-        path: 'view',
+        path: 'view-offer',
         component: ViewOfferComponent
+      },
+      {
+        path: 'view-offer-done',
+        component: ViewOfferDoneComponent
       }
     ],
     data: {

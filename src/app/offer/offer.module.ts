@@ -8,9 +8,10 @@ import {OfferOptionService} from "./offer-option-list/offer-option.service";
 import {GrowlModule} from "primeng/growl";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {OfferPhoneListComponent} from "./offer-add/offer-phone-list/offer-phone-list.component";
-import {DataTableModule, DropdownModule, MultiSelectModule} from "primeng/primeng";
+import {CheckboxModule, DataTableModule, DropdownModule, MultiSelectModule} from "primeng/primeng";
 import {SharedDsModule} from "../shared/shared-ds.module";
 import {TableModule} from "primeng/table";
+import {ViewOfferDoneComponent} from "./offer-view-done/view-offer-done.component";
 
 
 @NgModule({
@@ -24,11 +25,13 @@ import {TableModule} from "primeng/table";
     SharedDsModule,
     TableModule,
     DataTableModule,
-    MultiSelectModule
+    MultiSelectModule,
+    CheckboxModule
   ],
   declarations: [
     AddOfferComponent,
     ViewOfferComponent,
+    ViewOfferDoneComponent,
     OfferOptionListComponent,
     OfferPhoneListComponent
 

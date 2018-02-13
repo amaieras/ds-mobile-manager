@@ -7,6 +7,7 @@ export class OfferModel {
   addedDate:string;
   name:string;
   phone:string;
+  isDone: boolean;
   phoneList:PhoneList[];
   priceOffer:string;
   aboutUs:string;

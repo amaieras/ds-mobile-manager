@@ -18,7 +18,9 @@ export class ViewOfferComponent implements OnInit {
 
   ngOnInit() {
     this._offerService.getAllOffers().subscribe(offers=> {
-      this.offers = offers;
+      this.offers = offers.filter(function(item) {
+        return !item.isDone;
+      });;
       this.cols = [
         { field: 'addedDate', header: 'Data introducerii', filter: true, sortable: true },
         { field: 'name', header: 'Nume', filter: true, editable: true, sortable: true },
@@ -27,7 +29,8 @@ export class ViewOfferComponent implements OnInit {
         { field: 'problems', header: 'Problema', filter: true, sortable: true  },
         { field: 'observation', header: 'Observatii', filter: true, editable: true, sortable: true  },
         { field: 'priceOffer', header: 'Oferta de pret', filter: true, editable: true, sortable: true  },
-        { field: 'aboutUs', header: 'Cum a aflat de noi?', filter: true, editable: true, sortable: true  }
+        { field: 'aboutUs', header: 'Cum a aflat de noi?', filter: true, editable: true, sortable: true  },
+        { field: 'isDone', header: 'Terminat?', filter: true, sortable: true}
       ];
       this.columnOptions = [];
 
@@ -43,6 +46,9 @@ export class ViewOfferComponent implements OnInit {
     this.successMessage(row.data.lastname, row.data.phone,'Valoare');
   }
 
+  updateRepairFinnish(row) {
+    this._offerService.updateItem(row.$key, {isDone: row.isDone});
+  }
   successMessage(lastname, phone, msg) {
     this.msgs = [];
     let msgAux = '';
