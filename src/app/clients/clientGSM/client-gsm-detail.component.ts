@@ -195,7 +195,6 @@ export class ClientGSMDetailComponent implements OnInit {
   print() {
     this.clientGSMForm.patchValue({appointment: this.defaultDate.getTime().toString()});
     this.setWarrantyInfo();
-    this.child.print(this.warrantyGSMInfo);
     let event: Event;
     this.onSubmit(event);
   }
@@ -206,12 +205,19 @@ export class ClientGSMDetailComponent implements OnInit {
       let totalPricePerPhone = 0;
       phone.problems.forEach(prbl=> {
         totalPricePerPhone = totalPricePerPhone + prbl.pricePerPart;
+        /**
+         * Set on warranty print the new name of the problem if new one is needed
+         */
+        if (prbl.problem.toLowerCase() === 'altele') {
+          prbl.problem = prbl.partName;
+        }
       })
       phone.totalPricePerPhone = totalPricePerPhone * phone.phoneQuantity;
     })
     const dateNow = Date.now().toString();
     this.warrantyGSMInfo = new WarrantyGSMInfo(dateNow, formModel.lastname, formModel.phone, this.totalPrice,
       this.noOfClients + 1, formModel.phoneList);
+    this.child.print(this.warrantyGSMInfo);
   }
 
   successMessage() {

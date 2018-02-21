@@ -321,21 +321,27 @@ export class ClientPfDetailComponent implements OnInit {
   print() {
     this.clientPFForm.patchValue({appointment: this.defaultDate.getTime().toString()});
     this.setWarrantyInfo();
-    this.child.print(this.warrantyInfo);
     let event: Event;
     this.onSubmit(event);
   }
 
   private setWarrantyInfo() {
     const formModel = this.clientPFForm.value;
-      let dateNow = Date.now().toString();
-      console.log(formModel)
+    let dateNow = Date.now().toString()
+    for (let i = 0; i < formModel.phoneList.length; i++) {
+      for (let j = 0; j < formModel.phoneList[i].problems.length; j++) {
+        /**
+         * Set on warranty print the new name of the problem if new one is needed
+         */
+        if (formModel.phoneList[i].problems[j].problem.toLowerCase() === 'altele') {
+          formModel.phoneList[i].problems[j].problem = formModel.phoneList[i].problems[j].partName;
+        }
+      }
       this.warrantyInfo = new WarrantyInfo(dateNow, formModel.lastname, formModel.firstname, formModel.phone, this.totalPrice,
-        formModel.tested, formModel.aboutUs,formModel.phoneList, formModel.appointment, this.noOfClients + 1);
-  }
+        formModel.tested, formModel.aboutUs,formModel.phoneList[i], formModel.appointment, this.noOfClients + 1);
+      this.child.print(this.warrantyInfo);
+    }
 
-  searchClient(clientLastName) {
-    let q = clientLastName.target.value;
   }
 
   successMessage() {
