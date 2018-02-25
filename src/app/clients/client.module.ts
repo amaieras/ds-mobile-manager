@@ -24,6 +24,7 @@ import {PhoneListService} from "./clientPF/phone-list/phone-list.service";
 import {SharedDsModule} from "../shared/shared-ds.module";
 import {ClientGSMDisplayService} from "./clientGSMDisplay/client-gsm-display-detail.service";
 import {PhoneGSMDisplayListComponent} from "./clientGSMDisplay/phone-gsm-display-list/phone-gsm-display-list.component";
+import {TitleCasePipe} from "../shared/TitleCasePipe";
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import {PhoneGSMDisplayListComponent} from "./clientGSMDisplay/phone-gsm-display
     PhoneListComponent,
     PhoneGSMListComponent,
     PhoneGSMDisplayListComponent,
-    ClientGSMDisplayComponent
+    ClientGSMDisplayComponent,
+    TitleCasePipe
 
   ],
   providers: [

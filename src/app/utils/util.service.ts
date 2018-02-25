@@ -74,4 +74,14 @@ export class UtilService {
     let year = today.getFullYear().toString();
     return day + month + year + '_' + hours + minutes + seconds;
   }
+
+  /**
+   * Converts a given string to title case string, making first letter of each word uppercase
+   * @param str
+   * @returns {string | any | void}
+   */
+  toTitleCase(str)
+  {
+    return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+  }
 }

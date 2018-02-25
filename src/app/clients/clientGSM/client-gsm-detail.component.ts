@@ -10,6 +10,7 @@ import {PrintGsmReceiptComponent} from "../../shared/print/print-gsm/print-gsm-r
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {UtilService} from "../../utils/util.service";
 import {ClientGSMType} from "../../model/ClientGSMType";
+import {TitleCasePipe} from "../../shared/TitleCasePipe";
 
 @Component({
   selector: 'client-gsm-detail',
@@ -145,6 +146,8 @@ export class ClientGSMDetailComponent implements OnInit {
   }
   prepareSaveClientGSM() {
     const formModel = this.clientGSMForm.value;
+    let clientName = formModel.lastname.toLowerCase();
+    let clientCity = formModel.city.toLowerCase();
     // const billingAddressDeepCopy: Address[] = formModel.billingAddress.map(
     //   (address: Address) => Object.assign({}, address)
     // );
@@ -164,8 +167,8 @@ export class ClientGSMDetailComponent implements OnInit {
     this.saveClientGSM.priceOffer = this.totalPrice;
     this.saveClientGSM.priceOfferCash = this.totalPrice === null ? 0 : +this.totalPrice;
     this.saveClientGSM.addedDate = new Date().getTime().toString();
-    let clientGSMObj = new ClientGSMType(this.clientGSMTypeKey, formModel.lastname, formModel.phone, formModel.city);
-    if (!this.checkIfNewClientGSMExists(formModel.lastname)){
+    let clientGSMObj = new ClientGSMType(this.clientGSMTypeKey, clientName, formModel.phone, clientCity);
+    if (!this.checkIfNewClientGSMExists(clientName)){
       this.addNewClientGSMType(clientGSMObj) ;
     }
     else {
@@ -235,7 +238,7 @@ export class ClientGSMDetailComponent implements OnInit {
 
   fillInfo(clientGSM) {
     this.resetClientGSMListFilter('cxzx');
-    this.clientGSMForm.patchValue({lastname: clientGSM.name, phone: clientGSM.phone, city: clientGSM.city});
+    this.clientGSMForm.patchValue({lastname: this._utilService.toTitleCase(clientGSM.name), phone: clientGSM.phone, city: this._utilService.toTitleCase(clientGSM.city)});
     this.clientGSMTypeKey = clientGSM.key;
  }
 

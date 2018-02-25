@@ -11,7 +11,7 @@
         <ul class="search-result">
           <li *ngFor="let clientGSM of clientGSMSearch" >
             <a (click)="fillInfo(clientGSM)">
-              {{clientGSM.name}} - {{clientGSM.phone}}
+              {{clientGSM.name | titleCase}} - {{clientGSM.phone}}
             </a>
           </li>
         </ul>
