@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from "@angular/core";
+import {ChangeDetectorRef, Component, OnInit, ViewChild} from "@angular/core";
 import { SelectItem,Message } from "primeng/primeng";
 import { RepairGSMDetailService } from "./repair-gsm-detail.service";
 import {Observable} from "rxjs/Observable";
@@ -23,7 +23,8 @@ export class RepairGSMDetailComponent implements OnInit{
   csvSeparator: string;
   @ViewChild(PrintGsmReceiptComponent) child: PrintGsmReceiptComponent;
 
-  constructor(private repairGSMService: RepairGSMDetailService, private _clientGSMService: ClientGSMService, private _utilService: UtilService) { }
+  constructor(private repairGSMService: RepairGSMDetailService, private _clientGSMService: ClientGSMService,
+              private _utilService: UtilService, private _changeDetector: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.getClientsGSMList().subscribe(clientGSM => {
@@ -46,7 +47,8 @@ export class RepairGSMDetailComponent implements OnInit{
         {field: 'priceOfferCard', header: 'Total card', filter: true, editable: true, sortable: true},
         {field: 'city', header: 'Orasul', filter: true, editable: true, sortable: true},
         {field: 'isRepaired', header: 'Reparat?', filter: true, editable: false , sortable: true},
-        {field: 'isPayed', header: 'Achitat?', filter: true, editable: false , sortable: true}
+        {field: 'isPayed', header: 'Achitat?', filter: true, editable: false , sortable: true},
+        {field: 'isSent', header: 'Colet trimis?', filter: true, editable: false , sortable: true},
       ];
 
       this.columnOptions = [];
@@ -111,6 +113,9 @@ export class RepairGSMDetailComponent implements OnInit{
       let date = new Date().getTime().toString();
       this.repairGSMService.updateItem(row.$key, {deliveredDate: date});
     }
+  }
+  updateRadioItem(row, payType){
+    this.repairGSMService.updateItem(row.$key, {isSent: payType});
   }
   updateRepairFinnish(row) {
     this.repairGSMService.updateItem(row.$key, {isRepaired: row.isRepaired});
@@ -254,6 +259,7 @@ export class RepairGSMDetailComponent implements OnInit{
   isRepairDone(rowData: ClientGSM) {
     return rowData.isRepaired ? 'repair-is-done' : '';
   }
+
   printGSMRepair(repairGSM) {
     this._clientGSMService.getAllClients().subscribe( client => {
         let warrantyGSMInfo = new WarrantyGSMInfo(repairGSM.addedDate, repairGSM.lastname, repairGSM.phone,

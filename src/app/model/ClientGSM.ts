@@ -15,6 +15,7 @@ export class ClientGSM {
   priceOffer: number;
   isRepaired = false;
   isPayed = false;
+  isSent = false;
   deliveredDate: string;
   country: string;
   city: string;

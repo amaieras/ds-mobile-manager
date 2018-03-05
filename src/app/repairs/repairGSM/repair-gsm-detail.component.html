@@ -34,6 +34,12 @@
           <p-checkbox [(ngModel)]="row[col.field]" label="Achitat" binary="true" (onChange)="updateCheckedItem(row)"></p-checkbox>
         </ng-template>
       </ng-container>
+      <ng-container *ngIf="column.field === 'isSent'">
+        <ng-template pTemplate="body" let-col let-row="rowData">
+          <p-radioButton name="groupname" label="Ramburs" value="ramburs" [(ngModel)]="row[col.field]" (onClick)="updateRadioItem(row, 'ramburs')"></p-radioButton>
+          <p-radioButton name="groupname" label="Card" value="card" [(ngModel)]="row[col.field]" (onClick)="updateRadioItem(row, 'card')"></p-radioButton>
+        </ng-template>
+      </ng-container>
       <ng-container *ngIf="column.field == 'phoneList'" >
         <ng-template let-col let-childs="rowData.phoneList"  pTemplate="body">
           <div class="ui-grid ui-grid-responsive ui-grid-pad" *ngFor="let item of childs">

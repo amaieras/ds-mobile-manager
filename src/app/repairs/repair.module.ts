@@ -7,7 +7,7 @@ import { RepairTypeListComponent } from "./repair-type-list/repair-type-list.com
 import { RepairPFDetailComponent } from "./repairPF/repair-pf-detail.component";
 import { RepairGSMDetailComponent } from "./repairGSM/repair-gsm-detail.component"
 import {
-  CalendarModule, DataTableModule, DropdownModule, GrowlModule, MultiSelectModule,
+  CalendarModule, DataTableModule, DropdownModule, GrowlModule, MultiSelectModule, RadioButtonModule,
   SharedModule
 } from "primeng/primeng"
 import { DialogModule, CheckboxModule } from "primeng/primeng";
@@ -100,6 +100,7 @@ import {TableModule} from "primeng/table";
     SharedModule,
     DialogModule,
     CheckboxModule,
+    RadioButtonModule,
     MultiSelectModule,
     DropdownModule,
     CalendarModule,
