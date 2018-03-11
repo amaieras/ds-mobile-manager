@@ -80,50 +80,5 @@
       </ng-template>
     </p-column>
   </p-dataTable>
-
-  <!--<p-table [value]="repairsGSM" [columns]="cols">-->
-    <!--<ng-template pTemplate="header" let-columns>-->
-      <!--<tr>-->
-        <!--<th *ngFor="let col of columns">-->
-          <!--{{col.header}}-->
-        <!--</th>-->
-      <!--</tr>-->
-    <!--</ng-template>-->
-    <!--<ng-template pTemplate="body" let-repairGSM>-->
-      <!--<tr>-->
-        <!--<td>{{repairGSM.addedDate | date:"dd-MM-yyyy HH:mm"}}</td>-->
-        <!--<td>{{repairGSM.lastname}}</td>-->
-        <!--<td>{{repairGSM.phone}}</td>-->
-        <!--<td>-->
-          <!--<span *ngFor="let item of repairGSM.phoneList">-->
-            <!--{{item.phoneBrand}} {{item.phoneModel}};-->
-          <!--</span>-->
-        <!--</td>-->
-        <!--<td>-->
-          <!--<span *ngFor="let item of repairGSM.phoneList">-->
-            <!--{{item.observation}}<span *ngIf="item.observation.length > 0">;</span>-->
-          <!--</span>-->
-        <!--</td>-->
-        <!--<td>-->
-          <!--<span *ngFor="let item of repairGSM.phoneList">-->
-            <!--{{item.phoneColor}}<span *ngIf="item.phoneColor.length > 0">;</span>-->
-          <!--</span>-->
-        <!--</td>-->
-        <!--<td>-->
-          <!--<span *ngFor="let item of repairGSM.phoneList.problems">-->
-            <!--{{item.problem}}-->
-          <!--</span>-->
-        <!--</td>-->
-        <!--<td>{{repairGSM.priceOffer}}</td>-->
-        <!--<td>{{repairGSM.priceOfferCash}}</td>-->
-        <!--<td>{{repairGSM.priceOfferCard}}</td>-->
-        <!--<td>{{repairGSM.city}}</td>-->
-        <!--<td>-->
-          <!--<p-checkbox [(ngModel)]="repairGSM.isRepaired" label="Achitat" binary="true" (onChange)="updateCheckedItem(row)"></p-checkbox>-->
-        <!--</td>-->
-        <!--<td>{{repairGSM.isPayed}}</td>-->
-      <!--</tr>-->
-    <!--</ng-template>-->
-  <!--</p-table>-->
   <app-print-gsm-receipt></app-print-gsm-receipt>
 </div>

@@ -9,7 +9,7 @@ import { ClientType, ClientTypeService } from './client-type.service';
   templateUrl: './client-type-list.component.html'
 })
 export class ClientTypeListComponent implements OnInit {
-  clientTypes: Observable<ClientType[]>;
+  clientTypes: any;
   isLoading = false;
   selectedClientType: ClientType;
   selectedId: number;
@@ -22,7 +22,7 @@ export class ClientTypeListComponent implements OnInit {
   }
 
   getClientTypes() {
-    this.isLoading = true;
+    this.isLoading = false;
     this.clientTypes = this.clientTypeService.getClientTypes()
       // Todo: error handling
       .finally(() => this.isLoading = false);

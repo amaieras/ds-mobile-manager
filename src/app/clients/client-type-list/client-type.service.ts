@@ -6,7 +6,7 @@ import 'rxjs/add/operator/delay';
 
 @Injectable()
 export class ClientTypeService {
-  getClientTypes(): Observable<ClientType[]> {
+  getClientTypes(): any {
     return of(clientTypes);
   }
 }
@@ -29,6 +29,11 @@ export const clientTypes: ClientType[] = [
   },
   {
     id: 3,
+    type: 'GSM-trimis',
+    url: 'gsm-sent'
+  },
+  {
+    id: 4,
     type: 'GSM-Vanzare/Imprumut Display',
     url: 'gsm-display'
   }

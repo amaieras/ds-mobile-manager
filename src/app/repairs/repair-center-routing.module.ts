@@ -9,6 +9,7 @@ import {RepairGSMDisplayDetailComponent} from "./repairGSMDisplay/repair-gsm-dis
 import {RepairPfDoneComponent} from "./repairs-done/repairs-pf-done/repair-pf-done.component";
 import {RepairGsmDoneComponent} from "./repairs-done/repairs-gsm-done/repair-gsm-done.component";
 import {RepairGsmDisplayDoneComponent} from "./repairs-done/repairs-gsm-display-done/repair-gsm-display-done.component";
+import {RepairGsmSentComponent} from "./repairsGSMSent/repair-gsm-sent.component";
 
 
 const repairsCenterRoutes: Routes = [
@@ -36,6 +37,10 @@ const repairsCenterRoutes: Routes = [
       {
         path: 'gsm-display',
         component: RepairGSMDisplayDetailComponent
+      },
+      {
+        path: 'gsm-sent',
+        component: RepairGsmSentComponent
       }
     ],
     data: {
