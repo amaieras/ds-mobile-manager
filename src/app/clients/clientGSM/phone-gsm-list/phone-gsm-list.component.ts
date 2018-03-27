@@ -6,6 +6,7 @@ import {forbiddenStringInput} from "../../../shared/forbiddenStringInput";
 import {Observable} from "rxjs/Observable";
 import {UtilService} from "../../../utils/util.service";
 import {SelectItem} from "primeng/primeng";
+import {ClientService} from "../../shared/client.service";
 
 @Component({
   selector: 'phone-gsm-list',
@@ -31,7 +32,9 @@ export class PhoneGSMListComponent implements OnInit {
   selectedType: string;
   types: SelectItem[];
 
-  constructor(private fb: FormBuilder, private _phoneListService: PhoneListService, private _utilService: UtilService) {
+  constructor(private _fb: FormBuilder, private _phoneListService: PhoneListService,
+              private _utilService: UtilService,
+              private _clientService: ClientService) {
     this.mainArray = [];
 
     this.types = [];
@@ -63,7 +66,7 @@ export class PhoneGSMListComponent implements OnInit {
    * @param {FormArray} problemArray
    */
   private setPriceForNewPart(newProblem: FormGroup) {
-    this._phoneListService.getPartPrices().subscribe(parts => {
+    this._clientService.getPartPrices().subscribe(parts => {
       this.problemsPriceList = [];
       parts.forEach(snapshot => {
         this.problemsPriceList.push(new ProblemPrice(snapshot.problemId, snapshot.phoneBrand, snapshot.phoneModel, snapshot.price));
@@ -93,7 +96,7 @@ export class PhoneGSMListComponent implements OnInit {
       this.checkIfNewModelExists(this.newModel.value)
     }
     this._phoneListService.getModelList().subscribe(phoneBrands => {
-      this._phoneListService.getPartPrices().subscribe(parts => {
+      this._clientService.getPartPrices().subscribe(parts => {
         this.problemsPriceList = [];
         parts.forEach(snapshot => {
           this.problemsPriceList.push(new ProblemPrice(snapshot.problemId, snapshot.phoneBrand, snapshot.phoneModel, snapshot.price));
@@ -139,7 +142,7 @@ export class PhoneGSMListComponent implements OnInit {
     const problemArray = this.phoneListGroup.controls['problems'] as FormArray;
     this.checkIsOtherModel(modelId);
     const that = this;
-    this._phoneListService.getPartPrices().subscribe(parts => {
+    this._clientService.getPartPrices().subscribe(parts => {
       this.problemsPriceList = [];
       parts.forEach(snapshot => {
         this.problemsPriceList.push(new ProblemPrice(snapshot.problemId, snapshot.phoneBrand, snapshot.phoneModel, snapshot.price));
@@ -229,14 +232,19 @@ export class PhoneGSMListComponent implements OnInit {
       .of(this._utilService.containsObject(modelName, modelNames))
       .map(result => !result ? null : { invalid: true });
   }
+
   setPartName(val) {
     this.partName = val;
   }
+
   private initProblem() {
-    return this.fb.group({
+    return this._fb.group({
       problem: '',
       pricePerPart: new FormControl('', [
         Validators.required,
+        forbiddenStringInput(/^\\d+$/)
+      ]),
+      phoneQuantity: new FormControl('1', [
         forbiddenStringInput(/^\\d+$/)
       ]),
     });
@@ -256,7 +264,7 @@ export class PhoneGSMListComponent implements OnInit {
       });
       this.phoneModelsArray = this.phoneModelsArray.filter((item) => item.phoneId === "iphone" || item.phoneId === 'altele');
     });
-    this._phoneListService.getPartPrices().subscribe(parts => {
+    this._clientService.getPartPrices().subscribe(parts => {
       this.problemsPriceList = [];
       parts.forEach(snapshot => {
         this.problemsPriceList.push(new ProblemPrice(snapshot.problemId, snapshot.phoneBrand, snapshot.phoneModel, snapshot.price));

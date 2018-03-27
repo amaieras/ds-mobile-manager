@@ -6,6 +6,7 @@ import {UtilService} from "../../../utils/util.service";
 import {forbiddenStringInput} from "../../../shared/forbiddenStringInput";
 import {ProblemPrice} from "../../../model/ProblemPrice";
 import {PhoneListService} from "./phone-list.service";
+import {ClientService} from "../../shared/client.service";
 
 @Component({
   selector: 'app-phone-list',
@@ -31,7 +32,8 @@ export class PhoneListComponent implements OnInit {
   selectedBrand = 'Iphone';
   partName: string;
   constructor(private _fb: FormBuilder, private _utilService: UtilService,
-              private _phoneListService: PhoneListService) {
+              private _phoneListService: PhoneListService,
+              private _clientService: ClientService) {
   }
 
   ngOnInit() {
@@ -55,7 +57,7 @@ export class PhoneListComponent implements OnInit {
       });
       this.phoneModelsArray = this.phoneModelsArray.filter((item) => item.phoneId === "iphone" || item.phoneId === 'altele');
     });
-    this._phoneListService.getPartPrices().subscribe(parts => {
+    this._clientService.getPartPrices().subscribe(parts => {
       this.problemsPriceList = [];
       parts.forEach(snapshot => {
         this.problemsPriceList.push(new ProblemPrice(snapshot.problemId, snapshot.phoneBrand, snapshot.phoneModel, snapshot.price));
@@ -85,7 +87,7 @@ export class PhoneListComponent implements OnInit {
    * @param {FormArray} problemArray
    */
   private setPriceForNewPart(newProblem: FormGroup) {
-    this._phoneListService.getPartPrices().subscribe(parts => {
+    this._clientService.getPartPrices().subscribe(parts => {
       this.problemsPriceList = [];
       parts.forEach(snapshot => {
         this.problemsPriceList.push(new ProblemPrice(snapshot.problemId, snapshot.phoneBrand, snapshot.phoneModel, snapshot.price));
@@ -114,6 +116,7 @@ export class PhoneListComponent implements OnInit {
         Validators.required,
         forbiddenStringInput(/^\\d+$/)
       ]),
+      phoneQuantity: '1'
     });
   }
 
@@ -126,7 +129,7 @@ export class PhoneListComponent implements OnInit {
       this.checkIfNewModelExists(this.newModel.value)
     }
     this._phoneListService.getModelList().subscribe(phoneBrands => {
-      this._phoneListService.getPartPrices().subscribe(parts => {
+      this._clientService.getPartPrices().subscribe(parts => {
         this.problemsPriceList = [];
         parts.forEach(snapshot => {
           this.problemsPriceList.push(new ProblemPrice(snapshot.problemId, snapshot.phoneBrand, snapshot.phoneModel, snapshot.price));
@@ -172,7 +175,7 @@ export class PhoneListComponent implements OnInit {
     const problemArray = this.phoneListGroup.controls['problems'] as FormArray;
     this.checkIsOtherModel(modelId);
     const that = this;
-    this._phoneListService.getPartPrices().subscribe(parts => {
+    this._clientService.getPartPrices().subscribe(parts => {
       this.problemsPriceList = [];
       parts.forEach(snapshot => {
         this.problemsPriceList.push(new ProblemPrice(snapshot.problemId, snapshot.phoneBrand, snapshot.phoneModel, snapshot.price));

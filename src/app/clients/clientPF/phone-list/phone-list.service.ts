@@ -8,12 +8,10 @@ import {Observable} from 'rxjs/Observable';
 export class PhoneListService implements OnInit {
   brandList: AngularFireList<any> = null;
   modelList: AngularFireList<any> = null;
-  partsPrices: AngularFireList<any> = null;
-  item:  Observable<string>;l;
-  constructor(private db: AngularFireDatabase, private _utilService: UtilService) {
-    this.brandList = this.db.list('phones/phoneBrands');
-    this.modelList = this.db.list('phones/phoneModels');
-    this.partsPrices = this.db.list('parts-pf');
+  item:  Observable<string>;
+  constructor(private _db: AngularFireDatabase) {
+    this.brandList = this._db.list('phones/phoneBrands');
+    this.modelList = this._db.list('phones/phoneModels');
   }
   ngOnInit() {
   }
@@ -28,42 +26,6 @@ export class PhoneListService implements OnInit {
       //noinspection TypeScriptUnresolvedVariable
       return arr.map(snap => Object.assign(snap.payload.val(), {$key: snap.key}));
     });
-  }
-  public getBrandNameById(id: number): Observable<any>{
-    return this.getBrandList().take(1).map(items => {
-      items.filter( a => +a.$key === +id)
-        .map(cs => {
-          return this.item = cs.name
-        });
-      return this.item;
-    });
-  }
-  public getModelNameById(id: number): Observable<any>{
-    return this.getModelList().take(1).map(items => {
-      items.filter( a => +a.$key === +id)
-        .map(cs => {
-          return this.item = cs.name
-        });
-      return this.item;
-    });
-  }
-  public getMaxIdFromBrands(): Observable<any> {
-    return this.getBrandList().take(1).map(item => {
-      return this._utilService.getMaxIdNewItems(item);
-    });
-  }
-  public getMaxIdFromModels(): Observable<any> {
-    return this.getModelList().take(1).map(item => {
-      return this._utilService.getMaxIdNewItems(item);
-    });
-  }
-
-  public getPartPrices() {
-    return this.partsPrices.snapshotChanges().map(arr => {
-      //noinspection TypeScriptUnresolvedVariable
-      return arr.map(snap => Object.assign(snap.payload.val(), {$key: snap.key}));
-    });
-
   }
 
   public addNewBrand(brandName: string) {
@@ -84,7 +46,7 @@ export class PhoneListService implements OnInit {
     })
   }
 
-  public getModelsOfSeries(brand:string, series: string){
+  public getModelsOfSeries(brand:string, series: string) {
    return this.modelList.snapshotChanges().map(arr => {
       return arr
         .filter(snap => {

@@ -16,7 +16,6 @@ import { ClientGSMService } from './clientGSM/client-gsm-detail.service';
 import {UtilService} from '../utils/util.service';
 import {PhoneListComponent} from './clientPF/phone-list/phone-list.component';
 import {PhoneGSMListComponent} from './clientGSM/phone-gsm-list/phone-gsm-list.component';
-import {ProblemListService} from '../shared/problem-list/problem-list.service';
 import {PhoneCascadeService} from '../shared/phone-cascade.service';
 import {AboutUsService} from 'app/clients/clientPF/phone-list/about-us/about-us.service';
 import {ClientGSMDisplayComponent} from "./clientGSMDisplay/client-gsm-display.component";
@@ -25,6 +24,7 @@ import {SharedDsModule} from "../shared/shared-ds.module";
 import {ClientGSMDisplayService} from "./clientGSMDisplay/client-gsm-display-detail.service";
 import {PhoneGSMDisplayListComponent} from "./clientGSMDisplay/phone-gsm-display-list/phone-gsm-display-list.component";
 import {TitleCasePipe} from "../shared/TitleCasePipe";
+import {ClientService} from "./shared/client.service";
 
 
 @NgModule({
@@ -57,11 +57,11 @@ import {TitleCasePipe} from "../shared/TitleCasePipe";
     ClientPFService,
     ClientGSMService,
     UtilService,
-    ProblemListService,
     PhoneCascadeService,
     AboutUsService,
     PhoneListService,
-    ClientGSMDisplayService
+    ClientGSMDisplayService,
+    ClientService
   ]
 })
 export class ClientModule { }

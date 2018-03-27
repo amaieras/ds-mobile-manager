@@ -11,8 +11,8 @@ import {ClientGSMType} from "../../model/ClientGSMType";
 @Injectable()
 export class ClientGSMService {
   clientsGSM: AngularFireList<ClientGSM> = null;
-  constructor(private db: AngularFireDatabase) {
-    this.clientsGSM = db.list('/clients/gsm');
+  constructor(private _db: AngularFireDatabase) {
+    this.clientsGSM = this._db.list('/clients/gsm');
 
   }
 
@@ -26,7 +26,7 @@ export class ClientGSMService {
    */
   addGSMClientList(clientGSMType: ClientGSMType): void {
     delete(clientGSMType.$key);
-    this.db.list("/client-gsm-list").push(clientGSMType);
+    this._db.list("/client-gsm-list").push(clientGSMType);
 }
 
   public getAllClients() {
@@ -35,7 +35,7 @@ export class ClientGSMService {
     });
   }
   public getAllClientsList() {
-    return this.db
+    return this._db
       .list("/client-gsm-list").snapshotChanges().map(arr => {
       return arr.map(snap => Object.assign(snap.payload.val(), {$key: snap.key}));
     });
@@ -49,7 +49,7 @@ export class ClientGSMService {
    */
   public getAllClientsListByName(startAt, endAt) {
     return Observable.zip(startAt, endAt).switchMap(param => {
-      return this.db
+      return this._db
         .list("/client-gsm-list", ref =>
           ref
             .orderByChild("name")
@@ -66,7 +66,7 @@ export class ClientGSMService {
   }
 
   updateClientGSM(key: string, value: any): void {
-    this.db
+    this._db
       .list("/client-gsm-list").update(key,{phone: value.phone, city: value.city} )
   }
 }

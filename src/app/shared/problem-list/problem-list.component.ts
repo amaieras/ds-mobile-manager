@@ -1,11 +1,10 @@
-import {Form, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ChangeDetectorRef, Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 import {UtilService} from '../../utils/util.service';
 import {DropdownModel} from '../../model/DropdownModel';
 import {Observable} from 'rxjs/Observable';
-import {ProblemListService} from './problem-list.service';
 import {ProblemPrice} from "../../model/ProblemPrice";
-import {PhoneListService} from "../../clients/clientPF/phone-list/phone-list.service";
+import {ClientService} from "../../clients/shared/client.service";
 
 
 @Component({
@@ -23,17 +22,17 @@ export class ProblemListComponent implements OnInit {
   isRequired = false;
   isPresent = false;
 
-  constructor(private _problemListService: ProblemListService, private _utilService: UtilService,
-              private _changeDetector: ChangeDetectorRef, private _phoneListService: PhoneListService) { }
+  constructor(private _utilService: UtilService,
+              private _clientService: ClientService,
+              private _changeDetector: ChangeDetectorRef) { }
   ngOnInit() {
-    this._problemListService.getProblemList().subscribe(problemsList => {
+    this._clientService.getProblemList().subscribe(problemsList => {
       this.problemsList = [];
       problemsList.forEach(snapshot => {
         this.problemsList.push(new DropdownModel(snapshot.name, snapshot.name));
       });
       this.problems = this.problemsList;
     });
-
   }
   newPartNameValidator() {
     const problems = this.problemsList;
@@ -48,7 +47,7 @@ export class ProblemListComponent implements OnInit {
   checkIsOther(val) {
     this.setPriceForPart();
     this.selectedPartName.emit(val.selectedProblem);
-    this._problemListService.getProblemPriceList().subscribe(problemsPriceList => {
+    this._clientService.getPartPrices().subscribe(problemsPriceList => {
       this.problemsPriceList = [];
       problemsPriceList.forEach(snapshot => {
         this.problemsPriceList.push(new ProblemPrice(snapshot.problemId, snapshot.phoneBrand, snapshot.phoneModel, snapshot.price));
@@ -74,7 +73,7 @@ export class ProblemListComponent implements OnInit {
   }
 
   private setPriceOnGUI(phoneBrand: string, phoneModel: string) {
-    this._phoneListService.getPartPrices().subscribe(parts => {
+    this._clientService.getPartPrices().subscribe(parts => {
       this.problemsPriceList = [];
       parts.forEach(snapshot => {
         this.problemsPriceList.push(new ProblemPrice(snapshot.problemId, snapshot.phoneBrand, snapshot.phoneModel, snapshot.price));

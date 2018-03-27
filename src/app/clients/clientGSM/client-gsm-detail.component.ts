@@ -10,7 +10,7 @@ import {PrintGsmReceiptComponent} from "../../shared/print/print-gsm/print-gsm-r
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {UtilService} from "../../utils/util.service";
 import {ClientGSMType} from "../../model/ClientGSMType";
-import {TitleCasePipe} from "../../shared/TitleCasePipe";
+import {ClientService} from "../shared/client.service";
 
 @Component({
   selector: 'client-gsm-detail',
@@ -37,16 +37,17 @@ export class ClientGSMDetailComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private _clientGSMService: ClientGSMService,
-    private _utilService: UtilService
+    private _utilService: UtilService,
+    private _clientService: ClientService
   ) { }
 
   ngOnInit() {
     this._clientGSMService.getAllClients().subscribe( clients => {
       this.noOfClients = clients.length;
     });
-    this._clientGSMService.getAllClientsList().subscribe(itme => {
+    this._clientGSMService.getAllClientsList().subscribe(item => {
       this.clientsGSM = [];
-      itme.forEach(snapshot => {
+      item.forEach(snapshot => {
         this.clientsGSM.push({label: snapshot.name, value: snapshot.name});
       });
     })
@@ -100,8 +101,8 @@ export class ClientGSMDetailComponent implements OnInit {
     const formModel = this.clientGSMForm.value;
     let totalPrice = 0;
     for (let i = 0; i < formModel.phoneList.length; i++) {
-      let phoneQuantity = +formModel.phoneList[i].phoneQuantity;
       for (let j = 0; j < formModel.phoneList[i].problems.length; j++) {
+        let phoneQuantity = +formModel.phoneList[i].problems[j].phoneQuantity;
         const item = formModel.phoneList[i].problems[j];
         if (item.pricePerPart !== '') {
           totalPrice = totalPrice + item.pricePerPart * phoneQuantity;
@@ -115,8 +116,10 @@ export class ClientGSMDetailComponent implements OnInit {
     const formModel = this.clientGSMForm.value;
     let totalQuantity = 0;
     for (let i = 0; i < formModel.phoneList.length; i++) {
-      const item = formModel.phoneList[i];
-      totalQuantity = totalQuantity + +item.phoneQuantity;
+      for(let j=0; j < formModel.phoneList[i].problems.length; j++) {
+        const item = formModel.phoneList[i].problems[j];
+        totalQuantity = totalQuantity + +item.phoneQuantity;
+      }
     }
     this.totalNoQuantity = totalQuantity;
   }
@@ -125,7 +128,6 @@ export class ClientGSMDetailComponent implements OnInit {
       phoneBrand: '',
       phoneModel: '',
       phoneColor: '',
-      phoneQuantity: '0',
       totalPricePerPhone: '0',
       problems: this.fb.array([]),
       observation: ''
@@ -159,8 +161,11 @@ export class ClientGSMDetailComponent implements OnInit {
     );
     // this.saveClientGSM.billingAddress = billingAddressDeepCopy;
     // this.saveClientGSM.shipmentAddress = shipmentAddressDeepCopy;
+    this._clientService.addNewPartPrice(formModel);
+    this._clientService.addNewProblemName(formModel);
     this.saveClientGSM.clientNo = this.noOfClients + 1;
     this.saveClientGSM.phoneList = PhoneListDeepCopy;
+    this.removeCtrlForNewItems();
     this.saveClientGSM.lastname = formModel.lastname;
     this.saveClientGSM.phone = formModel.phone;
     this.saveClientGSM.city = formModel.city;
@@ -175,6 +180,11 @@ export class ClientGSMDetailComponent implements OnInit {
       this.updateClientGSMType(clientGSMObj);
     }
   }
+
+  private removeCtrlForNewItems() {
+    this.saveClientGSM = this._clientService.removeCtrlForNewItems(this.saveClientGSM);
+  }
+
   private addNewClientGSMType(clientTypeGSM) {
    this._clientGSMService.addGSMClientList(clientTypeGSM);
    this.resetClientGSMListFilter('cxvx');
@@ -206,21 +216,19 @@ export class ClientGSMDetailComponent implements OnInit {
     const formModel = this.clientGSMForm.value;
     formModel.phoneList.forEach(phone=> {
       let totalPricePerPhone = 0;
+      phone.phoneBrand = phone.phoneBrand.toLowerCase() === 'altele' ? phone.newBrand : phone.phoneBrand;
+      phone.phoneModel = phone.phoneModel.toLowerCase() === 'altele' ? phone.newModel : phone.phoneModel;
+
       phone.problems.forEach(prbl=> {
         totalPricePerPhone = totalPricePerPhone + prbl.pricePerPart;
-        /**
-         * Set on warranty print the new name of the problem if new one is needed
-         */
-        if (prbl.problem.toLowerCase() === 'altele') {
-          prbl.problem = prbl.partName;
-        }
+        prbl.problem = prbl.problem.toLowerCase() === 'altele' ? prbl.partName : prbl.problem;
+        phone.totalPricePerPhone = totalPricePerPhone * +prbl.phoneQuantity;
       })
-      phone.totalPricePerPhone = totalPricePerPhone * phone.phoneQuantity;
     })
     const dateNow = Date.now().toString();
     this.warrantyGSMInfo = new WarrantyGSMInfo(dateNow, formModel.lastname, formModel.phone, this.totalPrice,
       this.noOfClients + 1, formModel.phoneList);
-    this.child.print(this.warrantyGSMInfo);
+     this.child.print(this.warrantyGSMInfo);
   }
 
   successMessage() {

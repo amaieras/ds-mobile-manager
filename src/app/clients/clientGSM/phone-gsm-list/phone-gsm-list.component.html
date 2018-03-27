@@ -49,7 +49,7 @@
                 <input placeholder="Denumire model" id="newSingleModel" (ngModelChange)="checkIfNewModelExists($event)" class="form-control" formControlName="newSingleModel" [required]="isRequired ? true : null">
                 <div *ngIf="newModelNameExists" class="alert alert-danger">
                   <div *ngIf="newModelNameExists">
-                    Noul model de telefon pe care vrei sa il introduci exista deja in lista `Model single`.
+                    Noul model de telefon pe care vrei sa il introduci exista deja in lista `Model`.
                   </div>
                 </div>
               </div>
@@ -62,10 +62,10 @@
               <label for="phoneColor">Culoare</label>
               <input placeholder="Culoare" id="phoneColor" class="form-control" formControlName="phoneColor">
             </div>
-            <div class="col-md-3">
-              <label for="phoneQuantity">Cantitate</label>
-              <input placeholder="Cantitate" id="phoneQuantity" class="form-control" formControlName="phoneQuantity">
-            </div>
+            <!--<div class="col-md-3">-->
+              <!--<label for="phoneQuantity">Cantitate</label>-->
+              <!--<input placeholder="Cantitate" id="phoneQuantity" class="form-control" formControlName="phoneQuantity">-->
+            <!--</div>-->
           </div>
           <div class="col-md-12 phone-list-pad">
             <div formArrayName="problems">

@@ -55,7 +55,7 @@
                 <input placeholder="Denumire model" id="newSingleModel" (ngModelChange)="checkIfNewModelExists($event)" class="form-control" formControlName="newSingleModel" [required]="isRequired ? true : null">
                 <div *ngIf="newModelNameExists" class="alert alert-danger">
                   <div *ngIf="newModelNameExists">
-                    Noul model de telefon pe care vrei sa il introduci exista deja in lista `Model single`.
+                    Noul model de telefon pe care vrei sa il introduci exista deja in lista `Model`.
                   </div>
                 </div>
               </div>

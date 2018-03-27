@@ -25,10 +25,10 @@ const clientsCenterRoutes: Routes = [
           path: 'gsm',
           component: ClientGSMDetailComponent
         },
-        {
-          path: 'gsm-display',
-          component: ClientGSMDisplayComponent
-        }
+        // {
+        //   path: 'gsm-display',
+        //   component: ClientGSMDisplayComponent
+        // }
       ],
     data: {
       title: 'Adaugă clienţi'

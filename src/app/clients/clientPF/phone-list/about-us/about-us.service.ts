@@ -7,7 +7,7 @@ import {UtilService} from "../../../../utils/util.service";
 export class AboutUsService {
   aboutUsList: AngularFireList<any> = null;
   item:  Observable<string>;
-  constructor(private db: AngularFireDatabase, private _utilService: UtilService) {
+  constructor(private db: AngularFireDatabase) {
     this.aboutUsList = this.db.list('aboutus-list');
   }
 

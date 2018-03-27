@@ -11,7 +11,7 @@ export class ClientPFService {
   clients: AngularFireList<ClientPF> = null;
   constructor(private db: AngularFireDatabase) {
     this.clientsPF = db.list('/clients/pf');
-    this.partPrices = db.list('parts-pf');
+    this.partPrices = db.list('/part-price-list');
   }
 
   public getAllClients() {
@@ -25,19 +25,7 @@ export class ClientPFService {
   updateItem(key: string, value: any): void {
      this.partPrices.update(key,{price: value} )
   }
-  public addNewPartPrice(phoneBrand, phoneModel, price, problemId) {
-    this.partPrices.push({phoneBrand, phoneModel, price, problemId});
-  }
 
-  public getPartPrices() {
-    return this.partPrices.snapshotChanges().map(arr => {
-      return arr.map(snap => Object.assign(snap.payload.val(), {$key: snap.key}));
-    })
-  }
-
-  public getClients(start, end) {
-
-  }
 }
 
 

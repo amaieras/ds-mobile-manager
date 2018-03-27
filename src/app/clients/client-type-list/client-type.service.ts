@@ -32,10 +32,10 @@ export const clientTypes: ClientType[] = [
     type: 'GSM-trimis',
     url: 'gsm-sent'
   },
-  {
-    id: 4,
-    type: 'GSM-Vanzare/Imprumut Display',
-    url: 'gsm-display'
-  }
+  // {
+  //   id: 4,
+  //   type: 'GSM-Vanzare/Imprumut Display',
+  //   url: 'gsm-display'
+  // }
 ];
 
