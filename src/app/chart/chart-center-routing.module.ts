@@ -8,12 +8,14 @@ import {AboutUsChartComponent} from "./about-us-chart/about-us-chart.component";
 import {ClientChartComponent} from "./client-chart/client-chart.component";
 import {MoneyChartComponent} from "./money-chart/money-chart.component";
 import {PhoneDetailedComponent} from "./phone-detailed/phone-detailed.component";
+import {AdminGuard} from "../guards/admin.guard";
 
 
 const chartCenterRoutes: Routes = [
   {
     path: 'chart',
     component: ChartPfComponent,
+    canActivate: [AdminGuard],
     children: [
       {
         path: '',
