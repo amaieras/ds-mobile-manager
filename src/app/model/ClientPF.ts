@@ -1,4 +1,6 @@
 import {PhoneList} from "./PhoneList";
+import {PaymentMethod} from "app/model/PaymentMethod";
+
 /**
  * Created by Spacaru on 10/22/2017.
  */
@@ -16,6 +18,7 @@ export class ClientPF {
   tested:string;
   imei:string;
   priceOffer:string;
+  paymentMethod: PaymentMethod;
   appointmentDate:string;
   aboutUs:string;
   aboutUsName: string;

@@ -5,4 +5,5 @@ export class ProblemList {
   partName = '';
   problem = 'Sticla';
   pricePerPart = 0;
+  phoneQuantity = 1;
 }

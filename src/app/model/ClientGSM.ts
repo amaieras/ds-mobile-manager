@@ -1,6 +1,7 @@
 
 import {PhoneList} from "./PhoneList";
 import {Address} from "./Address";
+import {PaymentMethod} from "./PaymentMethod";
 
 export class ClientGSM {
   constructor() { }
@@ -13,6 +14,7 @@ export class ClientGSM {
   email: string;
   phoneList: PhoneList[];
   priceOffer: number;
+  paymentMethod: PaymentMethod;
   isRepaired = false;
   isPayed = false;
   isSent = false;

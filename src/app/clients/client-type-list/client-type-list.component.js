@@ -21,7 +21,7 @@ var ClientTypeListComponent = /** @class */ (function () {
     };
     ClientTypeListComponent.prototype.getClientTypes = function () {
         var _this = this;
-        this.isLoading = true;
+        this.isLoading = false;
         this.clientTypes = this.clientTypeService.getClientTypes()
             .finally(function () { return _this.isLoading = false; });
         this.clientTypes.subscribe(function (data) { return ''; }, function (err) { return console.log(err + ' Error fetching client types.'); });

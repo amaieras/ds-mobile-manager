@@ -7,13 +7,24 @@ import {UtilService} from "../../utils/util.service";
 import {ClientPFService} from "../../clients/clientPF/client-pf-detail.service";
 import {PrintReceiptComponent} from "../../shared/print/print-pf/print-receipt.component";
 import {WarrantyInfo} from "../../model/WarrantyInfo";
+import {PaymentMethod} from "../../model/PaymentMethod";
 
 @Component({
   selector: 'repair-pf-detail',
-  templateUrl: './repair-pf-detail.component.html'
+  templateUrl: './repair-pf-detail.component.html',
+  styles: [`
+        .ui-grid-row div {
+          padding: 4px 10px
+        }
+        
+        .ui-grid-row div label {
+          font-weight: bold;
+        }
+  `]
 })
 export class RepairPFDetailComponent implements OnInit {
   repairsPF: ClientPF[];
+  clientPF: ClientPF = new ClientPF();
   dataSource: ClientPF[];
   loading = true;
   cols:any[];
@@ -24,6 +35,8 @@ export class RepairPFDetailComponent implements OnInit {
   totalRecords: number;
   csvSeparator: string;
   isPayedActive: false;
+  displayDialog: boolean;
+  selectedClient: ClientPF;
   @ViewChild(PrintReceiptComponent) child: PrintReceiptComponent;
 
   constructor(private repairPFService:RepairPFDetailService, private _clientPFService: ClientPFService, private _el: ElementRef, private _utilService: UtilService) {
@@ -31,6 +44,7 @@ export class RepairPFDetailComponent implements OnInit {
 
   ngOnInit() {
     this.csvSeparator = ',';
+    this.clientPF.paymentMethod = new PaymentMethod(0,0,0,0,0);
     window.addEventListener('scroll', this.scroll, true); //third parameter
 
     this.defaultDate.setHours(12,0);
@@ -57,14 +71,14 @@ export class RepairPFDetailComponent implements OnInit {
           {field: 'phoneCode', header: 'Cod Telefon', filter: true, editable: true, sortable: true},
           {field: 'problem', header: 'Problema', filter: true, sortable: true},
           {field: 'imei', header: 'IMEI', filter: true, sortable: true},
-          {field: 'priceOffer', header: 'Oferta pret', filter: true, editable: true, sortable: true},
-          {field: 'priceOfferCash', header: 'Total cash', filter: true, editable: true, sortable: true},
-          {field: 'priceOfferCard', header: 'Total card', filter: true, editable: true, sortable: true},
+          // {field: 'priceOffer', header: 'Oferta pret', filter: true, editable: true, sortable: true},
+          // {field: 'priceOfferCash', header: 'Total cash', filter: true, editable: true, sortable: true},
+          // {field: 'priceOfferCard', header: 'Total card', filter: true, editable: true, sortable: true},
           {field: 'appointmentDate', header: 'Data si ora programarii', filter: true, editable: true, sortable: true},
           {field: 'tested', header: 'Testat?', filter: true, editable: true, sortable: true},
           {field: 'aboutUs', header: 'Cum a aflat de noi?', filter: true, editable: false, sortable: true},
-          {field: 'isRepaired', header: 'Reparat?', filter: true, editable: false , sortable: true},
-          {field: 'isPayed', header: 'Achitat?', filter: true, editable: false , sortable: true}
+          // {field: 'isRepaired', header: 'Reparat?', filter: true, editable: false , sortable: true},
+          // {field: 'isPayed', header: 'Achitat?', filter: true, editable: false , sortable: true}
         ];
 
         this.columnOptions = [];
@@ -76,10 +90,28 @@ export class RepairPFDetailComponent implements OnInit {
       });
     }, 0)
   }
-
-  ngOnDestroy() {
-    window.removeEventListener('scroll', this.scroll, true);
+  onRowSelect(event) {
+    this.clientPF = this.cloneClient(event.data);
+    this.displayDialog = true;
   }
+  cloneClient(c: ClientPF): ClientPF {
+    let clientPF = new ClientPF();
+    for(let prop in c) {
+      clientPF[prop] = c[prop];
+    }
+    return clientPF;
+  }
+
+  save() {
+    this.updateField(this.clientPF);
+    this.displayDialog = false;
+  }
+  cancel() {
+    this.displayDialog = false;
+  }
+  // ngOnDestroy() {
+  //   window.removeEventListener('scroll', this.scroll, true);
+  // }
 
   scroll = (): void => {
     let tableOffset = this._el.nativeElement.querySelector('table').getBoundingClientRect().top;
@@ -90,39 +122,45 @@ export class RepairPFDetailComponent implements OnInit {
       this._el.nativeElement.querySelector('thead').classList.remove('sticky-head')
     }
   };
-  updateField(event) {
-    const fieldName = event.column.field;
-    const fieldVal = event.data[fieldName];
-    let obj = {};
-    obj[fieldName] = fieldVal;
-    this.repairPFService.updateItem(event.data.$key, obj);
-    if(fieldName === "priceOfferCard" || fieldName === "priceOfferCash") {
-      let poVal = event.data['priceOffer'] || 0;
-      if(fieldName === "priceOfferCard") {
-        obj['priceOfferCash'] = +poVal - +obj[fieldName];
-        if (obj['priceOfferCash'] > 0) {
-          this.repairPFService.updateItem(event.data.$key, obj);
-        }
-      }
-      else {
-        obj['priceOfferCard'] = +poVal - +obj[fieldName];
-        if (obj['priceOfferCard'] > 0) {
-          this.repairPFService.updateItem(event.data.$key, obj);
-        }
-      }
-      obj['priceOffer'] = +obj['priceOfferCard'] + +obj['priceOfferCash'];
-      this.repairPFService.updateItem(event.data.$key, obj);
-    }
-    //add price difference to total cash when priceOffer is modified
-    if(fieldName === "priceOffer") {
-      let priceOffer = event.data['priceOffer'] || 0;
-      let priceOfferCard = event.data['priceOfferCard'] || 0;
-      obj['priceOfferCash'] = +priceOffer - +priceOfferCard;
-      this.repairPFService.updateItem(event.data.$key, obj);
-    }
-    this.updateArrayItem(fieldName, event, fieldVal);
-    this.successMessage(event.data.lastname, event.data.firstname, event.data.phone,'Valoare');
+  updateField(clientPF) {
+    const clientKey = clientPF.$key;
+    delete clientPF.$key;
+    this.repairPFService.updateItem(clientKey, clientPF);
+    this.successMessage(clientPF.lastname, "", clientPF.phone,'Valoare');
   }
+  // updateField(event) {
+  //   const fieldName = event.column.field;
+  //   const fieldVal = event.data[fieldName];
+  //   let obj = {};
+  //   obj[fieldName] = fieldVal;
+  //   this.repairPFService.updateItem(event.data.$key, obj);
+  //   // if(fieldName === "priceOfferCard" || fieldName === "priceOfferCash") {
+  //   //   let poVal = event.data['priceOffer'] || 0;
+  //   //   if(fieldName === "priceOfferCard") {
+  //   //     obj['priceOfferCash'] = +poVal - +obj[fieldName];
+  //   //     if (obj['priceOfferCash'] > 0) {
+  //   //       this.repairPFService.updateItem(event.data.$key, obj);
+  //   //     }
+  //   //   }
+  //   //   else {
+  //   //     obj['priceOfferCard'] = +poVal - +obj[fieldName];
+  //   //     if (obj['priceOfferCard'] > 0) {
+  //   //       this.repairPFService.updateItem(event.data.$key, obj);
+  //   //     }
+  //   //   }
+  //   //   obj['priceOffer'] = +obj['priceOfferCard'] + +obj['priceOfferCash'];
+  //   //   this.repairPFService.updateItem(event.data.$key, obj);
+  //   // }
+  //   //add price difference to total cash when priceOffer is modified
+  //   // if(fieldName === "priceOffer") {
+  //   //   let priceOffer = event.data['priceOffer'] || 0;
+  //   //   let priceOfferCard = event.data['priceOfferCard'] || 0;
+  //   //   obj['priceOfferCash'] = +priceOffer - +priceOfferCard;
+  //   //   this.repairPFService.updateItem(event.data.$key, obj);
+  //   // }
+  //   // this.updateArrayItem(fieldName, event, fieldVal);
+  //   this.successMessage(event.data.lastname, event.data.firstname, event.data.phone,'Valoare');
+  // }
 
   private updateArrayItem(fieldName: any, event, fieldVal: any) {
     let obj = {};

@@ -18,6 +18,9 @@ export class AppComponent {
         this.mainMenuItems.push(this.mainMenuItems.shift());
         this.mainMenuItems.push(this.mainMenuItems.shift());
         this.mainMenuItems.push(this.mainMenuItems.shift());
+        //temporary remove reports link until user and roles are assigned
+        this.mainMenuItems.splice(-1,1);
+        this.mainMenuItems.push(this.mainMenuItems.shift());
         this.activeMenuItem$ = this.toolbarService.activeMenuItem$;
     }
 }

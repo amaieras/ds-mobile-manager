@@ -12,14 +12,15 @@ export class AdminGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
 
-    return this.auth.user
-      .take(1)
-      .map(user => _.has(_.get(user, 'roles'), 'admin'))
-      .do(authorized => {
-        if (!authorized) {
-          console.log('route prevented!')
-          //  this.router.navigate(['/']);
-        }
-      })
+    return true;
+    // this.auth.user
+    //   .take(1)
+    //   .map(user => _.has(_.get(user, 'roles'), 'admin'))
+    //   .do(authorized => {
+    //     if (!authorized) {
+    //       console.log('route prevented!')
+    //       //  this.router.navigate(['/']);
+    //     }
+    //   })
   }
 }

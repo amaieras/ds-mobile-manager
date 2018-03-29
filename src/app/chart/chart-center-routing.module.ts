@@ -1,8 +1,6 @@
 import {RouterModule, Routes} from "@angular/router";
 import {ChartPfComponent} from "./chart-pf.component";
 import {NgModule} from "@angular/core";
-import {ClientPfDetailComponent} from "../clients/clientPF/client-pf-detail.component";
-import {ClientGSMDetailComponent} from "../clients/clientGSM/client-gsm-detail.component";
 import {PhonesChartComponent} from "./phones-chart/phones-chart.component";
 import {AboutUsChartComponent} from "./about-us-chart/about-us-chart.component";
 import {ClientChartComponent} from "./client-chart/client-chart.component";
@@ -15,7 +13,7 @@ const chartCenterRoutes: Routes = [
   {
     path: 'chart',
     component: ChartPfComponent,
-    canActivate: [AdminGuard],
+    // canActivate: [AdminGuard],
     children: [
       {
         path: '',

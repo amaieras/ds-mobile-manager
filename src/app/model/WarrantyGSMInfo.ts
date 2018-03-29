@@ -1,13 +1,15 @@
 
+import {PhoneList} from "./PhoneList";
+
 export class WarrantyGSMInfo {
   private _dateAdded: string;
   private _lastname: string;
   private _phoneNumber: string;
   private _price: number;
-  private _phoneList: string[];
+  private _phoneList: PhoneList[];
   private _noOfClients: number;
 
-  constructor(dateAdded: string, lastname: string, phoneNumber: string, price: number, noOfClients: number, phoneList: string[]) {
+  constructor(dateAdded: string, lastname: string, phoneNumber: string, price: number, noOfClients: number, phoneList: PhoneList[]) {
     this._dateAdded = dateAdded;
     this._lastname = lastname;
     this._phoneNumber = phoneNumber;

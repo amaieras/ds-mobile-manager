@@ -13,19 +13,19 @@ export class AuthService {
   users: AngularFireList<any> = null;
   constructor(private afAuth: AngularFireAuth,
               private db: AngularFireDatabase) {
-    this.afAuth.authState
-      .switchMap(auth => {
-        if (auth) {
-          /// signed in
-          return this.db.object('users/' + auth.uid)
-        } else {
-          /// not signed in
-          return Observable.of(null)
-        }
-      })
-      .subscribe(user => {
-        this.user.next(user)
-      })
+    // this.afAuth.authState
+    //   .switchMap(auth => {
+    //     if (auth) {
+    //       /// signed in
+    //       return this.db.object('users/' + auth.uid)
+    //     } else {
+    //       /// not signed in
+    //       return Observable.of(null)
+    //     }
+    //   })
+    //   .subscribe(user => {
+    //     this.user.next(user)
+    //   })
   }
 
   googleLogin() {
@@ -47,9 +47,9 @@ export class AuthService {
     const ref = this.db.object('users/' + authData.uid);
     this.getUsers(authData).take(1)
       .subscribe(user => {
-        if (!user.role) {
-          ref.update(userData)
-        }
+        // if (!user.role) {
+        //   ref.update(userData)
+        // }
       })
 
   }

@@ -12,6 +12,7 @@ import {PhoneListService} from 'app/clients/clientPF/phone-list/phone-list.servi
 import {PrintReceiptComponent} from "../../shared/print/print-pf/print-receipt.component";
 import {WarrantyInfo} from "../../model/WarrantyInfo";
 import {ClientService} from 'app/clients/shared/client.service';
+import {PaymentMethod} from "../../model/PaymentMethod";
 
 @Component({
   selector: 'app-client-pf-detail',
@@ -19,6 +20,7 @@ import {ClientService} from 'app/clients/shared/client.service';
 })
 export class ClientPfDetailComponent implements OnInit {
   clientPF: ClientPF = new ClientPF();
+  paymentMethodType: PaymentMethod = new PaymentMethod(0,0,0,0,0);
   msgs: Message[] = [];
   tests: SelectItem[];
   clientPFForm: FormGroup;
@@ -34,7 +36,6 @@ export class ClientPfDetailComponent implements OnInit {
   selectedOtherName = '';
   totalPrice = 0;
   noOfClients: number = 0;
-  existingPartPrices = [];
   warrantyInfo: WarrantyInfo;
 
   @ViewChild(PrintReceiptComponent ) child: PrintReceiptComponent;
@@ -71,7 +72,8 @@ export class ClientPfDetailComponent implements OnInit {
       ]),
       phoneList: this.fb.array([]),
       'tested': new FormControl('NU', []),
-      'priceOffer': new FormControl({value: 0, disabled: true}),
+      'paymentMethod': new FormControl(0,[]),
+      'priceOffer': new FormControl({value: this.paymentMethodType.repayment, disabled: true}),
       'appointment': new FormControl(this.defaultDate.getTime().toString(), []),
       'aboutUs': new FormControl('FACEBOOK', [])
     });
@@ -100,11 +102,11 @@ export class ClientPfDetailComponent implements OnInit {
       for (let j = 0; j < formModel.phoneList[i].problems.length; j++) {
         const item = formModel.phoneList[i].problems[j];
         if (item.pricePerPart !== '') {
-          totalPrice = totalPrice + item.pricePerPart;
+          totalPrice = totalPrice + item.pricePerPart ;
         }
       }
     }
-    this.totalPrice = totalPrice;
+    this.totalPrice = totalPrice - formModel.paymentMethod;
   }
 
   prepareSavePhoneList() {
@@ -125,6 +127,7 @@ export class ClientPfDetailComponent implements OnInit {
     this.saveClientPF.clientNo = this.noOfClients + 1;
     this.saveClientPF.phone = formModel.phone;
     this.saveClientPF.tested = formModel.tested;
+    this.saveClientPF.paymentMethod = new PaymentMethod(0,0,0,0,formModel.paymentMethod);
     this.saveClientPF.aboutUs = this.selectedOtherName !== '' ? this.selectedOtherName : formModel.aboutUs;
     this.saveClientPF.priceOffer = this.totalPrice === null ? '0' : this.totalPrice.toString();
     this.saveClientPF.priceOfferCash = this.totalPrice === null ? '0' : this.totalPrice.toString();
@@ -316,6 +319,10 @@ export class ClientPfDetailComponent implements OnInit {
   get priceOffer() {
     //noinspection TypeScriptUnresolvedFunction
     return this.clientPFForm.get('priceOffer');
+  }
+  get paymentMethod() {
+    //noinspection TypeScriptUnresolvedFunction
+    return this.clientPFForm.get('paymentMethod');
   }
 
   get appointment() {

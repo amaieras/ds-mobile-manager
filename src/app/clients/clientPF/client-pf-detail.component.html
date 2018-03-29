@@ -73,7 +73,14 @@
       <button type="button" class="btn btn-primary" (click)="addInPhoneList()">Adauga alt telefon +</button>
     </div>
 
-
+    <div class="form-group">
+      <label for="priceOffer">Avans</label>
+      <div class="ui-inputgroup">
+        <span class="ui-inputgroup-addon" style="width: 50px;">RON</span>
+        <!--<p-spinner size="30" id="priceOffer" [(ngModel)]="price" [ngModelOptions]="{standalone: true}" ></p-spinner>-->
+        <input placeholder="Avans" id="paymentMethod" class="form-control" formControlName="paymentMethod" style="width: auto !important;">
+      </div>
+    </div>
     <div class="form-group">
       <label for="priceOffer">Total de plata</label>
       <div class="ui-inputgroup">
