@@ -56,11 +56,11 @@ export class WarrantyGSMInfo {
   set price(value: number) {
     this._price = value;
   }
-  get phoneList(): string[] {
+  get phoneList(): PhoneList[] {
     return this._phoneList;
   }
 
-  set phoneList(value: string[]) {
+  set phoneList(value: PhoneList[]) {
     this._phoneList = value;
   }
 }

@@ -1,0 +1,7 @@
+<div class="container-fluid">
+  <nav>
+    <a *ngFor="let reportType of reportTypes | async"
+       [routerLink]="[reportType.url]">{{reportType.type}}</a>
+  </nav>
+</div>
+<router-outlet></router-outlet>

@@ -1,34 +1,44 @@
-
-<date-filter (onDatePicked)="getCheckoutForDate($event)"></date-filter>
+<div class="col-md-12">
+  <label for="appointmentDate" style="display: block">Interval</label>
+  <p-calendar id="appointmentDate" [(ngModel)]="rangeDates" selectionMode="range" readonlyInput="true"
+              [monthNavigator]="true" [yearNavigator]="true" yearRange="2017:2030" [showIcon]="true"
+              (onSelect)="onRangeSelect($event)">
+  </p-calendar>
+</div>
 
 <amexio-card-pane [enableFooter]="false">
   <amexio-pane-header>
-    <h1>Rapoarte - {{currDate | date:"dd/MM/yyyy"}}</h1>
+    <h2>Rapoarte - De la {{rangeDates[0] | date:"dd/MM/yyyy"}} - Pana la {{rangeDates[1] | date:"dd/MM/yyyy"}}</h2>
   </amexio-pane-header>
   <amexio-pane-body>
     <div class="card">
       <div class="card-block">
         <div class="row">
-          <!--<div class="col-lg-6">-->
-            <!--<amexio-datapoints [west]="true" [center]="true" [east]="true" [south]="true" [backgroundColor]="'#efa64c'" [fontColor]="'#ffffff'">-->
-              <!--<amexio-west [contentalign]="'center'" [width]="'100px'">-->
-                <!--<amexio-image [imageClass]="'fa fa-line-chart fa-4x'"></amexio-image>-->
-              <!--</amexio-west>-->
-              <!--<amexio-center [contentalign]="'right'">-->
-                <!--<amexio-datapoints [north]="true" [center]="true" [south]="true">-->
-                  <!--<amexio-north [cClass]="'datapoint-north'">-->
-                    <!--<div class="data-counts">-->
-                      <!--{{totalClientsPerDay}}-->
-                    <!--</div>-->
-                  <!--</amexio-north>-->
-                  <!--<amexio-center [cClass]="'datapoint-center'">-->
-                    <!--Total clienti adaugati la data selectata-->
-                  <!--</amexio-center>-->
-                <!--</amexio-datapoints>-->
-              <!--</amexio-center>-->
-              <!--&lt;!&ndash;<amexio-south [contentalign]="'center'" [backgroundColor]="'#d97c3e'">10% More than last year</amexio-south>&ndash;&gt;-->
-            <!--</amexio-datapoints>-->
-          <!--</div>-->
+          <div class="col-lg-12">
+            <amexio-datapoints [west]="true" [center]="true" [east]="true" [south]="true" [backgroundColor]="'#68bafc'" [fontColor]="'#ffffff'">
+              <amexio-west [contentalign]="'center'" [width]="'185px'">
+                <amexio-image [imageClass]="'fa fa-money fa-4x'"></amexio-image>
+                <amexio-image [imageClass]="'fa fa-plus fa-4x'"></amexio-image>
+                <amexio-image [imageClass]="'fa fa-credit-card fa-4x'"></amexio-image>
+              </amexio-west>
+              <amexio-center [contentalign]="'right'">
+                <amexio-datapoints [north]="true" [center]="true" [south]="true">
+                  <amexio-north [cClass]="'datapoint-north'">
+                    <div class="data-counts">
+                      {{report.totalIn}} RON
+                    </div>
+                  </amexio-north>
+                  <amexio-center [cClass]="'datapoint-center'">
+                    Total Incasari
+                  </amexio-center>
+                </amexio-datapoints>
+              </amexio-center>
+              <!--<amexio-south [contentalign]="'center'" [backgroundColor]="'#3192e1'">5% more than last year</amexio-south>-->
+            </amexio-datapoints>
+          </div>
+        </div>
+        <br />
+        <div class="row">
           <div class="col-lg-6">
             <amexio-datapoints [west]="true" [center]="true" [east]="true" [south]="true" [backgroundColor]="'#68bafc'" [fontColor]="'#ffffff'">
               <amexio-west [contentalign]="'center'" [width]="'100px'">
@@ -38,7 +48,7 @@
                 <amexio-datapoints [north]="true" [center]="true" [south]="true">
                   <amexio-north [cClass]="'datapoint-north'">
                     <div class="data-counts">
-                      {{total}} RON
+                      {{report.totalCash}} RON
                     </div>
                   </amexio-north>
                   <amexio-center [cClass]="'datapoint-center'">
@@ -50,81 +60,44 @@
             </amexio-datapoints>
           </div>
 
-        </div>
-        <br>
-        <div class="row">
-          <!--<div class="col-lg-2">-->
-            <!--<amexio-datapoints [west]="true" [center]="true" [east]="true" [south]="true" [backgroundColor]="'#4CAF50'" [fontColor]="'#ffffff'">-->
-              <!--<amexio-west [contentalign]="'center'">-->
-                <!--<amexio-image [imageClass]="'fa fa-check fa-4x'"></amexio-image>-->
-              <!--</amexio-west>-->
-              <!--<amexio-center [contentalign]="'right'">-->
-                <!--<amexio-datapoints [north]="true" [center]="true" [south]="true">-->
-                  <!--<amexio-north [cClass]="'datapoint-north'">-->
-                    <!--<div class="data-counts">-->
-                      <!--{{totalIsRepairedPerDay}}-->
-                    <!--</div>-->
-                  <!--</amexio-north>-->
-                  <!--<amexio-center [cClass]="'datapoint-center'">-->
-                    <!--Reparatii finalizate-->
-                  <!--</amexio-center>-->
-                <!--</amexio-datapoints>-->
-              <!--</amexio-center>-->
-            <!--</amexio-datapoints>-->
-          <!--</div>-->
-          <!--<div class="col-lg-2">-->
-            <!--<amexio-datapoints [west]="true" [center]="true" [east]="true" [south]="true" [backgroundColor]="'#FF9800'" [fontColor]="'#ffffff'">-->
-              <!--<amexio-west [contentalign]="'center'">-->
-                <!--<amexio-image [imageClass]="'fa fa-envelope-open-o fa-4x'"></amexio-image>-->
-              <!--</amexio-west>-->
-              <!--<amexio-center [contentalign]="'right'">-->
-                <!--<amexio-datapoints [north]="true" [center]="true" [south]="true">-->
-                  <!--<amexio-north [cClass]="'datapoint-north'">-->
-                    <!--<div class="data-counts">-->
-                      <!--{{totalIsRemainingPerDay}}-->
-                    <!--</div>-->
-                  <!--</amexio-north>-->
-                  <!--<amexio-center [cClass]="'datapoint-center'">-->
-                    <!--Reparatii ramase/zi-->
-                  <!--</amexio-center>-->
-                <!--</amexio-datapoints>-->
-              <!--</amexio-center>-->
-            <!--</amexio-datapoints>-->
-          <!--</div>-->
-          <!--<div class="col-lg-2">-->
-            <!--<amexio-datapoints [west]="true" [center]="true" [east]="true" [south]="true" [backgroundColor]="'#00BCD4'" [fontColor]="'#ffffff'">-->
-              <!--<amexio-west [contentalign]="'center'">-->
-                <!--<amexio-image [imageClass]="'fa fa-globe fa-3x'"></amexio-image>-->
-              <!--</amexio-west>-->
-              <!--<amexio-center [contentalign]="'right'">-->
-                <!--<amexio-datapoints [north]="true" [center]="true" [south]="true">-->
-                  <!--<amexio-north [cClass]="'datapoint-north'">-->
-                    <!--<div class="data-counts">-->
-                      <!--{{totalIsRemaining}}-->
-                    <!--</div>-->
-                  <!--</amexio-north>-->
-                  <!--<amexio-center [cClass]="'datapoint-center'">-->
-                    <!--Reparatii ramase-->
-                  <!--</amexio-center>-->
-                <!--</amexio-datapoints>-->
-              <!--</amexio-center>-->
-            <!--</amexio-datapoints>-->
-          <!--</div>-->
 
-          <div class="col-lg-3">
+          <div class="col-lg-6">
             <amexio-datapoints [west]="true" [center]="true" [east]="true" [south]="true" [backgroundColor]="'#68bafc'" [fontColor]="'#ffffff'">
-              <amexio-west [contentalign]="'center'">
-                <amexio-image [imageClass]="'fa fa-address-card fa-3x'"></amexio-image>
+              <amexio-west [contentalign]="'center'" [width]="'100px'">
+                <amexio-image [imageClass]="'fa fa-credit-card fa-4x'"></amexio-image>
               </amexio-west>
               <amexio-center [contentalign]="'right'">
                 <amexio-datapoints [north]="true" [center]="true" [south]="true">
                   <amexio-north [cClass]="'datapoint-north'">
                     <div class="data-counts">
-                      {{totalCash}} RON
+                      {{report.totalBank}} RON
                     </div>
                   </amexio-north>
                   <amexio-center [cClass]="'datapoint-center'">
-                    PF
+                    Total Banca
+                  </amexio-center>
+                </amexio-datapoints>
+              </amexio-center>
+              <!--<amexio-south [contentalign]="'center'" [backgroundColor]="'#3192e1'">5% more than last year</amexio-south>-->
+            </amexio-datapoints>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-lg-3">
+            <amexio-datapoints [west]="true" [center]="true" [east]="true" [south]="true" [backgroundColor]="'#68bafc'" [fontColor]="'#ffffff'">
+              <amexio-west [contentalign]="'center'">
+                <amexio-image [imageClass]="'fa fa-money fa-3x'"></amexio-image>
+              </amexio-west>
+              <amexio-center [contentalign]="'right'">
+                <amexio-datapoints [north]="true" [center]="true" [south]="true">
+                  <amexio-north [cClass]="'datapoint-north'">
+                    <div class="data-counts">
+                      {{report.pfCash}} RON
+                    </div>
+                  </amexio-north>
+                  <amexio-center [cClass]="'datapoint-center'">
+                    PF - Cash
                   </amexio-center>
                 </amexio-datapoints>
               </amexio-center>
@@ -134,17 +107,139 @@
           <div class="col-lg-3">
             <amexio-datapoints [west]="true" [center]="true" [east]="true" [south]="true" [backgroundColor]="'#607D8B'" [fontColor]="'#ffffff'">
               <amexio-west [contentalign]="'center'">
-                <amexio-image [imageClass]="'fa fa-building fa-3x'"></amexio-image>
+                <amexio-image [imageClass]="'fa fa-money fa-3x'"></amexio-image>
               </amexio-west>
               <amexio-center [contentalign]="'right'">
                 <amexio-datapoints [north]="true" [center]="true" [south]="true">
                   <amexio-north [cClass]="'datapoint-north'">
                     <div class="data-counts">
-                      {{totalCard}} RON
+                      {{report.gsmCash}} RON
                     </div>
                   </amexio-north>
                   <amexio-center [cClass]="'datapoint-center'">
-                    GSM
+                    GSM - Cash
+                  </amexio-center>
+                </amexio-datapoints>
+              </amexio-center>
+            </amexio-datapoints>
+          </div>
+
+          <div class="col-lg-3">
+            <amexio-datapoints [west]="true" [center]="true" [east]="true" [south]="true" [backgroundColor]="'#68bafc'" [fontColor]="'#ffffff'">
+              <amexio-west [contentalign]="'center'">
+                <amexio-image [imageClass]="'fa fa-credit-card fa-3x'"></amexio-image>
+              </amexio-west>
+              <amexio-center [contentalign]="'right'">
+                <amexio-datapoints [north]="true" [center]="true" [south]="true">
+                  <amexio-north [cClass]="'datapoint-north'">
+                    <div class="data-counts">
+                      {{report.pfCard}} RON
+                    </div>
+                  </amexio-north>
+                  <amexio-center [cClass]="'datapoint-center'">
+                    Banca - card
+                  </amexio-center>
+                </amexio-datapoints>
+              </amexio-center>
+            </amexio-datapoints>
+          </div>
+
+          <div class="col-lg-3">
+            <amexio-datapoints [west]="true" [center]="true" [east]="true" [south]="true" [backgroundColor]="'#607D8B'" [fontColor]="'#ffffff'">
+              <amexio-west [contentalign]="'center'">
+                <amexio-image [imageClass]="'fa fa-credit-card fa-3x'"></amexio-image>
+              </amexio-west>
+              <amexio-center [contentalign]="'right'">
+                <amexio-datapoints [north]="true" [center]="true" [south]="true">
+                  <amexio-north [cClass]="'datapoint-north'">
+                    <div class="data-counts">
+                      {{report.gsmCard}} RON
+                    </div>
+                  </amexio-north>
+                  <amexio-center [cClass]="'datapoint-center'">
+                    Banca - Cont colector
+                  </amexio-center>
+                </amexio-datapoints>
+              </amexio-center>
+            </amexio-datapoints>
+          </div>
+        </div>
+        <br />
+        <div class="row">
+          <div class="col-lg-3">
+            <amexio-datapoints [west]="true" [center]="true" [east]="true" [south]="true" [backgroundColor]="'#68bafc'" [fontColor]="'#ffffff'">
+              <amexio-west [contentalign]="'center'">
+                <amexio-image [imageClass]="'fa fa-money fa-3x'"></amexio-image>
+              </amexio-west>
+              <amexio-center [contentalign]="'right'">
+                <amexio-datapoints [north]="true" [center]="true" [south]="true">
+                  <amexio-north [cClass]="'datapoint-north'">
+                    <div class="data-counts">
+                      {{report.pfRepayment}} RON
+                    </div>
+                  </amexio-north>
+                  <amexio-center [cClass]="'datapoint-center'">
+                    PF - Ramburs
+                  </amexio-center>
+                </amexio-datapoints>
+              </amexio-center>
+            </amexio-datapoints>
+          </div>
+
+          <div class="col-lg-3">
+            <amexio-datapoints [west]="true" [center]="true" [east]="true" [south]="true" [backgroundColor]="'#607D8B'" [fontColor]="'#ffffff'">
+              <amexio-west [contentalign]="'center'">
+                <amexio-image [imageClass]="'fa fa-money fa-3x'"></amexio-image>
+              </amexio-west>
+              <amexio-center [contentalign]="'right'">
+                <amexio-datapoints [north]="true" [center]="true" [south]="true">
+                  <amexio-north [cClass]="'datapoint-north'">
+                    <div class="data-counts">
+                      {{report.gsmRepayment}} RON
+                    </div>
+                  </amexio-north>
+                  <amexio-center [cClass]="'datapoint-center'">
+                    GSM - Ramburs
+                  </amexio-center>
+                </amexio-datapoints>
+              </amexio-center>
+            </amexio-datapoints>
+          </div>
+
+          <div class="col-lg-3">
+            <amexio-datapoints [west]="true" [center]="true" [east]="true" [south]="true" [backgroundColor]="'#68bafc'" [fontColor]="'#ffffff'">
+              <amexio-west [contentalign]="'center'">
+                <amexio-image [imageClass]="'fa fa-money fa-3x'"></amexio-image>
+              </amexio-west>
+              <amexio-center [contentalign]="'right'">
+                <amexio-datapoints [north]="true" [center]="true" [south]="true">
+                  <amexio-north [cClass]="'datapoint-north'">
+                    <div class="data-counts">
+                      {{report.pfAdvance}} RON
+                    </div>
+                  </amexio-north>
+                  <amexio-center [cClass]="'datapoint-center'">
+                    PF - Avans
+                  </amexio-center>
+                </amexio-datapoints>
+              </amexio-center>
+            </amexio-datapoints>
+          </div>
+
+          <div class="col-lg-3">
+            <amexio-datapoints [west]="true" [center]="true" [east]="true" [south]="true" [backgroundColor]="'#607D8B'" [fontColor]="'#ffffff'">
+              <amexio-west [contentalign]="'center'">
+                <amexio-image [imageClass]="'fa fa-money fa-3x'"></amexio-image>
+              </amexio-west>
+              <amexio-center [contentalign]="'right'">
+                <amexio-datapoints [north]="true" [center]="true" [south]="true">
+                  <amexio-north [cClass]="'datapoint-north'">
+                    <div class="data-counts">
+                      {{report.gsmAdvance}} RON
+                    </div>
+                  </amexio-north>
+                  <amexio-center [cClass]="'datapoint-center'">
+                    GSM - Avans
                   </amexio-center>
                 </amexio-datapoints>
               </amexio-center>

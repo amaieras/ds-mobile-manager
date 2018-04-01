@@ -11,7 +11,7 @@
         <button type="button" pButton icon="fa-file-o" iconPos="left" label="Excel" style="float:right" (click)="exportTable()"></button>
         <p-multiSelect [options]="columnOptions" [(ngModel)]="cols"></p-multiSelect>
       </div>
-      Reparatii pentru clientii GSM
+      Colete trimise - GSM
     </p-header>
     <p-column *ngFor="let column of cols" [field]="column.field" [header]="column.header" [filter]="column.filter" [editable]="column.editable" [sortable]="column.sortable" >
       <ng-container *ngIf="column.field == 'addedDate'">

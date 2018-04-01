@@ -1,0 +1,55 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-10">
+      <label for="client-type" style="display: block">Tipul de client</label>
+      <p-multiSelect id="client-type" [options]="clientTypes" [(ngModel)]="selectedClientTypes" [panelStyle]="{minWidth:'12em'}"></p-multiSelect>
+    </div>
+
+    <div class="col-md-10">
+      <label for="phone-brand" style="display: block">Brand</label>
+      <p-multiSelect id="phone-brand" [(ngModel)]="selectedBrands" [options]="phoneBrandsArray"[panelStyle]="{minWidth:'12em'}">
+        <ng-template let-phone pTemplate="item">
+          <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+            <div style="font-size:14px;float:right;margin-top:4px">{{phone.label}}</div>
+          </div>
+        </ng-template>
+      </p-multiSelect>
+    </div>
+
+    <div class="col-md-10">
+      <label for="phone-model" style="display: block">Model</label>
+      <p-multiSelect id="phone-model" [(ngModel)]="selectedModels" [options]="phoneModelsArray"[panelStyle]="{minWidth:'12em'}">
+        <ng-template let-phone pTemplate="item">
+          <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+            <div style="font-size:14px;float:right;margin-top:4px">{{phone.label}}</div>
+          </div>
+        </ng-template>
+      </p-multiSelect>
+    </div>
+
+    <div class="col-md-10">
+      <label for="appointmentDate" style="display: block">Interval</label>
+      <p-calendar id="appointmentDate" [(ngModel)]="rangeDates" selectionMode="range" readonlyInput="true"
+                  [monthNavigator]="true" [yearNavigator]="true" yearRange="2017:2030" [showIcon]="true">
+      </p-calendar>
+    </div>
+
+    <div class="col-md-10">
+      <label for="about-us" style="display: block">De unde a venit?</label>
+      <p-multiSelect id="about-us" [(ngModel)]="selectedAboutUs" [options]="aboutUsList"[panelStyle]="{minWidth:'12em'}">
+        <ng-template let-about pTemplate="item">
+          <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+            <div style="font-size:14px;float:right;margin-top:4px">{{about.label}}</div>
+          </div>
+        </ng-template>
+      </p-multiSelect>
+    </div>
+
+    <div class="col-md-10">
+      <button type="button" (click)="applyFilters()" class="btn btn-success">
+        Afiseaza rezultatele
+      </button>
+    </div>
+  </div>
+
+</div>

@@ -7,6 +7,7 @@ import {UtilService} from "../../utils/util.service";
 import {ClientGSMService} from "../../clients/clientGSM/client-gsm-detail.service";
 import {WarrantyGSMInfo} from "../../model/WarrantyGSMInfo";
 import {PrintGsmReceiptComponent} from "../../shared/print/print-gsm/print-gsm-receipt.component";
+import {PaymentMethod} from "app/model/PaymentMethod";
 
 @Component({
   selector: 'repair-gsm-detail',
@@ -14,6 +15,7 @@ import {PrintGsmReceiptComponent} from "../../shared/print/print-gsm/print-gsm-r
 })
 export class RepairGSMDetailComponent implements OnInit{
   repairsGSM: ClientGSM[];
+  clientGSM: ClientGSM = new ClientGSM();
   cols: any[];
   columnOptions: SelectItem[];
   msgs: Message[] = [];
@@ -22,12 +24,14 @@ export class RepairGSMDetailComponent implements OnInit{
   totalRecords: number;
   csvSeparator: string;
   methodsOfPayment: any[];
+  displayDialog: boolean;
   @ViewChild(PrintGsmReceiptComponent) child: PrintGsmReceiptComponent;
 
   constructor(private _repairGSMService: RepairGSMDetailService, private _clientGSMService: ClientGSMService,
               private _utilService: UtilService) { }
 
   ngOnInit() {
+    this.clientGSM.paymentMethod = new PaymentMethod(0,0,0,0,0);
     this.getClientsGSMList().subscribe(clientGSM => {
       this.dataSource = clientGSM.filter(function(item) {
         return !item.isPayed && (item.isSent !== 'cont' && item.isSent !== 'ramburs');
@@ -44,13 +48,7 @@ export class RepairGSMDetailComponent implements OnInit{
         {field: 'observation', header: 'Observatii', filter: true, editable: true, sortable: true},
         {field: 'phoneColor', header: 'Culoare', filter: true, editable: true, sortable: true},
         {field: 'problem', header: 'Problema', filter: true, sortable: true},
-        {field: 'priceOffer', header: 'Oferta pret', filter: true, editable: true, sortable: true},
-        {field: 'priceOfferCash', header: 'Total cash', filter: true, editable: true, sortable: true},
-        {field: 'priceOfferCard', header: 'Total card', filter: true, editable: true, sortable: true},
         {field: 'city', header: 'Orasul', filter: true, editable: true, sortable: true},
-        {field: 'isRepaired', header: 'Reparat?', filter: true, editable: false , sortable: true},
-        {field: 'isPayed', header: 'Achitat?', filter: true, editable: false , sortable: true},
-        {field: 'isSent', header: 'Colet trimis?', filter: true, editable: false , sortable: true},
       ];
 
       this.columnOptions = [];
@@ -61,40 +59,64 @@ export class RepairGSMDetailComponent implements OnInit{
     });
 
   }
-
-  updateField(event) {
-    const fieldName = event.column.field;
-    const fieldVal = event.data[fieldName];
-    let obj = {};
-    obj[fieldName] = fieldVal;
-    this._repairGSMService.updateItem(event.data.$key, obj);
-    if(fieldName === "priceOfferCard" || fieldName === "priceOfferCash") {
-      let poVal = event.data['priceOffer'] || 0;
-      if(fieldName === "priceOfferCard") {
-        obj['priceOfferCash'] = +poVal - +obj[fieldName];
-        if (obj['priceOfferCash'] > 0) {
-          this._repairGSMService.updateItem(event.data.$key, obj);
-        }
-      }
-      else {
-        obj['priceOfferCard'] = +poVal - +obj[fieldName];
-        if (obj['priceOfferCard'] > 0) {
-          this._repairGSMService.updateItem(event.data.$key, obj);
-        }
-      }
-      obj['priceOffer'] = +obj['priceOfferCard'] + +obj['priceOfferCash'];
-      this._repairGSMService.updateItem(event.data.$key, obj);
-    }
-    //add price difference to total cash when priceOffer is modified
-    if(fieldName === "priceOffer") {
-      let priceOffer = event.data['priceOffer'] || 0;
-      let priceOfferCard = event.data['priceOfferCard'] || 0;
-      obj['priceOfferCash'] = +priceOffer - +priceOfferCard;
-      this._repairGSMService.updateItem(event.data.$key, obj);
-    }
-    this.updateArrayItem(fieldName, event, fieldVal);
-    this.successMessage(event.data.lastname, event.data.phone,'Valoare');
+  onRowSelect(event) {
+    this.clientGSM = this.cloneClient(event.data);
+    this.displayDialog = true;
   }
+  cloneClient(c: ClientGSM): ClientGSM {
+    let clientGSM = new ClientGSM();
+    for(let prop in c) {
+      clientGSM[prop] = c[prop];
+    }
+    return clientGSM;
+  }
+  save() {
+    this.updateField(this.clientGSM);
+    this.displayDialog = false;
+  }
+
+  cancel() {
+
+  }
+  updateField(clientGSM) {
+    const clientKey = clientGSM.$key;
+    delete clientGSM.$key;
+    this._repairGSMService.updateItem(clientKey, clientGSM);
+    this.successMessage(clientGSM.lastname, clientGSM.phone,'Valoare');
+  }
+  // updateField(event) {
+  //   const fieldName = event.column.field;
+  //   const fieldVal = event.data[fieldName];
+  //   let obj = {};
+  //   obj[fieldName] = fieldVal;
+  //   this._repairGSMService.updateItem(event.data.$key, obj);
+  //   if(fieldName === "priceOfferCard" || fieldName === "priceOfferCash") {
+  //     let poVal = event.data['priceOffer'] || 0;
+  //     if(fieldName === "priceOfferCard") {
+  //       obj['priceOfferCash'] = +poVal - +obj[fieldName];
+  //       if (obj['priceOfferCash'] > 0) {
+  //         this._repairGSMService.updateItem(event.data.$key, obj);
+  //       }
+  //     }
+  //     else {
+  //       obj['priceOfferCard'] = +poVal - +obj[fieldName];
+  //       if (obj['priceOfferCard'] > 0) {
+  //         this._repairGSMService.updateItem(event.data.$key, obj);
+  //       }
+  //     }
+  //     obj['priceOffer'] = +obj['priceOfferCard'] + +obj['priceOfferCash'];
+  //     this._repairGSMService.updateItem(event.data.$key, obj);
+  //   }
+  //   //add price difference to total cash when priceOffer is modified
+  //   if(fieldName === "priceOffer") {
+  //     let priceOffer = event.data['priceOffer'] || 0;
+  //     let priceOfferCard = event.data['priceOfferCard'] || 0;
+  //     obj['priceOfferCash'] = +priceOffer - +priceOfferCard;
+  //     this._repairGSMService.updateItem(event.data.$key, obj);
+  //   }
+  //   this.updateArrayItem(fieldName, event, fieldVal);
+  //   this.successMessage(event.data.lastname, event.data.phone,'Valoare');
+  // }
 
   private updateArrayItem(fieldName: any, event, fieldVal: any) {
     let obj = {};

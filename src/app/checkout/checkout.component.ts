@@ -25,9 +25,6 @@ export class CheckoutComponent implements OnInit {
   totalCard = 0;
   total = 0;
 
-  //PF
-  totalPFClientsPerDay = 0;
-  totalPFIsRepaired = 0;
   constructor(private _checkoutService: CheckoutService) {
     this.currDate = new Date();
   }

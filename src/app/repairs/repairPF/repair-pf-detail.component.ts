@@ -71,14 +71,9 @@ export class RepairPFDetailComponent implements OnInit {
           {field: 'phoneCode', header: 'Cod Telefon', filter: true, editable: true, sortable: true},
           {field: 'problem', header: 'Problema', filter: true, sortable: true},
           {field: 'imei', header: 'IMEI', filter: true, sortable: true},
-          // {field: 'priceOffer', header: 'Oferta pret', filter: true, editable: true, sortable: true},
-          // {field: 'priceOfferCash', header: 'Total cash', filter: true, editable: true, sortable: true},
-          // {field: 'priceOfferCard', header: 'Total card', filter: true, editable: true, sortable: true},
           {field: 'appointmentDate', header: 'Data si ora programarii', filter: true, editable: true, sortable: true},
           {field: 'tested', header: 'Testat?', filter: true, editable: true, sortable: true},
-          {field: 'aboutUs', header: 'Cum a aflat de noi?', filter: true, editable: false, sortable: true},
-          // {field: 'isRepaired', header: 'Reparat?', filter: true, editable: false , sortable: true},
-          // {field: 'isPayed', header: 'Achitat?', filter: true, editable: false , sortable: true}
+          {field: 'aboutUs', header: 'Cum a aflat de noi?', filter: true, editable: false, sortable: true}
         ];
 
         this.columnOptions = [];
