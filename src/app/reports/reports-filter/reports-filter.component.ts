@@ -18,7 +18,7 @@ export class ReportsFilterComponent implements OnInit {
   selectedModels: any[];
   rangeDates: Date[];
   aboutUsList: any = [];
-  selectedAboutUs = '';
+  selectedAboutUs = [];
   constructor(private _phoneListService: PhoneListService, private _aboutUsService: AboutUsService,
               private _reportService: ReportService) { }
 
@@ -52,6 +52,7 @@ export class ReportsFilterComponent implements OnInit {
       aboutUsList.forEach(snapshot => {
         this.aboutUsList.push({label: snapshot.name, value: snapshot.name});
       });
+      this.aboutUsList.shift();
     });
   }
   onSelect(phoneId) {
@@ -63,15 +64,28 @@ export class ReportsFilterComponent implements OnInit {
 
   applyFilters() {
     let partCount = 0;
-    let filteredClients;
-    this.selectedClientTypes.forEach(selectedClient => {
-      this._reportService.getClientsByType(selectedClient).subscribe(clients => {
-        filteredClients = clients.filter(function(c) {
-          return c.aboutUs.toLowerCase() === 'google';
+    let phoneBrands = [];
+    let phoneModels = [];
+    const that = this;
+    // this.selectedClientTypes.forEach(selectedClient => {
+      this._reportService.getClientsByType(this.selectedClientTypes[0]).subscribe(clients => {
+        let filteredClients = clients.filter(function(c) {
+          const aboutUs = c.aboutUs === undefined ? 'undefined' : c.aboutUs;
+          const clientDate = new Date(+c.addedDate).setHours(0,0,0,0);
+          c.phoneList.forEach(phone => {
+            phoneBrands.push(phone.phoneBrand);
+            phoneModels.push(phone.phoneModel);
+          })
+          return that.selectedAboutUs.includes(aboutUs)
+            && that.selectedBrands.some(v => phoneBrands.includes(v))
+            && that.selectedModels.some(v => phoneModels.includes(v))
+            && clientDate >= that.rangeDates[0].getTime()
+            && clientDate <= that.rangeDates[1].getTime();
         })
         console.log(filteredClients)
       });
-    })
+    // })
+
 
 
   }
