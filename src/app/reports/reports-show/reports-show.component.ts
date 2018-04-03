@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {CheckoutService} from "../../checkout/checkout.service";
 import {ReportService} from "../../shared/reports/report.service";
-import {Report} from "../../model/Report";
+import {ReportMoney} from "../../model/ReportMoney";
+
 
 @Component({
   selector: 'app-reports-show',
@@ -10,7 +10,7 @@ import {Report} from "../../model/Report";
 })
 export class ReportsShowComponent implements OnInit {
 
-  report: Report = new Report();
+  report: ReportMoney = new ReportMoney();
   rangeDates: Date[] = [new Date(), new Date()];
   constructor(private _reportService: ReportService) {
   }
