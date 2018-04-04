@@ -173,3 +173,15 @@ table {
 .filter-spacer {
   margin: 23px 10px 10px 152px;
 }
+
+.ui-grid-row .ui-grid-col-4, .ui-grid-col-8{
+  padding: 4px 4px;
+}
+
+.ui-multiselect-panel .ui-multiselect-items-wrapper {
+  max-height: 300px;
+}
+
+.ui-datepicker {
+  top: 30px !important;
+}

@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import { RepairPFDetailService } from "./repair-pf-detail.service"
 import {SelectItem, Message} from "primeng/primeng";
 import {Observable} from "rxjs/Observable";
@@ -39,13 +39,14 @@ export class RepairPFDetailComponent implements OnInit {
   selectedClient: ClientPF;
   @ViewChild(PrintReceiptComponent) child: PrintReceiptComponent;
 
-  constructor(private repairPFService:RepairPFDetailService, private _clientPFService: ClientPFService, private _el: ElementRef, private _utilService: UtilService) {
+  constructor(private repairPFService:RepairPFDetailService, private _clientPFService: ClientPFService,
+              private _el: ElementRef, private _utilService: UtilService , private cdr: ChangeDetectorRef) {
   }
 
   ngOnInit() {
     this.csvSeparator = ',';
     this.clientPF.paymentMethod = new PaymentMethod(0,0,0,0,0);
-    window.addEventListener('scroll', this.scroll, true); //third parameter
+    window.addEventListener('scroll', this.scroll, true);
 
     this.defaultDate.setHours(12,0);
     setTimeout(() => {
@@ -88,6 +89,7 @@ export class RepairPFDetailComponent implements OnInit {
   onRowSelect(event) {
     this.clientPF = this.cloneClient(event.data);
     this.displayDialog = true;
+    this.cdr.detectChanges();
   }
   cloneClient(c: ClientPF): ClientPF {
     let clientPF = new ClientPF();
@@ -104,10 +106,6 @@ export class RepairPFDetailComponent implements OnInit {
   cancel() {
     this.displayDialog = false;
   }
-  // ngOnDestroy() {
-  //   window.removeEventListener('scroll', this.scroll, true);
-  // }
-
   scroll = (): void => {
     let tableOffset = this._el.nativeElement.querySelector('table').getBoundingClientRect().top;
     if (tableOffset < 0) {

@@ -28,7 +28,7 @@ export class RepairGSMDetailComponent implements OnInit{
   @ViewChild(PrintGsmReceiptComponent) child: PrintGsmReceiptComponent;
 
   constructor(private _repairGSMService: RepairGSMDetailService, private _clientGSMService: ClientGSMService,
-              private _utilService: UtilService) { }
+              private _utilService: UtilService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.clientGSM.paymentMethod = new PaymentMethod(0,0,0,0,0);
@@ -62,6 +62,7 @@ export class RepairGSMDetailComponent implements OnInit{
   onRowSelect(event) {
     this.clientGSM = this.cloneClient(event.data);
     this.displayDialog = true;
+    this.cdr.detectChanges();
   }
   cloneClient(c: ClientGSM): ClientGSM {
     let clientGSM = new ClientGSM();
@@ -76,7 +77,7 @@ export class RepairGSMDetailComponent implements OnInit{
   }
 
   cancel() {
-
+    this.displayDialog = false;
   }
   updateField(clientGSM) {
     const clientKey = clientGSM.$key;

@@ -4,28 +4,6 @@
       <label for="client-type" style="display: block">Tipul de client</label>
       <p-multiSelect id="client-type" [options]="clientTypes" [(ngModel)]="selectedClientTypes" [panelStyle]="{minWidth:'12em'}"></p-multiSelect>
     </div>
-
-    <div class="col-md-5">
-      <label for="phone-brand" style="display: block">Brand</label>
-      <p-multiSelect id="phone-brand" [(ngModel)]="selectedBrands" [options]="phoneBrandsArray"[panelStyle]="{minWidth:'12em'}">
-        <ng-template let-phone pTemplate="item">
-          <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
-            <div style="font-size:14px;float:right;margin-top:4px">{{phone.label}}</div>
-          </div>
-        </ng-template>
-      </p-multiSelect>
-    </div>
-
-    <div class="col-md-5">
-      <label for="phone-model" style="display: block">Model</label>
-      <p-multiSelect id="phone-model" [(ngModel)]="selectedModels" [options]="phoneModelsArray"[panelStyle]="{minWidth:'12em'}">
-        <ng-template let-phone pTemplate="item">
-          <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
-            <div style="font-size:14px;float:right;margin-top:4px">{{phone.label}}</div>
-          </div>
-        </ng-template>
-      </p-multiSelect>
-    </div>
     <div class="col-md-5">
       <label for="problem" style="display: block">Solicitare/Problema</label>
       <p-multiSelect id="problem" [options]="problemsList" [(ngModel)]="selectedProblems" [panelStyle]="{minWidth:'12em'}">
@@ -37,14 +15,17 @@
       </p-multiSelect>
     </div>
     <div class="col-md-5">
-      <label for="appointmentDate" style="display: block">Interval</label>
-      <p-calendar id="appointmentDate" [(ngModel)]="rangeDates" selectionMode="range" readonlyInput="true"
-                  [monthNavigator]="true" [yearNavigator]="true" yearRange="2017:2030" [showIcon]="true">
-      </p-calendar>
+      <label for="phone-brand" style="display: block">Brand</label>
+      <p-multiSelect id="phone-brand" [(ngModel)]="selectedBrands" [options]="phoneBrandsArray"[panelStyle]="{minWidth:'12em'}">
+        <ng-template let-phone pTemplate="item">
+          <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+            <div style="font-size:14px;float:right;margin-top:4px">{{phone.label}}</div>
+          </div>
+        </ng-template>
+      </p-multiSelect>
     </div>
-
     <div class="col-md-5">
-      <label for="about-us" style="display: block">De unde a venit?</label>
+      <label for="about-us" style="display: block">De unde a venit?(Doar PF)</label>
       <p-multiSelect id="about-us" [(ngModel)]="selectedAboutUs" [options]="aboutUsList" [panelStyle]="{minWidth:'12em'}">
         <ng-template let-about pTemplate="item">
           <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
@@ -53,8 +34,27 @@
         </ng-template>
       </p-multiSelect>
     </div>
+    <div class="col-md-5">
+      <label for="phone-model" style="display: block">Model</label>
+      <p-multiSelect id="phone-model" [(ngModel)]="selectedModels" [options]="phoneModelsArray"[panelStyle]="{minWidth:'12em'}">
+        <ng-template let-phone pTemplate="item">
+          <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+            <div style="font-size:14px;float:right;margin-top:4px">{{phone.label}}</div>
+          </div>
+        </ng-template>
+      </p-multiSelect>
+    </div>
 
     <div class="col-md-5">
+      <label for="appointmentDate" style="display: block">Perioada</label>
+      <p-calendar id="appointmentDate" [(ngModel)]="rangeDates" selectionMode="range" readonlyInput="true"
+                  [monthNavigator]="true" [yearNavigator]="true" yearRange="2017:2030" [showIcon]="true"
+                  dateFormat="dd/mm/yy">
+      </p-calendar>
+    </div>
+
+
+    <div class="col-md-5"  style="padding:4px 14px">
       <button type="button" (click)="applyFilters()" class="btn btn-success">
         Afiseaza rezultatele
       </button>
@@ -95,7 +95,7 @@
                   <amexio-datapoints [north]="true" [center]="true" [south]="true">
                     <amexio-north [cClass]="'datapoint-north'">
                       <div class="data-counts">
-                        {{200}} RON
+                        {{report._totalIn}} RON
                       </div>
                     </amexio-north>
                     <amexio-center [cClass]="'datapoint-center'">
@@ -108,7 +108,7 @@
             <div class="col-lg-3">
               <amexio-datapoints [west]="true" [center]="true" [east]="true" [south]="true" [backgroundColor]="'#00BCD4'" [fontColor]="'#ffffff'">
                 <amexio-west [contentalign]="'center'">
-                  <amexio-image [imageClass]="'fa fa-globe fa-3x'"></amexio-image>
+                  <amexio-image [imageClass]="'fa fa-globe fa-4x'"></amexio-image>
                 </amexio-west>
                 <amexio-center [contentalign]="'right'">
                   <amexio-datapoints [north]="true" [center]="true" [south]="true">

@@ -69,22 +69,20 @@ export class ReportsFilterComponent implements OnInit {
       this.aboutUsList.shift();
     });
   }
-  onSelect(phoneId) {
-
-  }
-  onDatePicked(date) {
-
-  }
 
   applyFilters() {
+    this.filterByClientType(this.selectedClientTypes[0]);
+  }
+
+  private filterByClientType(clientType) {
     const that = this;
-    this._reportService.getClientsByType(this.selectedClientTypes[0]).subscribe(clients => {
-      let filteredClients = clients.filter(function(c) {
+    this._reportService.getClientsByType(clientType).subscribe(clients => {
+      let filteredClients = clients.filter(function (c) {
         let phoneBrands = [];
         let phoneModels = [];
         let problems = [];
         const aboutUs = c.aboutUs === undefined ? 'undefined' : c.aboutUs;
-        const clientDate = new Date(+c.addedDate).setHours(0,0,0,0);
+        const clientDate = new Date(+c.addedDate).setHours(0, 0, 0, 0);
         c.phoneList.forEach(phone => {
           phoneBrands.push(phone.phoneBrand);
           phoneModels.push(phone.phoneModel);
@@ -92,16 +90,23 @@ export class ReportsFilterComponent implements OnInit {
             problems.push(problem.problem)
           })
         });
-        return that.selectedAboutUs.includes(aboutUs)
-          && that.selectedBrands.some(v => phoneBrands.includes(v))
+        if (that.selectedClientTypes[0] === 'pf') {
+          return that.selectedAboutUs.includes(aboutUs)
+            && that.selectedBrands.some(v => phoneBrands.includes(v))
+            && that.selectedModels.some(v => phoneModels.includes(v))
+            && that.selectedProblems.some(v => problems.includes(v))
+            && clientDate >= that.rangeDates[0].getTime()
+            && clientDate <= that.rangeDates[1].getTime();
+        }
+        return that.selectedBrands.some(v => phoneBrands.includes(v))
           && that.selectedModels.some(v => phoneModels.includes(v))
           && that.selectedProblems.some(v => problems.includes(v))
           && clientDate >= that.rangeDates[0].getTime()
           && clientDate <= that.rangeDates[1].getTime();
       })
-      console.log(filteredClients)
       this.countNoOfParts(filteredClients);
       this.countNoOfClients(filteredClients);
+      this.calculateTotalIn(filteredClients);
     });
   }
 
@@ -112,14 +117,19 @@ export class ReportsFilterComponent implements OnInit {
         pieces.push(p.problem);
       });
     })
-
     this.report.piecesNo = pieces.length;
   }
 
   private countNoOfClients(filteredClients) {
+    console.log(filteredClients)
     this.report.noOfClients = filteredClients.length;
   }
   private calculateTotalIn(filteredClients) {
-
+    let totalPrice = 0;
+    filteredClients.forEach(fc => {
+      totalPrice = totalPrice + +fc.paymentMethod._advance + +fc.paymentMethod._card + +fc.paymentMethod._cash
+        + +fc.paymentMethod._collector + +fc.paymentMethod._repayment;
+    })
+    this.report.totalIn = totalPrice;
   }
 }
