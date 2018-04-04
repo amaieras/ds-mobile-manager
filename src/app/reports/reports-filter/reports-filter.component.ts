@@ -121,7 +121,6 @@ export class ReportsFilterComponent implements OnInit {
   }
 
   private countNoOfClients(filteredClients) {
-    console.log(filteredClients)
     this.report.noOfClients = filteredClients.length;
   }
   private calculateTotalIn(filteredClients) {
