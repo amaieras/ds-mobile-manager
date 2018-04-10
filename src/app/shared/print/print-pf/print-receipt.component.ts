@@ -17,7 +17,7 @@ export class PrintReceiptComponent implements OnInit {
   ngOnInit() {
   }
 
-  print(warranty) {
+  print(warranty) {//
     this.warrantyInfo = warranty;
     if (!this._changeDetector['destroyed']) {
       this._changeDetector.detectChanges();

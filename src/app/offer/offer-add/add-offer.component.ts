@@ -22,7 +22,6 @@ export class AddOfferComponent implements OnInit {
   isOtherRequired = false;
   aboutUsValExists = false;
   aboutUsList: any = [];
-  selectedAboutUs = '';
   selectedOtherName = '';
   constructor( private _fb: FormBuilder, private _utilService: UtilService,
                private _aboutUsService: AboutUsService, private _offerService: OfferService) { }
@@ -60,9 +59,6 @@ export class AddOfferComponent implements OnInit {
     this.saveOffer.addedDate = new Date().getTime().toString();
     this.saveOffer.phoneList = PhoneListDeepCopy;
     this.removeCtrlForNewItems();
-    // this.removeCtrlForNewItems();
-    // this.addNewBrandModelSynced(formModel);
-    // this.addNewSingleModelSynced(formModel);
     this.saveOffer.phone = formModel.phone;
     this.saveOffer.aboutUs = this.selectedOtherName !== '' ? this.selectedOtherName : formModel.aboutUs;
     this.saveOffer.priceOffer = this.totalPrice === null ? '0' : this.totalPrice.toString();
@@ -98,7 +94,8 @@ export class AddOfferComponent implements OnInit {
       phoneBrand: '',
       phoneModel: '',
       problems: this._fb.array([]),
-      observation: ''
+      observation: '',
+      phoneQuantity: 1
     });
   }
   removeFromPhoneList(idx: number) {

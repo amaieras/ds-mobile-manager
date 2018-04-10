@@ -25,6 +25,7 @@ export class RepairGSMDetailComponent implements OnInit{
   csvSeparator: string;
   methodsOfPayment: any[];
   displayDialog: boolean;
+  selectedClient: ClientGSM;
   @ViewChild(PrintGsmReceiptComponent) child: PrintGsmReceiptComponent;
 
   constructor(private _repairGSMService: RepairGSMDetailService, private _clientGSMService: ClientGSMService,
@@ -81,52 +82,12 @@ export class RepairGSMDetailComponent implements OnInit{
   }
   updateField(clientGSM) {
     const clientKey = clientGSM.$key;
+    this.updateCheckedItem(clientGSM);
     delete clientGSM.$key;
     this._repairGSMService.updateItem(clientKey, clientGSM);
     this.successMessage(clientGSM.lastname, clientGSM.phone,'Valoare');
   }
-  // updateField(event) {
-  //   const fieldName = event.column.field;
-  //   const fieldVal = event.data[fieldName];
-  //   let obj = {};
-  //   obj[fieldName] = fieldVal;
-  //   this._repairGSMService.updateItem(event.data.$key, obj);
-  //   if(fieldName === "priceOfferCard" || fieldName === "priceOfferCash") {
-  //     let poVal = event.data['priceOffer'] || 0;
-  //     if(fieldName === "priceOfferCard") {
-  //       obj['priceOfferCash'] = +poVal - +obj[fieldName];
-  //       if (obj['priceOfferCash'] > 0) {
-  //         this._repairGSMService.updateItem(event.data.$key, obj);
-  //       }
-  //     }
-  //     else {
-  //       obj['priceOfferCard'] = +poVal - +obj[fieldName];
-  //       if (obj['priceOfferCard'] > 0) {
-  //         this._repairGSMService.updateItem(event.data.$key, obj);
-  //       }
-  //     }
-  //     obj['priceOffer'] = +obj['priceOfferCard'] + +obj['priceOfferCash'];
-  //     this._repairGSMService.updateItem(event.data.$key, obj);
-  //   }
-  //   //add price difference to total cash when priceOffer is modified
-  //   if(fieldName === "priceOffer") {
-  //     let priceOffer = event.data['priceOffer'] || 0;
-  //     let priceOfferCard = event.data['priceOfferCard'] || 0;
-  //     obj['priceOfferCash'] = +priceOffer - +priceOfferCard;
-  //     this._repairGSMService.updateItem(event.data.$key, obj);
-  //   }
-  //   this.updateArrayItem(fieldName, event, fieldVal);
-  //   this.successMessage(event.data.lastname, event.data.phone,'Valoare');
-  // }
 
-  private updateArrayItem(fieldName: any, event, fieldVal: any) {
-    let obj = {};
-    if (fieldName === "observation" || fieldName === "phoneColor") {
-      event.data.phoneList[0][fieldName] = fieldVal;
-      obj['phoneList'] = event.data.phoneList;
-      this._repairGSMService.updateItem(event.data.$key, obj);
-    }
-  }
   getClientsGSMList(): Observable<any> {
     return this._repairGSMService.getClientsGSMList();
   }
@@ -139,14 +100,7 @@ export class RepairGSMDetailComponent implements OnInit{
       this._repairGSMService.updateItem(row.$key, {deliveredDate: date});
     }
   }
-  updateRepairFinnish(row) {
-    this._repairGSMService.updateItem(row.$key, {isRepaired: row.isRepaired});
-  }
-  updateSentRepair(row) {
-    this._repairGSMService.updateItem(row.$key, {isSent: row.isSent});
-    this.successMessage(row.lastname, row.phone,'Valoare');
 
-  }
   exportTable() {
     {
       let data = this.dataSource;

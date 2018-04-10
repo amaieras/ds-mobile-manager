@@ -67,6 +67,6 @@ export class ClientGSMService {
 
   updateClientGSM(key: string, value: any): void {
     this._db
-      .list("/client-gsm-list").update(key,{phone: value.phone, city: value.city} )
+      .list("/client-gsm-list").update(key,{phone: value.phone, city: value.city, firm: value.firm} )
   }
 }

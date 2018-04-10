@@ -21,23 +21,23 @@
     <table class="table table-bordered">
       <tbody>
       <tr>
-        <td>Marca telefon: <span class="input-data">{{warrantyInfo.phoneList.phoneBrand}}</span></td>
+        <td>Marca telefon: <span class="input-data">{{warrantyInfo.phoneList[0].phoneBrand}}</span></td>
         <td>Nume client: <span class="input-data">{{warrantyInfo.lastname}} {{warrantyInfo.firstname}}</span></td>
       </tr>
       <tr>
-        <td>Model telefon: <span class="input-data">{{warrantyInfo.phoneList.phoneModel}}</span></td>
+        <td>Model telefon: <span class="input-data">{{warrantyInfo.phoneList[0].phoneModel}}</span></td>
         <td>Numar telefon client: <span class="input-data">{{warrantyInfo.phoneNumber}}</span></td>
       </tr>
       <tr>
-        <td>Culoare: <span class="input-data">{{warrantyInfo.phoneList.phoneColor}}</span></td>
+        <td>Culoare: <span class="input-data">{{warrantyInfo.phoneList[0].phoneColor}}</span></td>
         <td>Data primirii: <span class="input-data">{{warrantyInfo.dateAdded | date:'dd/MM/yyyy, hh:mm a'}}</span></td>
       </tr>
       <tr>
-        <td>IMEI: <span class="input-data">{{warrantyInfo.phoneList.imei !== '' ? warrantyInfo.phoneList.imei : 'No IMEI'}}</span></td>
+        <td>IMEI: <span class="input-data">{{warrantyInfo.phoneList[0].imei !== '' ? warrantyInfo.phoneList[0].imei : 'No IMEI'}}</span></td>
         <td>Termen de reparatie: <span class="input-data">____zile</span></td>
       </tr>
       <tr>
-        <td>Defect Constatat: <span *ngFor="let part of warrantyInfo.phoneList.problems" class="input-data">{{part.problem}}; </span></td>
+        <td>Defect Constatat: <span *ngFor="let part of warrantyInfo.phoneList[0].problems" class="input-data">{{part.problem}}; </span></td>
         <td>Data predarii: <span class="input-data">{{warrantyInfo.deliveredTime | date:'dd/MM/yyyy, hh:mm a'}}</span></td>
       </tr>
       <tr>
@@ -45,7 +45,7 @@
         <td>Garanție:______DA__NU__</td>
       </tr>
       <tr>
-        <td>Piese  înlocuite: <span *ngFor="let part of warrantyInfo.phoneList.problems" class="input-data">{{part.problem}}; </span></td>
+        <td>Piese  înlocuite: </td>
         <td>Observatii:</td>
       </tr>
       <tr>
@@ -101,24 +101,24 @@
       <table class="table table-bordered">
         <tbody>
         <tr>
-          <td>Marcă telefon: <span class="input-data">{{warrantyInfo.phoneList.phoneBrand}}</span></td>
+          <td>Marcă telefon: <span class="input-data">{{warrantyInfo.phoneList[0].phoneBrand}}</span></td>
           <td>Nume client: <span class="input-data">{{warrantyInfo.lastname}} {{warrantyInfo.firstname}}</span></td>
         </tr>
         <tr>
-          <td>Model telefon: <span class="input-data">{{warrantyInfo.phoneList.phoneModel}}</span></td>
+          <td>Model telefon: <span class="input-data">{{warrantyInfo.phoneList[0].phoneModel}}</span></td>
           <td>Număr telefon: <span class="input-data">{{warrantyInfo.phoneNumber}}</span></td>
         </tr>
         <tr>
-          <td>Culoare: <span class="input-data">{{warrantyInfo.phoneList.phoneColor}}</span></td>
+          <td>Culoare: <span class="input-data">{{warrantyInfo.phoneList[0].phoneColor}}</span></td>
           <td>Proveniență client: <span class="input-data">{{warrantyInfo.aboutUs}}</span></td>
 
         </tr>
         <tr>
-          <td>IMEI: <span class="input-data">{{warrantyInfo.phoneList.imei !== '' ? warrantyInfo.phoneList.imei : 'No IMEI'}}</span></td>
+          <td>IMEI: <span class="input-data">{{warrantyInfo.phoneList[0].imei !== '' ? warrantyInfo.phoneList[0].imei : 'No IMEI'}}</span></td>
           <td>Data primirii: <span class="input-data">{{warrantyInfo.dateAdded | date:'dd/MM/yyyy, hh:mm a'}}</span></td>
         </tr>
         <tr>
-          <td>Cod telefon: <span class="input-data">{{warrantyInfo.phoneList.phoneCode}}</span></td>
+          <td>Cod telefon: <span class="input-data">{{warrantyInfo.phoneList[0].phoneCode}}</span></td>
           <td>Termen de reparație: <span class="input-data">____zile</span></td>
         </tr>
         <tr>
@@ -126,15 +126,15 @@
           <td>Data predării: <span class="input-data">{{warrantyInfo.deliveredTime | date:'dd/MM/yyyy, hh:mm a'}}</span></td>
         </tr>
         <tr>
-          <td>Defect Constatat: <span *ngFor="let part of warrantyInfo.phoneList.problems" class="input-data">{{part.problem}}; </span></td>
+          <td>Defect Constatat: <span *ngFor="let part of warrantyInfo.phoneList[0].problems" class="input-data">{{part.problem}}; </span></td>
           <td>Garanție:______DA__NU__</td>
         </tr>
         <tr>
           <td>Preț estimativ: <span class="input-data">{{warrantyInfo.price}} RON </span></td>
-          <td>Observații: <span class="input-data">{{warrantyInfo.phoneList.observation}}</span></td>
+          <td>Observații: <span class="input-data">{{warrantyInfo.phoneList[0].observation}}</span></td>
         </tr>
         <tr>
-          <td>Piese  înlocuite: <span *ngFor="let part of warrantyInfo.phoneList.problems" class="input-data">{{part.problem}}; </span></td>
+          <td>Piese  înlocuite: </td>
         </tr>
         <tr>
           <td>Valoare achitată: </td>

@@ -5,8 +5,11 @@
     <input #gb type="text" pInputText size="50" placeholder="Cauta peste tot">
   </div>
 
-  <p-dataTable [value]="repairsGSM" [editable]="true" [paginator]="true" rows="50" [rowsPerPageOptions]="[10,20,50,100]" [globalFilter]="gb" [responsive]="true"
-               (onEditComplete)="updateField($event)" [sortOrder]="-1" sortField="deliveredDate" [loading]="loading" [rowStyleClass]="disabledRow" [reorderableColumns]="true">
+  <p-dataTable [value]="repairsGSM" [paginator]="true" rows="50" [rowsPerPageOptions]="[10,20,50,100]"
+               [globalFilter]="gb" [responsive]="true" [sortOrder]="-1" sortField="deliveredDate" [loading]="loading"
+               [rowStyleClass]="disabledRow" [reorderableColumns]="true"
+               scrollable="true" scrollHeight="700px" virtualScroll="virtualScroll"
+               (onRowSelect)="onRowSelect($event)" [(selection)]="selectedClient" selectionMode="single">
     <p-header #fixedBox>
       <div style="text-align:left">
         <button type="button" pButton icon="fa-file-o" iconPos="left" label="Excel" style="float:right" (click)="exportTable()"></button>
@@ -27,11 +30,6 @@
       <ng-container *ngIf="column.field === 'deliveredDate'" >
         <ng-template let-col let-row="rowData" pTemplate="body">
           <span *ngIf="row.isPayed">{{row[col.field] | date:"dd-MM-yyyy HH:mm"}}</span>
-        </ng-template>
-      </ng-container>
-      <ng-container *ngIf="column.field === 'isPayed'">
-        <ng-template pTemplate="body" let-col let-row="rowData">
-          <p-checkbox [(ngModel)]="row[col.field]" binary="true" (onChange)="updateCheckedItem(row)"></p-checkbox>
         </ng-template>
       </ng-container>
       <ng-container *ngIf="column.field === 'phoneList'" >
@@ -75,5 +73,62 @@
       </ng-template>
     </p-column>
   </p-dataTable>
+  <p-dialog header="Modificare date client - GSM" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="false">
+    <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="true">
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="isRepaired">Reparat?</label></div>
+        <div class="ui-grid-col-8"><p-checkbox [(ngModel)]="clientGSM.isRepaired" binary="true" id="isRepaired"></p-checkbox></div>
+      </div>
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="isPayed">Achitat?</label></div>
+        <div class="ui-grid-col-8"><p-checkbox [(ngModel)]="clientGSM.isPayed" binary="true" id="isPayed"></p-checkbox></div>
+      </div>
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="isSent">Colet trimis?</label></div>
+        <div class="ui-grid-col-8">
+          <p-dropdown id="isSent" [(ngModel)]="clientGSM.isSent" [options]="methodsOfPayment" [autoWidth]="false" [style]="{'width':'100%'}"></p-dropdown>
+        </div>
+      </div>
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="name">Nume</label></div>
+        <div class="ui-grid-col-8"><input pInputText id="name" [(ngModel)]="clientGSM.lastname"/></div>
+      </div>
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="phone">Telefon</label></div>
+        <div class="ui-grid-col-8"><input pInputText id="phone" [(ngModel)]="clientGSM.phone"/></div>
+      </div>
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="cash">Cash</label></div>
+        <div class="ui-grid-col-8"><input pInputText id="cash" [(ngModel)]="clientGSM.paymentMethod._cash"/></div>
+      </div>
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="card">Card</label></div>
+        <div class="ui-grid-col-8"><input pInputText id="card" [(ngModel)]="clientGSM.paymentMethod._card"/></div>
+      </div>
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="advance">Avans</label></div>
+        <div class="ui-grid-col-8"><input pInputText id="advance" [(ngModel)]="clientGSM.paymentMethod._advance"/></div>
+      </div>
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="collector">Cont colector</label></div>
+        <div class="ui-grid-col-8"><input pInputText id="collector" [(ngModel)]="clientGSM.paymentMethod._collector"/></div>
+      </div>
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="repayment">Ramburs</label></div>
+        <div class="ui-grid-col-8"><input pInputText id="repayment" [(ngModel)]="clientGSM.paymentMethod._repayment"/></div>
+      </div>
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="priceOffer">Oferta pret</label></div>
+        <div class="ui-grid-col-8"><input pInputText id="priceOffer" [(ngModel)]="clientGSM.priceOffer"/></div>
+      </div>
+
+    </div>
+    <p-footer>
+      <div class="ui-dialog-buttonpane ui-helper-clearfix">
+        <button type="button" pButton icon="fa-close" (click)="cancel()" label="Anuleaza"></button>
+        <button type="button" pButton icon="fa-check" (click)="save()" label="Salveaza"></button>
+      </div>
+    </p-footer>
+  </p-dialog>
   <app-print-gsm-receipt></app-print-gsm-receipt>
 </div>

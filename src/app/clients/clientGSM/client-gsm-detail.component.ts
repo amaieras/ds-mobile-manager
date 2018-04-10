@@ -12,6 +12,7 @@ import {UtilService} from "../../utils/util.service";
 import {ClientGSMType} from "../../model/ClientGSMType";
 import {ClientService} from "../shared/client.service";
 import {PaymentMethod} from "../../model/PaymentMethod";
+import {PhoneListService} from "../clientPF/phone-list/phone-list.service";
 
 @Component({
   selector: 'client-gsm-detail',
@@ -19,7 +20,6 @@ import {PaymentMethod} from "../../model/PaymentMethod";
   styleUrls: ['./client-gsm-detail.component.css']
 })
 export class ClientGSMDetailComponent implements OnInit {
-  paymentMethodType: PaymentMethod = new PaymentMethod(0,0,0,0,0);
   msgs: Message[] = [];
   clientGSMForm: FormGroup;
   clientGSM: ClientGSM = new ClientGSM();
@@ -35,12 +35,12 @@ export class ClientGSMDetailComponent implements OnInit {
   noOfClients: number = 0;
   startAt: BehaviorSubject<string|null> = new BehaviorSubject("cxzx");
   endAt: BehaviorSubject<string|null> = new BehaviorSubject("cxzx\uf8ff");
-  newClientGSMExists: boolean = false;
   constructor(
     private fb: FormBuilder,
     private _clientGSMService: ClientGSMService,
     private _utilService: UtilService,
-    private _clientService: ClientService
+    private _clientService: ClientService,
+    private _phoneListService: PhoneListService
   ) { }
 
   ngOnInit() {
@@ -50,7 +50,7 @@ export class ClientGSMDetailComponent implements OnInit {
     this._clientGSMService.getAllClientsList().subscribe(item => {
       this.clientsGSM = [];
       item.forEach(snapshot => {
-        this.clientsGSM.push({label: snapshot.name, value: snapshot.name});
+        this.clientsGSM.push({$key: snapshot.$key ,label: snapshot.name, value: snapshot.name});
       });
     })
     this._clientGSMService.getAllClientsListByName(this.startAt, this.endAt)
@@ -65,9 +65,9 @@ export class ClientGSMDetailComponent implements OnInit {
       // 'firstname': new FormControl('', [
       //   // Validators.required
       // ]),
-      // 'firm': new FormControl('', [
-      //   // Validators.required
-      // ]),
+      'firm': new FormControl('', [
+        // Validators.required
+      ]),
       'phone': new FormControl('', [
         // Validators.required
       ]),
@@ -169,18 +169,22 @@ export class ClientGSMDetailComponent implements OnInit {
     this.saveClientGSM.clientNo = this.noOfClients + 1;
     this.saveClientGSM.phoneList = PhoneListDeepCopy;
     this.removeCtrlForNewItems();
+    this.addNewBrandModelSynced(formModel);
+    this.addNewSingleModelSynced(formModel);
     this.saveClientGSM.lastname = formModel.lastname;
     this.saveClientGSM.phone = formModel.phone;
     this.saveClientGSM.city = formModel.city;
-    this.saveClientGSM.paymentMethod = new PaymentMethod(0,0,0,0,formModel.paymentMethod);
+    this.saveClientGSM.firm = formModel.firm;
+    this.saveClientGSM.paymentMethod = new PaymentMethod(this.totalPrice,0,0,0,formModel.paymentMethod);
     this.saveClientGSM.priceOffer = this.totalPrice;
     this.saveClientGSM.priceOfferCash = this.totalPrice === null ? 0 : +this.totalPrice;
     this.saveClientGSM.addedDate = new Date().getTime().toString();
-    let clientGSMObj = new ClientGSMType(this.clientGSMTypeKey, clientName, formModel.phone, clientCity);
-    if (!this.checkIfNewClientGSMExists(clientName)){
-      this.addNewClientGSMType(clientGSMObj) ;
+    let clientGSMObj = new ClientGSMType(this.clientGSMTypeKey, clientName, formModel.phone, formModel.firm, clientCity);
+    if (this.checkIfNewClientGSMExists(clientName) === ''){
+      this.addNewClientGSMType(clientGSMObj);
     }
     else {
+      clientGSMObj.$key = this.checkIfNewClientGSMExists(clientName);
       this.updateClientGSMType(clientGSMObj);
     }
     this.setWarrantyInfo();
@@ -189,6 +193,26 @@ export class ClientGSMDetailComponent implements OnInit {
   private removeCtrlForNewItems() {
     this.saveClientGSM = this._clientService.removeCtrlForNewItems(this.saveClientGSM);
   }
+  private addNewBrandModelSynced(formModel: any) {
+    for (let i = 0; i < formModel.phoneList.length; i++) {
+      const item = formModel.phoneList[i];
+      if (item.newBrand !== '' && this._utilService.isNullOrUndefined(item.newBrand)
+        && item.newModel !== '' && this._utilService.isNullOrUndefined(item.newModel)) {
+        this._phoneListService.addNewBrand(item.newBrand);
+        this._phoneListService.addNewModel(item.newModel, item.newBrand.toLowerCase());
+      }
+    }
+  }
+
+  private addNewSingleModelSynced(formModel: any){
+    for (let i = 0; i < formModel.phoneList.length; i++) {
+      const item = formModel.phoneList[i];
+      if (item.newSingleModel !== '' && this._utilService.isNullOrUndefined(item.newSingleModel)) {
+        const brandId = item.phoneBrand.toLowerCase();
+        this._phoneListService.addNewModel(item.newSingleModel, brandId);
+      }
+    }
+  }
 
   private addNewClientGSMType(clientTypeGSM) {
    this._clientGSMService.addGSMClientList(clientTypeGSM);
@@ -196,7 +220,7 @@ export class ClientGSMDetailComponent implements OnInit {
   }
 
   private updateClientGSMType(clientTypeGSM) {
-    this._clientGSMService.updateClientGSM(clientTypeGSM.$key, {phone:clientTypeGSM.phone, city:clientTypeGSM.city });
+    this._clientGSMService.updateClientGSM(clientTypeGSM.$key, {phone:clientTypeGSM.phone, city:clientTypeGSM.city, firm:clientTypeGSM.firm });
   }
 
   addBillingAddress() {
@@ -248,9 +272,11 @@ export class ClientGSMDetailComponent implements OnInit {
   }
 
   fillInfo(clientGSM) {
+    const firm = clientGSM.firm === undefined ? '' : this._utilService.toTitleCase(clientGSM.firm);
     this.resetClientGSMListFilter('cxzx');
-    this.clientGSMForm.patchValue({lastname: this._utilService.toTitleCase(clientGSM.name), phone: clientGSM.phone, city: this._utilService.toTitleCase(clientGSM.city)});
-    this.clientGSMTypeKey = clientGSM.key;
+    this.clientGSMForm.patchValue({lastname: this._utilService.toTitleCase(clientGSM.name), phone: clientGSM.phone,
+      city: this._utilService.toTitleCase(clientGSM.city), firm: firm});
+    this.clientGSMTypeKey = clientGSM.$key;
  }
 
   private resetClientGSMListFilter(event) {
@@ -259,10 +285,17 @@ export class ClientGSMDetailComponent implements OnInit {
   }
   checkIfNewClientGSMExists(newClientGSM) {
     if(this._utilService.isNullOrUndefined(newClientGSM)) {
-      this.newClientGSMExists = this._utilService.containsObject(newClientGSM, this.clientsGSM);
+      if (this._utilService.containsObject(newClientGSM, this.clientsGSM)) {
+        let existingClient = this.clientsGSM.filter(function(client) {
+          return client.value.toLowerCase() === newClientGSM.toLowerCase();
+        })
+        return existingClient[0].$key;
+      };
+      return '';
     }
-    return this.newClientGSMExists;
+    return '';
   }
+
   get lastname() { return this.clientGSMForm.get('lastname'); }
   get firstname() { return this.clientGSMForm.get('firstname'); }
   get firm() { return this.clientGSMForm.get('firm'); }

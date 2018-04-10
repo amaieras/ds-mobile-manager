@@ -4,8 +4,11 @@
     <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
     <input #gb type="text" pInputText size="50" placeholder="Cauta peste tot">
   </div>
-  <p-dataTable [value]="repairsGSM" [editable]="true" [paginator]="true" rows="50" [rowsPerPageOptions]="[10,20,50,100]" [globalFilter]="gb" [responsive]="true"
-               (onEditComplete)="updateField($event)" [rowStyleClass]="isRepairDone" [sortOrder]="-1" sortField="addedDate" [loading]="loading" [rowStyleClass]="disabledRow" [reorderableColumns]="true">
+  <p-dataTable [value]="repairsGSM" [editable]="true" [paginator]="true" rows="50" [rowsPerPageOptions]="[10,20,50,100]"
+               [globalFilter]="gb" [responsive]="true"
+               scrollable="true" scrollHeight="700px" virtualScroll="virtualScroll"
+               (onEditComplete)="updateField($event)" [rowStyleClass]="isRepairDone" [sortOrder]="-1" sortField="addedDate"
+               [loading]="loading" [rowStyleClass]="disabledRow" [reorderableColumns]="true">
     <p-header #fixedBox>
       <div style="text-align:left">
         <button type="button" pButton icon="fa-file-o" iconPos="left" label="Excel" style="float:right" (click)="exportTable()"></button>

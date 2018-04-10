@@ -27,8 +27,10 @@ import {HttpClientModule} from "@angular/common/http";
 import {OfferModule} from "./offer/offer.module";
 import {OfferCenterRouting} from "./offer/offer-center-routing";
 import {CoreModule} from "./core/core.module";
+import { ReportsShowComponent } from './reports/reports-show/reports-show.component';
 import {ReportsModule} from "./reports/reports.module";
 import {ReportsCenterRoutingModule} from "./reports/reports-center-routing.module";
+// import { LoginComponent } from './pages/auth/login/login.component';
 
 export const environment = {
   production: false,
@@ -54,6 +56,7 @@ export const firebaseConfig = environment.firebaseConfig;
 @NgModule({
     declarations: [
         AppComponent,
+        // LoginComponent,
     ],
     imports: [
         BrowserModule,

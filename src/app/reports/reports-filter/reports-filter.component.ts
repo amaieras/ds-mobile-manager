@@ -26,6 +26,7 @@ export class ReportsFilterComponent implements OnInit {
   problemsList: any = [];
   selectedProblems: any[];
   report: Report = new Report(0,0,0);
+  isPayed: boolean = false;
   constructor(private _phoneListService: PhoneListService, private _aboutUsService: AboutUsService,
               private _reportService: ReportService, private _clientService: ClientService) { }
 
@@ -81,7 +82,7 @@ export class ReportsFilterComponent implements OnInit {
         let phoneBrands = [];
         let phoneModels = [];
         let problems = [];
-        const aboutUs = c.aboutUs === undefined ? 'undefined' : c.aboutUs;
+        const aboutUs = c.aboutUs === undefined ? 'UNDEFINED' : c.aboutUs.toUpperCase();
         const clientDate = new Date(+c.addedDate).setHours(0, 0, 0, 0);
         c.phoneList.forEach(phone => {
           phoneBrands.push(phone.phoneBrand);
@@ -90,19 +91,28 @@ export class ReportsFilterComponent implements OnInit {
             problems.push(problem.problem)
           })
         });
+        const selectedAboutUs = that.selectedAboutUs.map(item=> item.toUpperCase());
+        const selectedBrands = that.selectedBrands.map(item=> item.toUpperCase());
+        const selectedModels = that.selectedModels.map(item=> item.toUpperCase());
+        const selectedProblems = that.selectedProblems.map(item=> item.toUpperCase());
+        phoneBrands = phoneBrands.map(item=> item.toUpperCase());
+        phoneModels = phoneModels.map(item=> item.toUpperCase());
+        problems = problems.map(item=> item.toUpperCase());
         if (that.selectedClientTypes[0] === 'pf') {
-          return that.selectedAboutUs.includes(aboutUs)
-            && that.selectedBrands.some(v => phoneBrands.includes(v))
-            && that.selectedModels.some(v => phoneModels.includes(v))
-            && that.selectedProblems.some(v => problems.includes(v))
+          return selectedAboutUs.includes(aboutUs)
+            && selectedBrands.some(v => phoneBrands.includes(v))
+            && selectedModels.some(v => phoneModels.includes(v))
+            && selectedProblems.some(v => problems.includes(v))
             && clientDate >= that.rangeDates[0].getTime()
-            && clientDate <= that.rangeDates[1].getTime();
+            && clientDate <= that.rangeDates[1].getTime()
+            && c.isPayed === that.isPayed;
         }
         return that.selectedBrands.some(v => phoneBrands.includes(v))
           && that.selectedModels.some(v => phoneModels.includes(v))
           && that.selectedProblems.some(v => problems.includes(v))
           && clientDate >= that.rangeDates[0].getTime()
-          && clientDate <= that.rangeDates[1].getTime();
+          && clientDate <= that.rangeDates[1].getTime()
+          && c.isPayed === that.isPayed;
       })
       this.countNoOfParts(filteredClients);
       this.countNoOfClients(filteredClients);

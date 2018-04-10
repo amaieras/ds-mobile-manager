@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild, ChangeDetectorRef} from '@angular/core';
 import {SelectItem, Message} from "primeng/primeng";
 import {Observable} from "rxjs/Observable";
 import {ClientPF} from "../../../model/ClientPF";
@@ -7,6 +7,7 @@ import {RepairPFDetailService} from "../../repairPF/repair-pf-detail.service";
 import {ClientPFService} from "../../../clients/clientPF/client-pf-detail.service";
 import {WarrantyInfo} from "../../../model/WarrantyInfo";
 import {UtilService} from "../../../utils/util.service";
+import {PaymentMethod} from "../../../model/PaymentMethod";
 
 @Component({
   selector: 'repair-pf-done',
@@ -15,6 +16,7 @@ import {UtilService} from "../../../utils/util.service";
 export class RepairPfDoneComponent implements OnInit {
   repairsPF: ClientPF[];
   dataSource: ClientPF[];
+  clientPF: ClientPF = new ClientPF();
   loading = true;
   cols:any[];
   msgs:Message[] = [];
@@ -23,14 +25,18 @@ export class RepairPfDoneComponent implements OnInit {
   defaultDate: Date = new Date();
   totalRecords: number;
   csvSeparator: string;
+  methodsOfPayment: any[];
+  displayDialog: boolean;
+  selectedClient: ClientPF;
   @ViewChild(PrintReceiptComponent) child: PrintReceiptComponent;
 
-  constructor(private repairPFService:RepairPFDetailService, private _clientPFService: ClientPFService, private _el: ElementRef, private _utilService: UtilService) {
+  constructor(private repairPFService:RepairPFDetailService, private _clientPFService: ClientPFService, private _el: ElementRef,
+              private _utilService: UtilService, private cdr: ChangeDetectorRef) {
   }
 
   ngOnInit() {
     this.csvSeparator = ',';
-
+    this.clientPF.paymentMethod = new PaymentMethod(0,0,0,0,0);
     window.addEventListener('scroll', this.scroll, true); //third parameter
 
     this.defaultDate.setHours(12,0);
@@ -43,6 +49,7 @@ export class RepairPfDoneComponent implements OnInit {
         this.totalRecords = this.dataSource.length;
         this.repairsPF = this.dataSource;
         this.loading = false;
+        this.methodsOfPayment = [{label: 'Nu', value: 'nu'},{label: 'Cont Curent', value: 'cont'},{label: 'Ramburs', value: 'ramburs'}];
         this.testingValues = [{label: 'DA', value: 'DA'},{label: 'NU', value: 'NU'}];
         this.cols = [
           {field: 'addedDate', header: 'Data introducerii', filter: true, sortable: true},
@@ -58,13 +65,10 @@ export class RepairPfDoneComponent implements OnInit {
           {field: 'problem', header: 'Problema', filter: true, sortable: true},
           {field: 'imei', header: 'IMEI', filter: true, sortable: true},
           {field: 'priceOffer', header: 'Oferta pret', filter: true, editable: true, sortable: true},
-          {field: 'priceOfferCash', header: 'Total cash', filter: true, editable: true, sortable: true},
-          {field: 'priceOfferCard', header: 'Total card', filter: true, editable: true, sortable: true},
           {field: 'appointmentDate', header: 'Data si ora programarii', filter: true, editable: true, sortable: true},
           {field: 'tested', header: 'Testat?', filter: true, editable: true, sortable: true},
           {field: 'aboutUs', header: 'Cum a aflat de noi?', filter: true, editable: false, sortable: true},
-          {field: 'deliveredDate', header: 'Data Predarii', filter: true, editable: false, sortable: true},
-          {field: 'isPayed', header: 'Achitat?', filter: true, editable: false , sortable: true}
+          {field: 'deliveredDate', header: 'Data Predarii', filter: true, editable: false, sortable: true}
         ];
 
         this.columnOptions = [];
@@ -77,9 +81,25 @@ export class RepairPfDoneComponent implements OnInit {
       });
     }, 0)
   }
+  onRowSelect(event) {
+    this.clientPF = this.cloneClient(event.data);
+    this.displayDialog = true;
+    this.cdr.detectChanges();
+  }
+  cloneClient(c: ClientPF): ClientPF {
+    let clientPF = new ClientPF();
+    for(let prop in c) {
+      clientPF[prop] = c[prop];
+    }
+    return clientPF;
+  }
 
-  ngOnDestroy() {
-    window.removeEventListener('scroll', this.scroll, true);
+  save() {
+    this.updateField(this.clientPF);
+    this.displayDialog = false;
+  }
+  cancel() {
+    this.displayDialog = false;
   }
 
   scroll = (): void => {
@@ -91,49 +111,14 @@ export class RepairPfDoneComponent implements OnInit {
       this._el.nativeElement.querySelector('thead').classList.remove('sticky-head')
     }
   };
-
-  updateField(event) {
-    const fieldName = event.column.field;
-    const fieldVal = event.data[fieldName];
-    let obj = {};
-    obj[fieldName] = fieldVal;
-    this.repairPFService.updateItem(event.data.$key, obj);
-    if(fieldName === "priceOfferCard" || fieldName === "priceOfferCash") {
-      let poVal = event.data['priceOffer'] || 0;
-      if(fieldName === "priceOfferCard") {
-        obj['priceOfferCash'] = +poVal - +obj[fieldName];
-        if (obj['priceOfferCash'] > 0) {
-          this.repairPFService.updateItem(event.data.$key, obj);
-        }
-      }
-      else {
-        obj['priceOfferCard'] = +poVal - +obj[fieldName];
-        if (obj['priceOfferCard'] > 0) {
-          this.repairPFService.updateItem(event.data.$key, obj);
-        }
-      }
-      obj['priceOffer'] = +obj['priceOfferCard'] + +obj['priceOfferCash'];
-      this.repairPFService.updateItem(event.data.$key, obj);
-    }
-    //add price difference to total cash when priceOffer is modified
-    if(fieldName === "priceOffer") {
-      let priceOffer = event.data['priceOffer'] || 0;
-      let priceOfferCard = event.data['priceOfferCard'] || 0;
-      obj['priceOfferCash'] = +priceOffer - +priceOfferCard;
-      this.repairPFService.updateItem(event.data.$key, obj);
-    }
-    this.updateArrayItem(fieldName, event, fieldVal);
-    this.successMessage(event.data.lastname, event.data.firstname, event.data.phone,'Valoare');
+  updateField(clientPF) {
+    const clientKey = clientPF.$key;
+    this.updateCheckedItem(clientPF);
+    delete clientPF.$key;
+    this.repairPFService.updateItem(clientKey, clientPF);
+    this.successMessage(clientPF.lastname, "", clientPF.phone,'Valoare');
   }
 
-  private updateArrayItem(fieldName: any, event, fieldVal: any) {
-    let obj = {};
-    if (fieldName === "observation" || fieldName === "phoneColor" || fieldName === "phoneCode") {
-      event.data.phoneList[0][fieldName] = fieldVal;
-      obj['phoneList'] = event.data.phoneList;
-      this.repairPFService.updateItem(event.data.$key, obj);
-    }
-  }
   getClientsPFList(): Observable<any> {
     return this.repairPFService.getClientsPFList();
   }

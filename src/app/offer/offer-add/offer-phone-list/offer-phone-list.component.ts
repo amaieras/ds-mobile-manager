@@ -219,6 +219,7 @@ export class OfferPhoneListComponent implements OnInit {
         Validators.required,
         forbiddenStringInput(/^\\d+$/)
       ]),
+      phoneQuantity: 1
     });
   }
   removeProblem(idx: number) {

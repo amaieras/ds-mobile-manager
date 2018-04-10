@@ -18,9 +18,14 @@ export class AppComponent {
         this.mainMenuItems.push(this.mainMenuItems.shift());
         this.mainMenuItems.push(this.mainMenuItems.shift());
         this.mainMenuItems.push(this.mainMenuItems.shift());
-        //temporary remove reports link until user and roles are assigned
-        this.mainMenuItems.splice(-1,1);
+
+        //put `grafice` link to the end
         this.mainMenuItems.push(this.mainMenuItems.shift());
+        //swap reports link which is invisble with `grafice` links
+        let aux = this.mainMenuItems[this.mainMenuItems.length-1];
+        this.mainMenuItems[this.mainMenuItems.length-1] = this.mainMenuItems[this.mainMenuItems.length - 2];
+        this.mainMenuItems[this.mainMenuItems.length - 2] = aux;
+
         this.activeMenuItem$ = this.toolbarService.activeMenuItem$;
     }
 }

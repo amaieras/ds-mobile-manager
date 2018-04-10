@@ -133,13 +133,13 @@ table {
   height: auto !important;
 }
 
-.sticky-head {
-  position: fixed;
-  top: 0px;
-  width: 97.4%;
-  display: table;
-  z-index: 1;
-}
+//.sticky-head {
+//  position: fixed;
+//  top: 0px;
+//  width: 97.4%;
+//  display: table;
+//  z-index: 1;
+//}
 
 .ui-state-default.ui-unselectable-text.ui-sortable-column span.ui-column-title {
   display: block;
@@ -184,4 +184,28 @@ table {
 
 .ui-datepicker {
   top: 30px !important;
+}
+
+//temporary remove reports link until user and roles are assigned
+a[href='/reports'] {
+  margin-top: 200px;
+  color: white !important;
+}
+a[href='/reports']:hover {
+  color: rgba(0, 0, 0, -0.96) !important;
+  background-color: white;
+}
+
+//styling print icon
+.ui-datatable-scrollable-header-box thead th:last-child {
+  width: 73px;
+}
+
+.ui-datatable-data tr td:last-child {
+  width: 73px;
+}
+
+.ui-datatable-data tr td:last-child span:nth-child(2n) button{
+  font-size: 1.6em;
+  margin-left: 8px;
 }

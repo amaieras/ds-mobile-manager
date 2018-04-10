@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import {SharedDsModule} from "../shared/shared-ds.module";
 import {AmexioDashboardModule} from "amexio-ng-extensions/dashboard";
 import {AmexioWidgetModule} from "amexio-ng-extensions";
-import {CalendarModule, DropdownModule, MultiSelectModule} from "primeng/primeng";
+import {CalendarModule, CheckboxModule, DropdownModule, MultiSelectModule} from "primeng/primeng";
 import {FormsModule} from "@angular/forms";
 import {ReportsShowComponent} from "./reports-show/reports-show.component";
 import {ReportService} from "../shared/reports/report.service";
@@ -22,7 +22,8 @@ import {ReportTypeListService} from "./report-type-list/report-type-list.service
     SharedDsModule,
     RouterModule,
     MultiSelectModule,
-    CalendarModule
+    CalendarModule,
+    CheckboxModule
   ],
   declarations: [ReportsShowComponent, ReportTypeListComponent, ReportsFilterComponent],
   providers: [ReportService, ReportTypeListService]

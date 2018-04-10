@@ -1,8 +1,8 @@
 export class Report {
 
-  private _piecesNo: number;
-  private _totalIn: number;
-  private _noOfClients: number;
+  _piecesNo: number;
+  _totalIn: number;
+  _noOfClients: number;
 
   constructor(piecesNo: number, totalIn: number, noOfClients: number) {
     this._piecesNo = piecesNo;

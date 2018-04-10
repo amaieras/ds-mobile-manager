@@ -100,9 +100,10 @@ export class ClientPfDetailComponent implements OnInit {
     let totalPrice = 0;
     for (let i = 0; i < formModel.phoneList.length; i++) {
       for (let j = 0; j < formModel.phoneList[i].problems.length; j++) {
+        let phoneQuantity = +formModel.phoneList[i].problems[j].phoneQuantity;
         const item = formModel.phoneList[i].problems[j];
         if (item.pricePerPart !== '') {
-          totalPrice = totalPrice + item.pricePerPart ;
+          totalPrice = totalPrice + item.pricePerPart * phoneQuantity;
         }
       }
     }
@@ -127,7 +128,7 @@ export class ClientPfDetailComponent implements OnInit {
     this.saveClientPF.clientNo = this.noOfClients + 1;
     this.saveClientPF.phone = formModel.phone;
     this.saveClientPF.tested = formModel.tested;
-    this.saveClientPF.paymentMethod = new PaymentMethod(0,0,0,0,formModel.paymentMethod);
+    this.saveClientPF.paymentMethod = new PaymentMethod(this.totalPrice,0,0,0,formModel.paymentMethod);
     this.saveClientPF.aboutUs = this.selectedOtherName !== '' ? this.selectedOtherName : formModel.aboutUs;
     this.saveClientPF.priceOffer = this.totalPrice === null ? '0' : this.totalPrice.toString();
     this.saveClientPF.priceOfferCash = this.totalPrice === null ? '0' : this.totalPrice.toString();
@@ -275,7 +276,7 @@ export class ClientPfDetailComponent implements OnInit {
         formModel.phoneList[i].problems[j].problem = problemName === 'altele' ? formModel.phoneList[i].problems[j].partName : problemName;
       }
       this.warrantyInfo = new WarrantyInfo(dateNow, formModel.lastname, formModel.firstname, formModel.phone, this.totalPrice,
-        formModel.tested, formModel.aboutUs,formModel.phoneList[i], formModel.appointment, this.noOfClients + 1);
+        formModel.tested, formModel.aboutUs,formModel.phoneList, formModel.appointment, this.noOfClients + 1);
       this.child.print(this.warrantyInfo);
     }
 

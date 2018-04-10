@@ -46,13 +46,15 @@
     </div>
 
     <div class="col-md-5">
-      <label for="appointmentDate" style="display: block">Perioada</label>
+      <label for="appointmentDate" style="display: block">Perioada - Data intrare</label>
       <p-calendar id="appointmentDate" [(ngModel)]="rangeDates" selectionMode="range" readonlyInput="true"
                   [monthNavigator]="true" [yearNavigator]="true" yearRange="2017:2030" [showIcon]="true"
                   dateFormat="dd/mm/yy">
       </p-calendar>
     </div>
-
+    <div class="ui-g" style="width:250px;margin-bottom:10px">
+      <div class="ui-g-12"><p-checkbox name="group1" binary="false" label="Achitat?" [(ngModel)]="isPayed" inputId="isp"></p-checkbox></div>
+    </div>
 
     <div class="col-md-5"  style="padding:4px 14px">
       <button type="button" (click)="applyFilters()" class="btn btn-success">
