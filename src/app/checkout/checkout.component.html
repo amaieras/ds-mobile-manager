@@ -29,9 +29,9 @@
               </amexio-datapoints>
             </div>
             <div class="col-lg-6">
-              <amexio-datapoints [west]="true" [center]="true" [east]="true" [south]="true" [backgroundColor]="'#68bafc'" [fontColor]="'#ffffff'">
-                <amexio-west [contentalign]="'center'" [width]="'100px'">
-                  <amexio-image [imageClass]="'fa fa-line-chart fa-4x'"></amexio-image>
+              <amexio-datapoints  [west]="true" [center]="true" [east]="true" [south]="true" [backgroundColor]="'#68bafc'" [fontColor]="'#ffffff'">
+                <amexio-west  [contentalign]="'center'" [width]="'100px'">
+                  <amexio-image (click)="showClients('image')" [imageClass]="'fa fa-line-chart fa-4x'"></amexio-image>
                 </amexio-west>
                 <amexio-center [contentalign]="'right'">
                   <amexio-datapoints [north]="true" [center]="true" [south]="true">

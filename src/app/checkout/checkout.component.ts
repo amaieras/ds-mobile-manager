@@ -168,4 +168,8 @@ export class CheckoutComponent implements OnInit {
         });
     });
   }
+
+  showClients(opt) {
+    console.log(opt)
+  }
 }
