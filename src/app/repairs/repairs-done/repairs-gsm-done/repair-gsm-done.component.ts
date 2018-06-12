@@ -90,7 +90,16 @@ export class RepairGsmDoneComponent implements OnInit{
     this.successMessage(clientGSM.lastname, clientGSM.phone,'Valoare');
   }
 
-
+  checkPaymentIsNo(clientGSM, type) {
+    if(type === 'priceOffer') {
+      clientGSM[type] = isNaN(clientGSM[type]) ||
+      String(clientGSM[type]).trim().length === 0 ? 0 : +clientGSM[type];
+    }
+    else {
+      clientGSM.paymentMethod[type] = isNaN(clientGSM.paymentMethod[type]) ||
+      String(clientGSM.paymentMethod[type]).trim().length === 0 ? 0 : +clientGSM.paymentMethod[type];
+    }
+  }
   getClientsGSMList(): Observable<any> {
     return this._repairGSMService.getClientsGSMList();
   }

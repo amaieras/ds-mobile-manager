@@ -4,9 +4,19 @@ import {AmexioDashboardModule} from "amexio-ng-extensions/dashboard";
 import {AmexioWidgetModule} from "amexio-ng-extensions";
 import {CommonModule} from "@angular/common";
 import {CheckoutService} from "./checkout.service";
-import {DropdownModule} from "primeng/primeng";
-import {FormsModule} from "@angular/forms";
+import {
+  CalendarModule, CheckboxModule, DataGridModule, DataTableModule, DropdownModule, GrowlModule, PanelMenuModule,
+  RadioButtonModule
+} from "primeng/primeng";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {SharedDsModule} from "../shared/shared-ds.module";
+import {RepairPFDetailComponent} from "../repairs/repairPF/repair-pf-detail.component";
+import {TableModule} from "primeng/table";
+import {RouterModule} from "@angular/router";
+import {DialogModule} from "primeng/dialog";
+import {MultiSelectModule} from "@progress/kendo-angular-dropdowns";
+import {PanelModule} from "primeng/panel";
+import {DataViewModule} from "primeng/dataview";
 
 @NgModule({
   imports: [
@@ -15,10 +25,27 @@ import {SharedDsModule} from "../shared/shared-ds.module";
     CommonModule,
     DropdownModule,
     FormsModule,
-    SharedDsModule
+    SharedDsModule,
+
+    GrowlModule,
+    DataTableModule,
+    TableModule,
+    ReactiveFormsModule,
+    RouterModule,
+    DataTableModule,
+    DialogModule,
+    CheckboxModule,
+    RadioButtonModule,
+    MultiSelectModule,
+    DropdownModule,
+    CalendarModule,
+    DataGridModule,
+    PanelModule,
+    DataViewModule
   ],
   declarations: [
-    CheckoutComponent
+    RepairPFDetailComponent,
+    CheckoutComponent,
   ],
   providers: [
     CheckoutService

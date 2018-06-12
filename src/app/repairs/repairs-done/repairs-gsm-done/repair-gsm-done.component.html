@@ -99,27 +99,33 @@
       </div>
       <div class="ui-grid-row">
         <div class="ui-grid-col-4"><label for="cash">Cash</label></div>
-        <div class="ui-grid-col-8"><input pInputText id="cash" [(ngModel)]="clientGSM.paymentMethod._cash"/></div>
+        <div class="ui-grid-col-8"><input pInputText id="cash" [(ngModel)]="clientGSM.paymentMethod._cash"
+                                          (blur)="checkPaymentIsNo(clientGSM, '_cash')"/></div>
       </div>
       <div class="ui-grid-row">
         <div class="ui-grid-col-4"><label for="card">Card</label></div>
-        <div class="ui-grid-col-8"><input pInputText id="card" [(ngModel)]="clientGSM.paymentMethod._card"/></div>
+        <div class="ui-grid-col-8"><input pInputText id="card" [(ngModel)]="clientGSM.paymentMethod._card"
+                                          (blur)="checkPaymentIsNo(clientGSM, '_card')"/></div>
       </div>
       <div class="ui-grid-row">
         <div class="ui-grid-col-4"><label for="advance">Avans</label></div>
-        <div class="ui-grid-col-8"><input pInputText id="advance" [(ngModel)]="clientGSM.paymentMethod._advance"/></div>
+        <div class="ui-grid-col-8"><input pInputText id="advance" [(ngModel)]="clientGSM.paymentMethod._advance"
+                                          (blur)="checkPaymentIsNo(clientGSM, '_advance')"/></div>
       </div>
       <div class="ui-grid-row">
         <div class="ui-grid-col-4"><label for="collector">Cont colector</label></div>
-        <div class="ui-grid-col-8"><input pInputText id="collector" [(ngModel)]="clientGSM.paymentMethod._collector"/></div>
+        <div class="ui-grid-col-8"><input pInputText id="collector" [(ngModel)]="clientGSM.paymentMethod._collector"
+                                          (blur)="checkPaymentIsNo(clientGSM, '_collector')"/></div>
       </div>
       <div class="ui-grid-row">
         <div class="ui-grid-col-4"><label for="repayment">Ramburs</label></div>
-        <div class="ui-grid-col-8"><input pInputText id="repayment" [(ngModel)]="clientGSM.paymentMethod._repayment"/></div>
+        <div class="ui-grid-col-8"><input pInputText id="repayment" [(ngModel)]="clientGSM.paymentMethod._repayment"
+                                          (blur)="checkPaymentIsNo(clientGSM, '_repayment')"/></div>
       </div>
       <div class="ui-grid-row">
         <div class="ui-grid-col-4"><label for="priceOffer">Oferta pret</label></div>
-        <div class="ui-grid-col-8"><input pInputText id="priceOffer" [(ngModel)]="clientGSM.priceOffer"/></div>
+        <div class="ui-grid-col-8"><input pInputText id="priceOffer" [(ngModel)]="clientGSM.priceOffer"
+                                          (blur)="checkPaymentIsNo(clientGSM, 'priceOffer')"/></div>
       </div>
 
     </div>

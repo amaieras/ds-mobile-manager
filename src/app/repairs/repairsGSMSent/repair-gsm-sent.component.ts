@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from "@angular/core";
+import {ChangeDetectorRef, Component, OnInit, ViewChild} from "@angular/core";
 import { SelectItem,Message } from "primeng/primeng";
 import {Observable} from "rxjs/Observable";
 import {ClientGSM} from "../../model/ClientGSM";
@@ -6,7 +6,8 @@ import {UtilService} from "../../utils/util.service";
 import {ClientGSMService} from "../../clients/clientGSM/client-gsm-detail.service";
 import {WarrantyGSMInfo} from "../../model/WarrantyGSMInfo";
 import {PrintGsmReceiptComponent} from "../../shared/print/print-gsm/print-gsm-receipt.component";
-import {RepairGsmSentService} from "./repair-gsm-sent.service";
+import {RepairGSMDetailService} from "../repairGSM/repair-gsm-detail.service";
+import {PaymentMethod} from "app/model/PaymentMethod";
 
 @Component({
   selector: 'app-repair-gsm-sent',
@@ -14,6 +15,7 @@ import {RepairGsmSentService} from "./repair-gsm-sent.service";
 })
 export class RepairGsmSentComponent implements OnInit{
   repairsGSM: ClientGSM[];
+  clientGSM: ClientGSM = new ClientGSM();
   cols: any[];
   columnOptions: SelectItem[];
   msgs: Message[] = [];
@@ -22,12 +24,15 @@ export class RepairGsmSentComponent implements OnInit{
   totalRecords: number;
   csvSeparator: string;
   methodsOfPayment: any[];
+  displayDialog: boolean;
+  selectedClient: ClientGSM;
   @ViewChild(PrintGsmReceiptComponent) child: PrintGsmReceiptComponent;
 
-  constructor(private _repairGSMSentService: RepairGsmSentService, private _clientGSMService: ClientGSMService,
-              private _utilService: UtilService) { }
+  constructor(private _repairGSMService: RepairGSMDetailService, private _clientGSMService: ClientGSMService,
+              private _utilService: UtilService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
+    this.clientGSM.paymentMethod = new PaymentMethod(0,0,0,0,0);
     this.getClientsGSMList().subscribe(clientGSM => {
       this.dataSource = clientGSM.filter(function(item) {
         return !item.isPayed && (item.isSent === 'cont' || item.isSent === 'ramburs');
@@ -45,11 +50,7 @@ export class RepairGsmSentComponent implements OnInit{
         {field: 'phoneColor', header: 'Culoare', filter: true, editable: true, sortable: true},
         {field: 'problem', header: 'Problema', filter: true, sortable: true},
         {field: 'priceOffer', header: 'Oferta pret', filter: true, editable: true, sortable: true},
-        {field: 'priceOfferCash', header: 'Total cash', filter: true, editable: true, sortable: true},
-        {field: 'priceOfferCard', header: 'Total card', filter: true, editable: true, sortable: true},
         {field: 'city', header: 'Orasul', filter: true, editable: true, sortable: true},
-        {field: 'isRepaired', header: 'Reparat?', filter: true, editable: false , sortable: true},
-        {field: 'isPayed', header: 'Achitat?', filter: true, editable: false , sortable: true},
         {field: 'isSent', header: 'Colet trimis?', filter: true, editable: false , sortable: true},
       ];
 
@@ -61,66 +62,61 @@ export class RepairGsmSentComponent implements OnInit{
     });
 
   }
-
-  updateField(event) {
-    const fieldName = event.column.field;
-    const fieldVal = event.data[fieldName];
-    let obj = {};
-    obj[fieldName] = fieldVal;
-    this._repairGSMSentService.updateItem(event.data.$key, obj);
-    if(fieldName === "priceOfferCard" || fieldName === "priceOfferCash") {
-      let poVal = event.data['priceOffer'] || 0;
-      if(fieldName === "priceOfferCard") {
-        obj['priceOfferCash'] = +poVal - +obj[fieldName];
-        if (obj['priceOfferCash'] > 0) {
-          this._repairGSMSentService.updateItem(event.data.$key, obj);
-        }
-      }
-      else {
-        obj['priceOfferCard'] = +poVal - +obj[fieldName];
-        if (obj['priceOfferCard'] > 0) {
-          this._repairGSMSentService.updateItem(event.data.$key, obj);
-        }
-      }
-      obj['priceOffer'] = +obj['priceOfferCard'] + +obj['priceOfferCash'];
-      this._repairGSMSentService.updateItem(event.data.$key, obj);
+  onRowSelect(event) {
+    this.clientGSM = this.cloneClient(event.data);
+    this.displayDialog = true;
+    this.cdr.detectChanges();
+  }
+  cloneClient(c: ClientGSM): ClientGSM {
+    let clientGSM = new ClientGSM();
+    for(let prop in c) {
+      clientGSM[prop] = c[prop];
     }
-    //add price difference to total cash when priceOffer is modified
-    if(fieldName === "priceOffer") {
-      let priceOffer = event.data['priceOffer'] || 0;
-      let priceOfferCard = event.data['priceOfferCard'] || 0;
-      obj['priceOfferCash'] = +priceOffer - +priceOfferCard;
-      this._repairGSMSentService.updateItem(event.data.$key, obj);
-    }
-    this.updateArrayItem(fieldName, event, fieldVal);
-    this.successMessage(event.data.lastname, event.data.phone,'Valoare');
+    return clientGSM;
+  }
+  save() {
+    this.updateField(this.clientGSM);
+    this.displayDialog = false;
   }
 
-  private updateArrayItem(fieldName: any, event, fieldVal: any) {
-    let obj = {};
-    if (fieldName === "observation" || fieldName === "phoneColor") {
-      event.data.phoneList[0][fieldName] = fieldVal;
-      obj['phoneList'] = event.data.phoneList;
-      this._repairGSMSentService.updateItem(event.data.$key, obj);
+  cancel() {
+    this.displayDialog = false;
+  }
+  updateField(clientGSM) {
+    const clientKey = clientGSM.$key;
+    this.updateCheckedItem(clientGSM);
+    delete clientGSM.$key;
+    this._repairGSMService.updateItem(clientKey, clientGSM);
+    this.successMessage(clientGSM.lastname, clientGSM.phone,'Valoare');
+  }
+  checkPaymentIsNo(clientGSM, type) {
+    if(type === 'priceOffer') {
+      clientGSM[type] = isNaN(clientGSM[type]) ||
+      String(clientGSM[type]).trim().length === 0 ? 0 : +clientGSM[type];
+    }
+    else {
+      clientGSM.paymentMethod[type] = isNaN(clientGSM.paymentMethod[type]) ||
+      String(clientGSM.paymentMethod[type]).trim().length === 0 ? 0 : +clientGSM.paymentMethod[type];
     }
   }
+
   getClientsGSMList(): Observable<any> {
-    return this._repairGSMSentService.getClientsGSMList();
+    return this._repairGSMService.getClientsGSMList();
   }
 
   updateCheckedItem(row) {
-    this._repairGSMSentService.updateItem(row.$key, {isPayed: row.isPayed});
+    this._repairGSMService.updateItem(row.$key, {isPayed: row.isPayed});
 
     if(row.isPayed) {
       let date = new Date().getTime().toString();
-      this._repairGSMSentService.updateItem(row.$key, {deliveredDate: date});
+      this._repairGSMService.updateItem(row.$key, {deliveredDate: date});
     }
   }
   updateRepairFinnish(row) {
-    this._repairGSMSentService.updateItem(row.$key, {isRepaired: row.isRepaired});
+    this._repairGSMService.updateItem(row.$key, {isRepaired: row.isRepaired});
   }
   updateSentRepair(row) {
-    this._repairGSMSentService.updateItem(row.$key, {isSent: row.isSent});
+    this._repairGSMService.updateItem(row.$key, {isSent: row.isSent});
     this.successMessage(row.lastname, row.phone,'Valoare');
 
   }

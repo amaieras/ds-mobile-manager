@@ -77,6 +77,10 @@ export class ReportsFilterComponent implements OnInit {
 
   private filterByClientType(clientType) {
     const that = this;
+    const selectedAboutUs = that.selectedAboutUs.map(item=> item.toUpperCase());
+    const selectedBrands = that.selectedBrands.map(item=> item.toUpperCase());
+    const selectedModels = that.selectedModels.map(item=> item.toUpperCase());
+    const selectedProblems = that.selectedProblems.map(item=> item.toUpperCase());
     this._reportService.getClientsByType(clientType).subscribe(clients => {
       let filteredClients = clients.filter(function (c) {
         let phoneBrands = [];
@@ -91,10 +95,8 @@ export class ReportsFilterComponent implements OnInit {
             problems.push(problem.problem)
           })
         });
-        const selectedAboutUs = that.selectedAboutUs.map(item=> item.toUpperCase());
-        const selectedBrands = that.selectedBrands.map(item=> item.toUpperCase());
-        const selectedModels = that.selectedModels.map(item=> item.toUpperCase());
-        const selectedProblems = that.selectedProblems.map(item=> item.toUpperCase());
+
+
         phoneBrands = phoneBrands.map(item=> item.toUpperCase());
         phoneModels = phoneModels.map(item=> item.toUpperCase());
         problems = problems.map(item=> item.toUpperCase());
@@ -107,24 +109,31 @@ export class ReportsFilterComponent implements OnInit {
             && clientDate <= that.rangeDates[1].getTime()
             && c.isPayed === that.isPayed;
         }
-        return that.selectedBrands.some(v => phoneBrands.includes(v))
-          && that.selectedModels.some(v => phoneModels.includes(v))
-          && that.selectedProblems.some(v => problems.includes(v))
+        return selectedBrands.some(v => phoneBrands.includes(v))
+          && selectedModels.some(v => phoneModels.includes(v))
+          && selectedProblems.some(v => problems.includes(v))
           && clientDate >= that.rangeDates[0].getTime()
           && clientDate <= that.rangeDates[1].getTime()
           && c.isPayed === that.isPayed;
       })
-      this.countNoOfParts(filteredClients);
+      this.countNoOfParts(filteredClients, that.selectedModels);
       this.countNoOfClients(filteredClients);
       this.calculateTotalIn(filteredClients);
     });
   }
 
-  private countNoOfParts(filteredClients) {
+  private countNoOfParts(filteredClients, models) {
     let pieces = [];
     filteredClients.forEach(c => {
-      c.phoneList.forEach(p=>{
-        pieces.push(p.problem);
+      c.phoneList.forEach(p => {
+        p.problems.forEach(prob =>{
+          let quantity = prob.phoneQuantity === undefined ? 1 : +prob.phoneQuantity;
+          if (models.indexOf(p.phoneModel) > -1) {
+            for(let i = 1; i <= quantity; i++) {
+              pieces.push(p);
+            }
+          }
+        })
       });
     })
     this.report.piecesNo = pieces.length;

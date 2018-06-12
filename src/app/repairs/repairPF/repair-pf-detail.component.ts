@@ -87,6 +87,7 @@ export class RepairPFDetailComponent implements OnInit {
     }, 0)
   }
   onRowSelect(event) {
+    console.log(event.data)
     this.clientPF = this.cloneClient(event.data);
     this.displayDialog = true;
     this.cdr.detectChanges();
@@ -135,7 +136,16 @@ export class RepairPFDetailComponent implements OnInit {
       this.repairPFService.updateItem(row.$key, {deliveredDate: date});
     }
   }
-
+  checkPaymentIsNo(clientGSM, type) {
+    if(type === 'priceOffer') {
+      clientGSM[type] = isNaN(clientGSM[type]) ||
+      String(clientGSM[type]).trim().length === 0 ? 0 : +clientGSM[type];
+    }
+    else {
+      clientGSM.paymentMethod[type] = isNaN(clientGSM.paymentMethod[type]) ||
+      String(clientGSM.paymentMethod[type]).trim().length === 0 ? 0 : +clientGSM.paymentMethod[type];
+    }
+  }
   updateAppointmentDate(row, time) {
     let date = new Date(time).getTime().toString();
     this.repairPFService.updateItem(row.$key, {appointmentDate: date});

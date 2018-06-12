@@ -10,7 +10,7 @@
         <div class="card-block">
           <div class="row">
             <div class="col-lg-6">
-              <amexio-datapoints [west]="true" [center]="true" [east]="true" [south]="true" [backgroundColor]="'#efa64c'" [fontColor]="'#ffffff'">
+              <amexio-datapoints (click)="addedClientsByDate('totalAddedPerDay')"  [west]="true" [center]="true" [east]="true" [south]="true" [backgroundColor]="'#efa64c'" [fontColor]="'#ffffff'">
                 <amexio-west [contentalign]="'center'" [width]="'100px'">
                   <amexio-image [imageClass]="'fa fa-line-chart fa-4x'"></amexio-image>
                 </amexio-west>
@@ -29,9 +29,9 @@
               </amexio-datapoints>
             </div>
             <div class="col-lg-6">
-              <amexio-datapoints  [west]="true" [center]="true" [east]="true" [south]="true" [backgroundColor]="'#68bafc'" [fontColor]="'#ffffff'">
-                <amexio-west  [contentalign]="'center'" [width]="'100px'">
-                  <amexio-image (click)="showClients('image')" [imageClass]="'fa fa-line-chart fa-4x'"></amexio-image>
+              <amexio-datapoints (click)="addedClientsByDate('totalMoneyPerDay')" [west]="true" [center]="true" [east]="true" [south]="true" [backgroundColor]="'#68bafc'" [fontColor]="'#ffffff'">
+                <amexio-west [contentalign]="'center'" [width]="'100px'">
+                  <amexio-image [imageClass]="'fa fa-line-chart fa-4x'"></amexio-image>
                 </amexio-west>
                 <amexio-center [contentalign]="'right'">
                   <amexio-datapoints [north]="true" [center]="true" [south]="true">
@@ -52,7 +52,7 @@
           <br>
           <div class="row">
             <div class="col-lg-2">
-              <amexio-datapoints [west]="true" [center]="true" [east]="true" [south]="true" [backgroundColor]="'#4CAF50'" [fontColor]="'#ffffff'">
+              <amexio-datapoints (click)="addedClientsByDate('totalMoneyPerDay')" [west]="true" [center]="true" [east]="true" [south]="true" [backgroundColor]="'#4CAF50'" [fontColor]="'#ffffff'">
                 <amexio-west [contentalign]="'center'">
                   <amexio-image [imageClass]="'fa fa-check fa-4x'"></amexio-image>
                 </amexio-west>
@@ -71,7 +71,7 @@
               </amexio-datapoints>
             </div>
             <div class="col-lg-2">
-              <amexio-datapoints [west]="true" [center]="true" [east]="true" [south]="true" [backgroundColor]="'#FF9800'" [fontColor]="'#ffffff'">
+              <amexio-datapoints (click)="addedClientsByDate('remainingRepairsPerDay')" [west]="true" [center]="true" [east]="true" [south]="true" [backgroundColor]="'#FF9800'" [fontColor]="'#ffffff'">
                 <amexio-west [contentalign]="'center'">
                   <amexio-image [imageClass]="'fa fa-envelope-open-o fa-4x'"></amexio-image>
                 </amexio-west>
@@ -90,7 +90,7 @@
               </amexio-datapoints>
             </div>
             <div class="col-lg-2">
-              <amexio-datapoints [west]="true" [center]="true" [east]="true" [south]="true" [backgroundColor]="'#00BCD4'" [fontColor]="'#ffffff'">
+              <amexio-datapoints (click)="addedClientsByDate('remainingRepairs')" [west]="true" [center]="true" [east]="true" [south]="true" [backgroundColor]="'#00BCD4'" [fontColor]="'#ffffff'">
                 <amexio-west [contentalign]="'center'">
                   <amexio-image [imageClass]="'fa fa-globe fa-3x'"></amexio-image>
                 </amexio-west>
@@ -153,3 +153,236 @@
       </div>
     </amexio-pane-body>
   </amexio-card-pane>
+  <p-growl [(value)]="msgs"></p-growl>
+  <div *ngIf="clientsPFPerDay.length > 0">
+    <p-dataView #dvPF [value]="clientsPFPerDay" [paginator]="true" [rows]="16" paginatorPosition="both" filterBy="phone">
+      <p-header>
+        <div class="ui-helper-clearfix">
+          <div class="ui-g">
+            <div class="ui-g-12 ui-md-4">
+              Lista Clienti - PF
+            </div>
+            <div class="ui-g-6 ui-md-4 filter-container">
+              <div style="position:relative">
+                <input type="search" pInputText placeholder="Cauta dupa telefon" (keyup)="dvPF.filter($event.target.value)">
+              </div>
+            </div>
+            <div class="ui-g-6 ui-md-4" style="text-align:right">
+              <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+            </div>
+          </div>
+        </div>
+      </p-header>
+      <ng-template let-client pTemplate="gridItem">
+        <div style="padding:.5em" class="ui-g-12 ui-md-3">
+          <p-panel [header]="client.phone" [style]="{'text-align':'center'}">
+            <div class="car-detail">{{client.lastname}} - {{client.firstname}}</div>
+            <hr class="ui-widget-content" style="border-top:0">
+            <button pButton type="button" icon="fa-search" (click)="onRowSelect($event, client)" style="margin-top:0"></button>
+          </p-panel>
+        </div>
+      </ng-template>
+      <ng-template let-client pTemplate="listItem">
+        <div class="ui-g" style="padding: 2em;border-bottom: 1px solid #d9d9d9">
+          <div class="ui-g-12 ui-md-8 car-details">
+            <div class="ui-g">
+              <div class="ui-g-2 ui-sm-6">Nume: </div>
+              <div class="ui-g-10 ui-sm-6"><b>{{client.lastname}}</b></div>
+
+              <div class="ui-g-2 ui-sm-6">Prenume: </div>
+              <div class="ui-g-10 ui-sm-6"><b>{{client.firstname}}</b></div>
+
+              <div class="ui-g-2 ui-sm-6">Telefon: </div>
+              <div class="ui-g-10 ui-sm-6"><b>{{client.phone}}</b></div>
+
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-1 search-icon">
+            <button pButton type="button" icon="fa-search" (click)="onRowSelect($event, client)"></button>
+          </div>
+        </div>
+      </ng-template>
+
+    </p-dataView>
+  </div>
+  <p-dialog header="Modificare date client - PF" [(visible)]="displayDialogPF" [responsive]="true" showEffect="fade" [modal]="false">
+    <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="true">
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="isRepaired">Reparat?</label></div>
+        <div class="ui-grid-col-8"><p-checkbox [(ngModel)]="clientPF.isRepaired" binary="true" id="isRepaired"></p-checkbox></div>
+      </div>
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="isPayed">Achitat?</label></div>
+        <div class="ui-grid-col-8"><p-checkbox [(ngModel)]="clientPF.isPayed" binary="true" id="isPayed"></p-checkbox></div>
+      </div>
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="isPayed">Testat?</label></div>
+        <div class="ui-grid-col-8">
+          <p-dropdown  [(ngModel)]="clientPF.tested" [options]="testingValues" [autoWidth]="false" [style]="{'width':'100%'}"></p-dropdown>
+        </div>
+      </div>
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="name">Nume</label></div>
+        <div class="ui-grid-col-8"><input pInputText id="name" [(ngModel)]="clientPF.lastname"/></div>
+      </div>
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="email">Email</label></div>
+        <div class="ui-grid-col-8"><input pInputText id="email" [(ngModel)]="clientPF.email"/></div>
+      </div>
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="firm">Firma</label></div>
+        <div class="ui-grid-col-8"><input pInputText id="firm" [(ngModel)]="clientPF.firm"/></div>
+      </div>
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="phone">Telefon</label></div>
+        <div class="ui-grid-col-8"><input pInputText id="phone" [(ngModel)]="clientPF.phone"/></div>
+      </div>
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="cash">Cash</label></div>
+        <div class="ui-grid-col-8"><input pInputText id="cash" [(ngModel)]="clientPF.paymentMethod._cash"
+                                          (blur)="checkPaymentIsNo(clientPF, '_cash')"/></div>
+      </div>
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="card">Card</label></div>
+        <div class="ui-grid-col-8"><input pInputText id="card" [(ngModel)]="clientPF.paymentMethod._card"
+                                          (blur)="checkPaymentIsNo(clientPF, '_card')"/></div>
+      </div>
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="advance">Avans</label></div>
+        <div class="ui-grid-col-8"><input pInputText id="advance" [(ngModel)]="clientPF.paymentMethod._advance"
+                                          (blur)="checkPaymentIsNo(clientPF, '_advance')"/></div>
+      </div>
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="collector">Cont colector</label></div>
+        <div class="ui-grid-col-8"><input pInputText id="collector" [(ngModel)]="clientPF.paymentMethod._collector"
+                                          (blur)="checkPaymentIsNo(clientPF, '_collector')"/></div>
+      </div>
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="repayment">Ramburs</label></div>
+        <div class="ui-grid-col-8"><input pInputText id="repayment" [(ngModel)]="clientPF.paymentMethod._repayment"
+                                          (blur)="checkPaymentIsNo(clientPF, '_repayment')"/></div>
+      </div>
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="priceOffer">Oferta pret</label></div>
+        <div class="ui-grid-col-8"><input pInputText id="priceOffer" [(ngModel)]="clientPF.priceOffer"
+                                          (blur)="checkPaymentIsNo(clientPF, 'priceOffer')"/></div>
+      </div>
+    </div>
+    <p-footer>
+      <div class="ui-dialog-buttonpane ui-helper-clearfix">
+        <button type="button" pButton icon="fa-close" (click)="cancel()" label="Anuleaza"></button>
+        <button type="button" pButton icon="fa-check" (click)="savePF()" label="Salveaza"></button>
+      </div>
+    </p-footer>
+  </p-dialog>
+  <div *ngIf="clientsGSMPerDay.length > 0">
+    <p-dataView  #dvGSM [value]="clientsGSMPerDay" [paginator]="true" [rows]="16" paginatorPosition="both" filterBy="lastname">
+      <p-header>
+        <div class="ui-helper-clearfix">
+          <div class="ui-g">
+            <div class="ui-g-12 ui-md-4">
+              Lista Clienti - GSM
+            </div>
+            <div class="ui-g-6 ui-md-4 filter-container">
+              <div style="position:relative">
+                <input type="search" pInputText placeholder="Cauta dupa nume" (keyup)="dvGSM.filter($event.target.value)">
+              </div>
+            </div>
+            <div class="ui-g-6 ui-md-4" style="text-align:right">
+              <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+            </div>
+          </div>
+        </div>
+      </p-header>
+      <ng-template let-client pTemplate="gridItem">
+        <div style="padding:.5em" class="ui-g-12 ui-md-3">
+          <p-panel [header]="client.lastname" [style]="{'text-align':'center'}">
+            <div class="car-detail">{{client.lastname}} - {{client.firstname}}</div>
+            <hr class="ui-widget-content" style="border-top:0">
+            <div class="car-detail">{{client.phone}}</div>
+            <button pButton type="button" icon="fa-search" (click)="onRowSelectGSM($event, client)" style="margin-top:0"></button>
+          </p-panel>
+        </div>
+      </ng-template>
+      <ng-template let-client pTemplate="listItem">
+        <div class="ui-g" style="padding: 2em;border-bottom: 1px solid #d9d9d9">
+          <div class="ui-g-12 ui-md-8 car-details">
+            <div class="ui-g">
+              <div class="ui-g-2 ui-sm-6">Nume: </div>
+              <div class="ui-g-10 ui-sm-6"><b>{{client.lastname}}</b></div>
+
+              <div class="ui-g-2 ui-sm-6">Telefon: </div>
+              <div class="ui-g-10 ui-sm-6"><b>{{client.phone}}</b></div>
+
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-1 search-icon">
+            <button pButton type="button" icon="fa-search" (click)="onRowSelectGSM($event, client)"></button>
+          </div>
+        </div>
+      </ng-template>
+    </p-dataView>
+  </div>
+  <p-dialog header="Modificare date client - GSM" [(visible)]="displayDialogGSM" [responsive]="true" showEffect="fade" [modal]="false">
+    <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="true">
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="isRepairedGSM">Reparat?</label></div>
+        <div class="ui-grid-col-8"><p-checkbox [(ngModel)]="clientGSM.isRepaired" binary="true" id="isRepairedGSM"></p-checkbox></div>
+      </div>
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="isPayedGSM">Achitat?</label></div>
+        <div class="ui-grid-col-8"><p-checkbox [(ngModel)]="clientGSM.isPayed" binary="true" id="isPayedGSM"></p-checkbox></div>
+      </div>
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="isSent">Colet trimis?</label></div>
+        <div class="ui-grid-col-8">
+          <p-dropdown id="isSent" [(ngModel)]="clientGSM.isSent" [options]="methodsOfPayment" [autoWidth]="false" [style]="{'width':'100%'}"></p-dropdown>
+        </div>
+      </div>
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="nameGSM">Nume</label></div>
+        <div class="ui-grid-col-8"><input pInputText id="nameGSM" [(ngModel)]="clientGSM.lastname"/></div>
+      </div>
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="phoneGSM">Telefon</label></div>
+        <div class="ui-grid-col-8"><input pInputText id="phoneGSM" [(ngModel)]="clientGSM.phone"/></div>
+      </div>
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="cashGSM">Cash</label></div>
+        <div class="ui-grid-col-8"><input pInputText id="cashGSM" [(ngModel)]="clientGSM.paymentMethod._cash"
+                                          (blur)="checkPaymentIsNo(clientGSM, '_cash')"/></div>
+      </div>
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="cardGSM">Card</label></div>
+        <div class="ui-grid-col-8"><input pInputText id="cardGSM" [(ngModel)]="clientGSM.paymentMethod._card"
+                                          (blur)="checkPaymentIsNo(clientGSM, '_card')"/></div>
+      </div>
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="advanceGSM">Avans</label></div>
+        <div class="ui-grid-col-8"><input pInputText id="advanceGSM" [(ngModel)]="clientGSM.paymentMethod._advance"
+                                          (blur)="checkPaymentIsNo(clientGSM, '_advance')"/></div>
+      </div>
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="collectorGSM">Cont colector</label></div>
+        <div class="ui-grid-col-8"><input pInputText id="collectorGSM" [(ngModel)]="clientGSM.paymentMethod._collector"
+                                          (blur)="checkPaymentIsNo(clientGSM, '_collector')"/></div>
+      </div>
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="repaymentGSM">Ramburs</label></div>
+        <div class="ui-grid-col-8"><input pInputText id="repaymentGSM" [(ngModel)]="clientGSM.paymentMethod._repayment"
+                                          (blur)="checkPaymentIsNo(clientGSM, '_repayment')"/></div>
+      </div>
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="priceOfferGSM">Oferta pret</label></div>
+        <div class="ui-grid-col-8"><input pInputText id="priceOfferGSM" [(ngModel)]="clientGSM.priceOffer"
+                                          (blur)="checkPaymentIsNo(clientGSM, 'priceOffer')"/></div>
+      </div>
+
+    </div>
+    <p-footer>
+      <div class="ui-dialog-buttonpane ui-helper-clearfix">
+        <button type="button" pButton icon="fa-close" (click)="cancel()" label="Anuleaza"></button>
+        <button type="button" pButton icon="fa-check" (click)="saveGSM()" label="Salveaza"></button>
+      </div>
+    </p-footer>
+  </p-dialog>

@@ -114,7 +114,7 @@ import {RepairGsmSentComponent} from "./repairsGSMSent/repair-gsm-sent.component
   ],
   declarations: [
     RepairTypeListComponent,
-    RepairPFDetailComponent,
+    // RepairPFDetailComponent,
     RepairGSMDetailComponent,
     RepairGSMDisplayDetailComponent,
     RepairPfDoneComponent,

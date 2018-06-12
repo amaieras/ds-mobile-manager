@@ -118,7 +118,16 @@ export class RepairPfDoneComponent implements OnInit {
     this.repairPFService.updateItem(clientKey, clientPF);
     this.successMessage(clientPF.lastname, "", clientPF.phone,'Valoare');
   }
-
+  checkPaymentIsNo(clientGSM, type) {
+    if(type === 'priceOffer') {
+      clientGSM[type] = isNaN(clientGSM[type]) ||
+      String(clientGSM[type]).trim().length === 0 ? 0 : +clientGSM[type];
+    }
+    else {
+      clientGSM.paymentMethod[type] = isNaN(clientGSM.paymentMethod[type]) ||
+      String(clientGSM.paymentMethod[type]).trim().length === 0 ? 0 : +clientGSM.paymentMethod[type];
+    }
+  }
   getClientsPFList(): Observable<any> {
     return this.repairPFService.getClientsPFList();
   }

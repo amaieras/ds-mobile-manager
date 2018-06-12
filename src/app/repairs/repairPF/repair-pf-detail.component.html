@@ -12,7 +12,7 @@
         <p-header #fixedBox>
           <div style="text-align:left">
             <button type="button" pButton icon="fa-file-o" iconPos="left" label="Excel" style="float:right" (click)="exportTable()"></button>
-          <p-multiSelect [options]="columnOptions" [(ngModel)]="cols"></p-multiSelect>
+          <!--<p-multiSelect [options]="columnOptions" [(ngModel)]="cols"></p-multiSelect>-->
           </div>
           Reparatii pentru clientii PF
         </p-header>
@@ -135,27 +135,33 @@
       </div>
       <div class="ui-grid-row">
         <div class="ui-grid-col-4"><label for="cash">Cash</label></div>
-        <div class="ui-grid-col-8"><input pInputText id="cash" [(ngModel)]="clientPF.paymentMethod._cash"/></div>
+        <div class="ui-grid-col-8"><input pInputText id="cash" [(ngModel)]="clientPF.paymentMethod._cash"
+                                          (blur)="checkPaymentIsNo(clientPF, '_cash')"/></div>
       </div>
       <div class="ui-grid-row">
         <div class="ui-grid-col-4"><label for="card">Card</label></div>
-        <div class="ui-grid-col-8"><input pInputText id="card" [(ngModel)]="clientPF.paymentMethod._card"/></div>
+        <div class="ui-grid-col-8"><input pInputText id="card" [(ngModel)]="clientPF.paymentMethod._card"
+                                          (blur)="checkPaymentIsNo(clientPF, '_card')"/></div>
       </div>
       <div class="ui-grid-row">
         <div class="ui-grid-col-4"><label for="advance">Avans</label></div>
-        <div class="ui-grid-col-8"><input pInputText id="advance" [(ngModel)]="clientPF.paymentMethod._advance"/></div>
+        <div class="ui-grid-col-8"><input pInputText id="advance" [(ngModel)]="clientPF.paymentMethod._advance"
+                                          (blur)="checkPaymentIsNo(clientPF, '_advance')"/></div>
       </div>
       <div class="ui-grid-row">
         <div class="ui-grid-col-4"><label for="collector">Cont colector</label></div>
-        <div class="ui-grid-col-8"><input pInputText id="collector" [(ngModel)]="clientPF.paymentMethod._collector"/></div>
+        <div class="ui-grid-col-8"><input pInputText id="collector" [(ngModel)]="clientPF.paymentMethod._collector"
+                                          (blur)="checkPaymentIsNo(clientPF, '_collector')"/></div>
       </div>
       <div class="ui-grid-row">
         <div class="ui-grid-col-4"><label for="repayment">Ramburs</label></div>
-        <div class="ui-grid-col-8"><input pInputText id="repayment" [(ngModel)]="clientPF.paymentMethod._repayment"/></div>
+        <div class="ui-grid-col-8"><input pInputText id="repayment" [(ngModel)]="clientPF.paymentMethod._repayment"
+                                          (blur)="checkPaymentIsNo(clientPF, '_repayment')"/></div>
       </div>
       <div class="ui-grid-row">
         <div class="ui-grid-col-4"><label for="priceOffer">Oferta pret</label></div>
-        <div class="ui-grid-col-8"><input pInputText id="priceOffer" [(ngModel)]="clientPF.priceOffer"/></div>
+        <div class="ui-grid-col-8"><input pInputText id="priceOffer" [(ngModel)]="clientPF.priceOffer"
+                                          (blur)="checkPaymentIsNo(clientPF, 'priceOffer')"/></div>
       </div>
     </div>
     <p-footer>
