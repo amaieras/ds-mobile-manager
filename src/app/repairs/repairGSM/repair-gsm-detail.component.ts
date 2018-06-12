@@ -106,6 +106,9 @@ export class RepairGSMDetailComponent implements OnInit{
     this._repairGSMService.updateItem(row.$key, {isPayed: row.isPayed});
 
     if(row.isPayed) {
+      //Delete deliveredeDate because of a bug
+      //When updating for the second time the desired property, is is not updated, so I recreate it
+      delete row.deliveredDate;
       let date = new Date().getTime().toString();
       this._repairGSMService.updateItem(row.$key, {deliveredDate: date});
     }

@@ -87,7 +87,6 @@ export class RepairPFDetailComponent implements OnInit {
     }, 0)
   }
   onRowSelect(event) {
-    console.log(event.data)
     this.clientPF = this.cloneClient(event.data);
     this.displayDialog = true;
     this.cdr.detectChanges();
@@ -130,8 +129,10 @@ export class RepairPFDetailComponent implements OnInit {
 
   updateCheckedItem(row) {
     this.repairPFService.updateItem(row.$key, {isPayed: row.isPayed});
-
     if(row.isPayed) {
+      //Delete deliveredeDate because of a bug
+      //When updating for the second time the desired property, is is not updated, so I recreate it
+      delete row.deliveredDate;
       let date = new Date().getTime().toString();
       this.repairPFService.updateItem(row.$key, {deliveredDate: date});
     }
