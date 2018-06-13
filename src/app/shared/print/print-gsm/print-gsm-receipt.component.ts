@@ -60,7 +60,7 @@ export class PrintGsmReceiptComponent implements OnInit {
           }
           .dotted-border {
             border-top: 2px black dashed;
-            margin-top: 166px;
+            margin-top: 215px;
           }
           * {
             box-sizing: border-box;
