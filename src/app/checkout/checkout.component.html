@@ -176,7 +176,7 @@
       <ng-template let-client pTemplate="gridItem">
         <div style="padding:.5em" class="ui-g-12 ui-md-3">
           <p-panel [header]="client.phone" [style]="{'text-align':'center'}">
-            <div class="car-detail">{{client.lastname}} - {{client.firstname}}</div>
+            <div class="car-detail">{{client.lastname}} <span *ngIf="client.firstname">-</span> {{client.firstname}}</div>
             <hr class="ui-widget-content" style="border-top:0">
             <button pButton type="button" icon="fa-search" (click)="onRowSelect($event, client)" style="margin-top:0"></button>
           </p-panel>
@@ -189,7 +189,7 @@
               <div class="ui-g-2 ui-sm-6">Nume: </div>
               <div class="ui-g-10 ui-sm-6"><b>{{client.lastname}}</b></div>
 
-              <div class="ui-g-2 ui-sm-6">Prenume: </div>
+              <div class="ui-g-2 ui-sm-6"><div  *ngIf="client.firstname">Prenume: </div></div>
               <div class="ui-g-10 ui-sm-6"><b>{{client.firstname}}</b></div>
 
               <div class="ui-g-2 ui-sm-6">Telefon: </div>
