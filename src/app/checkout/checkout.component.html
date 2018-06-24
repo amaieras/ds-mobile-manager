@@ -176,7 +176,10 @@
       <ng-template let-client pTemplate="gridItem">
         <div style="padding:.5em" class="ui-g-12 ui-md-3">
           <p-panel [header]="client.phone" [style]="{'text-align':'center'}">
-            <div class="car-detail">{{client.lastname}} <span *ngIf="client.firstname">-</span> {{client.firstname}}</div>
+            <div class="car-detail">{{client.lastname}}
+              <span *ngIf="client.firstname">-</span>
+              {{client.firstname}}
+            </div>
             <hr class="ui-widget-content" style="border-top:0">
             <button pButton type="button" icon="fa-search" (click)="onRowSelect($event, client)" style="margin-top:0"></button>
           </p-panel>
@@ -195,6 +198,22 @@
               <div class="ui-g-2 ui-sm-6">Telefon: </div>
               <div class="ui-g-10 ui-sm-6"><b>{{client.phone}}</b></div>
 
+              <div class="ui-g-2 ui-sm-6">Brand - Model: </div>
+                <div class="ui-g-10 ui-sm-6">
+                  <span *ngFor="let phone of client.phoneList"><b>{{phone.phoneBrand}} - {{phone.phoneModel}};</b>
+                    <br>
+                </span>
+              </div>
+              <div class="ui-g-2 ui-sm-6">Problema - Pret: </div>
+              <div class="ui-g-10 ui-sm-6">
+                <div *ngFor="let phones of client.phoneList">
+                  <span *ngFor="let problem of phones.problems"><b>{{problem.problem}} - {{problem.pricePerPart}} RON</b>;
+                    <br>
+                </span>
+                </div>
+              </div>
+              <div class="ui-g-2 ui-sm-6">Oferta pret: </div>
+              <div class="ui-g-10 ui-sm-6"><b>{{client.priceOffer}} RON</b></div>
             </div>
           </div>
           <div class="ui-g-12 ui-md-1 search-icon">
@@ -236,6 +255,18 @@
       <div class="ui-grid-row">
         <div class="ui-grid-col-4"><label for="phone">Telefon</label></div>
         <div class="ui-grid-col-8"><input pInputText id="phone" [(ngModel)]="clientPF.phone"/></div>
+      </div>
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="isPayed">Brand</label></div>
+        <div class="ui-grid-col-8">
+          <p-dropdown  [(ngModel)]="selectedBrand" (onChange)="onBrandSelect()" [options]="brandList" filter="true" [autoWidth]="false" [style]="{'width':'100%'}"></p-dropdown>
+        </div>
+      </div>
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-4"><label for="isPayed">Model</label></div>
+        <div class="ui-grid-col-8">
+          <p-dropdown  [(ngModel)]="selectedModel" [options]="modelList" filter="true" [autoWidth]="false" [style]="{'width':'100%'}"></p-dropdown>
+        </div>
       </div>
       <div class="ui-grid-row">
         <div class="ui-grid-col-4"><label for="cash">Cash</label></div>
@@ -297,9 +328,10 @@
       <ng-template let-client pTemplate="gridItem">
         <div style="padding:.5em" class="ui-g-12 ui-md-3">
           <p-panel [header]="client.lastname" [style]="{'text-align':'center'}">
-            <div class="car-detail">{{client.lastname}} - {{client.firstname}}</div>
+            <div class="car-detail">{{client.lastname}} <span *ngIf="client.firstname">-</span> {{client.firstname}}</div>
             <hr class="ui-widget-content" style="border-top:0">
             <div class="car-detail">{{client.phone}}</div>
+
             <button pButton type="button" icon="fa-search" (click)="onRowSelectGSM($event, client)" style="margin-top:0"></button>
           </p-panel>
         </div>
@@ -314,6 +346,22 @@
               <div class="ui-g-2 ui-sm-6">Telefon: </div>
               <div class="ui-g-10 ui-sm-6"><b>{{client.phone}}</b></div>
 
+              <div class="ui-g-2 ui-sm-6">Brand - Model: </div>
+              <div class="ui-g-10 ui-sm-6">
+                  <span *ngFor="let phone of client.phoneList"><b>{{phone.phoneBrand}} - {{phone.phoneModel}};</b>
+                    <br>
+                </span>
+              </div>
+              <div class="ui-g-2 ui-sm-6">Problema - Pret: </div>
+              <div class="ui-g-10 ui-sm-6">
+                <div *ngFor="let phones of client.phoneList">
+                  <span *ngFor="let problem of phones.problems"><b>{{problem.problem}} - {{problem.pricePerPart}} RON</b>;
+                    <br>
+                </span>
+                </div>
+              </div>
+              <div class="ui-g-2 ui-sm-6">Oferta pret: </div>
+              <div class="ui-g-10 ui-sm-6"><b>{{client.priceOffer}}  RON</b></div>
             </div>
           </div>
           <div class="ui-g-12 ui-md-1 search-icon">

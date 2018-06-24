@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {isNull, isUndefined} from "util";
+import {Message} from "primeng/api";
 
 @Injectable()
 export class UtilService {
@@ -83,5 +84,30 @@ export class UtilService {
   toTitleCase(str)
   {
     return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+  }
+
+  /**
+   * Return a formatted success message
+   * @param lastname
+   * @param firstname
+   * @param phone
+   * @param msg
+   * @returns {Message[]}
+   */
+  successMessage(lastname, firstname, phone, msg) {
+    let msgs:Message[] = [];
+    let msgAux = '';
+    if (lastname === undefined || firstname === undefined) {
+      msgAux = ' modificata pentru clientul cu numarul de telefon: ' + phone;
+    }
+    else {
+      msgAux = ' modificata pentru clientul: ' + lastname + ' ' + firstname;
+    }
+    msgs.push({
+      severity: 'success',
+      summary: msg  + msgAux,
+      detail: 'Date modificate.'
+    });
+    return msgs;
   }
 }

@@ -7,6 +7,8 @@ import {PaymentMethod} from "../model/PaymentMethod";
 import {RepairPFDetailService} from "../repairs/repairPF/repair-pf-detail.service";
 import {Message} from "primeng/api";
 import {RepairGSMDetailService} from "../repairs/repairGSM/repair-gsm-detail.service";
+import {UtilService} from "../utils/util.service";
+import {PhoneListService} from "../clients/clientPF/phone-list/phone-list.service";
 
 @Component({
   selector: 'checkout',
@@ -35,8 +37,16 @@ export class CheckoutComponent implements OnInit {
   clientsGSMPerDay: ClientGSM[] = [];
   methodsOfPayment: any[];
   msgs:Message[] = [];
+  brandList: any[] = [];
+  modelList: any[] = [];
+  phoneBrandsArray: any = [];
+  phoneModelsArray: any = [];
+  selectedModel = "";
+  selectedBrand = "";
+
   constructor(private _checkoutService: CheckoutService, private cdr: ChangeDetectorRef,
-              private _repairPFService: RepairPFDetailService, private _repairGSMService: RepairGSMDetailService) {
+              private _repairPFService: RepairPFDetailService, private _repairGSMService: RepairGSMDetailService,
+              private _utilService: UtilService, private _phoneListService: PhoneListService) {
     this.currDate = new Date();
 
   }
@@ -50,6 +60,10 @@ export class CheckoutComponent implements OnInit {
     this.getTotalIsRemainingPerDay(new Date());
     this.getTotalIsRemaining(new Date());
     this.getTotalReceipts(new Date());
+
+
+    this.initBrandModelList();
+
   }
   getCheckoutForDate(event) {
     this.currDate = event;
@@ -233,6 +247,8 @@ export class CheckoutComponent implements OnInit {
   onRowSelect(event, client) {
     this.clientPF = this.cloneClient(client);
     this.displayDialogPF = true;
+    this.setBrandModel();
+    this.onBrandSelect();
     this.cdr.detectChanges();
   }
   onRowSelectGSM(event, client) {
@@ -271,15 +287,18 @@ export class CheckoutComponent implements OnInit {
     const clientKey = clientPF.$key;
     this.updateCheckedItem(clientPF);
     delete clientPF.$key;
+    //TODO - update full array not just first value
+    clientPF.phoneList[0].phoneBrand = this.selectedBrand;
+    clientPF.phoneList[0].phoneModel = this.selectedModel;
     this._repairPFService.updateItem(clientKey, clientPF);
-    this.successMessage(clientPF.lastname, "", clientPF.phone,'Valoare');
+    this.msgs = this._utilService.successMessage(clientPF.lastname, "", clientPF.phone,'Valoare');
   }
   updateGSMField(clientGSM) {
     const clientKey = clientGSM.$key;
     this.updateCheckedItem(clientGSM);
     delete clientGSM.$key;
     this._repairGSMService.updateItem(clientKey, clientGSM);
-    this.successMessage(clientGSM.lastname, "", clientGSM.phone,'Valoare');
+    this.msgs = this._utilService.successMessage(clientGSM.lastname, "", clientGSM.phone,'Valoare');
   }
 
   /**
@@ -289,6 +308,7 @@ export class CheckoutComponent implements OnInit {
   updateCheckedItem(row) {
     if(row.city) {
       this._repairGSMService.updateItem(row.$key, {isPayed: row.isPayed});
+
 
       if(row.isPayed) {
         let date = new Date().getTime().toString();
@@ -314,19 +334,39 @@ export class CheckoutComponent implements OnInit {
       String(client.paymentMethod[type]).trim().length === 0 ? 0 : +client.paymentMethod[type];
     }
   }
-  successMessage(lastname, firstname, phone, msg) {
-    this.msgs = [];
-    let msgAux = '';
-    if (lastname === undefined || firstname === undefined) {
-      msgAux = ' modificata pentru clientul cu numarul de telefon: ' + phone;
-    }
-    else {
-      msgAux = ' modificata pentru clientul: ' + lastname + ' ' + firstname;
-    }
-    this.msgs.push({
-      severity: 'success',
-      summary: msg  + msgAux,
-      detail: 'Date modificate.'
+
+  initBrandModelList() {
+    this._phoneListService.getBrandList().subscribe(phoneModels => {
+      this.phoneBrandsArray = [];
+      phoneModels.forEach(snapshot => {
+        this.brandList.push({label: snapshot.name, value: snapshot.name.toLowerCase()});
+      });
+      //Remove 'Altele' as on modify the user can't add new brand
+      this.brandList.shift();
     });
+    this._phoneListService.getModelList().subscribe(phoneBrands => {
+      this.phoneModelsArray = [];
+      phoneBrands.forEach(snapshot => {
+        this.phoneModelsArray.push({label: snapshot.name, value: snapshot.name.toLowerCase(), phoneId: snapshot.phoneId.toLowerCase()});
+        this.modelList = this.phoneModelsArray;
+      });
+      this.phoneModelsArray = this.phoneModelsArray.filter((item) => item.phoneId === "iphone" || item.phoneId === 'altele');
+    });
+  }
+
+  onBrandSelect() {
+    this._phoneListService.getModelList().subscribe(phoneBrands => {
+        this.phoneModelsArray = [];
+        phoneBrands.forEach(snapshot => {
+          this.phoneModelsArray.push({label: snapshot.name, value: snapshot.name.toLowerCase(), phoneId: snapshot.phoneId});
+        });
+        this.phoneModelsArray = this.phoneModelsArray.filter((item) => item.phoneId.toLowerCase() === this.selectedBrand.toLowerCase());
+        this.modelList = this.phoneModelsArray;
+    })
+  }
+  setBrandModel() {
+    //TODO - update full array not just first value
+    this.selectedBrand = this.clientPF.phoneList[0].phoneBrand.toLowerCase();
+    this.selectedModel = this.clientPF.phoneList[0].phoneModel.toLowerCase();
   }
 }
