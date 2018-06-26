@@ -5,22 +5,24 @@ import { MatButtonModule, MatCheckboxModule, MatFormFieldModule, MatInputModule 
 
 import { FuseSharedModule } from '@fuse/shared.module';
 
-// import { LoginComponent } from './login.component';
+import { LoginComponent } from './login.component';
 import {ReactiveFormsModule} from "@angular/forms";
+import {AdminGuard} from "../../../guards/admin.guard";
 
-// const routes = [
-//   {
-//     path     : 'auth/login',
-//     component: LoginComponent
-//   }
-// ];
+const routes = [
+  {
+    path     : '/login',
+    component: LoginComponent,
+    canActivate: [AdminGuard]
+  }
+];
 
 @NgModule({
   declarations: [
-    // LoginComponent
+    LoginComponent
   ],
   imports     : [
-    // RouterModule.forChild(routes),
+    RouterModule.forChild(routes),
 
     MatButtonModule,
     MatCheckboxModule,

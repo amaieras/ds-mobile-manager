@@ -24,11 +24,7 @@ const repairsCenterRoutes: Routes = [
       },
       {
         path: 'pf',
-        component: RepairPFDetailComponent,
-        // canDeactivate: [CanDeactivateGuard],
-        // resolve: {
-        //   crisis: CrisisDetailResolver
-        // }
+        component: RepairPFDetailComponent
       },
       {
         path: 'gsm',
@@ -84,7 +80,6 @@ const repairsCenterRoutes: Routes = [
     RouterModule
   ],
   providers: [
-    // CrisisDetailResolver
   ]
 })
 export class RepairCenterRoutingModule { }

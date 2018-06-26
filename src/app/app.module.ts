@@ -27,36 +27,17 @@ import {HttpClientModule} from "@angular/common/http";
 import {OfferModule} from "./offer/offer.module";
 import {OfferCenterRouting} from "./offer/offer-center-routing";
 import {CoreModule} from "./core/core.module";
-import { ReportsShowComponent } from './reports/reports-show/reports-show.component';
 import {ReportsModule} from "./reports/reports.module";
 import {ReportsCenterRoutingModule} from "./reports/reports-center-routing.module";
-// import { LoginComponent } from './pages/auth/login/login.component';
+import {environment} from "../environments/environment";
+import {AdminGuard} from "./guards/admin.guard";
+import {LoginModule} from "./pages/auth/login/login.module";
 
-export const environment = {
-  production: false,
-  firebaseConfig: {
-    apiKey: 'AIzaSyDL-_f_lQb4dnkx6GRrL7O7L7sp2A1Kj1w',
-    authDomain: 'ds-mobile-dev.firebaseapp.com',
-    databaseURL: 'https://ds-mobile-dev.firebaseio.com',
-    projectId: 'ds-mobile-dev',
-    storageBucket: 'ds-mobile-dev.appspot.com',
-    messagingSenderId: '931169905269'
-  },
-  firebaseConfigProd: {
-    apiKey: 'AIzaSyAexP1Haz3RsxHqPX--XncgC1Rxef_wMDA',
-    authDomain: 'ds-mobile-prod.firebaseapp.com',
-    databaseURL: 'https://ds-mobile-prod.firebaseio.com',
-    projectId: 'ds-mobile-prod',
-    storageBucket: '',
-    messagingSenderId: '662623055885'
-  }
-}
-export const firebaseConfig = environment.firebaseConfigProd;
+export const firebaseConfig = environment.firebaseConfig;
 
 @NgModule({
     declarations: [
-        AppComponent,
-        // LoginComponent,
+        AppComponent
     ],
     imports: [
         BrowserModule,
@@ -79,16 +60,17 @@ export const firebaseConfig = environment.firebaseConfigProd;
         ClientCenterRoutingModule,
         RepairCenterRoutingModule,
         RouterModule.forRoot([{
-            path: '', redirectTo: '/client', pathMatch: 'full'
+            path: '', redirectTo: 'login', pathMatch: 'full'
         }]),
         //firebase
         AngularFireModule.initializeApp(firebaseConfig),
         AngularFireDatabaseModule,
         AngularFireAuthModule,
         AngularFirestoreModule,
-        CoreModule
+        CoreModule,
+        LoginModule
     ],
-    providers: [AppToolbarService],
+    providers: [AppToolbarService, AdminGuard],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

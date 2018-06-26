@@ -78,6 +78,7 @@ export class ClientPfDetailComponent implements OnInit {
       'aboutUs': new FormControl('FACEBOOK', [])
     });
     this.initForm();
+    console.log()
   }
   onSubmit(event: Event) {
     this.prepareSavePhoneList();

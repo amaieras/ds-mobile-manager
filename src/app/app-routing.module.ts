@@ -4,7 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/clients',
+    redirectTo: '/login',
     pathMatch: 'full'
   }
 ];
