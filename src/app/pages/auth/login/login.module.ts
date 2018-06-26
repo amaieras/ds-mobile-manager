@@ -11,7 +11,7 @@ import {AdminGuard} from "../../../guards/admin.guard";
 
 const routes = [
   {
-    path     : '/login',
+    path     : 'login',
     component: LoginComponent,
     canActivate: [AdminGuard]
   }

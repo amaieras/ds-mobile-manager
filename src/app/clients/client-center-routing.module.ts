@@ -27,7 +27,7 @@ const clientsCenterRoutes: Routes = [
           component: ClientGSMDetailComponent
         }
       ],
-    canActivate: [AdminGuard],
+    // canActivate: [AdminGuard],
     data: {
       title: 'Adaugă clienţi'
     }

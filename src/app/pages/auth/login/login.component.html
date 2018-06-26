@@ -1,72 +1,39 @@
-<h1>Login</h1>
-<!--<div id="login" fxLayout="column" fusePerfectScrollbar>-->
-
-  <!--<div id="login-form-wrapper" fxLayout="column" fxLayoutAlign="center center">-->
-
-    <!--<div id="login-form" *fuseIfOnDom [@animate]="{value:'*',params:{duration:'300ms',y:'100px'}}">-->
-
-      <!--<div class="logo">-->
-        <!--<img src="assets/logo.png">-->
-      <!--</div>-->
-
-      <!--<div class="title">LOGIN TO YOUR ACCOUNT</div>-->
-
-      <!--<form name="loginForm" [formGroup]="loginForm" novalidate>-->
-
-        <!--<mat-form-field>-->
-          <!--<input matInput placeholder="Email" formControlName="email">-->
-          <!--<mat-error *ngIf="loginFormErrors.email.required">-->
-            <!--Email is required-->
-          <!--</mat-error>-->
-          <!--<mat-error *ngIf="!loginFormErrors.email.required && loginFormErrors.email.email">-->
-            <!--Please enter a valid email address-->
-          <!--</mat-error>-->
-        <!--</mat-form-field>-->
-
-        <!--<mat-form-field>-->
-          <!--<input matInput type="password" placeholder="Password" formControlName="password">-->
-          <!--<mat-error *ngIf="loginFormErrors.password.required">-->
-            <!--Password is required-->
-          <!--</mat-error>-->
-        <!--</mat-form-field>-->
-
-        <!--<div class="remember-forgot-password" fxLayout="row" fxLayout.xs="column"-->
-             <!--fxLayoutAlign="space-between center">-->
-          <!--<mat-checkbox class="remember-me" aria-label="Remember Me">-->
-            <!--Remember Me-->
-          <!--</mat-checkbox>-->
-
-          <!--<a class="forgot-password" [routerLink]="'/pages/auth/forgot-password'">-->
-            <!--Forgot Password?-->
-          <!--</a>-->
-        <!--</div>-->
-
-        <!--<button mat-raised-button color="accent" class="submit-button" aria-label="LOG IN"-->
-                <!--[disabled]="loginForm.invalid">-->
-          <!--LOGIN-->
-        <!--</button>-->
-
-      <!--</form>-->
-
-      <!--<div class="separator">-->
-        <!--<span class="text">OR</span>-->
-      <!--</div>-->
-
-      <!--<button mat-raised-button class="google">-->
-        <!--Log in with Google-->
-      <!--</button>-->
-
-      <!--<button mat-raised-button class="facebook">-->
-        <!--Log in with Facebook-->
-      <!--</button>-->
-
-      <!--<div class="register" fxLayout="column" fxLayoutAlign="center center">-->
-        <!--<span class="text">Don't have an account?</span>-->
-        <!--<a class="link" [routerLink]="'/pages/auth/register'">Create an account</a>-->
-      <!--</div>-->
-
+<h1 class="header">Login with Firebase or Social Providers</h1>
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <form [formGroup]="loginForm">
+        <div class="form-group">
+          <label>Email address</label>
+          <input type="email" formControlName="email" class="form-control">
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" class="form-control" formControlName="password">
+          <label class="error">{{errorMessage}}</label>
+        </div>
+        <button type="submit" (click)="tryLogin(loginForm.value)" class="btn btn-default">Login</button>
+      </form>
+    </div>
+  </div>
+  <!--<div class="row">-->
+    <!--<div class="col-md-4 col-md-offset-4">-->
+      <!--<button type="button" class="btn btn-primary btn-block" (click)="tryFacebookLogin()">Login with Facebook</button>-->
     <!--</div>-->
-
   <!--</div>-->
-
-<!--</div>-->
+  <div class="row">
+    <div class="col-md-4 col-md-offset-4">
+      <button type="button" class="btn btn-danger btn-block" (click)="tryGoogleLogin()">Login with Google</button>
+    </div>
+  </div>
+  <!--<div class="row">-->
+    <!--<div class="col-md-4 col-md-offset-4">-->
+      <!--<button type="button" class="btn btn-info btn-block" (click)="tryTwitterLogin()">Login with Twitter</button>-->
+    <!--</div>-->
+  <!--</div>-->
+  <!--<div class="row">-->
+    <!--<div class="col-md-4 col-md-offset-4">-->
+      <!--<p>No account yet? <a href="/register">Create an account</a></p>-->
+    <!--</div>-->
+  <!--</div>-->
+</div>

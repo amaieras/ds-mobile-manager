@@ -25,7 +25,7 @@ export class AppToolbarService {
                 return active;
             });
     }
-    getMenuItems(): MenuItem[] {
+  getMenuItems(): MenuItem[] {
         return this.router.config
             .filter(route => route.data && route.data.title)
             .map(route => {

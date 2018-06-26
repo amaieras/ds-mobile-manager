@@ -32,6 +32,9 @@ import {ReportsCenterRoutingModule} from "./reports/reports-center-routing.modul
 import {environment} from "../environments/environment";
 import {AdminGuard} from "./guards/admin.guard";
 import {LoginModule} from "./pages/auth/login/login.module";
+import {AuthService} from "./core/auth.service";
+import {UserService} from "./guards/user.service";
+import {FuseConfigService} from "../@fuse/services/config.service";
 
 export const firebaseConfig = environment.firebaseConfig;
 
@@ -70,7 +73,7 @@ export const firebaseConfig = environment.firebaseConfig;
         CoreModule,
         LoginModule
     ],
-    providers: [AppToolbarService, AdminGuard],
+    providers: [AppToolbarService, AdminGuard, AuthService, UserService, FuseConfigService],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
