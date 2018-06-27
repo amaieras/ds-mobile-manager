@@ -19,6 +19,8 @@ import {PaymentMethod} from "../../model/PaymentMethod";
   templateUrl: './client-pf-detail.component.html'
 })
 export class ClientPfDetailComponent implements OnInit {
+  name: any;
+  state: string = '';
   clientPF: ClientPF = new ClientPF();
   paymentMethodType: PaymentMethod = new PaymentMethod(0,0,0,0,0);
   msgs: Message[] = [];
@@ -48,8 +50,8 @@ export class ClientPfDetailComponent implements OnInit {
     this.mainArray = [];
     this.tests.push({label: 'NU', value: 'NU'});
     this.tests.push({label: 'DA', value: 'DA'});
-  }
 
+  }
   ngOnInit(): void {
     this._clientPFService.getAllClients().subscribe( client => {
       this.noOfClients = client.length;

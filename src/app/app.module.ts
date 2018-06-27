@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppCommonModule } from './app-common/app-common.module';
 import { RouterModule } from '@angular/router';
@@ -26,21 +26,25 @@ import {ChartCenterRoutingModule} from "./chart/chart-center-routing.module";
 import {HttpClientModule} from "@angular/common/http";
 import {OfferModule} from "./offer/offer.module";
 import {OfferCenterRouting} from "./offer/offer-center-routing";
-import {CoreModule} from "./core/core.module";
 import {ReportsModule} from "./reports/reports.module";
 import {ReportsCenterRoutingModule} from "./reports/reports-center-routing.module";
 import {environment} from "../environments/environment";
-import {AdminGuard} from "./guards/admin.guard";
-import {LoginModule} from "./pages/auth/login/login.module";
-import {AuthService} from "./core/auth.service";
+import {AuthService} from "./guards/auth.service";
+import {LoginComponent} from "./login/login.component";
+import {UserComponent} from "./user/user.component";
+import {AuthGuard} from 'app/guards/auth.guard';
+import {UserResolver} from "./user/user.resolver";
 import {UserService} from "./guards/user.service";
-import {FuseConfigService} from "../@fuse/services/config.service";
+import {RegisterComponent} from "./register/register.component";
 
 export const firebaseConfig = environment.firebaseConfig;
 
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
+        LoginComponent,
+        UserComponent,
+        RegisterComponent
     ],
     imports: [
         BrowserModule,
@@ -70,10 +74,9 @@ export const firebaseConfig = environment.firebaseConfig;
         AngularFireDatabaseModule,
         AngularFireAuthModule,
         AngularFirestoreModule,
-        CoreModule,
-        LoginModule
+        ReactiveFormsModule
     ],
-    providers: [AppToolbarService, AdminGuard, AuthService, UserService, FuseConfigService],
+    providers: [AppToolbarService, AuthService, UserService, UserResolver, AuthGuard],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

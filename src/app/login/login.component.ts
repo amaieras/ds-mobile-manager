@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import {AuthService} from "../../../core/auth.service";
-import { Router, Params } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {AuthService} from "../guards/auth.service";
 
 @Component({
   selector: 'page-login',
@@ -9,7 +10,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['login.component.scss']
 })
 export class LoginComponent {
-
   loginForm: FormGroup;
   errorMessage: string = '';
 
@@ -28,34 +28,20 @@ export class LoginComponent {
     });
   }
 
-  // tryFacebookLogin(){
-  //   this.authService.doFacebookLogin()
-  //     .then(res => {
-  //       this.router.navigate(['/user']);
-  //     })
-  // }
-  //
-  // tryTwitterLogin(){
-  //   this.authService.doTwitterLogin()
-  //     .then(res => {
-  //       this.router.navigate(['/user']);
-  //     })
-  // }
 
   tryGoogleLogin(){
-    this.authService.googleLogin()
+    this.authService.doGoogleLogin()
       .then(res => {
         this.router.navigate(['/clients']);
       })
   }
-
-  // tryLogin(value){
-  //   this.authService.doLogin(value)
-  //     .then(res => {
-  //       this.router.navigate(['/user']);
-  //     }, err => {
-  //       console.log(err);
-  //       this.errorMessage = err.message;
-  //     })
-  // }
+  tryLogin(value){
+    this.authService.doLogin(value)
+      .then(res => {
+        this.router.navigate(['/clients']);
+      }, err => {
+        console.log(err);
+        this.errorMessage = err.message;
+      })
+  }
 }
