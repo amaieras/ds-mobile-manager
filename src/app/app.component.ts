@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { AppToolbarService, MenuItem } from './app-toolbar/app-toolbar.service';
+import {AuthService} from "./guards/auth.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'body',
@@ -12,7 +14,8 @@ export class AppComponent {
     mainMenuItems;
     activeMenuItem$: Observable<MenuItem>;
 
-    constructor(private toolbarService: AppToolbarService) {
+    constructor(private toolbarService: AppToolbarService,
+                public authService: AuthService, private router: Router) {
         this.mainMenuItems = this.toolbarService.getMenuItems();
         // push first element to end of array
         this.mainMenuItems.push(this.mainMenuItems.shift());
@@ -28,4 +31,14 @@ export class AppComponent {
 
         this.activeMenuItem$ = this.toolbarService.activeMenuItem$;
     }
+
+
+  logout(){
+    this.authService.doLogout()
+      .then((res) => {
+        this.router.navigate(['/clients']);
+      }, (error) => {
+        console.log("Logout error", error);
+      });
+  }
 }

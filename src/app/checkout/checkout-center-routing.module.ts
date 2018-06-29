@@ -1,6 +1,7 @@
 import {RouterModule, Routes} from "@angular/router";
 import {CheckoutComponent} from "./checkout.component";
 import {NgModule} from "@angular/core";
+import {AuthGuard} from "../guards/auth.guard";
 
 
 const checkoutCenterRoutes: Routes = [
@@ -11,21 +12,16 @@ const checkoutCenterRoutes: Routes = [
       {
         path: '',
         redirectTo: '',
-        pathMatch: 'full'
+        pathMatch: 'full',
+        canActivate: [AuthGuard]
       },
       {
         path: '',
-        component: CheckoutComponent
+        component: CheckoutComponent,
+        canActivate: [AuthGuard]
       },
-      // {
-      //   path: 'gsm',
-      //   component: ClientGSMDetailComponent
-      // },
-      // {
-      //   path: 'gsm-display',
-      //   component: ClientGSMDisplayComponent
-      // }
     ],
+    canActivate: [AuthGuard],
     data: {
       title: 'Casa - final de zi'
     }

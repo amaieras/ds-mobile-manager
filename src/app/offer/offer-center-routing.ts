@@ -5,6 +5,7 @@ import {OfferOptionListComponent} from "./offer-option-list/offer-option-list.co
 import {AddOfferComponent} from "./offer-add/add-offer.component";
 import {ViewOfferComponent} from "./offer-view/view-offer.component";
 import {ViewOfferDoneComponent} from "./offer-view-done/view-offer-done.component";
+import {AuthGuard} from "../guards/auth.guard";
 
 
 const offerCenterRoutes: Routes = [
@@ -15,21 +16,26 @@ const offerCenterRoutes: Routes = [
       {
         path: '',
         redirectTo: 'offer',
-        pathMatch: 'full'
+        pathMatch: 'full',
+        canActivate: [AuthGuard]
       },
       {
         path: 'add-offer',
-        component: AddOfferComponent
+        component: AddOfferComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'view-offer',
-        component: ViewOfferComponent
+        component: ViewOfferComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'view-offer-done',
-        component: ViewOfferDoneComponent
+        component: ViewOfferDoneComponent,
+        canActivate: [AuthGuard]
       }
     ],
+    canActivate: [AuthGuard],
     data: {
       title: 'Ofertare'
     }

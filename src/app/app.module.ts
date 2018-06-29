@@ -31,11 +31,9 @@ import {ReportsCenterRoutingModule} from "./reports/reports-center-routing.modul
 import {environment} from "../environments/environment";
 import {AuthService} from "./guards/auth.service";
 import {LoginComponent} from "./login/login.component";
-import {UserComponent} from "./user/user.component";
 import {AuthGuard} from 'app/guards/auth.guard';
-import {UserResolver} from "./user/user.resolver";
-import {UserService} from "./guards/user.service";
 import {RegisterComponent} from "./register/register.component";
+import {HomeComponent} from "./navigation/home/home.component";
 
 export const firebaseConfig = environment.firebaseConfig;
 
@@ -43,8 +41,8 @@ export const firebaseConfig = environment.firebaseConfig;
     declarations: [
         AppComponent,
         LoginComponent,
-        UserComponent,
-        RegisterComponent
+        RegisterComponent,
+        HomeComponent
     ],
     imports: [
         BrowserModule,
@@ -76,7 +74,7 @@ export const firebaseConfig = environment.firebaseConfig;
         AngularFirestoreModule,
         ReactiveFormsModule
     ],
-    providers: [AppToolbarService, AuthService, UserService, UserResolver, AuthGuard],
+    providers: [AppToolbarService, AuthService, AuthGuard],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/finally';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClientType, ClientTypeService } from './client-type.service';
@@ -37,6 +36,5 @@ export class ClientTypeListComponent implements OnInit {
     this.selectedId = clientType.id;
     this.router.navigate([clientType.id], { relativeTo: this.route });
   }
-
 
 }

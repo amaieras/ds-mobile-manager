@@ -5,6 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ClientTypeListComponent } from "./client-type-list/client-type-list.component"
 import { ClientPfDetailComponent } from "./clientPF/client-pf-detail.component"
 import { ClientGSMDetailComponent } from "./clientGSM/client-gsm-detail.component"
+import {AuthGuard} from "../guards/auth.guard";
 
 const clientsCenterRoutes: Routes = [
   {
@@ -14,17 +15,21 @@ const clientsCenterRoutes: Routes = [
         {
           path: '',
           redirectTo: 'clients',
-          pathMatch: 'full'
+          pathMatch: 'full',
+          canActivate: [AuthGuard]
         },
         {
           path: 'pf',
-          component: ClientPfDetailComponent
+          component: ClientPfDetailComponent,
+          canActivate: [AuthGuard]
         },
         {
           path: 'gsm',
-          component: ClientGSMDetailComponent
+          component: ClientGSMDetailComponent,
+          canActivate: [AuthGuard]
         }
       ],
+    canActivate: [AuthGuard],
     data: {
       title: 'Adaugă clienţi'
     }
