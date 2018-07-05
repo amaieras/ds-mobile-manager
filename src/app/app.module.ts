@@ -64,9 +64,6 @@ export const firebaseConfig = environment.firebaseConfig;
         ChartCenterRoutingModule,
         ClientCenterRoutingModule,
         RepairCenterRoutingModule,
-        RouterModule.forRoot([{
-            path: '', redirectTo: 'login', pathMatch: 'full'
-        }]),
         //firebase
         AngularFireModule.initializeApp(firebaseConfig),
         AngularFireDatabaseModule,
