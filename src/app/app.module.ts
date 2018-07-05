@@ -33,7 +33,7 @@ import {AuthService} from "./guards/auth.service";
 import {LoginComponent} from "./login/login.component";
 import {AuthGuard} from 'app/guards/auth.guard';
 import {RegisterComponent} from "./register/register.component";
-import {HomeComponent} from "./navigation/home/home.component";
+import {DashboardComponent} from "./navigation/dashboard/dashboard.component";
 
 export const firebaseConfig = environment.firebaseConfig;
 
@@ -42,7 +42,7 @@ export const firebaseConfig = environment.firebaseConfig;
         AppComponent,
         LoginComponent,
         RegisterComponent,
-        HomeComponent
+        DashboardComponent
     ],
     imports: [
         BrowserModule,

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from "@angular/router";
 import { AngularFireAuth } from 'angularfire2/auth';
-import {UserService} from "./user.service";
 import {Observable} from "rxjs/Observable";
 
 
@@ -18,7 +17,6 @@ export class AuthGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> {
-
     return this.afAuth.authState
       .take(1)
       .map(user => {

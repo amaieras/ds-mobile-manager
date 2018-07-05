@@ -6,9 +6,9 @@ import {AuthService} from "../../guards/auth.service";
 
 @Component({
   selector: 'body',
-  templateUrl: './home.component.html'
+  templateUrl: './dashboard.component.html'
 })
-export class HomeComponent {
+export class DashboardComponent {
   isDarkTheme = false;
   mainMenuItems;
   activeMenuItem$: Observable<MenuItem>;
@@ -20,7 +20,6 @@ export class HomeComponent {
     this.mainMenuItems.push(this.mainMenuItems.shift());
     this.mainMenuItems.push(this.mainMenuItems.shift());
     this.mainMenuItems.push(this.mainMenuItems.shift());
-  console.log(this.mainMenuItems)
     // put `grafice` link to the end
     this.mainMenuItems.push(this.mainMenuItems.shift());
     // swap reports link which is invisble with `grafice` links
