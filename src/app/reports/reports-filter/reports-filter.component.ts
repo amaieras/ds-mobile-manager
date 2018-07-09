@@ -116,6 +116,7 @@ export class ReportsFilterComponent implements OnInit {
           && clientDate <= that.rangeDates[1].getTime()
           && c.isPayed === that.isPayed;
       })
+
       this.countNoOfParts(filteredClients, that.selectedModels);
       this.countNoOfClients(filteredClients);
       this.calculateTotalIn(filteredClients);
@@ -124,18 +125,25 @@ export class ReportsFilterComponent implements OnInit {
 
   private countNoOfParts(filteredClients, models) {
     let pieces = [];
+    const selectedProblems = this.selectedProblems.map(item=> item.toLowerCase());
     filteredClients.forEach(c => {
       c.phoneList.forEach(p => {
         p.problems.forEach(prob =>{
           let quantity = prob.phoneQuantity === undefined ? 1 : +prob.phoneQuantity;
-          if (models.indexOf(p.phoneModel) > -1) {
+          if (models.map(v => v.toLowerCase()).indexOf(p.phoneModel.toLowerCase()) > -1) {
             for(let i = 1; i <= quantity; i++) {
-              pieces.push(p);
+              selectedProblems.forEach(selProb => {
+                if (selProb.toLowerCase() === prob.problem.toLowerCase()) {
+                  pieces.push(prob.problem);
+                }
+              })
+
             }
           }
         })
       });
     })
+    console.log(pieces)
     this.report.piecesNo = pieces.length;
   }
 
