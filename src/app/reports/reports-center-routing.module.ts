@@ -14,20 +14,20 @@ const reportsCenterRoutes: Routes = [
         path: '',
         redirectTo: 'reports',
         pathMatch: 'full',
-        canActivate: [AuthGuard]
+        // canActivate: [AuthGuard]
       },
       {
         path: 'general',
         component: ReportsShowComponent,
-        canActivate: [AuthGuard]
+        // canActivate: [AuthGuard]
       },
       {
         path: 'filter',
         component: ReportsFilterComponent,
-        canActivate: [AuthGuard]
+        // canActivate: [AuthGuard]
       }
     ],
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
     data: {
       title: 'Rapoarte'
     }

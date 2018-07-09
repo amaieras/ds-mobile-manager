@@ -22,33 +22,33 @@ const repairsCenterRoutes: Routes = [
         path: '',
         redirectTo: 'repairs',
         pathMatch: 'full',
-        canActivate: [AuthGuard]
+        // canActivate: [AuthGuard]
       },
       {
         path: 'pf',
         component: RepairPFDetailComponent,
-        canActivate: [AuthGuard]
+        // canActivate: [AuthGuard]
       },
       {
         path: 'gsm',
         component: RepairGSMDetailComponent,
-        canActivate: [AuthGuard]
+        // canActivate: [AuthGuard]
       },
       {
         path: 'gsm-display',
         component: RepairGSMDisplayDetailComponent,
-        canActivate: [AuthGuard]
+        // canActivate: [AuthGuard]
       },
       {
         path: 'gsm-sent',
         component: RepairGsmSentComponent,
-        canActivate: [AuthGuard]
+        // canActivate: [AuthGuard]
       }
     ],
     data: {
       title: 'Reparaţii'
     },
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
   },
   {
     path: 'repairs-done',
@@ -58,25 +58,25 @@ const repairsCenterRoutes: Routes = [
         path: '',
         redirectTo: 'repairs-done',
         pathMatch: 'full',
-        canActivate: [AuthGuard]
+        // canActivate: [AuthGuard]
       },
       {
         path: 'pf',
         component: RepairPfDoneComponent,
-        canActivate: [AuthGuard]
+        // canActivate: [AuthGuard]
       },
       {
         path: 'gsm',
         component: RepairGsmDoneComponent,
-        canActivate: [AuthGuard]
+        // canActivate: [AuthGuard]
       },
       {
         path: 'gsm-display',
         component: RepairGsmDisplayDoneComponent,
-        canActivate: [AuthGuard]
+        // canActivate: [AuthGuard]
       },
     ],
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
     data: {
       title: 'Reparaţii/Terminat'
     }

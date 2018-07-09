@@ -17,35 +17,35 @@ const chartCenterRoutes: Routes = [
         path: '',
         redirectTo: 'chart-pf',
         pathMatch: 'full',
-        canActivate: [AuthGuard]
+        // canActivate: [AuthGuard]
       },
       {
         path: 'phones-chart',
         component: PhonesChartComponent,
-        canActivate: [AuthGuard]
+        // canActivate: [AuthGuard]
       },
       {
         path: 'aboutUs-chart',
         component: AboutUsChartComponent,
-        canActivate: [AuthGuard]
+        // canActivate: [AuthGuard]
       },
       {
         path: 'client-chart',
         component: ClientChartComponent,
-        canActivate: [AuthGuard]
+        // canActivate: [AuthGuard]
       },
       {
         path: 'money-chart',
         component: MoneyChartComponent,
-        canActivate: [AuthGuard]
+        // canActivate: [AuthGuard]
       },
       {
         path: 'phoneDetailed-chart',
         component: PhoneDetailedComponent,
-        canActivate: [AuthGuard]
+        // canActivate: [AuthGuard]
       }
     ],
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
     data: {
       title: 'Grafice'
     }

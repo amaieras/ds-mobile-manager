@@ -17,25 +17,25 @@ const offerCenterRoutes: Routes = [
         path: '',
         redirectTo: 'offer',
         pathMatch: 'full',
-        canActivate: [AuthGuard]
+        // canActivate: [AuthGuard]
       },
       {
         path: 'add-offer',
         component: AddOfferComponent,
-        canActivate: [AuthGuard]
+        // canActivate: [AuthGuard]
       },
       {
         path: 'view-offer',
         component: ViewOfferComponent,
-        canActivate: [AuthGuard]
+        // canActivate: [AuthGuard]
       },
       {
         path: 'view-offer-done',
         component: ViewOfferDoneComponent,
-        canActivate: [AuthGuard]
+        // canActivate: [AuthGuard]
       }
     ],
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
     data: {
       title: 'Ofertare'
     }

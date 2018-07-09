@@ -32,7 +32,7 @@ import {environment} from "../environments/environment";
 import {AuthService} from "./guards/auth.service";
 import {LoginComponent} from "./login/login.component";
 import {AuthGuard} from 'app/guards/auth.guard';
-import {RegisterComponent} from "./register/register.component";
+import {RegisterComponent} from "./main/pages/authentication/register/register.component";
 import {DashboardComponent} from "./navigation/dashboard/dashboard.component";
 
 export const firebaseConfig = environment.firebaseConfig;

@@ -143,7 +143,6 @@ export class ReportsFilterComponent implements OnInit {
         })
       });
     })
-    console.log(pieces)
     this.report.piecesNo = pieces.length;
   }
 

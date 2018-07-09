@@ -13,15 +13,15 @@ const checkoutCenterRoutes: Routes = [
         path: '',
         redirectTo: '',
         pathMatch: 'full',
-        canActivate: [AuthGuard]
+        // canActivate: [AuthGuard]
       },
       {
         path: '',
         component: CheckoutComponent,
-        canActivate: [AuthGuard]
+        // canActivate: [AuthGuard]
       },
     ],
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
     data: {
       title: 'Casa - final de zi'
     }
