@@ -4,6 +4,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { FuseConfigService } from '@fuse/services/config.service';
 import { fuseAnimations } from '@fuse/animations/index';
+import {AuthService} from "../../../../guards/auth.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector   : 'login',
@@ -14,7 +16,7 @@ import { fuseAnimations } from '@fuse/animations/index';
 export class LoginComponent implements OnInit
 {
   loginForm: FormGroup;
-
+  errorMessage: string = '';
   /**
    * Constructor
    *
@@ -23,7 +25,9 @@ export class LoginComponent implements OnInit
    */
   constructor(
     private _fuseConfigService: FuseConfigService,
-    private _formBuilder: FormBuilder
+    private _formBuilder: FormBuilder,
+    public authService: AuthService,
+    private _router: Router
   )
   {
     // Configure the layout
@@ -50,9 +54,30 @@ export class LoginComponent implements OnInit
    */
   ngOnInit(): void
   {
+    this.createForm();
+  }
+
+  createForm() {
     this.loginForm = this._formBuilder.group({
-      email   : ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
+      email: ['', Validators.required ],
+      password: ['',Validators.required]
     });
+  }
+
+  tryGoogleLogin(){
+    this.authService.doGoogleLogin()
+      .then(res => {
+        console.log('login ok')
+        this._router.navigate(['clients']);
+      })
+  }
+  tryLogin(value){
+    this.authService.doLogin(value)
+      .then(res => {
+        this._router.navigate(['clients']);
+      }, err => {
+        console.log(err);
+        this.errorMessage = err.message;
+      })
   }
 }

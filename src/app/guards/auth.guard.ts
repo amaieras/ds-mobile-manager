@@ -14,18 +14,18 @@ export class AuthGuard {
   ) {}
 
 
-  // canActivate(
-  //   next: ActivatedRouteSnapshot,
-  //   state: RouterStateSnapshot): Observable<boolean> {
-  //   return this.afAuth.authState
-  //     .take(1)
-  //     .map(user => {
-  //       return !!user
-  //     })
-  //     .do(loggedIn => {
-  //       if (!loggedIn) {
-  //         this.router.navigate(['/login']);
-  //       }
-  //     })
-  // }
+  canActivate(
+    next: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot): Observable<boolean> {
+    return this.afAuth.authState
+      .take(1)
+      .map(user => {
+        return !!user
+      })
+      .do(loggedIn => {
+        if (!loggedIn) {
+          this.router.navigate(['auth/login']);
+        }
+      })
+  }
 }

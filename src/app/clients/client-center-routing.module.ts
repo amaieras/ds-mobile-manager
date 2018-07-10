@@ -16,7 +16,7 @@ const clientsCenterRoutes: Routes = [
           path: '',
           redirectTo: 'clients',
           pathMatch: 'full',
-          // canActivate: [AuthGuard]
+          canActivate: [AuthGuard]
         },
         {
           path: 'pf',
