@@ -4,7 +4,7 @@ import {UtilService} from '../../utils/util.service';
 import {DropdownModel} from '../../model/DropdownModel';
 import {Observable} from 'rxjs/Observable';
 import {ProblemPrice} from "../../model/ProblemPrice";
-import {ClientService} from "../../clients/shared/client.service";
+import {ClientService} from "../../main/apps/clients/services/client.service";
 
 
 @Component({

@@ -13,27 +13,35 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { AppToolbarService } from './app-toolbar/app-toolbar.service';
-import { ClientModule } from './clients/client.module';
-import { ClientCenterRoutingModule } from './clients/client-center-routing.module';
+import { ClientModule } from './main/apps/clients/client.module';
+import { ClientCenterRoutingModule } from './main/apps/clients/client-center-routing.module';
 import 'hammerjs';
-import {RepairModule} from './repairs/repair.module';
-import {RepairCenterRoutingModule} from './repairs/repair-center-routing.module';
+import {RepairModule} from './main/apps/repairs/repair.module';
+import {RepairCenterRoutingModule} from './main/apps/repairs/repair-center-routing.module';
 import {AngularFirestoreModule} from "angularfire2/firestore";
-import {CheckoutModule} from "./checkout/checkout.module";
-import {CheckoutCenterRoutingModule} from "./checkout/checkout-center-routing.module";
-import {ChartsModule} from "./chart/chart.module";
-import {ChartCenterRoutingModule} from "./chart/chart-center-routing.module";
+import {CheckoutModule} from "./main/apps/checkout/checkout.module";
+import {CheckoutCenterRoutingModule} from "./main/apps/checkout/checkout-center-routing.module";
+import {ChartsModule} from "./main/apps/charts/chart.module";
+import {ChartCenterRoutingModule} from "./main/apps/charts/chart-center-routing.module";
 import {HttpClientModule} from "@angular/common/http";
-import {OfferModule} from "./offer/offer.module";
-import {OfferCenterRouting} from "./offer/offer-center-routing";
-import {ReportsModule} from "./reports/reports.module";
-import {ReportsCenterRoutingModule} from "./reports/reports-center-routing.module";
+import {OfferModule} from "./main/apps/offers/offer.module";
+import {OfferCenterRouting} from "./main/apps/offers/offer-center-routing";
+import {ReportsModule} from "./main/apps/reports/reports.module";
+import {ReportsCenterRoutingModule} from "./main/apps/reports/reports-center-routing.module";
 import {environment} from "../environments/environment";
 import {AuthService} from "./guards/auth.service";
 import {LoginComponent} from "./login/login.component";
 import {AuthGuard} from 'app/guards/auth.guard';
 import {RegisterComponent} from "./main/pages/authentication/register/register.component";
-import {DashboardComponent} from "./navigation/dashboard/dashboard.component";
+import {LoginModule} from "./main/pages/authentication/login/login.module";
+import {PageNotFoundComponent} from "./main/pages/page-not-found/page-not-found.component";
+import {NavBarComponent} from "./navigation/navbar/navbar.component";
+import {FuseModule} from "../@fuse/fuse.module";
+import {FuseSharedModule} from "../@fuse/shared.module";
+import {FuseSidebarModule, FuseThemeOptionsModule} from "../@fuse/components";
+import {fuseConfig} from "./fuse-config";
+import {MatButtonModule, MatIconModule} from "@angular/material";
+
 
 export const firebaseConfig = environment.firebaseConfig;
 
@@ -42,7 +50,8 @@ export const firebaseConfig = environment.firebaseConfig;
         AppComponent,
         LoginComponent,
         RegisterComponent,
-        DashboardComponent
+        PageNotFoundComponent,
+        NavBarComponent
     ],
     imports: [
         BrowserModule,
@@ -64,12 +73,28 @@ export const firebaseConfig = environment.firebaseConfig;
         ChartCenterRoutingModule,
         ClientCenterRoutingModule,
         RepairCenterRoutingModule,
+
         //firebase
         AngularFireModule.initializeApp(firebaseConfig),
         AngularFireDatabaseModule,
         AngularFireAuthModule,
         AngularFirestoreModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        LoginModule,
+
+        // Fuse modules
+        FuseModule.forRoot(fuseConfig),
+        FuseSharedModule,
+        FuseSidebarModule,
+        FuseThemeOptionsModule,
+
+        // Material moment date module
+        // MatMomentDateModule,
+
+        // Material
+        MatButtonModule,
+        MatIconModule,
+
     ],
     providers: [AppToolbarService, AuthService, AuthGuard],
     bootstrap: [AppComponent]

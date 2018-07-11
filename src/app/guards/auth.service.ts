@@ -13,18 +13,20 @@ export class AuthService {
   ){}
 
   doGoogleLogin(){
-    return new Promise<any>((resolve, reject) => {
-      let provider = new firebase.auth.GoogleAuthProvider();
-      provider.addScope('profile');
-      provider.addScope('email');
-      this.afAuth.auth
-        .signInWithPopup(provider)
-        .then(res => {
-          resolve(res);
-        }, err => {
-          reject(err);
-        })
-    })
+    // return new Promise<any>((resolve, reject) => {
+    //   let provider = new firebase.auth.GoogleAuthProvider();
+    //   // provider.addScope('profile');
+    //   // provider.addScope('email');
+    //   this.afAuth.auth
+    //     .signInWithPopup(provider)
+    //     .then(res => {
+    //       resolve(res);
+    //     }, err => {
+    //       reject(err);
+    //     })
+    // })
+
+    return this.afAuth.auth.signInWithPopup( new firebase.auth.GoogleAuthProvider());
   }
 
   doLogin(value) {
@@ -43,6 +45,11 @@ export class AuthService {
         }, err => reject(err))
     })
   }
+
+  getAuth() {
+    return this.afAuth.authState.map(auth => auth);
+  }
+
   doLogout(){
     return new Promise(() => {
       this.afAuth.auth.signOut()

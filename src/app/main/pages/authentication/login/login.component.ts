@@ -67,7 +67,6 @@ export class LoginComponent implements OnInit
   tryGoogleLogin(){
     this.authService.doGoogleLogin()
       .then(res => {
-        console.log('login ok')
         this._router.navigate(['clients']);
       })
   }

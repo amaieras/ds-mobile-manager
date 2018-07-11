@@ -1,9 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {LoginComponent} from "./login/login.component";
-import {RegisterComponent} from "./main/pages/authentication/register/register.component";
-import {AuthGuard} from "./guards/auth.guard";
-import {AppComponent} from "./app.component";
+import {LoginComponent} from "./main/pages/authentication/login/login.component";
+import {PageNotFoundComponent} from "./main/pages/page-not-found/page-not-found.component";
 
 const routes: Routes = [
   {
@@ -11,19 +9,18 @@ const routes: Routes = [
     redirectTo: '/clients',
     pathMatch: 'full'
   },
-  // {
-  //   path: '',
-  //   // component: AppComponent,
-  //   // canActivate: [AuthGuard]
-  // },
-  // {
-  //   path: 'login',
-  //   component: LoginComponent,
-  // },
+  {
+    path: 'auth/login',
+    component: LoginComponent,
+  },
   // {
   //   path: 'register',
   //   component: RegisterComponent,
   // }
+  {
+    path: "**",
+    component: PageNotFoundComponent
+  }
 ];
 
 @NgModule({

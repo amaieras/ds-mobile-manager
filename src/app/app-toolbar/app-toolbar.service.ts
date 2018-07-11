@@ -21,6 +21,7 @@ export class AppToolbarService {
             .map(_ => this.router.routerState.root)
             .map(route => {
                 let active = this.lastRouteWithMenuItem(route.root);
+                console.log(active);
                 this.titleService.setTitle(active.title);
                 return active;
             });
