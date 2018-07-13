@@ -6,11 +6,11 @@ import { MatIconModule, MatRippleModule } from '@angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { FuseNavigationComponent } from './navigation.component';
-import { FuseNavVerticalItemComponent } from './vertical/nav-item/nav-vertical-item.component';
-import { FuseNavVerticalCollapseComponent } from './vertical/nav-collapse/nav-vertical-collapse.component';
-import { FuseNavVerticalGroupComponent } from './vertical/nav-group/nav-vertical-group.component';
-import { FuseNavHorizontalItemComponent } from './horizontal/nav-item/nav-horizontal-item.component';
-import { FuseNavHorizontalCollapseComponent } from './horizontal/nav-collapse/nav-horizontal-collapse.component';
+import { FuseNavVerticalItemComponent } from './vertical/item/item.component';
+import { FuseNavVerticalCollapsableComponent } from './vertical/collapsable/collapsable.component';
+import { FuseNavVerticalGroupComponent } from './vertical/group/group.component';
+import { FuseNavHorizontalItemComponent } from './horizontal/item/item.component';
+import { FuseNavHorizontalCollapsableComponent } from './horizontal/collapsable/collapsable.component';
 
 @NgModule({
     imports     : [
@@ -29,9 +29,9 @@ import { FuseNavHorizontalCollapseComponent } from './horizontal/nav-collapse/na
         FuseNavigationComponent,
         FuseNavVerticalGroupComponent,
         FuseNavVerticalItemComponent,
-        FuseNavVerticalCollapseComponent,
+        FuseNavVerticalCollapsableComponent,
         FuseNavHorizontalItemComponent,
-        FuseNavHorizontalCollapseComponent
+        FuseNavHorizontalCollapsableComponent
     ]
 })
 export class FuseNavigationModule

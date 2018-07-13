@@ -10,7 +10,14 @@ export class FuseConfirmDialogComponent
 {
     public confirmMessage: string;
 
-    constructor(public dialogRef: MatDialogRef<FuseConfirmDialogComponent>)
+    /**
+     * Constructor
+     *
+     * @param {MatDialogRef<FuseConfirmDialogComponent>} dialogRef
+     */
+    constructor(
+        public dialogRef: MatDialogRef<FuseConfirmDialogComponent>
+    )
     {
     }
 

@@ -14,7 +14,7 @@ import {RepairPFDetailComponent} from "app/main/apps/repairs/repairPF/repair-pf-
 import {TableModule} from "primeng/table";
 import {RouterModule} from "@angular/router";
 import {DialogModule} from "primeng/dialog";
-import {MultiSelectModule} from "@progress/kendo-angular-dropdowns";
+// import {MultiSelectModule} from "@progress/kendo-angular-dropdowns";
 import {PanelModule} from "primeng/panel";
 import {DataViewModule} from "primeng/dataview";
 
@@ -36,7 +36,7 @@ import {DataViewModule} from "primeng/dataview";
     DialogModule,
     CheckboxModule,
     RadioButtonModule,
-    MultiSelectModule,
+    // MultiSelectModule,
     DropdownModule,
     CalendarModule,
     DataGridModule,

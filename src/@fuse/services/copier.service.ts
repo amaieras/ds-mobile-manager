@@ -1,26 +1,31 @@
 /**
  * This class is based on the code in the following projects:
- *
- * - https://github.com/zenorocha/select
- * - https://github.com/zenorocha/clipboard.js/
+ * https://github.com/zenorocha/select
+ * https://github.com/zenorocha/clipboard.js/
  *
  * Both released under MIT license - © Zeno Rocha
  */
 import { Injectable } from '@angular/core';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class FuseCopierService
 {
-
     private textarea: HTMLTextAreaElement;
 
-    /** Copy the text value to the clipboard. */
+    /**
+     * Copy the text value to the clipboard
+     *
+     * @param {string} text
+     * @returns {boolean}
+     */
     copyText(text: string): boolean
     {
         this.createTextareaAndSelect(text);
 
         const copySuccessful = document.execCommand('copy');
-        this.removeFake();
+        this._removeFake();
 
         return copySuccessful;
     }
@@ -28,8 +33,10 @@ export class FuseCopierService
     /**
      * Creates a hidden textarea element, sets its value from `text` property,
      * and makes a selection on it.
+     *
+     * @param {string} text
      */
-    private createTextareaAndSelect(text: string)
+    private createTextareaAndSelect(text: string): void
     {
         // Create a fake element to hold the contents to copy
         this.textarea = document.createElement('textarea');
@@ -53,8 +60,12 @@ export class FuseCopierService
         this.textarea.setSelectionRange(0, this.textarea.value.length);
     }
 
-    /** Remove the text area from the DOM. */
-    private removeFake()
+    /**
+     * Remove the text area from the DOM
+     *
+     * @private
+     */
+    private _removeFake(): void
     {
         if ( this.textarea )
         {

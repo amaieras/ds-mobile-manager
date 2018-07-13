@@ -5,7 +5,14 @@ import { Directive, ElementRef } from '@angular/core';
 })
 export class FuseWidgetToggleDirective
 {
-    constructor(public el: ElementRef)
+    /**
+     * Constructor
+     *
+     * @param {ElementRef} elementRef
+     */
+    constructor(
+        public elementRef: ElementRef
+    )
     {
     }
 }

@@ -5,22 +5,21 @@ fuse-sidebar {
     position: absolute;
     top: 0;
     bottom: 0;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
     width: 280px;
     min-width: 280px;
     max-width: 280px;
     z-index: 1000;
-    transition-property: transform, width, min-width, max-width;
-    transition-duration: 150ms;
-    transition-timing-function: ease-in-out;
     box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.35);
+    background: white;
 
-    &.left-aligned {
+    &.left-positioned {
         left: 0;
         transform: translateX(-100%);
     }
 
-    &.right-aligned {
+    &.right-positioned {
         right: 0;
         transform: translateX(100%);
     }
@@ -45,6 +44,12 @@ fuse-sidebar {
             max-width: 64px;
         }
     }
+
+    &.animations-enabled {
+        transition-property: transform, width, min-width, max-width;
+        transition-duration: 150ms;
+        transition-timing-function: ease-in-out;
+    }
 }
 
 .fuse-sidebar-overlay {
@@ -53,7 +58,11 @@ fuse-sidebar {
     bottom: 0;
     left: 0;
     right: 0;
-    z-index: 3;
+    z-index: 999;
     background-color: rgba(0, 0, 0, 0.6);
     opacity: 0;
+
+    &.fuse-sidebar-overlay-invisible {
+        background-color: transparent;
+    }
 }

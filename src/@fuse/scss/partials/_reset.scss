@@ -28,7 +28,7 @@ html, body {
 }
 
 // Reset non angular-material input's default browser/os styles
-*:not(mat-input-container) {
+*:not(mat-form-field) {
 
     > input {
         border: none;
@@ -55,7 +55,7 @@ html, body {
     }
 }
 
-*:not(mat-input-container) {
+*:not(mat-form-field) {
 
     > input[type="button"],
     > button,

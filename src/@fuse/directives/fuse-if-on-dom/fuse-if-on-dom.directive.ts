@@ -5,28 +5,44 @@ import { AfterContentChecked, Directive, ElementRef, TemplateRef, ViewContainerR
 })
 export class FuseIfOnDomDirective implements AfterContentChecked
 {
-    isCreated = false;
+    isCreated: boolean;
 
+    /**
+     * Constructor
+     *
+     * @param {ElementRef} _elementRef
+     * @param {TemplateRef<any>} _templateRef
+     * @param {ViewContainerRef} _viewContainerRef
+     */
     constructor(
-        private templateRef: TemplateRef<any>,
-        private viewContainer: ViewContainerRef,
-        private element: ElementRef
+        private _elementRef: ElementRef,
+        private _templateRef: TemplateRef<any>,
+        private _viewContainerRef: ViewContainerRef
     )
     {
+        // Set the defaults
+        this.isCreated = false;
     }
 
-    ngAfterContentChecked()
+    // -----------------------------------------------------------------------------------------------------
+    // @ Lifecycle hooks
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * After content checked
+     */
+    ngAfterContentChecked(): void
     {
-        if ( document.body.contains(this.element.nativeElement) && !this.isCreated )
+        if ( document.body.contains(this._elementRef.nativeElement) && !this.isCreated )
         {
             setTimeout(() => {
-                this.viewContainer.createEmbeddedView(this.templateRef);
+                this._viewContainerRef.createEmbeddedView(this._templateRef);
             }, 300);
             this.isCreated = true;
         }
-        else if ( this.isCreated && !document.body.contains(this.element.nativeElement) )
+        else if ( this.isCreated && !document.body.contains(this._elementRef.nativeElement) )
         {
-            this.viewContainer.clear();
+            this._viewContainerRef.clear();
             this.isCreated = false;
         }
     }

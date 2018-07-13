@@ -1,6 +1,13 @@
 export class FuseUtils
 {
-    public static filterArrayByString(mainArr, searchText)
+    /**
+     * Filter array by string
+     *
+     * @param mainArr
+     * @param searchText
+     * @returns {any}
+     */
+    public static filterArrayByString(mainArr, searchText): any
     {
         if ( searchText === '' )
         {
@@ -14,7 +21,14 @@ export class FuseUtils
         });
     }
 
-    public static searchInObj(itemObj, searchText)
+    /**
+     * Search in object
+     *
+     * @param itemObj
+     * @param searchText
+     * @returns {boolean}
+     */
+    public static searchInObj(itemObj, searchText): boolean
     {
         for ( const prop in itemObj )
         {
@@ -51,7 +65,14 @@ export class FuseUtils
         }
     }
 
-    public static searchInArray(arr, searchText)
+    /**
+     * Search in array
+     *
+     * @param arr
+     * @param searchText
+     * @returns {boolean}
+     */
+    public static searchInArray(arr, searchText): boolean
     {
         for ( const value of arr )
         {
@@ -73,14 +94,26 @@ export class FuseUtils
         }
     }
 
-    public static searchInString(value, searchText)
+    /**
+     * Search in string
+     *
+     * @param value
+     * @param searchText
+     * @returns {any}
+     */
+    public static searchInString(value, searchText): any
     {
         return value.toLowerCase().includes(searchText);
     }
 
-    public static generateGUID()
+    /**
+     * Generate a unique GUID
+     *
+     * @returns {string}
+     */
+    public static generateGUID(): string
     {
-        function S4()
+        function S4(): string
         {
             return Math.floor((1 + Math.random()) * 0x10000)
                        .toString(16)
@@ -90,7 +123,13 @@ export class FuseUtils
         return S4() + S4();
     }
 
-    public static toggleInArray(item, array)
+    /**
+     * Toggle in array
+     *
+     * @param item
+     * @param array
+     */
+    public static toggleInArray(item, array): void
     {
         if ( array.indexOf(item) === -1 )
         {
@@ -102,7 +141,13 @@ export class FuseUtils
         }
     }
 
-    public static handleize(text)
+    /**
+     * Handleize
+     *
+     * @param text
+     * @returns {string}
+     */
+    public static handleize(text): string
     {
         return text.toString().toLowerCase()
                    .replace(/\s+/g, '-')           // Replace spaces with -

@@ -1,13 +1,11 @@
-import { Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+import { Component, ElementRef, Input, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { ObservableMedia } from '@angular/flex-layout';
 import { CookieService } from 'ngx-cookie-service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { FuseMatchMediaService } from '@fuse/services/match-media.service';
 import { FuseNavigationService } from '@fuse/components/navigation/navigation.service';
-import { FuseConfigService } from '@fuse/services/config.service';
-
-import { navigation } from 'app/navigation/navigation';
 
 @Component({
     selector   : 'fuse-shortcuts',
@@ -16,45 +14,67 @@ import { navigation } from 'app/navigation/navigation';
 })
 export class FuseShortcutsComponent implements OnInit, OnDestroy
 {
-    shortcutItems: any[] = [];
+    shortcutItems: any[];
     navigationItems: any[];
     filteredNavigationItems: any[];
-    searching = false;
-    mobileShortcutsPanelActive = false;
-    toolbarColor: string;
-    matchMediaSubscription: Subscription;
-    onConfigChanged: Subscription;
+    searching: boolean;
+    mobileShortcutsPanelActive: boolean;
 
-    @ViewChild('searchInput') searchInputField;
-    @ViewChild('shortcuts') shortcutsEl: ElementRef;
+    @Input()
+    navigation: any;
 
+    @ViewChild('searchInput')
+    searchInputField;
+
+    @ViewChild('shortcuts')
+    shortcutsEl: ElementRef;
+
+    // Private
+    private _unsubscribeAll: Subject<any>;
+
+    /**
+     * Constructor
+     *
+     * @param {Renderer2} _renderer
+     * @param {CookieService} _cookieService
+     * @param {FuseMatchMediaService} _fuseMatchMediaService
+     * @param {FuseNavigationService} _fuseNavigationService
+     * @param {ObservableMedia} _observableMedia
+     */
     constructor(
-        private renderer: Renderer2,
-        private observableMedia: ObservableMedia,
-        private fuseMatchMedia: FuseMatchMediaService,
-        private fuseNavigationService: FuseNavigationService,
-        private fuseConfig: FuseConfigService,
-        private cookieService: CookieService
+        private _cookieService: CookieService,
+        private _fuseMatchMediaService: FuseMatchMediaService,
+        private _fuseNavigationService: FuseNavigationService,
+        private _observableMedia: ObservableMedia,
+        private _renderer: Renderer2
     )
     {
-        this.filteredNavigationItems = this.navigationItems = this.fuseNavigationService.getFlatNavigation(navigation);
+        // Set the defaults
+        this.shortcutItems = [];
+        this.searching = false;
+        this.mobileShortcutsPanelActive = false;
 
-        this.onConfigChanged =
-            this.fuseConfig.onConfigChanged
-                .subscribe(
-                    (newSettings) => {
-                        this.toolbarColor = newSettings.colorClasses.toolbar;
-                    }
-                );
+        // Set the private defaults
+        this._unsubscribeAll = new Subject();
     }
 
-    ngOnInit()
+    // -----------------------------------------------------------------------------------------------------
+    // @ Lifecycle hooks
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * On init
+     */
+    ngOnInit(): void
     {
-        const cookieExists = this.cookieService.check('FUSE2.shortcuts');
+        // Get the navigation items and flatten them
+        this.filteredNavigationItems = this.navigationItems = this._fuseNavigationService.getFlatNavigation(this.navigation);
+
+        const cookieExists = this._cookieService.check('FUSE2.shortcuts');
 
         if ( cookieExists )
         {
-            this.shortcutItems = JSON.parse(this.cookieService.get('FUSE2.shortcuts'));
+            this.shortcutItems = JSON.parse(this._cookieService.get('FUSE2.shortcuts'));
         }
         else
         {
@@ -62,46 +82,61 @@ export class FuseShortcutsComponent implements OnInit, OnDestroy
             this.shortcutItems = [
                 {
                     'title': 'Calendar',
-                    'type' : 'nav-item',
+                    'type' : 'item',
                     'icon' : 'today',
                     'url'  : '/apps/calendar'
                 },
                 {
                     'title': 'Mail',
-                    'type' : 'nav-item',
+                    'type' : 'item',
                     'icon' : 'email',
                     'url'  : '/apps/mail'
                 },
                 {
                     'title': 'Contacts',
-                    'type' : 'nav-item',
+                    'type' : 'item',
                     'icon' : 'account_box',
                     'url'  : '/apps/contacts'
                 },
                 {
                     'title': 'To-Do',
-                    'type' : 'nav-item',
+                    'type' : 'item',
                     'icon' : 'check_box',
                     'url'  : '/apps/todo'
                 }
             ];
         }
 
-        this.matchMediaSubscription =
-            this.fuseMatchMedia.onMediaChange.subscribe(() => {
-                if ( this.observableMedia.isActive('gt-sm') )
+        this._fuseMatchMediaService.onMediaChange
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(() => {
+                if ( this._observableMedia.isActive('gt-sm') )
                 {
                     this.hideMobileShortcutsPanel();
                 }
             });
     }
 
-    ngOnDestroy()
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void
     {
-        this.matchMediaSubscription.unsubscribe();
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
-    search(event)
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Search
+     *
+     * @param event
+     */
+    search(event): void
     {
         const value = event.target.value.toLowerCase();
 
@@ -120,7 +155,13 @@ export class FuseShortcutsComponent implements OnInit, OnDestroy
         });
     }
 
-    toggleShortcut(event, itemToToggle)
+    /**
+     * Toggle shortcut
+     *
+     * @param event
+     * @param itemToToggle
+     */
+    toggleShortcut(event, itemToToggle): void
     {
         event.stopPropagation();
 
@@ -131,7 +172,7 @@ export class FuseShortcutsComponent implements OnInit, OnDestroy
                 this.shortcutItems.splice(i, 1);
 
                 // Save to the cookies
-                this.cookieService.set('FUSE2.shortcuts', JSON.stringify(this.shortcutItems));
+                this._cookieService.set('FUSE2.shortcuts', JSON.stringify(this.shortcutItems));
 
                 return;
             }
@@ -140,32 +181,47 @@ export class FuseShortcutsComponent implements OnInit, OnDestroy
         this.shortcutItems.push(itemToToggle);
 
         // Save to the cookies
-        this.cookieService.set('FUSE2.shortcuts', JSON.stringify(this.shortcutItems));
+        this._cookieService.set('FUSE2.shortcuts', JSON.stringify(this.shortcutItems));
     }
 
-    isInShortcuts(navigationItem)
+    /**
+     * Is in shortcuts?
+     *
+     * @param navigationItem
+     * @returns {any}
+     */
+    isInShortcuts(navigationItem): any
     {
         return this.shortcutItems.find(item => {
             return item.url === navigationItem.url;
         });
     }
 
-    onMenuOpen()
+    /**
+     * On menu open
+     */
+    onMenuOpen(): void
     {
         setTimeout(() => {
             this.searchInputField.nativeElement.focus();
         });
     }
 
-    showMobileShortcutsPanel()
+    /**
+     * Show mobile shortcuts
+     */
+    showMobileShortcutsPanel(): void
     {
         this.mobileShortcutsPanelActive = true;
-        this.renderer.addClass(this.shortcutsEl.nativeElement, 'show-mobile-panel');
+        this._renderer.addClass(this.shortcutsEl.nativeElement, 'show-mobile-panel');
     }
 
-    hideMobileShortcutsPanel()
+    /**
+     * Hide mobile shortcuts
+     */
+    hideMobileShortcutsPanel(): void
     {
         this.mobileShortcutsPanelActive = false;
-        this.renderer.removeClass(this.shortcutsEl.nativeElement, 'show-mobile-panel');
+        this._renderer.removeClass(this.shortcutsEl.nativeElement, 'show-mobile-panel');
     }
 }

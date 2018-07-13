@@ -1,28 +1,55 @@
-import { Component, ContentChild, ElementRef, Input, OnInit } from '@angular/core';
+import { Component, ContentChild, ElementRef, Input, OnDestroy, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import * as Prism from 'prismjs/prism';
-import './prism-languages';
+import '@fuse/components/highlight/prism-languages';
 
 @Component({
     selector : 'fuse-highlight',
-    template : ' ',
+    template : '',
     styleUrls: ['./highlight.component.scss']
 })
-export class FuseHighlightComponent implements OnInit
+export class FuseHighlightComponent implements OnInit, OnDestroy
 {
-    @ContentChild('source') source: ElementRef;
-    @Input('lang') lang: string;
-    @Input('path') path: string;
+    // Source
+    @ContentChild('source')
+    source: ElementRef;
 
+    // Lang
+    @Input('lang')
+    lang: string;
+
+    // Path
+    @Input('path')
+    path: string;
+
+    // Private
+    private _unsubscribeAll: Subject<any>;
+
+    /**
+     * Constructor
+     *
+     * @param {ElementRef} _elementRef
+     * @param {HttpClient} _httpClient
+     */
     constructor(
-        private elementRef: ElementRef,
-        private http: HttpClient
+        private _elementRef: ElementRef,
+        private _httpClient: HttpClient
     )
     {
+        // Set the private defaults
+        this._unsubscribeAll = new Subject();
     }
 
-    ngOnInit()
+    // -----------------------------------------------------------------------------------------------------
+    // @ Lifecycle hooks
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * On init
+     */
+    ngOnInit(): void
     {
         // If there is no language defined, return...
         if ( !this.lang )
@@ -34,11 +61,13 @@ export class FuseHighlightComponent implements OnInit
         if ( this.path )
         {
             // Get the source
-            this.http.get(this.path, {responseType: 'text'}).subscribe((response) => {
+            this._httpClient.get(this.path, {responseType: 'text'})
+                .pipe(takeUntil(this._unsubscribeAll))
+                .subscribe((response) => {
 
-                // Highlight it
-                this.highlight(response);
-            });
+                    // Highlight it
+                    this.highlight(response);
+                });
         }
 
         // If the path is not defined and the source element exists...
@@ -49,7 +78,26 @@ export class FuseHighlightComponent implements OnInit
         }
     }
 
-    highlight(sourceCode)
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void
+    {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Highlight the given source code
+     *
+     * @param sourceCode
+     */
+    highlight(sourceCode): void
     {
         // Split the source into lines
         const sourceLines = sourceCode.split('\n');
@@ -94,9 +142,8 @@ export class FuseHighlightComponent implements OnInit
         const highlightedCode = Prism.highlight(source, Prism.languages[this.lang]);
 
         // Replace the innerHTML of the component with the highlighted code
-        this.elementRef.nativeElement.innerHTML =
+        this._elementRef.nativeElement.innerHTML =
             '<pre><code class="highlight language-' + this.lang + '">' + highlightedCode + '</code></pre>';
-
     }
 }
 

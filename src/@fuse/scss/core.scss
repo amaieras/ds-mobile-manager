@@ -1,3 +1,6 @@
+// This file meant to be imported only once! Use fuse.scss to access
+// to the core Fuse and Angular Material mixins
+
 // ngx-datatable
 @import '~@swimlane/ngx-datatable/release/themes/material';
 
@@ -7,10 +10,13 @@
 // Fuse
 @import "fuse";
 
-// Theming
+// Include core Angular Material styles
 @include mat-core();
 
-// Include theme styles for core and each component used in your app.
+// Setup the typography
+@include angular-material-typography($typography);
+
+// Create an Angular Material theme from the $theme map
 @include angular-material-theme($theme);
 
 // Partials
@@ -24,6 +30,7 @@
 @import "partials/material";
 @import "partials/angular-material-fix";
 @import "partials/typography";
+@import "partials/docs";
 @import "partials/page-layouts";
 @import "partials/cards";
 @import "partials/navigation";

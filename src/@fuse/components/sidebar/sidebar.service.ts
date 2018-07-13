@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 
 import { FuseSidebarComponent } from './sidebar.component';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class FuseSidebarService
 {
     // Private
@@ -46,7 +48,7 @@ export class FuseSidebarService
         // Check if the sidebar exists
         if ( !this._registry[key] )
         {
-            console.error(`The sidebar with the key '${key}' doesn't exist in the registry.`);
+            console.warn(`The sidebar with the key '${key}' doesn't exist in the registry.`);
         }
 
         // Unregister the sidebar
@@ -57,13 +59,14 @@ export class FuseSidebarService
      * Return the sidebar with the given key
      *
      * @param key
+     * @returns {FuseSidebarComponent}
      */
-    getSidebar(key): any
+    getSidebar(key): FuseSidebarComponent
     {
         // Check if the sidebar exists
         if ( !this._registry[key] )
         {
-            console.error(`The sidebar with the key '${key}' doesn't exist in the registry.`);
+            console.warn(`The sidebar with the key '${key}' doesn't exist in the registry.`);
 
             return;
         }

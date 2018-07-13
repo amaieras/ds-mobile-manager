@@ -13,22 +13,78 @@ import { MatColors } from '@fuse/mat-colors';
 export class FuseMaterialColorPickerComponent implements OnChanges
 {
     colors: any;
-    selectedColor: any;
     hues: string[];
-    view = 'palettes';
+    selectedColor: any;
+    view: string;
 
-    @Input() selectedPalette = '';
-    @Input() selectedHue = '';
-    @Input() selectedFg = '';
-    @Input() value: any;
-    @Output() onValueChange = new EventEmitter();
-    @Output() selectedPaletteChange = new EventEmitter();
-    @Output() selectedHueChange = new EventEmitter();
-    @Output() selectedClassChange = new EventEmitter();
-    @Output() selectedBgChange = new EventEmitter();
-    @Output() selectedFgChange = new EventEmitter();
+    @Input()
+    selectedPalette: string;
 
-    _selectedClass = '';
+    @Input()
+    selectedHue: string;
+
+    @Input()
+    selectedFg: string;
+
+    @Input()
+    value: any;
+
+    @Output()
+    onValueChange: EventEmitter<any>;
+
+    @Output()
+    selectedPaletteChange: EventEmitter<any>;
+
+    @Output()
+    selectedHueChange: EventEmitter<any>;
+
+    @Output()
+    selectedClassChange: EventEmitter<any>;
+
+    @Output()
+    selectedBgChange: EventEmitter<any>;
+
+    @Output()
+    selectedFgChange: EventEmitter<any>;
+
+    // Private
+    _selectedClass: string;
+    _selectedBg: string;
+
+    /**
+     * Constructor
+     */
+    constructor()
+    {
+        // Set the defaults
+        this.colors = MatColors.all;
+        this.hues = ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900', 'A100', 'A200', 'A400', 'A700'];
+        this.selectedFg = '';
+        this.selectedHue = '';
+        this.selectedPalette = '';
+        this.view = 'palettes';
+
+        this.onValueChange = new EventEmitter();
+        this.selectedPaletteChange = new EventEmitter();
+        this.selectedHueChange = new EventEmitter();
+        this.selectedClassChange = new EventEmitter();
+        this.selectedBgChange = new EventEmitter();
+        this.selectedFgChange = new EventEmitter();
+
+        // Set the private defaults
+        this._selectedClass = '';
+        this._selectedBg = '';
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Accessors
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Selected class
+     *
+     * @param value
+     */
     @Input()
     set selectedClass(value)
     {
@@ -54,7 +110,11 @@ export class FuseMaterialColorPickerComponent implements OnChanges
         return this._selectedClass;
     }
 
-    _selectedBg = '';
+    /**
+     * Selected bg
+     *
+     * @param value
+     */
     @Input()
     set selectedBg(value)
     {
@@ -86,13 +146,16 @@ export class FuseMaterialColorPickerComponent implements OnChanges
         return this._selectedBg;
     }
 
-    constructor()
-    {
-        this.colors = MatColors.all;
-        this.hues = ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900', 'A100', 'A200', 'A400', 'A700'];
-    }
+    // -----------------------------------------------------------------------------------------------------
+    // @ Lifecycle hooks
+    // -----------------------------------------------------------------------------------------------------
 
-    ngOnChanges(changes: any)
+    /**
+     * On changes
+     *
+     * @param changes
+     */
+    ngOnChanges(changes: any): void
     {
         if ( changes.selectedBg && changes.selectedBg.currentValue === '' ||
             changes.selectedClass && changes.selectedClass.currentValue === '' ||
@@ -106,21 +169,38 @@ export class FuseMaterialColorPickerComponent implements OnChanges
             this.updateSelectedColor();
         }
     }
-    
-    selectPalette(palette)
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Select palette
+     *
+     * @param palette
+     */
+    selectPalette(palette): void
     {
         this.selectedPalette = palette;
         this.updateSelectedColor();
         this.view = 'hues';
     }
 
-    selectHue(hue)
+    /**
+     * Select hue
+     *
+     * @param hue
+     */
+    selectHue(hue): void
     {
         this.selectedHue = hue;
         this.updateSelectedColor();
     }
 
-    removeColor()
+    /**
+     * Remove color
+     */
+    removeColor(): void
     {
         this.selectedPalette = '';
         this.selectedHue = '';
@@ -128,7 +208,10 @@ export class FuseMaterialColorPickerComponent implements OnChanges
         this.view = 'palettes';
     }
 
-    updateSelectedColor()
+    /**
+     * Update selected color
+     */
+    updateSelectedColor(): void
     {
         setTimeout(() => {
 
@@ -168,12 +251,18 @@ export class FuseMaterialColorPickerComponent implements OnChanges
         });
     }
 
-    backToPaletteSelection()
+    /**
+     * Go back to palette selection
+     */
+    backToPaletteSelection(): void
     {
         this.view = 'palettes';
     }
 
-    onMenuOpen()
+    /**
+     * On menu open
+     */
+    onMenuOpen(): void
     {
         if ( this.selectedPalette === '' )
         {

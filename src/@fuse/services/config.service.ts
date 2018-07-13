@@ -1,113 +1,157 @@
-import { Inject, Injectable, InjectionToken, Optional } from '@angular/core';
+import { Inject, Injectable, InjectionToken } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Platform } from '@angular/cdk/platform';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { filter } from 'rxjs/operators';
+import * as _ from 'lodash';
 
-// Define the default config
-const DEFAULT_CONFIG = {
-    layout          : {
-        navigation      : 'left', // 'right', 'left', 'top', 'none'
-        navigationFolded: false, // true, false
-        toolbar         : 'below', // 'above', 'below', 'none'
-        footer          : 'below', // 'above', 'below', 'none'
-        mode            : 'fullwidth' // 'boxed', 'fullwidth'
-    },
-    colorClasses    : {
-        toolbar: 'mat-white-500-bg',
-        navbar : 'mat-fuse-dark-700-bg',
-        footer : 'mat-fuse-dark-900-bg'
-    },
-    customScrollbars: true,
-    routerAnimation : 'fadeIn' // fadeIn, slideUp, slideDown, slideRight, slideLeft, none
-};
-
-// Create the injection token for the custom config
+// Create the injection token for the custom settings
 export const FUSE_CONFIG = new InjectionToken('fuseCustomConfig');
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class FuseConfigService
 {
-    config: any;
-    defaultConfig: any;
-
-    onConfigChanged: BehaviorSubject<any>;
+    // Private
+    private _configSubject: BehaviorSubject<any>;
+    private readonly _defaultConfig: any;
 
     /**
      * Constructor
      *
-     * @param router
-     * @param platform
-     * @param config
+     * @param {Platform} _platform
+     * @param {Router} _router
+     * @param _config
      */
     constructor(
-        private router: Router,
-        public platform: Platform,
-        @Inject(FUSE_CONFIG) @Optional() config
+        private _platform: Platform,
+        private _router: Router,
+        @Inject(FUSE_CONFIG) private _config
     )
     {
-        // Set the default settings from the constant
-        this.defaultConfig = DEFAULT_CONFIG;
+        // Set the default config from the user provided config (from forRoot)
+        this._defaultConfig = _config;
 
-        // If custom config provided with forRoot,
-        // use them as default config...
-        if ( config )
-        {
-            this.defaultConfig = config;
-        }
+        // Initialize the service
+        this._init();
+    }
 
-        /**
-         * Disable Custom Scrollbars if Browser is Mobile
-         */
-        if ( this.platform.ANDROID || this.platform.IOS )
-        {
-            this.defaultConfig.customScrollbars = false;
-        }
+    // -----------------------------------------------------------------------------------------------------
+    // @ Accessors
+    // -----------------------------------------------------------------------------------------------------
 
-        // Set the config from the default config
-        this.config = {...this.defaultConfig};
+    /**
+     * Set and get the config
+     */
+    set config(value)
+    {
+        // Get the value from the behavior subject
+        let config = this._configSubject.getValue();
 
-        // Reload the default settings for the
-        // layout on every navigation start
-        router.events.subscribe(
-            (event) => {
-                if ( event instanceof NavigationStart )
-                {
-                    this.setConfig({
-                            layout: this.defaultConfig.layout
-                        }
-                    );
-                }
-            }
-        );
+        // Merge the new config
+        config = _.merge({}, config, value);
 
-        // Create the behavior subject
-        this.onConfigChanged = new BehaviorSubject(this.config);
+        // Notify the observers
+        this._configSubject.next(config);
+    }
+
+    get config(): any | Observable<any>
+    {
+        return this._configSubject.asObservable();
     }
 
     /**
-     * Set the new config from given object
+     * Get default config
      *
-     * @param config
+     * @returns {any}
      */
-    setConfig(config): void
+    get defaultConfig(): any
     {
-        // Set the config from the given object
-        // Ugly, but works for now...
-        this.config = {
-            ...this.config,
-            ...config,
-            layout     : {
-                ...this.config.layout,
-                ...config.layout,
-            },
-            colorClasses: {
-                ...this.config.colorClasses,
-                ...config.colorClasses
-            }
-        };
+        return this._defaultConfig;
+    }
 
-        // Trigger the event
-        this.onConfigChanged.next(this.config);
+    // -----------------------------------------------------------------------------------------------------
+    // @ Private methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Initialize
+     *
+     * @private
+     */
+    private _init(): void
+    {
+        /**
+         * Disable custom scrollbars if browser is mobile
+         */
+        if ( this._platform.ANDROID || this._platform.IOS )
+        {
+            this._defaultConfig.customScrollbars = false;
+        }
+
+        // Set the config from the default config
+        this._configSubject = new BehaviorSubject(_.cloneDeep(this._defaultConfig));
+
+        // Reload the default config on every navigation start if
+        // the current config is different from the default one
+        this._router.events
+            .pipe(filter(event => event instanceof NavigationStart))
+            .subscribe(() => {
+                if ( !_.isEqual(this._configSubject.getValue(), this._defaultConfig) )
+                {
+                    // Clone the default config
+                    const config = _.cloneDeep(this._defaultConfig);
+
+                    // Set the config
+                    this._configSubject.next(config);
+                }
+            });
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Set config
+     *
+     * @param value
+     * @param {{emitEvent: boolean}} opts
+     */
+    setConfig(value, opts = {emitEvent: true}): void
+    {
+        // Get the value from the behavior subject
+        let config = this._configSubject.getValue();
+
+        // Merge the new config
+        config = _.merge({}, config, value);
+
+        // If emitEvent option is true...
+        if ( opts.emitEvent === true )
+        {
+            // Notify the observers
+            this._configSubject.next(config);
+        }
+    }
+
+    /**
+     * Get config
+     *
+     * @returns {Observable<any>}
+     */
+    getConfig(): Observable<any>
+    {
+        return this._configSubject.asObservable();
+    }
+
+    /**
+     * Reset to the default config
+     */
+    resetToDefaults(): void
+    {
+        // Set the config from the default config
+        this._configSubject.next(_.cloneDeep(this._defaultConfig));
     }
 }
 

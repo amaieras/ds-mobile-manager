@@ -41,6 +41,7 @@ import {FuseSharedModule} from "../@fuse/shared.module";
 import {FuseSidebarModule, FuseThemeOptionsModule} from "../@fuse/components";
 import {fuseConfig} from "./fuse-config";
 import {MatButtonModule, MatIconModule} from "@angular/material";
+import {LayoutModule} from "./layout/layout.module";
 
 
 export const firebaseConfig = environment.firebaseConfig;
@@ -94,6 +95,9 @@ export const firebaseConfig = environment.firebaseConfig;
         // Material
         MatButtonModule,
         MatIconModule,
+
+        // App modules
+        LayoutModule
 
     ],
     providers: [AppToolbarService, AuthService, AuthGuard],

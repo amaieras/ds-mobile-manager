@@ -42,7 +42,7 @@
             color: currentColor;
 
             > .nav-link-title {
-                flex: 1;
+                flex: 1 1 auto;
                 white-space: nowrap;
             }
 
@@ -58,7 +58,7 @@
                 transition: opacity 0.2s ease-in-out 0.1s;
                 margin-left: 8px;
 
-                + .collapse-arrow {
+                + .collapsable-arrow {
                     margin-left: 8px;
                 }
             }
@@ -72,14 +72,9 @@
             }
 
             &.active {
-                background-color: mat-color($accent);
 
-                .mat-ripple-element {
-                    background-color: mat-color($accent, default-contrast, 0.1);
-                }
-
-                &, .nav-link-icon {
-                    color: mat-color($accent, default-contrast);
+                .nav-link-icon {
+                    opacity: 1;
                 }
 
                 .nav-link-badge {
@@ -90,10 +85,11 @@
 
             .nav-link-icon {
                 margin-right: 16px;
+                opacity: 0.7;
             }
 
             .nav-link-icon,
-            .collapse-arrow {
+            .collapsable-arrow {
                 font-size: 16px;
                 width: 16px;
                 height: 16px;
@@ -103,7 +99,7 @@
             }
         }
 
-        &.nav-collapse {
+        &.nav-collapsable {
             display: block;
 
             > .children {
@@ -135,7 +131,7 @@
 
     > .nav-item {
 
-        &.nav-collapse {
+        &.nav-collapsable {
             background: transparent;
             transition: background 200ms ease-in-out;
 
@@ -149,7 +145,7 @@
 
         > .group-items {
 
-            > .nav-collapse {
+            > .nav-collapsable {
                 background: transparent;
                 transition: background 200ms ease-in-out;
 
@@ -176,7 +172,7 @@
 
         .nav-item {
 
-            &.nav-collapse {
+            &.nav-collapsable {
                 position: relative;
 
                 .children {
@@ -205,13 +201,13 @@
                 height: 56px;
             }
 
-            &.nav-collapse {
+            &.nav-collapsable {
                 position: relative;
 
                 > .nav-link {
                     height: 56px;
 
-                    .collapse-arrow {
+                    .collapsable-arrow {
                         display: none;
                     }
                 }

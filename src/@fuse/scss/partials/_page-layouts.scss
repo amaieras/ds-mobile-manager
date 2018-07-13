@@ -10,13 +10,9 @@ $header-height-sm: 100px !default;
 $carded-header-height-without-toolbar: $carded-header-height - $carded-toolbar-height;
 $carded-header-height-without-toolbar-sm: $carded-header-height-sm - $carded-toolbar-height;
 
-// Top bg image
-$top-bg-image: url('assets/images/backgrounds/header-bg.png');
-
 .page-layout {
     position: relative;
-    overflow-x: hidden;
-    overflow-y: auto;
+    overflow: hidden;
 
     // Carded layout
     &.carded {
@@ -27,15 +23,13 @@ $top-bg-image: url('assets/images/backgrounds/header-bg.png');
         min-width: 100%;
 
         // Top bg
-        .top-bg {
+        > .top-bg {
             position: absolute;
             z-index: 1;
             top: 0;
             right: 0;
             left: 0;
             height: $carded-header-height;
-            background-image: $top-bg-image;
-            background-size: cover;
 
             @include media-breakpoint-down('sm') {
                 height: $carded-header-height-sm;
@@ -45,48 +39,39 @@ $top-bg-image: url('assets/images/backgrounds/header-bg.png');
         // Fullwidth
         &.fullwidth {
 
-            // Single scroll
-            &.single-scroll {
-
-                > .center {
-                    flex: 1 0 auto;
-                    max-height: none;
-                }
-            }
-
             // Center
             > .center {
                 display: flex;
                 flex-direction: column;
-                flex: 1;
+                flex: 1 0 auto;
                 position: relative;
                 z-index: 2;
                 padding: 0 32px;
                 width: 100%;
-                min-width: 100%;
+                min-width: 0;
                 max-width: 100%;
                 max-height: 100%;
 
-                .header {
-                    height: $carded-header-height-without-toolbar;
-                    min-height: $carded-header-height-without-toolbar;
-                    max-height: $carded-header-height-without-toolbar;
+                > .header {
+                    height: $carded-header-height-without-toolbar !important;
+                    min-height: $carded-header-height-without-toolbar !important;
+                    max-height: $carded-header-height-without-toolbar !important;
 
                     @include media-breakpoint-down('sm') {
-                        height: $carded-header-height-without-toolbar-sm;
-                        min-height: $carded-header-height-without-toolbar-sm;
-                        max-height: $carded-header-height-without-toolbar-sm;
+                        height: $carded-header-height-without-toolbar-sm !important;
+                        min-height: $carded-header-height-without-toolbar-sm !important;
+                        max-height: $carded-header-height-without-toolbar-sm !important;
                     }
                 }
 
-                .content-card {
+                > .content-card {
                     display: flex;
                     flex-direction: column;
-                    flex: 1;
+                    flex: 1 0 auto;
                     overflow: hidden;
                     @include mat-elevation(7);
 
-                    .toolbar {
+                    > .toolbar {
                         display: flex;
                         justify-content: flex-start;
                         align-items: center;
@@ -97,128 +82,7 @@ $top-bg-image: url('assets/images/backgrounds/header-bg.png');
                     }
 
                     > .content {
-                        display: flex;
-                        flex: 1;
-                        overflow: auto;
-                    }
-                }
-            }
-        }
-
-        // Left sidenav - Right sidenav
-        &.left-sidenav,
-        &.right-sidenav {
-
-            // Single scroll
-            &.single-scroll {
-
-                > mat-sidenav-container {
-                    flex: 1 0 auto;
-                }
-            }
-
-            > mat-sidenav-container {
-                display: flex;
-                flex: 1;
-                background: none;
-                z-index: 2;
-                width: 100%;
-
-                .sidenav {
-                    display: flex;
-                    flex-direction: column;
-                    flex: 1;
-                    width: 240px;
-                    min-width: 240px;
-                    max-width: 240px;
-                    height: auto;
-                    z-index: 4;
-                    overflow-y: hidden;
-                    @include mat-elevation(7);
-
-                    &.mat-is-locked-open {
-                        background: none;
-                        box-shadow: none;
-                    }
-
-                    .header {
-                        height: $carded-header-height;
-                        min-height: $carded-header-height;
-                        max-height: $carded-header-height;
-
-                        @include media-breakpoint-down('sm') {
-                            height: $carded-header-height-sm;
-                            min-height: $carded-header-height-sm;
-                            max-height: $carded-header-height-sm;
-                        }
-                    }
-
-                    .content {
-                        background: transparent;
-                        overflow: auto;
-                    }
-                }
-
-                > .mat-sidenav-content,
-                > .mat-drawer-content {
-                    display: flex;
-                    flex: 1;
-                    height: auto;
-                    overflow: visible;
-
-                    // Center
-                    .center {
-                        display: flex;
-                        flex-direction: column;
-                        flex: 1;
-                        position: relative;
-                        z-index: 3;
-                        margin-left: 32px;
-                        margin-right: 32px;
-
-                        .header {
-                            display: flex;
-                            height: $carded-header-height-without-toolbar;
-                            min-height: $carded-header-height-without-toolbar;
-                            max-height: $carded-header-height-without-toolbar;
-
-                            @include media-breakpoint-down('sm') {
-                                height: $carded-header-height-without-toolbar-sm;
-                                min-height: $carded-header-height-without-toolbar-sm;
-                                max-height: $carded-header-height-without-toolbar-sm;
-                            }
-                        }
-
-                        .content-card {
-                            display: flex;
-                            flex-direction: column;
-                            flex: 1;
-                            overflow: hidden;
-                            @include mat-elevation(7);
-
-                            .toolbar {
-                                display: flex;
-                                justify-content: flex-start;
-                                align-items: center;
-                                flex: 1;
-                                border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-                                height: $carded-toolbar-height;
-                                min-height: $carded-toolbar-height;
-                                max-height: $carded-toolbar-height;
-
-                                .sidenav-toggle {
-                                    margin: 0 8px 0 0 !important;
-                                    padding: 0 !important;
-                                    border-radius: 0;
-                                }
-                            }
-
-                            .content {
-                                display: flex;
-                                flex: 1;
-                                overflow: auto;
-                            }
-                        }
+                        flex: 1 0 auto;
                     }
                 }
             }
@@ -226,51 +90,82 @@ $top-bg-image: url('assets/images/backgrounds/header-bg.png');
             // Tabbed
             &.tabbed {
 
-                > mat-sidenav-container {
+                > .center {
+                    width: 100%;
+                    min-width: 0;
 
-                    > .mat-sidenav-content,
-                    > .mat-drawer-content {
-                        width: calc(100% - 240px);
-                        min-width: 0;
+                    > .header {
+                        flex: 1 1 auto;
+                    }
 
-                        .center {
-                            width: calc(100% - 32px);
-                            min-width: 0;
+                    > .content-card {
 
-                            @include media-breakpoint-down('md') {
-                                width: calc(100% - 64px);
-                            }
+                        > .content {
+                            display: flex;
 
-                            .header {
-                                flex: 1;
-                            }
+                            > .mat-tab-group {
+                                overflow: hidden;
 
-                            .content-card {
+                                .mat-tab-header {
 
-                                .content {
+                                    .mat-tab-label {
+                                        height: 64px;
+                                    }
+                                }
 
-                                    .mat-tab-group {
+                                .mat-tab-body {
+                                    overflow: hidden;
+
+                                    .mat-tab-body-content {
                                         overflow: hidden;
 
-                                        .mat-tab-header {
-
-                                            .mat-tab-label {
-                                                height: 64px;
-                                            }
+                                        .tab-content {
+                                            position: relative;
+                                            width: 100%;
+                                            height: 100%;
                                         }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
 
-                                        .mat-tab-body {
-                                            overflow: hidden;
+            // Inner scroll
+            &.inner-scroll {
+                flex: 1 1 auto;
 
-                                            .mat-tab-body-content {
-                                                overflow: hidden;
+                > .center {
+                    flex: 1 1 auto;
 
-                                                .tab-content {
-                                                    position: relative;
-                                                    width: 100%;
-                                                    height: 100%;
-                                                    overflow: auto;
-                                                }
+                    > .content-card {
+                        flex: 1 1 auto;
+
+                        > .content {
+                            overflow: auto;
+                            flex: 1 1 auto;
+                        }
+                    }
+                }
+
+                // Tabbed
+                &.tabbed {
+
+                    > .center {
+
+                        > .content-card {
+
+                            > .content {
+
+                                > .mat-tab-group {
+
+                                    .mat-tab-body {
+
+                                        .mat-tab-body-content {
+
+                                            .tab-content {
+                                                overflow: auto;
                                             }
                                         }
                                     }
@@ -282,21 +177,212 @@ $top-bg-image: url('assets/images/backgrounds/header-bg.png');
             }
         }
 
-        // Left sidenav
-        &.left-sidenav {
+        // Left / Right sidebar
+        &.left-sidebar,
+        &.right-sidebar {
+            flex-direction: row;
 
-            // Sidenav
-            > mat-sidenav-container {
+            // Sidebar
+            > .sidebar {
+                display: flex;
+                flex-direction: column;
+                flex: 1 1 auto;
+                width: 240px;
+                min-width: 240px;
+                max-width: 240px;
+                height: auto;
+                overflow: hidden;
+                @include mat-elevation(7);
 
-                .sidenav {
+                &.locked-open {
+                    background: none;
+                    box-shadow: none;
 
-                    &.mat-is-locked-open {
+                    + .center {
+                        z-index: 1001;
+                    }
 
-                        ~ .mat-sidenav-content,
-                        ~ .mat-drawer-content {
+                    &.left-positioned {
 
-                            .center {
-                                margin-left: 0;
+                        + .center {
+                            margin-left: 0;
+                        }
+                    }
+
+                    &.right-positioned {
+
+                        + .center {
+                            margin-right: 0;
+                        }
+                    }
+                }
+
+                .header {
+                    height: $carded-header-height;
+                    min-height: $carded-header-height;
+                    max-height: $carded-header-height;
+
+                    @include media-breakpoint-down('sm') {
+                        height: $carded-header-height-sm;
+                        min-height: $carded-header-height-sm;
+                        max-height: $carded-header-height-sm;
+                    }
+                }
+
+                .content {
+                    background: transparent;
+                    flex: 1 1 auto;
+                }
+            }
+
+            // Center
+            > .center {
+                display: flex;
+                flex-direction: column;
+                flex: 1 1 auto;
+                position: relative;
+                z-index: 3;
+                margin-left: 32px;
+                margin-right: 32px;
+                min-width: 0;
+
+                > .header {
+                    display: flex;
+                    height: $carded-header-height-without-toolbar;
+                    min-height: $carded-header-height-without-toolbar;
+                    max-height: $carded-header-height-without-toolbar;
+
+                    @include media-breakpoint-down('sm') {
+                        height: $carded-header-height-without-toolbar-sm;
+                        min-height: $carded-header-height-without-toolbar-sm;
+                        max-height: $carded-header-height-without-toolbar-sm;
+                    }
+                }
+
+                > .content-card {
+                    display: flex;
+                    flex-direction: column;
+                    flex: 1 1 auto;
+                    overflow: hidden;
+                    @include mat-elevation(7);
+
+                    > .toolbar {
+                        display: flex;
+                        justify-content: flex-start;
+                        align-items: center;
+                        flex: 1 1 auto;
+                        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+                        height: $carded-toolbar-height;
+                        min-height: $carded-toolbar-height;
+                        max-height: $carded-toolbar-height;
+
+                        .sidebar-toggle {
+                            margin: 0 8px 0 0 !important;
+                            padding: 0 !important;
+                            border-radius: 0;
+                        }
+                    }
+
+                    > .content {
+                        flex: 1 1 auto;
+                    }
+                }
+            }
+
+            // Tabbed
+            &.tabbed {
+
+                > .center {
+                    width: calc(100% - 32px);
+                    min-width: 0;
+
+                    @include media-breakpoint-down('md') {
+                        width: calc(100% - 64px);
+                    }
+
+                    > .header {
+                        flex: 1 1 auto;
+                    }
+
+                    > .content-card {
+
+                        > .content {
+                            display: flex;
+
+                            > .mat-tab-group {
+                                overflow: hidden;
+
+                                .mat-tab-header {
+
+                                    .mat-tab-label {
+                                        height: 64px;
+                                    }
+                                }
+
+                                .mat-tab-body {
+                                    overflow: hidden;
+
+                                    .mat-tab-body-content {
+                                        overflow: hidden;
+
+                                        .tab-content {
+                                            position: relative;
+                                            width: 100%;
+                                            height: 100%;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Inner scroll
+            &.inner-scroll {
+                flex: 1 1 auto;
+
+                > .sidebar {
+
+                    .content {
+                        overflow: auto;
+                    }
+                }
+
+                > .center {
+                    flex: 1 1 auto;
+
+                    > .content-card {
+                        flex: 1 1 auto;
+
+                        > .content {
+                            flex: 1 1 auto;
+                            overflow: auto;
+                        }
+                    }
+                }
+
+                // Tabbed
+                &.tabbed {
+
+                    > .center {
+
+                        > .content-card {
+
+                            > .content {
+
+                                > .mat-tab-group {
+
+                                    .mat-tab-body {
+
+                                        .mat-tab-body-content {
+
+                                            .tab-content {
+                                                overflow: auto;
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -304,26 +390,15 @@ $top-bg-image: url('assets/images/backgrounds/header-bg.png');
             }
         }
 
-        // Right sidenav
-        &.right-sidenav {
+        // Right sidebar specific
+        &.right-sidebar {
 
-            // Sidenav
-            > mat-sidenav-container {
+            > .sidebar {
+                order: 2;
+            }
 
-                .sidenav {
-                    order: 999;
-
-                    &.mat-is-locked-open {
-
-                        ~ .mat-sidenav-content,
-                        ~ .mat-drawer-content {
-
-                            .center {
-                                margin-right: 0;
-                            }
-                        }
-                    }
-                }
+            > .center {
+                order: 1;
             }
         }
     }
@@ -336,20 +411,17 @@ $top-bg-image: url('assets/images/backgrounds/header-bg.png');
         width: 100%;
         min-width: 100%;
 
-        // Top bg
-        > .header {
-            background-image: $top-bg-image;
-            background-size: cover;
-        }
-
         // Fullwidth
         &.fullwidth {
-            overflow: auto;
+
+            > .content {
+                flex: 1 1 auto;
+                min-width: 0;
+            }
         }
 
         &.fullwidth,
-        &.inner-sidenav {
-            min-height: 100%;
+        &.inner-sidebar {
 
             > .header {
                 height: $header-height;
@@ -358,108 +430,137 @@ $top-bg-image: url('assets/images/backgrounds/header-bg.png');
             }
         }
 
-        // Left sidenav - Right sidenav
-        &.left-sidenav,
-        &.right-sidenav {
+        // Left / Right sidebar
+        &.left-sidebar,
+        &.right-sidebar {
+            flex-direction: row;
 
-            // Single scroll
-            &.single-scroll {
+            // Sidebar
+            > .sidebar {
+                width: 240px;
+                min-width: 240px;
+                max-width: 240px;
+                overflow: hidden;
+                @include mat-elevation(7);
 
-                > mat-sidenav-container {
-                    flex: 1 0 auto;
+                &.locked-open {
+                    background: none;
+                    box-shadow: none;
 
-                    > .mat-sidenav-content,
-                    > .mat-drawer-content {
-                        flex: 1 0 auto;
-                        max-height: none;
+                    + .center {
+                        z-index: 1001;
                     }
-                }
-            }
 
-            // Inner Sidenav
-            &.inner-sidenav {
+                    &.left-positioned {
 
-                > mat-sidenav-container {
-                    flex: 1;
-
-                    .sidenav {
-
-                        .sidenav-content {
-                            height: 100%;
+                        + .center {
+                            margin-left: 0;
                         }
                     }
 
-                    > .mat-sidenav-content,
-                    > .mat-drawer-content {
-                        display: flex;
-                        height: auto;
+                    &.right-positioned {
 
-                        .center {
-                            flex: 1;
-                            min-height: 100%;
-                            @include mat-elevation(0);
-
-                            .content {
-                                display: flex;
-                                flex: 1 0 auto;
-                            }
+                        + .center {
+                            margin-right: 0;
                         }
                     }
                 }
+
+                .content {
+                    flex: 1 1 auto;
+                }
             }
 
-            > mat-sidenav-container {
+            // Center
+            > .center {
+                position: relative;
                 display: flex;
                 flex-direction: column;
-                flex: 1;
-                background: none;
-                z-index: 2;
-                width: 100%;
+                flex: 1 1 auto;
+                z-index: 3;
+                min-width: 0;
+                @include mat-elevation(7);
 
-                .sidenav {
-                    width: 240px;
-                    min-width: 240px;
-                    max-width: 240px;
-                    z-index: 51;
-                    @include mat-elevation(7);
+                > .header {
+                    height: $header-height;
+                    min-height: $header-height;
+                    max-height: $header-height;
+                }
 
-                    &.mat-is-locked-open {
-                        width: 220px;
-                        min-width: 220px;
-                        max-width: 220px;
-                        box-shadow: none;
-                        background: transparent;
-                    }
+                > .content {
+                    flex: 1 0 auto;
+                }
+            }
 
-                    .sidenav-content {
-                        height: 100%;
+            // Inner scroll
+            &.inner-scroll {
+                flex: 1 1 auto;
+
+                > .sidebar {
+
+                    .content {
+                        overflow: auto;
                     }
                 }
 
-                > .mat-sidenav-content,
-                > .mat-drawer-content {
+                > .center {
+                    flex: 1 1 auto;
+                    overflow: auto;
+                }
+            }
+
+            // Inner Sidebar
+            &.inner-sidebar {
+                flex-direction: column;
+                overflow: hidden;
+                height: 100%;
+
+                > .content {
                     display: flex;
-                    flex: 1;
-                    height: auto;
-                    overflow: visible;
-                    max-height: 100%;
+                    min-height: 0;
 
-                    .header {
-                        height: $header-height;
-                        min-height: $header-height;
-                        max-height: $header-height;
-                        background-image: $top-bg-image;
-                    }
+                    > .sidebar {
 
-                    .center {
-                        display: flex;
-                        flex-direction: column;
-                        flex: 1;
-                        overflow: auto;
-                        @include mat-elevation(7);
+                        &.locked-open {
+                            background: none;
+                            box-shadow: none;
+                        }
 
                         .content {
+                            overflow: auto;
                         }
+                    }
+
+                    > .center {
+                        flex: 1 1 auto;
+                        overflow: auto;
+                    }
+                }
+            }
+        }
+
+        // Right sidebar specific
+        &.right-sidebar {
+
+            > .sidebar {
+                order: 2;
+            }
+
+            > .center {
+                order: 1;
+            }
+
+            // Inner sidebar
+            &.inner-sidebar {
+
+                > .content {
+
+                    > .sidebar {
+                        order: 2;
+                    }
+
+                    > .center {
+                        order: 1;
                     }
                 }
             }
@@ -469,7 +570,7 @@ $top-bg-image: url('assets/images/backgrounds/header-bg.png');
         &.tabbed {
             min-height: 100%;
 
-            .header {
+            > .header {
                 height: $header-height;
                 min-height: $header-height;
                 max-height: $header-height;
@@ -477,7 +578,7 @@ $top-bg-image: url('assets/images/backgrounds/header-bg.png');
 
             > .content {
 
-                .mat-tab-group {
+                > .mat-tab-group {
 
                     .mat-tab-labels {
                         padding: 0 24px;
@@ -495,50 +596,6 @@ $top-bg-image: url('assets/images/backgrounds/header-bg.png');
 
     @include media-breakpoint-down('xs') {
 
-        // Activate single-scroll
-        &.carded {
-
-            &.fullwidth {
-
-                > .center {
-                    flex: 1 0 auto;
-                    max-height: none;
-                }
-            }
-
-            &.left-sidenav,
-            &.right-sidenav {
-
-                > mat-sidenav-container {
-                    flex: 1 0 auto;
-                }
-            }
-        }
-
-        &.simple {
-
-            &.fullwidth {
-
-                > .content {
-                    flex: 1 0 auto;
-                }
-            }
-
-            &.left-sidenav,
-            &.right-sidenav {
-
-                > mat-sidenav-container {
-                    flex: 1 0 auto !important;
-
-                    > .mat-sidenav-content,
-                    > .mat-drawer-content {
-                        flex: 1 0 auto;
-                    }
-                }
-            }
-        }
-        // End - Activate single-scroll
-
         // Smaller margins
         &.carded {
 
@@ -549,18 +606,11 @@ $top-bg-image: url('assets/images/backgrounds/header-bg.png');
                 }
             }
 
-            &.left-sidenav,
-            &.right-sidenav {
+            &.left-sidebar,
+            &.right-sidebar {
 
-                > mat-sidenav-container {
-
-                    > .mat-sidenav-content,
-                    > .mat-drawer-content {
-
-                        .center {
-                            margin: 0 16px;
-                        }
-                    }
+                > .center {
+                    margin: 0 16px;
                 }
             }
         }

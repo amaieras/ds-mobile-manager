@@ -1,6 +1,6 @@
 .secondary-text,
-.mat-icon,
-.icon {
+.icon,
+i {
     color: rgba(0, 0, 0, 0.54);
 }
 
@@ -51,7 +51,7 @@ $matColorHues: 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, A100, A200, A400
     // If the base text color is black...
     @if (rgba(black, 1) == rgba($baseTextColor, 1)) {
 
-        .mat-icon,
+        i,
         .icon {
             color: rgba(0, 0, 0, 0.54);
         }
@@ -81,7 +81,7 @@ $matColorHues: 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, A100, A200, A400
         // If the base text color is white...
     @else {
 
-        .mat-icon,
+        i,
         .icon {
             color: rgba(255, 255, 255, 1);
         }
@@ -135,11 +135,11 @@ $matColorHues: 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, A100, A200, A400
     }
 
     // Input
-    .mat-input-placeholder {
+    .mat-form-field-label {
         color: map_get($fuseForeground, hint-text);
     }
 
-    .mat-input-underline {
+    .mat-form-field-underline {
         background-color: map_get($fuseForeground, divider);
     }
 
@@ -224,6 +224,35 @@ $matColorHues: 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, A100, A200, A400
 
     .#{$colorName}#{$hue}-border-left {
         border-left-color: $color !important;
+    }
+}
+
+@mixin generateFuseColorClasses($primary, $accent, $warn) {
+
+    $colorMap: (
+        primary: $primary,
+        accent: $accent,
+        warn: $warn
+    );
+
+    // Generate the color classes...
+    @each $name, $map in $colorMap {
+
+        @each $hue in $matColorHues {
+
+            $color: map-get($map, $hue);
+            $contrastColor: map-get(map-get($map, 'contrast'), $hue);
+
+            @if ($color != null and $contrastColor != null) {
+
+                @include generateColorClasses($name, $color, $contrastColor, '-#{$hue}');
+
+                // Run the generator one more time for default values (500)
+                @if ($hue == 500) {
+                    @include generateColorClasses($name, $color, $contrastColor, '');
+                }
+            }
+        }
     }
 }
 

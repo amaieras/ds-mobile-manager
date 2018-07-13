@@ -4,7 +4,7 @@ fuse-navigation {
     display: flex;
     flex: 1 0 auto;
 
-    #main-navigation {
+    > .nav {
         margin: 0;
         padding: 0;
         width: 100%;

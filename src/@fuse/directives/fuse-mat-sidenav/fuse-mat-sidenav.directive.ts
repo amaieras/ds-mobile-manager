@@ -1,7 +1,8 @@
 import { Directive, Input, OnInit, HostListener, OnDestroy, HostBinding } from '@angular/core';
 import { MatSidenav } from '@angular/material';
 import { ObservableMedia } from '@angular/flex-layout';
-import { Subscription } from 'rxjs/Subscription';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { FuseMatchMediaService } from '@fuse/services/match-media.service';
 import { FuseMatSidenavHelperService } from '@fuse/directives/fuse-mat-sidenav/fuse-mat-sidenav.service';
@@ -11,56 +12,91 @@ import { FuseMatSidenavHelperService } from '@fuse/directives/fuse-mat-sidenav/f
 })
 export class FuseMatSidenavHelperDirective implements OnInit, OnDestroy
 {
-    matchMediaSubscription: Subscription;
-    @HostBinding('class.mat-is-locked-open') isLockedOpen = true;
-    @Input('fuseMatSidenavHelper') id: string;
-    @Input('mat-is-locked-open') matIsLockedOpenBreakpoint: string;
+    @HostBinding('class.mat-is-locked-open')
+    isLockedOpen: boolean;
 
+    @Input('fuseMatSidenavHelper')
+    id: string;
+
+    @Input('mat-is-locked-open')
+    matIsLockedOpenBreakpoint: string;
+
+    // Private
+    private _unsubscribeAll: Subject<any>;
+
+    /**
+     * Constructor
+     *
+     * @param {FuseMatchMediaService} _fuseMatchMediaService
+     * @param {FuseMatSidenavHelperService} _fuseMatSidenavHelperService
+     * @param {MatSidenav} _matSidenav
+     * @param {ObservableMedia} _observableMedia
+     */
     constructor(
-        private fuseMatSidenavService: FuseMatSidenavHelperService,
-        private fuseMatchMedia: FuseMatchMediaService,
-        private observableMedia: ObservableMedia,
-        private matSidenav: MatSidenav
+        private _fuseMatchMediaService: FuseMatchMediaService,
+        private _fuseMatSidenavHelperService: FuseMatSidenavHelperService,
+        private _matSidenav: MatSidenav,
+        private _observableMedia: ObservableMedia
     )
     {
+        // Set the defaults
+        this.isLockedOpen = true;
+
+        // Set the private defaults
+        this._unsubscribeAll = new Subject();
     }
 
-    ngOnInit()
-    {
-        this.fuseMatSidenavService.setSidenav(this.id, this.matSidenav);
+    // -----------------------------------------------------------------------------------------------------
+    // @ Lifecycle hooks
+    // -----------------------------------------------------------------------------------------------------
 
-        if ( this.observableMedia.isActive(this.matIsLockedOpenBreakpoint) )
+    /**
+     * On init
+     */
+    ngOnInit(): void
+    {
+        // Register the sidenav to the service
+        this._fuseMatSidenavHelperService.setSidenav(this.id, this._matSidenav);
+
+        if ( this._observableMedia.isActive(this.matIsLockedOpenBreakpoint) )
         {
             this.isLockedOpen = true;
-            this.matSidenav.mode = 'side';
-            this.matSidenav.toggle(true);
+            this._matSidenav.mode = 'side';
+            this._matSidenav.toggle(true);
         }
         else
         {
             this.isLockedOpen = false;
-            this.matSidenav.mode = 'over';
-            this.matSidenav.toggle(false);
+            this._matSidenav.mode = 'over';
+            this._matSidenav.toggle(false);
         }
 
-        this.matchMediaSubscription = this.fuseMatchMedia.onMediaChange.subscribe(() => {
-            if ( this.observableMedia.isActive(this.matIsLockedOpenBreakpoint) )
-            {
-                this.isLockedOpen = true;
-                this.matSidenav.mode = 'side';
-                this.matSidenav.toggle(true);
-            }
-            else
-            {
-                this.isLockedOpen = false;
-                this.matSidenav.mode = 'over';
-                this.matSidenav.toggle(false);
-            }
-        });
+        this._fuseMatchMediaService.onMediaChange
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(() => {
+                if ( this._observableMedia.isActive(this.matIsLockedOpenBreakpoint) )
+                {
+                    this.isLockedOpen = true;
+                    this._matSidenav.mode = 'side';
+                    this._matSidenav.toggle(true);
+                }
+                else
+                {
+                    this.isLockedOpen = false;
+                    this._matSidenav.mode = 'over';
+                    this._matSidenav.toggle(false);
+                }
+            });
     }
 
-    ngOnDestroy()
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void
     {
-        this.matchMediaSubscription.unsubscribe();
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 }
 
@@ -69,15 +105,29 @@ export class FuseMatSidenavHelperDirective implements OnInit, OnDestroy
 })
 export class FuseMatSidenavTogglerDirective
 {
-    @Input('fuseMatSidenavToggler') id;
+    @Input('fuseMatSidenavToggler')
+    id;
 
-    constructor(private fuseMatSidenavService: FuseMatSidenavHelperService)
+    /**
+     * Constructor
+     *
+     * @param {FuseMatSidenavHelperService} _fuseMatSidenavHelperService
+     */
+    constructor(
+        private _fuseMatSidenavHelperService: FuseMatSidenavHelperService)
     {
     }
 
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * On click
+     */
     @HostListener('click')
     onClick()
     {
-        this.fuseMatSidenavService.getSidenav(this.id).toggle();
+        this._fuseMatSidenavHelperService.getSidenav(this.id).toggle();
     }
 }

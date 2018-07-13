@@ -7,7 +7,7 @@ import {AuthService} from "./auth.service";
 
 
 @Injectable()
-export class AuthGuard implements CanActivate{
+export class AuthGuard{
 
   constructor(
     private _router: Router,
@@ -15,16 +15,16 @@ export class AuthGuard implements CanActivate{
   ) {}
 
 
-  canActivate(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    return this._authService.afAuth.authState
-      .take(1)
-      .map(authState => !! authState)
-      .do( authenticated => {
-        if (!authenticated) {
-          this._router.navigate(["/auth/login"]);
-        }
-      });
-  }
+  // canActivate(
+  //   next: ActivatedRouteSnapshot,
+  //   state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+  //   return this._authService.afAuth.authState
+  //     .take(1)
+  //     .map(authState => !! authState)
+  //     .do( authenticated => {
+  //       if (!authenticated) {
+  //         this._router.navigate(["/auth/login"]);
+  //       }
+  //     });
+  // }
 }

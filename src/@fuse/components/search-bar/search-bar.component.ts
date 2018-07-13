@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { FuseConfigService } from '@fuse/services/config.service';
 
@@ -8,42 +9,91 @@ import { FuseConfigService } from '@fuse/services/config.service';
     templateUrl: './search-bar.component.html',
     styleUrls  : ['./search-bar.component.scss']
 })
-export class FuseSearchBarComponent
+export class FuseSearchBarComponent implements OnInit, OnDestroy
 {
     collapsed: boolean;
-    toolbarColor: string;
-    @Output() onInput: EventEmitter<any> = new EventEmitter();
-    onConfigChanged: Subscription;
+    fuseConfig: any;
 
+    @Output()
+    input: EventEmitter<any>;
+
+    // Private
+    private _unsubscribeAll: Subject<any>;
+
+    /**
+     * Constructor
+     *
+     * @param {FuseConfigService} _fuseConfigService
+     */
     constructor(
-        private fuseConfig: FuseConfigService
+        private _fuseConfigService: FuseConfigService
     )
     {
+        // Set the defaults
+        this.input = new EventEmitter();
         this.collapsed = true;
-        this.onConfigChanged =
-            this.fuseConfig.onConfigChanged
-                .subscribe(
-                    (newSettings) => {
-                        this.toolbarColor = newSettings.colorClasses.toolbar;
-                    }
-                );
+
+        // Set the private defaults
+        this._unsubscribeAll = new Subject();
     }
 
-    collapse()
+    // -----------------------------------------------------------------------------------------------------
+    // @ Lifecycle hooks
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * On init
+     */
+    ngOnInit(): void
+    {
+        // Subscribe to config changes
+        this._fuseConfigService.config
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(
+                (config) => {
+                    this.fuseConfig = config;
+                }
+            );
+    }
+
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void
+    {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Collapse
+     */
+    collapse(): void
     {
         this.collapsed = true;
     }
 
-    expand()
+    /**
+     * Expand
+     */
+    expand(): void
     {
         this.collapsed = false;
     }
 
-    search(event)
+    /**
+     * Search
+     *
+     * @param event
+     */
+    search(event): void
     {
-        const value = event.target.value;
-
-        this.onInput.emit(value);
+        this.input.emit(event.target.value);
     }
 
 }

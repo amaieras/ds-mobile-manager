@@ -7,21 +7,39 @@ export interface Locale
     data: Object;
 }
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class FuseTranslationLoaderService
 {
-    constructor(private translate: TranslateService)
+    /**
+     * Constructor
+     *
+     * @param {TranslateService} _translateService
+     */
+    constructor(
+        private _translateService: TranslateService
+    )
     {
     }
 
-    public loadTranslations(...args: Locale[]): void
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Load translations
+     *
+     * @param {Locale} args
+     */
+    loadTranslations(...args: Locale[]): void
     {
         const locales = [...args];
 
         locales.forEach((locale) => {
             // use setTranslation() with the third argument set to true
             // to append translations instead of replacing them
-            this.translate.setTranslation(locale.lang, locale.data, true);
+            this._translateService.setTranslation(locale.lang, locale.data, true);
         });
     }
 }
