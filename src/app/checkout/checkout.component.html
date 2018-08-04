@@ -155,7 +155,7 @@
   </amexio-card-pane>
   <p-growl [(value)]="msgs"></p-growl>
   <div *ngIf="clientsPFPerDay.length > 0">
-    <p-dataView #dvPF [value]="clientsPFPerDay" [paginator]="true" [rows]="16" paginatorPosition="both" filterBy="phone">
+    <p-dataView #dvPF [value]="clientsPFPerDay" [paginator]="true" [rows]="16" paginatorPosition="both" filterBy="lastname">
       <p-header>
         <div class="ui-helper-clearfix">
           <div class="ui-g">
@@ -164,7 +164,7 @@
             </div>
             <div class="ui-g-6 ui-md-4 filter-container">
               <div style="position:relative">
-                <input type="search" pInputText placeholder="Cauta dupa telefon" (keyup)="dvPF.filter($event.target.value)">
+                <input type="search" pInputText placeholder="Cauta dupa nume" (keyup)="dvPF.filter($event.target.value)">
               </div>
             </div>
             <div class="ui-g-6 ui-md-4" style="text-align:right">
