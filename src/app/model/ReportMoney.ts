@@ -3,6 +3,9 @@ export class ReportMoney {
   private _pfCash: number;
   private _gsmCash: number;
 
+  private _pfTotal: number;
+  private _gsmTotal: number;
+
   private _pfCard: number;
   private _gsmCard: number;
 
@@ -33,6 +36,23 @@ export class ReportMoney {
 
   set gsmCash(value: number) {
     this._gsmCash = value;
+  }
+
+
+  get pfTotal(): number {
+    return this._pfTotal;
+  }
+
+  set pfTotal(value: number) {
+    this._pfTotal = value;
+  }
+
+  get gsmTotal(): number {
+    return this._gsmTotal;
+  }
+
+  set gsmTotal(value: number) {
+    this._gsmTotal = value;
   }
 
   get pfCard(): number {

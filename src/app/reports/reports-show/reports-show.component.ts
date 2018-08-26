@@ -37,7 +37,9 @@ export class ReportsShowComponent implements OnInit {
   }
   getCashPFGSM(dates) {
     let totalCashPF = 0;
-    let totalCashGSM = 0 ;
+    let totalCashGSM = 0;
+    let totalPF = 0;
+    let totalGSM = 0;
     let clientPFisPayed;
     let clientGSMisPayed;
     this._reportService.getAllPFClients().subscribe(pf => {
@@ -47,6 +49,7 @@ export class ReportsShowComponent implements OnInit {
       });
       clientPFisPayed.forEach(item => {
         totalCashPF = +totalCashPF + +item.paymentMethod._advance;
+
       })
     })
     this._reportService.getAllGSMClients().subscribe(gsm=> {
@@ -56,6 +59,7 @@ export class ReportsShowComponent implements OnInit {
       });
       clientGSMisPayed.forEach(item => {
         totalCashGSM = totalCashGSM + +item.paymentMethod._advance;
+
       })
     })
     this._reportService.getAllPFClients().subscribe(pf => {
@@ -65,9 +69,12 @@ export class ReportsShowComponent implements OnInit {
       });
       clientPFisPayed.forEach(item => {
         totalCashPF = +totalCashPF + +item.paymentMethod._cash + +item.paymentMethod._repayment;
+        totalPF += +item.paymentMethod._cash + +item.paymentMethod._card + +item.paymentMethod._advance + +item.paymentMethod._collector +
+          +item.paymentMethod._repayment;
       })
       totalCashPF = totalCashPF || 0;
       this.report.pfCash = totalCashPF;
+      this.report.pfTotal = totalPF || 0;
     })
     this._reportService.getAllGSMClients().subscribe(gsm=> {
       clientGSMisPayed = gsm.filter(function (client) {
@@ -76,9 +83,12 @@ export class ReportsShowComponent implements OnInit {
       });
       clientGSMisPayed.forEach(item => {
         totalCashGSM = totalCashGSM + +item.paymentMethod._cash + +item.paymentMethod._repayment;
+        totalGSM += +item.paymentMethod._cash + +item.paymentMethod._card + +item.paymentMethod._advance + +item.paymentMethod._collector +
+          +item.paymentMethod._repayment;
       })
       totalCashGSM = totalCashGSM || 0;
       this.report.gsmCash = totalCashGSM || 0;
+      this.report.gsmTotal = totalGSM || 0;
     })
   }
 

@@ -35,7 +35,23 @@ import {AuthGuard} from 'app/guards/auth.guard';
 import {RegisterComponent} from "./main/pages/authentication/register/register.component";
 import {DashboardComponent} from "./navigation/dashboard/dashboard.component";
 
-export const firebaseConfig = environment.firebaseConfig;
+
+export const firebaseConfig = {
+  apiKey: 'AIzaSyDL-_f_lQb4dnkx6GRrL7O7L7sp2A1Kj1w',
+    authDomain: 'ds-mobile-dev.firebaseapp.com',
+    databaseURL: 'https://ds-mobile-dev.firebaseio.com',
+    projectId: 'ds-mobile-dev',
+    storageBucket: 'ds-mobile-dev.appspot.com',
+    messagingSenderId: '931169905269'
+}
+export const firebaseConfigProd = {
+  apiKey: 'AIzaSyAexP1Haz3RsxHqPX--XncgC1Rxef_wMDA',
+    authDomain: 'ds-mobile-prod.firebaseapp.com',
+    databaseURL: 'https://ds-mobile-prod.firebaseio.com',
+    projectId: 'ds-mobile-prod',
+    storageBucket: '',
+    messagingSenderId: '662623055885'
+}
 
 @NgModule({
     declarations: [
