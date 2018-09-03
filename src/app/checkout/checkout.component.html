@@ -1,6 +1,12 @@
 
-  <date-filter (onDatePicked)="getCheckoutForDate($event)"></date-filter>
-
+  <div class="ml-1">
+    <date-filter (onDatePicked)="getCheckoutForDate($event)"></date-filter>
+    <br>
+    <!--<div class=am-client-types">-->
+      <mat-checkbox class="am-client-type" [(ngModel)]="pf">PF</mat-checkbox>
+      <mat-checkbox class="am-client-type" [(ngModel)]="gsm">GSM</mat-checkbox>
+    <!--</div>-->
+  </div>
   <amexio-card-pane [enableFooter]="false">
     <amexio-pane-header>
     <h1>Casa final de zi - {{currDate | date:"dd/MM/yyyy"}}</h1>

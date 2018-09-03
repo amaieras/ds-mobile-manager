@@ -6,7 +6,7 @@ import {CommonModule} from "@angular/common";
 import {CheckoutService} from "./checkout.service";
 import {
   CalendarModule, CheckboxModule, DataGridModule, DataTableModule, DropdownModule, GrowlModule, PanelMenuModule,
-  RadioButtonModule
+  RadioButtonModule, SelectButtonModule
 } from "primeng/primeng";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {SharedDsModule} from "../shared/shared-ds.module";
@@ -17,6 +17,7 @@ import {DialogModule} from "primeng/dialog";
 import {MultiSelectModule} from "@progress/kendo-angular-dropdowns";
 import {PanelModule} from "primeng/panel";
 import {DataViewModule} from "primeng/dataview";
+import {MatCheckboxModule, MatInputModule, MatRadioModule} from "@angular/material";
 
 @NgModule({
   imports: [
@@ -41,7 +42,10 @@ import {DataViewModule} from "primeng/dataview";
     CalendarModule,
     DataGridModule,
     PanelModule,
-    DataViewModule
+    DataViewModule,
+    SelectButtonModule,
+    MatRadioModule,
+    MatCheckboxModule
   ],
   declarations: [
     RepairPFDetailComponent,

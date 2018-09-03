@@ -1,26 +1,8 @@
-<div style="padding: 2px;">
-  <h3>Alege-ti data</h3>
-  <p-dropdown [options]="years" [(ngModel)]="selectedYear" placeholder="Selecteaza anul" optionLabel="label" (onChange)="getDataForDate()">
-    <ng-template let-car pTemplate="item">
-      <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
-        <div style="font-size:14px;float:right;margin-top:4px">{{car.label}}</div>
-      </div>
-    </ng-template>
-  </p-dropdown>
+<mat-form-field>
+  <input matInput [matDatepicker]="dp" placeholder="Alege-ti data" [formControl]="dateMat"
+         [attr.disabled]="true">
+  <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+  <mat-datepicker #dp disabled="false" (selectedChanged)="getDataForDate($event)"></mat-datepicker>
+</mat-form-field>
+<button mat-raised-button (click)="dp.open()">Open</button>
 
-  <p-dropdown [options]="months" [(ngModel)]="selectedMonth" placeholder="Selecteaza luna" optionLabel="label" (onChange)="getDataForDate()">
-  <ng-template let-car pTemplate="item">
-    <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
-      <div style="font-size:14px;float:right;margin-top:4px">{{car.label}}</div>
-    </div>
-  </ng-template>
-  </p-dropdown>
-
-  <p-dropdown [options]="days" [(ngModel)]="selectedDay" placeholder="Selecteaza ziua" optionLabel="label" (onChange)="getDataForDate()">
-    <ng-template let-car pTemplate="item">
-      <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
-        <div style="font-size:14px;float:right;margin-top:4px">{{car.label}}</div>
-      </div>
-    </ng-template>
-  </p-dropdown>
-</div>

@@ -5,7 +5,7 @@ import {ClientPF} from "../model/ClientPF";
 import {ClientGSM} from "../model/ClientGSM";
 import {PaymentMethod} from "../model/PaymentMethod";
 import {RepairPFDetailService} from "../repairs/repairPF/repair-pf-detail.service";
-import {Message} from "primeng/api";
+import {Message, SelectItem} from "primeng/api";
 import {RepairGSMDetailService} from "../repairs/repairGSM/repair-gsm-detail.service";
 import {UtilService} from "../utils/util.service";
 import {PhoneListService} from "../clients/clientPF/phone-list/phone-list.service";
@@ -36,7 +36,7 @@ export class CheckoutComponent implements OnInit {
   clientsPFPerDay: ClientPF[] = [];
   clientsGSMPerDay: ClientGSM[] = [];
   methodsOfPayment: any[];
-  msgs:Message[] = [];
+  msgs: Message[] = [];
   brandList: any[] = [];
   modelList: any[] = [];
   phoneBrandsArray: any = [];
@@ -44,11 +44,20 @@ export class CheckoutComponent implements OnInit {
   selectedModel = "";
   selectedBrand = "";
 
+  types: SelectItem[];
+  clientType: string;
+
+  pf = true;
+  gsm = true;
+
   constructor(private _checkoutService: CheckoutService, private cdr: ChangeDetectorRef,
               private _repairPFService: RepairPFDetailService, private _repairGSMService: RepairGSMDetailService,
               private _utilService: UtilService, private _phoneListService: PhoneListService) {
     this.currDate = new Date();
-
+    this.types = [
+      {label: 'PF', value: 'pf', icon: ''},
+      {label: 'GSM', value: 'gsm', icon: ''},
+    ]
   }
   ngOnInit() {
     this.clientPF.paymentMethod = new PaymentMethod(0,0,0,0,0);
