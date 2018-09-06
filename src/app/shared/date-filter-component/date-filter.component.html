@@ -1,5 +1,5 @@
 <mat-form-field>
-  <input matInput [matDatepicker]="dp" placeholder="Alege-ti data" [formControl]="dateMat"
+  <input matInput [matDatepicker]="dp" placeholder="Alege data" [formControl]="dateMat"
          [attr.disabled]="true">
   <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
   <mat-datepicker #dp disabled="false" (selectedChanged)="getDataForDate($event)"></mat-datepicker>

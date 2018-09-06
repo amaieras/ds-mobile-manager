@@ -6,6 +6,7 @@ import {ReportService} from "../../shared/reports/report.service";
 import {ClientService} from 'app/clients/shared/client.service';
 import {DropdownModel} from "../../model/DropdownModel";
 import {Report} from "../../model/Report";
+import {FormControl} from '@angular/forms';
 
 @Component({
   selector: 'app-reports-filter',
@@ -27,20 +28,17 @@ export class ReportsFilterComponent implements OnInit {
   selectedProblems: any[];
   report: Report = new Report(0,0,0);
   isPayed: boolean = false;
+  clientsGSM = new FormControl();
+  clientsGSMList : any[] = [];
   constructor(private _phoneListService: PhoneListService, private _aboutUsService: AboutUsService,
               private _reportService: ReportService, private _clientService: ClientService) { }
 
   ngOnInit() {
     this.populateDropDownFilters();
-    this._clientService.getProblemList().subscribe(problemsList => {
-      this.problemsList = [];
-      problemsList.forEach(snapshot => {
-        this.problemsList.push(new DropdownModel(snapshot.name, snapshot.name));
-      });
-      this.problemsList.shift()
-    });
+
   }
-  populateDropDownFilters() {
+
+  private populateDropDownFilters() {
     this.clientTypes = [
       {label:'PF', value:'pf'},
       {label: 'GSM', value:'gsm'}
@@ -69,6 +67,26 @@ export class ReportsFilterComponent implements OnInit {
       });
       this.aboutUsList.shift();
     });
+
+    this._clientService.getProblemList().subscribe(problemsList => {
+      this.problemsList = [];
+      problemsList.forEach(snapshot => {
+        this.problemsList.push(new DropdownModel(snapshot.name, snapshot.name));
+      });
+      this.problemsList.shift()
+    });
+
+    this._reportService.getClientsGSMList().subscribe(gsm => {
+      gsm.forEach(snapshot=> {
+        this.clientsGSMList.push(snapshot);
+      })
+      this.clientsGSMList.sort((a, b) => {
+        const nameA = a.name, nameB = b.name;
+        if(nameA < nameB) return -1;
+        if(nameA > nameB) return 1;
+        return 0;
+      });
+    })
   }
 
   applyFilters() {

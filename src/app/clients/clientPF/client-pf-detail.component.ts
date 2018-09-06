@@ -75,7 +75,7 @@ export class ClientPfDetailComponent implements OnInit {
       phoneList: this.fb.array([]),
       'tested': new FormControl('NU', []),
       'paymentMethod': new FormControl(0,[]),
-      'priceOffer': new FormControl({value: this.paymentMethodType.repayment, disabled: true}),
+      'priceOffer': new FormControl({value: this.paymentMethodType.cash, disabled: true}),
       'appointment': new FormControl(this.defaultDate.getTime().toString(), []),
       'aboutUs': new FormControl('FACEBOOK', [])
     });
@@ -131,7 +131,7 @@ export class ClientPfDetailComponent implements OnInit {
     this.saveClientPF.clientNo = this.noOfClients + 1;
     this.saveClientPF.phone = formModel.phone;
     this.saveClientPF.tested = formModel.tested;
-    this.saveClientPF.paymentMethod = new PaymentMethod(this.totalPrice,0,0,0,formModel.paymentMethod);
+    this.saveClientPF.paymentMethod = new PaymentMethod(this.totalPrice,0,formModel.paymentMethod,0,0);
     this.saveClientPF.aboutUs = this.selectedOtherName !== '' ? this.selectedOtherName : formModel.aboutUs;
     this.saveClientPF.priceOffer = this.totalPrice === null ? '0' : this.totalPrice.toString();
     this.saveClientPF.priceOfferCash = this.totalPrice === null ? '0' : this.totalPrice.toString();

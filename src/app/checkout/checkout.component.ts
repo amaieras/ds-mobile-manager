@@ -5,10 +5,13 @@ import {ClientPF} from "../model/ClientPF";
 import {ClientGSM} from "../model/ClientGSM";
 import {PaymentMethod} from "../model/PaymentMethod";
 import {RepairPFDetailService} from "../repairs/repairPF/repair-pf-detail.service";
-import {Message, SelectItem} from "primeng/api";
+import {Message} from "primeng/api";
 import {RepairGSMDetailService} from "../repairs/repairGSM/repair-gsm-detail.service";
 import {UtilService} from "../utils/util.service";
 import {PhoneListService} from "../clients/clientPF/phone-list/phone-list.service";
+import {FormControl} from "@angular/forms";
+import {Observable} from "rxjs/Observable";
+import "rxjs/add/observable/forkJoin";
 
 @Component({
   selector: 'checkout',
@@ -44,36 +47,26 @@ export class CheckoutComponent implements OnInit {
   selectedModel = "";
   selectedBrand = "";
 
-  types: SelectItem[];
-  clientType: string;
-
-  pf = true;
-  gsm = true;
+  shops = new FormControl();
+  shopList: any = [{key: 'shop1', value: 'Shop 1 - Galeria 1 (PF)'}, {key: 'shop2', value: 'Refurbish center (GSM)'}];
+  selectedShop = ['shop1', 'shop2'];
 
   constructor(private _checkoutService: CheckoutService, private cdr: ChangeDetectorRef,
               private _repairPFService: RepairPFDetailService, private _repairGSMService: RepairGSMDetailService,
               private _utilService: UtilService, private _phoneListService: PhoneListService) {
     this.currDate = new Date();
-    this.types = [
-      {label: 'PF', value: 'pf', icon: ''},
-      {label: 'GSM', value: 'gsm', icon: ''},
-    ]
   }
   ngOnInit() {
     this.clientPF.paymentMethod = new PaymentMethod(0,0,0,0,0);
     this.clientGSM.paymentMethod = new PaymentMethod(0,0,0,0,0);
     this.testingValues = [{label: 'DA', value: 'DA'},{label: 'NU', value: 'NU'}];
     this.methodsOfPayment = [{label: 'Nu', value: 'nu'},{label: 'Cont Curent', value: 'cont'},{label: 'Ramburs', value: 'ramburs'}];
-    this.getTotalClientsPerDay(new Date());
-    this.getTotalIsRepairedPerDay(new Date());
-    this.getTotalIsRemainingPerDay(new Date());
-    this.getTotalIsRemaining(new Date());
-    this.getTotalReceipts(new Date());
 
-
+    this.getCheckoutForDate(new Date());
     this.initBrandModelList();
 
   }
+
   getCheckoutForDate(event) {
     this.currDate = event;
     this.getTotalClientsPerDay(event);
@@ -83,15 +76,83 @@ export class CheckoutComponent implements OnInit {
     this.getTotalReceipts(event);
   }
 
+  getCheckoutForShop() {
+      this.getTotalClientsPerDay(this.currDate);
+      this.getTotalIsRepairedPerDay(this.currDate);
+      this.getTotalIsRemainingPerDay(this.currDate);
+      this.getTotalIsRemaining(this.currDate);
+      this.getTotalReceipts(this.currDate);
+  }
 
+
+  /**
+   * Adds to the total sum also the advance payments made in the same selected date.
+   * We need 2 filters on added and delivered date.
+   * @param event
+   */
   getTotalReceipts(event) {
-    let clientPFIsRepaired;
-    let clientGSMIsRepaired;
-    this._checkoutService.getClientsPFCurrDay().subscribe(pf => {
-      this._checkoutService.getClientsGSMCurrDay().subscribe(gsm => {
+    let totalCash = 0;
+    let totalCard = 0;
+    let total = 0;
+    const pfClients =  this._checkoutService.getClientsPFCurrDay();
+    const gsmClients = this._checkoutService.getClientsGSMCurrDay();
+    if (this.selectedShop.length === 1) {
+      if (this.selectedShop[0] === 'shop1') {
+        pfClients.subscribe(pf => {
+          pf.filter(client => {
+              const clientDate = new Date(+client.addedDate);
+              return clientDate.toDateString() === event.toDateString();
+          }).forEach(c => {
+              totalCash = +totalCash + +c.paymentMethod._advance;
+              total = total + +c.paymentMethod._advance ;
+          });
+          pf.filter(client => {
+              const clientDate = new Date(+client.deliveredDate);
+              return clientDate.toDateString() === event.toDateString() && client.isPayed;
+          }).forEach(c => {
+            totalCash = +totalCash + +c.paymentMethod._cash + +c.paymentMethod._repayment;
+            totalCard = totalCard + +c.paymentMethod._card + +c.paymentMethod._collector;
+            total = total + +c.paymentMethod._cash + +c.paymentMethod._card + +c.paymentMethod._repayment + +c.paymentMethod._collector;
+          });
+          this.totalCash = totalCash || 0;
+          this.totalCard = totalCard || 0;
+
+          this.total = total || 0;
+        })
+      }
+      else if (this.selectedShop[0] === 'shop2') {
+        gsmClients.subscribe(gsm => {
+          gsm.filter(client => {
+            const clientDate = new Date(+client.addedDate);
+            return clientDate.toDateString() === event.toDateString();
+          }).forEach(c => {
+            totalCash = +totalCash + +c.paymentMethod._advance;
+            total = total + +c.paymentMethod._advance ;
+          });
+          gsm.filter(client => {
+            const clientDate = new Date(+client.deliveredDate);
+            return clientDate.toDateString() === event.toDateString() && client.isPayed;
+          }).forEach(c => {
+            totalCash = +totalCash + +c.paymentMethod._cash + +c.paymentMethod._repayment;
+            totalCard = totalCard + +c.paymentMethod._card + +c.paymentMethod._collector;
+            total = total + +c.paymentMethod._cash + +c.paymentMethod._card + +c.paymentMethod._repayment + +c.paymentMethod._collector;
+          });
+          this.totalCash = totalCash || 0;
+          this.totalCard = totalCard || 0;
+
+          this.total = total || 0;
+        })
+      }
+    }
+    else if (this.selectedShop.length > 1) {
+      pfClients.subscribe(pf => {
+        gsmClients.subscribe(gsm => {
           let totalCash = 0;
           let totalCard = 0;
           let total = 0;
+
+          let clientPFIsRepaired;
+          let clientGSMIsRepaired;
           clientPFIsRepaired = pf.filter(function (client) {
             const clientDate = new Date(+client.addedDate);
             return clientDate.toDateString() === event.toDateString();
@@ -133,122 +194,365 @@ export class CheckoutComponent implements OnInit {
           this.totalCard = totalCard || 0;
 
           this.total = total || 0;
-      });
-    });
+        })
+      })
+      // pfClients.merge(gsmClients).subscribe(clients => {
+      //   clients.filter(client => {
+      //     const clientDate = new Date(+client.addedDate);
+      //     return clientDate.toDateString() === event.toDateString();
+      //   }).forEach(c => {
+      //     totalCash = +totalCash + +c.paymentMethod._advance;
+      //     total = total + +c.paymentMethod._advance ;
+      //   });
+      //   clients.filter(client => {
+      //     const clientDate = new Date(+client.deliveredDate);
+      //     return clientDate.toDateString() === event.toDateString() && client.isPayed;
+      //   }).forEach(c => {
+      //     totalCash = +totalCash + +c.paymentMethod._cash + +c.paymentMethod._repayment;
+      //     totalCard = totalCard + +c.paymentMethod._card + +c.paymentMethod._collector;
+      //     total = total + +c.paymentMethod._cash + +c.paymentMethod._card + +c.paymentMethod._repayment + +c.paymentMethod._collector;
+      //   });
+      //   this.totalCash = totalCash || 0;
+      //   this.totalCard = totalCard || 0;
+      //
+      //   this.total = total || 0;
+      // })
+    }
+
+    else {
+      this.totalCash = 0;
+      this.totalCard = 0;
+
+      this.total = 0;
+    }
   }
 
+  /**
+   * Counts the number of clients added in selected date and for the selected shop/s
+   * @param event
+   */
   getTotalClientsPerDay(event) {
-    let clientPFPerDay;
-    let clientGSMPerDay;
-    this._checkoutService.getClientsPFCurrDay().subscribe(pf => {
-      this._checkoutService.getClientsGSMCurrDay().subscribe(gsm => {
-          clientPFPerDay = pf.filter(function (client) {
+    const pfClients =  this._checkoutService.getClientsPFCurrDay();
+    const gsmClients = this._checkoutService.getClientsGSMCurrDay();
+
+    if (this.selectedShop.length === 1) {
+      if (this.selectedShop[0] === 'shop1') {
+        pfClients.subscribe(pf => {
+          this.totalClientsPerDay = pf.filter(function (client) {
             const clientDate = new Date(+client.addedDate);
             return clientDate.toDateString() === event.toDateString();
-          });
-          clientGSMPerDay = gsm.filter(function (client) {
+          }).length;
+        })
+      }
+      else if (this.selectedShop[0] === 'shop2') {
+        gsmClients.subscribe(gsm => {
+          this.totalClientsPerDay = gsm.filter(function (client) {
             const clientDate = new Date(+client.addedDate);
             return clientDate.toDateString() === event.toDateString();
-          });
-          this.totalClientsPerDay = clientPFPerDay.length + clientGSMPerDay.length;
-        });
-      });
+          }).length;
+        })
+      }
+    }
+    else if (this.selectedShop.length > 1) {
+      //TODO remove nested subscribe - when using merge the total amount is incremented for every client add/change
+      pfClients.subscribe(pf => {
+        gsmClients.subscribe(gsm => {
+          this.totalClientsPerDay = 0;
+          let totalPF = 0;
+          let totalGSM = 0;
+          totalPF = pf.filter(client => {
+            const clientDate = new Date(+client.addedDate);
+            return clientDate.toDateString() === event.toDateString();
+          }).length;
+
+          totalGSM = gsm.filter(client => {
+            const clientDate = new Date(+client.addedDate);
+            return clientDate.toDateString() === event.toDateString();
+          }).length;
+
+          this.totalClientsPerDay = totalPF + totalGSM;
+        })
+      })
+      // pfClients.merge(gsmClients).subscribe(clients => {
+      //   this.totalClientsPerDay += clients.filter(client => {
+      //       const clientDate = new Date(+client.addedDate);
+      //       return clientDate.toDateString() === event.toDateString();
+      //     }).length;
+      //   });
+    }
+    else {
+      this.totalClientsPerDay = 0;
+    }
   }
 
-
+  /**
+   * Counts the number of clients that have finished repairs and payed on the selected date and for the selected shop
+   * @param event
+   */
   getTotalIsRepairedPerDay(event) {
-    let clientPFIsRepairedPerDay;
-    let clientGSMIsRepairedPerDay;
-    this._checkoutService.getClientsPFCurrDay().subscribe(pf => {
-      this._checkoutService.getClientsGSMCurrDay().subscribe(gsm => {
-          clientPFIsRepairedPerDay = pf.filter(function (client) {
+    const pfClients =  this._checkoutService.getClientsPFCurrDay();
+    const gsmClients = this._checkoutService.getClientsGSMCurrDay();
+    if (this.selectedShop.length === 1) {
+      if (this.selectedShop[0] === 'shop1') {
+        pfClients.subscribe(pf => {
+          this.totalIsRepairedPerDay = pf.filter(client => {
             const clientDate = new Date(+client.deliveredDate);
             return clientDate.toDateString() === event.toDateString()  && client.isPayed;
           }).length;
-          clientGSMIsRepairedPerDay = gsm.filter(function (client) {
+        })
+      }
+      else if (this.selectedShop[0] === 'shop2') {
+        gsmClients.subscribe(gsm => {
+          this.totalIsRepairedPerDay = gsm.filter(client => {
             const clientDate = new Date(+client.deliveredDate);
             return clientDate.toDateString() === event.toDateString()  && client.isPayed;
           }).length;
-          this.totalIsRepairedPerDay = clientPFIsRepairedPerDay + clientGSMIsRepairedPerDay ;
-      });
-    });
+        })
+      }
+    }
+    else if(this.selectedShop.length > 1) {
+      this.totalIsRepairedPerDay = 0;
+      let totalPF = 0;
+      let totalGSM = 0;
+      pfClients.subscribe(pf => {
+        gsmClients.subscribe(gsm => {
+          totalPF = pf.filter(client => {
+                const clientDate = new Date(+client.deliveredDate);
+                return clientDate.toDateString() === event.toDateString() && client.isPayed;
+              }).length;
+          totalGSM = gsm.filter(client => {
+                const clientDate = new Date(+client.deliveredDate);
+                return clientDate.toDateString() === event.toDateString() && client.isPayed;
+              }).length;
+
+            this.totalIsRepairedPerDay = totalPF + totalGSM;
+        })
+      })
+      // pfClients.merge(gsmClients).subscribe(clients => {
+      //   this.totalIsRepairedPerDay += clients.filter(function (client) {
+      //     const clientDate = new Date(+client.deliveredDate);
+      //     return clientDate.toDateString() === event.toDateString() && client.isPayed;
+      //   }).length;
+      // })
+    }
+    else {
+      this.totalIsRepairedPerDay = 0;
+    }
+
   }
 
+  /**
+   * Counts the number of clients that were introduced on the selected date and have not payed(repair is not finished)
+   * @param event
+   */
   getTotalIsRemainingPerDay(event) {
-    let clientPFIsRemainingPerDay;
-    let clientGSMIsRemainingPerDay;
-    this._checkoutService.getClientsPFCurrDay().subscribe(pf => {
-      this._checkoutService.getClientsGSMCurrDay().subscribe(gsm => {
-          clientPFIsRemainingPerDay = pf.filter(function (client) {
+    const pfClients =  this._checkoutService.getClientsPFCurrDay();
+    const gsmClients = this._checkoutService.getClientsGSMCurrDay();
+    if (this.selectedShop.length === 1) {
+      if (this.selectedShop[0] === 'shop1') {
+        pfClients.subscribe(pf => {
+          this.totalIsRemainingPerDay = pf.filter(client => {
             const clientDate = new Date(+client.addedDate);
             return clientDate.toDateString() === event.toDateString()  && !client.isPayed;
           }).length;
-          clientGSMIsRemainingPerDay = gsm.filter(function (client) {
+        })
+      }
+      else if (this.selectedShop[0] === 'shop2') {
+        gsmClients.subscribe(gsm => {
+          this.totalIsRemainingPerDay = gsm.filter(client => {
             const clientDate = new Date(+client.addedDate);
             return clientDate.toDateString() === event.toDateString()  && !client.isPayed;
           }).length;
-          this.totalIsRemainingPerDay = clientPFIsRemainingPerDay + clientGSMIsRemainingPerDay ;
-      });
-    });
+        })
+      }
+    }
+    else if (this.selectedShop.length > 1) {
+      let totalPF = 0;
+      let totalGSM = 0;
+      pfClients.subscribe(pf => {
+        gsmClients.subscribe(gsm => {
+          totalPF = pf.filter(client => {
+                const clientDate = new Date(+client.addedDate);
+                return clientDate.toDateString() === event.toDateString() && !client.isPayed;
+              }).length;
+          totalGSM = gsm.filter(client => {
+            const clientDate = new Date(+client.addedDate);
+            return clientDate.toDateString() === event.toDateString() && !client.isPayed;
+          }).length;
+
+          this.totalIsRemainingPerDay = totalPF + totalGSM;
+        })
+      })
+      // this.totalIsRemainingPerDay = 0;
+      // pfClients.merge(gsmClients).subscribe(clients => {
+      //   this.totalIsRemainingPerDay += clients.filter(function (client) {
+      //     const clientDate = new Date(+client.addedDate);
+      //     return clientDate.toDateString() === event.toDateString() && !client.isPayed;
+      //   }).length;
+      // })
+    }
+    else {
+      this.totalIsRemainingPerDay = 0;
+    }
   }
 
+  /**
+   * Counts the number of clients that need to pay/repairs need to be done
+   * @param event
+   */
   getTotalIsRemaining(event) {
-    let clientPFIsRemaining;
-    let clientGSMIsRemaining;
-    this._checkoutService.getClientsPFCurrDay().subscribe(pf => {
-      this._checkoutService.getClientsGSMCurrDay().subscribe(gsm => {
-          clientPFIsRemaining = pf.filter(function (client) {
+    const pfClients =  this._checkoutService.getClientsPFCurrDay();
+    const gsmClients = this._checkoutService.getClientsGSMCurrDay();
+    if (this.selectedShop.length === 1) {
+      if (this.selectedShop[0] === 'shop1') {
+        pfClients.subscribe(pf => {
+          this.totalIsRemaining = pf.filter(client => {
             return !client.isPayed;
           }).length;
-          clientGSMIsRemaining = gsm.filter(function (client) {
+        })
+      }
+      else if (this.selectedShop[0] === 'shop2') {
+        gsmClients.subscribe(gsm => {
+          this.totalIsRemaining = gsm.filter(client => {
             return !client.isPayed;
           }).length;
-          this.totalIsRemaining = clientPFIsRemaining + clientGSMIsRemaining;
-        });
-    });
+        })
+      }
+    }
+    else if(this.selectedShop.length > 1) {
+      this.totalIsRemaining = 0;
+      let totalPF = 0;
+      let totalGSM = 0;
+      pfClients.subscribe(pf => {
+        gsmClients.subscribe(gsm => {
+          totalPF = pf.filter(client => {
+                return !client.isPayed;
+              }).length;
+          totalGSM = gsm.filter(client => {
+            return !client.isPayed;
+          }).length;
+          this.totalIsRemaining = totalPF + totalGSM;
+
+        })
+      })
+      // pfClients.merge(gsmClients).subscribe(clients => {
+      //   this.totalIsRemaining += clients.filter(client => {
+      //     return !client.isPayed;
+      //   }).length;
+      // })
+    }
+  else {
+      this.totalIsRemaining = 0;
+    }
   }
 
   addedClientsByDate(showType) {
     const that = this;
+    this.clientsPFPerDay = [];
+    this.clientsGSMPerDay = [];
     this._checkoutService.getClientsPFCurrDay().subscribe(pf => {
       this._checkoutService.getClientsGSMCurrDay().subscribe(gsm => {
         if(showType === 'totalAddedPerDay') {
-          this.clientsPFPerDay = pf.filter(function (client) {
-            const clientDate = new Date(+client.addedDate);
-            return clientDate.toDateString() === that.currDate.toDateString();
-          });
-          this.clientsGSMPerDay = gsm.filter(function (client) {
-            const clientDate = new Date(+client.addedDate);
-            return clientDate.toDateString() === that.currDate.toDateString();
-          });
+          if (this.selectedShop.length === 1) {
+            if (this.selectedShop[0] === 'shop1') {
+              this.clientsPFPerDay = pf.filter(client => {
+                const clientDate = new Date(+client.addedDate);
+                return clientDate.toDateString() === that.currDate.toDateString();
+              });
+            }
+            else if (this.selectedShop[0] === 'shop2') {
+              this.clientsGSMPerDay = gsm.filter(client => {
+                const clientDate = new Date(+client.addedDate);
+                return clientDate.toDateString() === that.currDate.toDateString();
+              });
+            }
+          }
+          else {
+            this.clientsPFPerDay = pf.filter(client => {
+              const clientDate = new Date(+client.addedDate);
+              return clientDate.toDateString() === that.currDate.toDateString();
+            });
+            this.clientsGSMPerDay = gsm.filter(client => {
+              const clientDate = new Date(+client.addedDate);
+              return clientDate.toDateString() === that.currDate.toDateString();
+            });
+          }
+
+
         }
         else if(showType === 'totalMoneyPerDay') {
-          this.clientsPFPerDay = pf.filter(function (client) {
-            const clientDate = new Date(+client.deliveredDate);
-            return clientDate.toDateString() === that.currDate.toDateString() && client.isPayed;
-          });
-          this.clientsGSMPerDay = gsm.filter(function (client) {
-            const clientDate = new Date(+client.deliveredDate);
-            return clientDate.toDateString() === that.currDate.toDateString()  && client.isPayed;
-          });
+          if (this.selectedShop.length === 1) {
+            if (this.selectedShop[0] === 'shop1') {
+              this.clientsPFPerDay = pf.filter(client => {
+                const clientDate = new Date(+client.deliveredDate);
+                return clientDate.toDateString() === that.currDate.toDateString() && client.isPayed;
+              });
+            }
+            else if (this.selectedShop[0] === 'shop2')  {
+              this.clientsGSMPerDay = gsm.filter(client => {
+                const clientDate = new Date(+client.deliveredDate);
+                return clientDate.toDateString() === that.currDate.toDateString()  && client.isPayed;
+              });
+            }
+          }
+          else {
+            this.clientsPFPerDay = pf.filter(client => {
+              const clientDate = new Date(+client.deliveredDate);
+              return clientDate.toDateString() === that.currDate.toDateString() && client.isPayed;
+            });
+            this.clientsGSMPerDay = gsm.filter(client => {
+              const clientDate = new Date(+client.deliveredDate);
+              return clientDate.toDateString() === that.currDate.toDateString()  && client.isPayed;
+            });
+          }
         }
         else if(showType === 'remainingRepairsPerDay') {
-          this.clientsPFPerDay = pf.filter(function (client) {
-            const clientDate = new Date(+client.addedDate);
-            return clientDate.toDateString() === that.currDate.toDateString()  && !client.isPayed;
-          });
-          this.clientsGSMPerDay = gsm.filter(function (client) {
-            const clientDate = new Date(+client.addedDate);
-            return clientDate.toDateString() === that.currDate.toDateString()  && !client.isPayed;
-          });
+          if (this.selectedShop.length === 1) {
+            if (this.selectedShop[0] === 'shop1') {
+              this.clientsPFPerDay = pf.filter(client => {
+                const clientDate = new Date(+client.addedDate);
+                return clientDate.toDateString() === that.currDate.toDateString()  && !client.isPayed;
+              });
+            }
+            else if (this.selectedShop[0] === 'shop2')  {
+              this.clientsGSMPerDay = gsm.filter(client => {
+                const clientDate = new Date(+client.addedDate);
+                return clientDate.toDateString() === that.currDate.toDateString()  && !client.isPayed;
+              });
+            }
+          }
+          else {
+            this.clientsPFPerDay = pf.filter(client => {
+              const clientDate = new Date(+client.addedDate);
+              return clientDate.toDateString() === that.currDate.toDateString()  && !client.isPayed;
+            });
+            this.clientsGSMPerDay = gsm.filter(client => {
+              const clientDate = new Date(+client.addedDate);
+              return clientDate.toDateString() === that.currDate.toDateString()  && !client.isPayed;
+            });
+          }
         }
         else if(showType === 'remainingRepairs') {
-          this.clientsPFPerDay = pf.filter(function (client) {
-            return !client.isPayed;
-          });
-          this.clientsGSMPerDay = gsm.filter(function (client) {
-            return !client.isPayed;
-          });
+          if (this.selectedShop.length === 1) {
+            if (this.selectedShop[0] === 'shop1') {
+              this.clientsPFPerDay = pf.filter(client => {
+                return !client.isPayed;
+              });
+            }
+            else if (this.selectedShop[0] === 'shop2')  {
+              this.clientsGSMPerDay = gsm.filter(client => {
+                return !client.isPayed;
+              });
+            }
+          }
+          else {
+            this.clientsPFPerDay = pf.filter(client => {
+              return !client.isPayed;
+            });
+            this.clientsGSMPerDay = gsm.filter(client => {
+              return !client.isPayed;
+            });
+          }
         }
       });
     });
@@ -283,10 +587,12 @@ export class CheckoutComponent implements OnInit {
   savePF() {
     this.updatePFField(this.clientPF);
     this.displayDialogPF = false;
+    this.getCheckoutForShop();
   }
   saveGSM() {
     this.updateGSMField(this.clientGSM);
     this.displayDialogGSM = false;
+    this.getCheckoutForShop();
   }
   cancel() {
     this.displayDialogPF = false;

@@ -5,6 +5,14 @@
       <p-multiSelect id="client-type" [options]="clientTypes" [(ngModel)]="selectedClientTypes" [panelStyle]="{minWidth:'12em'}"></p-multiSelect>
     </div>
     <div class="col-md-5">
+      <mat-form-field>
+        <mat-select placeholder="Alege clentul GSM"
+                    [formControl]="clientsGSM" multiple >
+          <mat-option *ngFor="let gsm of clientsGSMList" [value]="gsm.name">{{gsm.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-md-5">
       <label for="problem" style="display: block">Solicitare/Problema</label>
       <p-multiSelect id="problem" [options]="problemsList" [(ngModel)]="selectedProblems" [panelStyle]="{minWidth:'12em'}">
         <ng-template let-problem pTemplate="item">
