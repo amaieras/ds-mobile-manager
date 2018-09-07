@@ -11,7 +11,9 @@ import { ReportsFilterComponent } from './reports-filter/reports-filter.componen
 import {ReportTypeListComponent} from "./report-type-list/report-type-list.component";
 import {RouterModule} from "@angular/router";
 import {ReportTypeListService} from "./report-type-list/report-type-list.service";
-import {MatSelectModule} from "@angular/material";
+import {MatAutocompleteModule, MatIconModule, MatInputModule, MatSelectModule, MatTabsModule} from "@angular/material";
+import {FuseSharedModule} from "../../@fuse/shared.module";
+import {FuseSidebarModule, FuseWidgetModule} from "../../@fuse/components";
 
 @NgModule({
   imports: [
@@ -25,8 +27,18 @@ import {MatSelectModule} from "@angular/material";
     MultiSelectModule,
     CalendarModule,
     CheckboxModule,
+    ReactiveFormsModule,
+
+
     MatSelectModule,
-    ReactiveFormsModule
+    MatAutocompleteModule,
+    MatInputModule,
+    MatIconModule,
+    MatTabsModule,
+
+    FuseSharedModule,
+    FuseSidebarModule,
+    FuseWidgetModule
   ],
   declarations: [ReportsShowComponent, ReportTypeListComponent, ReportsFilterComponent],
   providers: [ReportService, ReportTypeListService]

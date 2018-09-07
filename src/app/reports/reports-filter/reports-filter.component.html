@@ -5,14 +5,6 @@
       <p-multiSelect id="client-type" [options]="clientTypes" [(ngModel)]="selectedClientTypes" [panelStyle]="{minWidth:'12em'}"></p-multiSelect>
     </div>
     <div class="col-md-5">
-      <mat-form-field>
-        <mat-select placeholder="Alege clentul GSM"
-                    [formControl]="clientsGSM" multiple >
-          <mat-option *ngFor="let gsm of clientsGSMList" [value]="gsm.name">{{gsm.name}}</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div class="col-md-5">
       <label for="problem" style="display: block">Solicitare/Problema</label>
       <p-multiSelect id="problem" [options]="problemsList" [(ngModel)]="selectedProblems" [panelStyle]="{minWidth:'12em'}">
         <ng-template let-problem pTemplate="item">
@@ -21,6 +13,14 @@
           </div>
         </ng-template>
       </p-multiSelect>
+    </div>
+    <div class="col-md-5">
+      <mat-form-field>
+        <mat-select placeholder="Alege clentul GSM"
+                    [formControl]="clientsGSM" [(ngModel)]="selectedGSMClients" multiple >
+          <mat-option *ngFor="let gsm of clientsGSMList" [value]="gsm.name">{{gsm.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
     <div class="col-md-5">
       <label for="phone-brand" style="display: block">Brand</label>
@@ -71,73 +71,222 @@
     </div>
   </div>
 </div>
-<div class="row filter-spacer">
-  <amexio-card-pane [enableFooter]="false">
-    <amexio-pane-body>
-      <div class="card">
-        <div class="card-block">
-          <div class="row">
-            <div class="col-lg-3">
-              <amexio-datapoints [west]="true" [center]="true" [east]="true" [south]="true" [backgroundColor]="'#4CAF50'" [fontColor]="'#ffffff'">
-                <amexio-west [contentalign]="'center'">
-                  <amexio-image [imageClass]="'fa fa-globe fa-4x'"></amexio-image>
-                </amexio-west>
-                <amexio-center [contentalign]="'right'">
-                  <amexio-datapoints [north]="true" [center]="true" [south]="true">
-                    <amexio-north [cClass]="'datapoint-north'">
-                      <div class="data-counts">
-                        {{report._piecesNo}}
-                      </div>
-                    </amexio-north>
-                    <amexio-center [cClass]="'datapoint-center'">
-                      Numar bucati
-                    </amexio-center>
-                  </amexio-datapoints>
-                </amexio-center>
-              </amexio-datapoints>
-            </div>
-            <div class="col-lg-3">
-              <amexio-datapoints [west]="true" [center]="true" [east]="true" [south]="true" [backgroundColor]="'#FF9800'" [fontColor]="'#ffffff'">
-                <amexio-west [contentalign]="'center'">
-                  <amexio-image [imageClass]="'fa fa-money fa-4x'"></amexio-image>
-                </amexio-west>
-                <amexio-center [contentalign]="'right'">
-                  <amexio-datapoints [north]="true" [center]="true" [south]="true">
-                    <amexio-north [cClass]="'datapoint-north'">
-                      <div class="data-counts">
-                        {{report._totalIn}} RON
-                      </div>
-                    </amexio-north>
-                    <amexio-center [cClass]="'datapoint-center'">
-                      Total incasari
-                    </amexio-center>
-                  </amexio-datapoints>
-                </amexio-center>
-              </amexio-datapoints>
-            </div>
-            <div class="col-lg-3">
-              <amexio-datapoints [west]="true" [center]="true" [east]="true" [south]="true" [backgroundColor]="'#00BCD4'" [fontColor]="'#ffffff'">
-                <amexio-west [contentalign]="'center'">
-                  <amexio-image [imageClass]="'fa fa-globe fa-4x'"></amexio-image>
-                </amexio-west>
-                <amexio-center [contentalign]="'right'">
-                  <amexio-datapoints [north]="true" [center]="true" [south]="true">
-                    <amexio-north [cClass]="'datapoint-north'">
-                      <div class="data-counts">
-                        {{report._noOfClients}}
-                      </div>
-                    </amexio-north>
-                    <amexio-center [cClass]="'datapoint-center'">
-                      Numar clienti
-                    </amexio-center>
-                  </amexio-datapoints>
-                </amexio-center>
-              </amexio-datapoints>
-            </div>
-          </div>
-        </div>
-      </div>
-    </amexio-pane-body>
-  </amexio-card-pane>
-</div>
+<!--<div class="row filter-spacer">-->
+  <!--<amexio-card-pane [enableFooter]="false">-->
+    <!--<amexio-pane-body>-->
+      <!--<div class="card">-->
+        <!--<div class="card-block">-->
+          <!--<div class="row">-->
+            <!--<div class="col-lg-3">-->
+              <!--<amexio-datapoints [west]="true" [center]="true" [east]="true" [south]="true" [backgroundColor]="'#4CAF50'" [fontColor]="'#ffffff'">-->
+                <!--<amexio-west [contentalign]="'center'">-->
+                  <!--<amexio-image [imageClass]="'fa fa-globe fa-4x'"></amexio-image>-->
+                <!--</amexio-west>-->
+                <!--<amexio-center [contentalign]="'right'">-->
+                  <!--<amexio-datapoints [north]="true" [center]="true" [south]="true">-->
+                    <!--<amexio-north [cClass]="'datapoint-north'">-->
+                      <!--<div class="data-counts">-->
+                        <!--{{report._piecesNo}}-->
+                      <!--</div>-->
+                    <!--</amexio-north>-->
+                    <!--<amexio-center [cClass]="'datapoint-center'">-->
+                      <!--Numar bucati-->
+                    <!--</amexio-center>-->
+                  <!--</amexio-datapoints>-->
+                <!--</amexio-center>-->
+              <!--</amexio-datapoints>-->
+            <!--</div>-->
+            <!--<div class="col-lg-3">-->
+              <!--<amexio-datapoints [west]="true" [center]="true" [east]="true" [south]="true" [backgroundColor]="'#FF9800'" [fontColor]="'#ffffff'">-->
+                <!--<amexio-west [contentalign]="'center'">-->
+                  <!--<amexio-image [imageClass]="'fa fa-money fa-4x'"></amexio-image>-->
+                <!--</amexio-west>-->
+                <!--<amexio-center [contentalign]="'right'">-->
+                  <!--<amexio-datapoints [north]="true" [center]="true" [south]="true">-->
+                    <!--<amexio-north [cClass]="'datapoint-north'">-->
+                      <!--<div class="data-counts">-->
+                        <!--{{report._totalIn}} RON-->
+                      <!--</div>-->
+                    <!--</amexio-north>-->
+                    <!--<amexio-center [cClass]="'datapoint-center'">-->
+                      <!--Total incasari-->
+                    <!--</amexio-center>-->
+                  <!--</amexio-datapoints>-->
+                <!--</amexio-center>-->
+              <!--</amexio-datapoints>-->
+            <!--</div>-->
+            <!--<div class="col-lg-3">-->
+              <!--<amexio-datapoints [west]="true" [center]="true" [east]="true" [south]="true" [backgroundColor]="'#00BCD4'" [fontColor]="'#ffffff'">-->
+                <!--<amexio-west [contentalign]="'center'">-->
+                  <!--<amexio-image [imageClass]="'fa fa-globe fa-4x'"></amexio-image>-->
+                <!--</amexio-west>-->
+                <!--<amexio-center [contentalign]="'right'">-->
+                  <!--<amexio-datapoints [north]="true" [center]="true" [south]="true">-->
+                    <!--<amexio-north [cClass]="'datapoint-north'">-->
+                      <!--<div class="data-counts">-->
+                        <!--{{report._noOfClients}}-->
+                      <!--</div>-->
+                    <!--</amexio-north>-->
+                    <!--<amexio-center [cClass]="'datapoint-center'">-->
+                      <!--Numar clienti-->
+                    <!--</amexio-center>-->
+                  <!--</amexio-datapoints>-->
+                <!--</amexio-center>-->
+              <!--</amexio-datapoints>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</amexio-pane-body>-->
+  <!--</amexio-card-pane>-->
+<!--</div>-->
 
+<div class="content">
+
+  <mat-tab-group dynamicHeight>
+
+    <mat-tab label="Informatii filtrate">
+
+      <div class="widget-group grey-100-bg p-12" fxLayout="row wrap" fxFlex="100" *fuseIfOnDom
+           [@animateStagger]="{value:'50'}">
+          <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                       fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="25" style="margin-left: 13%;">
+
+            <!-- Front -->
+            <div class="fuse-widget-front mat-white-bg mat-elevation-z2">
+              <div class="pl-16 pr-8 py-16 h-52" fxLayout="row"
+                   fxLayoutAlign="space-between center">
+                <div class="h3">Numar clienti</div>
+
+                <button mat-icon-button fuseWidgetToggle class="fuse-widget-flip-button"
+                        aria-label="more">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+              </div>
+
+              <div class="pt-8 pb-32" fxLayout="column" fxLayoutAlign="center center">
+                <div class="light-blue-fg font-size-62 line-height-72">
+                  {{report._noOfClients}}
+                </div>
+                <!--<div class="h3 secondary-text font-weight-500">test-->
+                <!--</div>-->
+              </div>
+
+              <!--<div class="p-16 grey-50-bg border-top" fxLayout="row" fxLayoutAlign="start center">-->
+                                              <!--<span class="h4 secondary-text text-truncate">-->
+                                                  <!--test:-->
+                                              <!--</span>-->
+                <!--<span class="h4 ml-8">test</span>-->
+              <!--</div>-->
+            </div>
+            <!-- / Front -->
+
+            <!-- Back -->
+            <div class="fuse-widget-back p-16 pt-32 mat-white-bg mat-elevation-z2">
+              <button mat-icon-button fuseWidgetToggle class="fuse-widget-flip-button"
+                      aria-label="Flip widget">
+                <mat-icon class="s-16">close</mat-icon>
+              </button>
+
+              <!--<div>-->
+                <!--test-->
+              <!--</div>-->
+            </div>
+            <!-- / Back -->
+          </fuse-widget>
+        <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                     fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="25">
+
+          <!-- Front -->
+          <div class="fuse-widget-front mat-white-bg mat-elevation-z2">
+            <div class="pl-16 pr-8 py-16 h-52" fxLayout="row"
+                 fxLayoutAlign="space-between center">
+              <div class="h3">Numar piese</div>
+
+              <button mat-icon-button fuseWidgetToggle class="fuse-widget-flip-button"
+                      aria-label="more">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+            </div>
+
+            <div class="pt-8 pb-32" fxLayout="column" fxLayoutAlign="center center">
+              <div class="orange-fg font-size-62 line-height-72">
+                {{report._piecesNo}}
+              </div>
+              <!--<div class="h3 secondary-text font-weight-500">test-->
+              <!--</div>-->
+            </div>
+
+            <!--<div class="p-16 grey-50-bg border-top" fxLayout="row" fxLayoutAlign="start center">-->
+                                            <!--<span class="h4 secondary-text text-truncate">-->
+                                                <!--test:-->
+                                            <!--</span>-->
+              <!--<span class="h4 ml-8">test</span>-->
+            <!--</div>-->
+          </div>
+          <!-- / Front -->
+
+          <!-- Back -->
+          <div class="fuse-widget-back p-16 pt-32 mat-white-bg mat-elevation-z2">
+            <button mat-icon-button fuseWidgetToggle class="fuse-widget-flip-button"
+                    aria-label="Flip widget">
+              <mat-icon class="s-16">close</mat-icon>
+            </button>
+
+            <!--<div>-->
+              <!--test-->
+            <!--</div>-->
+          </div>
+          <!-- / Back -->
+        </fuse-widget>
+        <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                     fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="25">
+
+          <!-- Front -->
+          <div class="fuse-widget-front mat-white-bg mat-elevation-z2">
+            <div class="pl-16 pr-8 py-16 h-52" fxLayout="row"
+                 fxLayoutAlign="space-between center">
+              <div class="h3">Incasari</div>
+
+              <button mat-icon-button fuseWidgetToggle class="fuse-widget-flip-button"
+                      aria-label="more">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+            </div>
+
+            <div class="pt-8 pb-32" fxLayout="column" fxLayoutAlign="center center">
+              <div class="blue-grey-fg font-size-62 line-height-72">
+                {{report._totalIn}} RON
+              </div>
+              <!--<div class="h3 secondary-text font-weight-500">-->
+                <!--{{report.clientsPF.length}}-->
+              <!--</div>-->
+            </div>
+
+            <!--<div class="p-16 grey-50-bg border-top" fxLayout="row" fxLayoutAlign="start center">-->
+                                            <!--<span class="h4 secondary-text text-truncate">-->
+                                                <!--test:-->
+                                            <!--</span>-->
+              <!--<span class="h4 ml-8">test</span>-->
+            <!--</div>-->
+          </div>
+          <!-- / Front -->
+
+          <!-- Back -->
+          <div class="fuse-widget-back p-16 pt-32 mat-white-bg mat-elevation-z2">
+            <button mat-icon-button fuseWidgetToggle class="fuse-widget-flip-button"
+                    aria-label="Flip widget">
+              <mat-icon class="s-16">close</mat-icon>
+            </button>
+
+            <!--<div>-->
+              <!--test-->
+            <!--</div>-->
+          </div>
+          <!-- / Back -->
+        </fuse-widget>
+      </div>
+  </mat-tab>
+
+  </mat-tab-group>
+</div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {SelectItem} from "primeng/api";
 import {PhoneListService} from "../../clients/clientPF/phone-list/phone-list.service";
 import {AboutUsService} from "../../clients/clientPF/phone-list/about-us/about-us.service";
@@ -7,11 +7,14 @@ import {ClientService} from 'app/clients/shared/client.service';
 import {DropdownModel} from "../../model/DropdownModel";
 import {Report} from "../../model/Report";
 import {FormControl} from '@angular/forms';
+import {fuseAnimations} from "../../../@fuse/animations";
 
 @Component({
   selector: 'app-reports-filter',
   templateUrl: './reports-filter.component.html',
-  styleUrls: ['./reports-filter.component.scss']
+  styleUrls: ['./reports-filter.component.scss'],
+  encapsulation: ViewEncapsulation.None,
+  animations   : fuseAnimations
 })
 export class ReportsFilterComponent implements OnInit {
   clientTypes: SelectItem[];
@@ -26,10 +29,12 @@ export class ReportsFilterComponent implements OnInit {
   problems: Array<{}>;
   problemsList: any = [];
   selectedProblems: any[];
-  report: Report = new Report(0,0,0);
+  report: Report = new Report(0,0,0,[],[]);
   isPayed: boolean = false;
   clientsGSM = new FormControl();
   clientsGSMList : any[] = [];
+  selectedGSMClients: any[] = [];
+
   constructor(private _phoneListService: PhoneListService, private _aboutUsService: AboutUsService,
               private _reportService: ReportService, private _clientService: ClientService) { }
 
@@ -79,6 +84,7 @@ export class ReportsFilterComponent implements OnInit {
     this._reportService.getClientsGSMList().subscribe(gsm => {
       gsm.forEach(snapshot=> {
         this.clientsGSMList.push(snapshot);
+        // this.selectedGSMClients.push(snapshot.name)
       })
       this.clientsGSMList.sort((a, b) => {
         const nameA = a.name, nameB = b.name;
@@ -99,7 +105,10 @@ export class ReportsFilterComponent implements OnInit {
     const selectedBrands = that.selectedBrands.map(item=> item.toUpperCase());
     const selectedModels = that.selectedModels.map(item=> item.toUpperCase());
     const selectedProblems = that.selectedProblems.map(item=> item.toUpperCase());
+    const selectedGSMClientList = that.selectedGSMClients.map(item => item.toUpperCase());
+    const gsmClientList = [];
     this._reportService.getClientsByType(clientType).subscribe(clients => {
+      let filterItems;
       let filteredClients = clients.filter(function (c) {
         let phoneBrands = [];
         let phoneModels = [];
@@ -119,7 +128,7 @@ export class ReportsFilterComponent implements OnInit {
         phoneModels = phoneModels.map(item=> item.toUpperCase());
         problems = problems.map(item=> item.toUpperCase());
         if (that.selectedClientTypes[0] === 'pf') {
-          return selectedAboutUs.includes(aboutUs)
+          filterItems = selectedAboutUs.includes(aboutUs)
             && selectedBrands.some(v => phoneBrands.includes(v))
             && selectedModels.some(v => phoneModels.includes(v))
             && selectedProblems.some(v => problems.includes(v))
@@ -127,14 +136,28 @@ export class ReportsFilterComponent implements OnInit {
             && clientDate <= that.rangeDates[1].getTime()
             && c.isPayed === that.isPayed;
         }
-        return selectedBrands.some(v => phoneBrands.includes(v))
-          && selectedModels.some(v => phoneModels.includes(v))
-          && selectedProblems.some(v => problems.includes(v))
-          && clientDate >= that.rangeDates[0].getTime()
-          && clientDate <= that.rangeDates[1].getTime()
-          && c.isPayed === that.isPayed;
+        else if (that.selectedClientTypes[0] === 'gsm') {
+          clients.forEach(item => {
+            gsmClientList.push(item.lastname.toUpperCase());
+          })
+          filterItems = selectedBrands.some(v => phoneBrands.includes(v))
+            && selectedModels.some(v => phoneModels.includes(v))
+            && selectedProblems.some(v => problems.includes(v))
+            && clientDate >= that.rangeDates[0].getTime()
+            && clientDate <= that.rangeDates[1].getTime()
+            && c.isPayed === that.isPayed;
+        }
+        return filterItems;
       })
-
+      if (that.selectedClientTypes[0] === 'gsm') {
+        this.report.clientGSM = filteredClients;
+        filteredClients = filteredClients.filter(item => {
+          return selectedGSMClientList.includes(item.lastname.toUpperCase());
+        })
+      }
+      else if (that.selectedClientTypes[0] === 'pf') {
+        this.report.clientsPF= filteredClients;
+      }
       this.countNoOfParts(filteredClients, that.selectedModels);
       this.countNoOfClients(filteredClients);
       this.calculateTotalIn(filteredClients);
