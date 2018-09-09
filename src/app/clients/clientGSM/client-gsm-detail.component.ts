@@ -74,7 +74,7 @@ export class ClientGSMDetailComponent implements OnInit {
       // 'email': new FormControl('', [
       //   // Validators.required
       // ]),
-      'paymentMethod': new FormControl(0,[]),
+      'advancePayment': new FormControl(0,[]),
       'priceOffer': new FormControl({value: 0, disabled: true}),
       'totalQuantity': new FormControl({value: 0, disabled: true}),
       // 'country': new FormControl('', [
@@ -112,7 +112,7 @@ export class ClientGSMDetailComponent implements OnInit {
         }
       }
     }
-    this.totalPrice = totalPrice - formModel.paymentMethod;
+    this.totalPrice = totalPrice - formModel.advancePayment;
   }
   calculateTotalQuantity() {
     this.calculateTotalPrice();
@@ -175,7 +175,7 @@ export class ClientGSMDetailComponent implements OnInit {
     this.saveClientGSM.phone = formModel.phone;
     this.saveClientGSM.city = formModel.city;
     this.saveClientGSM.firm = formModel.firm;
-    this.saveClientGSM.paymentMethod = new PaymentMethod(this.totalPrice,0,0,0,formModel.paymentMethod);
+    this.saveClientGSM.paymentMethod = new PaymentMethod(this.totalPrice,0,0,0,formModel.advancePayment);
     this.saveClientGSM.priceOffer = this.totalPrice;
     this.saveClientGSM.priceOfferCash = this.totalPrice === null ? 0 : +this.totalPrice;
     this.saveClientGSM.addedDate = new Date().getTime().toString();
@@ -242,6 +242,8 @@ export class ClientGSMDetailComponent implements OnInit {
 
   private setWarrantyInfo() {
     const dateNow = Date.now().toString();
+    const formModel = this.clientGSMForm.value;
+    const payMethod = new PaymentMethod(0, 0, formModel.advancePayment, 0, 0);
     this.saveClientGSM.phoneList.forEach(phone=> {
       let totalPricePerPhone = 0;
       phone.phoneBrand = phone.phoneBrand !== undefined && phone.phoneBrand.toLowerCase() === 'altele' ? phone.newBrand : phone.phoneBrand;
@@ -254,7 +256,7 @@ export class ClientGSMDetailComponent implements OnInit {
       })
     })
     this.warrantyGSMInfo = new WarrantyGSMInfo(dateNow, this.saveClientGSM.lastname, this.saveClientGSM.phone, this.totalPrice,
-      this.noOfClients + 1, this.saveClientGSM.phoneList);
+      this.noOfClients + 1, this.saveClientGSM.phoneList, payMethod);
      this.child.print(this.warrantyGSMInfo);
   }
 
@@ -302,9 +304,9 @@ export class ClientGSMDetailComponent implements OnInit {
   get phone() { return this.clientGSMForm.get('phone'); }
   get email() { return this.clientGSMForm.get('email'); }
   get priceOffer() { return this.clientGSMForm.get('priceOffer'); }
-  get paymentMethod() {
+  get advancePayment() {
     //noinspection TypeScriptUnresolvedFunction
-    return this.clientGSMForm.get('paymentMethod');
+    return this.clientGSMForm.get('advancePayment');
   }
   get country() { return this.clientGSMForm.get('country'); }
   get city() { return this.clientGSMForm.get('city'); }

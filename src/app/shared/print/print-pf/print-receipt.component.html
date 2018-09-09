@@ -41,7 +41,10 @@
         <td>Data predarii: <span class="input-data">{{warrantyInfo.deliveredTime | date:'dd/MM/yyyy, hh:mm a'}}</span></td>
       </tr>
       <tr>
-        <td>Preț estimativ: <span class="input-data">{{warrantyInfo.price}} RON </span></td>
+        <td>Preț estimativ:
+          <span class="input-data">{{warrantyInfo.price}} RON </span>
+          <span *ngIf="warrantyInfo.paymentMethod._advance > 0">/ {{warrantyInfo.paymentMethod._advance}} - AVANS</span>
+        </td>
         <td>Garanție:______DA__NU__</td>
       </tr>
       <tr>

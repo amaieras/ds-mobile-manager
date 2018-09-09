@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import {ClientPF} from '../../model/ClientPF';
+import {Observable} from "rxjs/Observable";
 
 
 
@@ -14,7 +15,7 @@ export class ClientPFService {
     this.partPrices = db.list('/part-price-list');
   }
 
-  public getAllClients() {
+  public getAllClients(){
     return this.clientsPF.snapshotChanges().map(arr => {
       return arr.map(snap => Object.assign(snap.payload.val(), {$key: snap.key}));
     });

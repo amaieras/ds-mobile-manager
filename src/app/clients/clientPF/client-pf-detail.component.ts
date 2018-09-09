@@ -74,13 +74,12 @@ export class ClientPfDetailComponent implements OnInit {
       ]),
       phoneList: this.fb.array([]),
       'tested': new FormControl('NU', []),
-      'paymentMethod': new FormControl(0,[]),
+      'advancePayment': new FormControl(0,[]),
       'priceOffer': new FormControl({value: this.paymentMethodType.cash, disabled: true}),
       'appointment': new FormControl(this.defaultDate.getTime().toString(), []),
       'aboutUs': new FormControl('FACEBOOK', [])
     });
     this.initForm();
-    console.log()
   }
   onSubmit(event: Event) {
     this.prepareSavePhoneList();
@@ -110,7 +109,7 @@ export class ClientPfDetailComponent implements OnInit {
         }
       }
     }
-    this.totalPrice = totalPrice - formModel.paymentMethod;
+    this.totalPrice = totalPrice - formModel.advancePayment;
   }
 
   prepareSavePhoneList() {
@@ -131,7 +130,7 @@ export class ClientPfDetailComponent implements OnInit {
     this.saveClientPF.clientNo = this.noOfClients + 1;
     this.saveClientPF.phone = formModel.phone;
     this.saveClientPF.tested = formModel.tested;
-    this.saveClientPF.paymentMethod = new PaymentMethod(this.totalPrice,0,formModel.paymentMethod,0,0);
+    this.saveClientPF.paymentMethod = new PaymentMethod(this.totalPrice,0,formModel.advancePayment,0,0);
     this.saveClientPF.aboutUs = this.selectedOtherName !== '' ? this.selectedOtherName : formModel.aboutUs;
     this.saveClientPF.priceOffer = this.totalPrice === null ? '0' : this.totalPrice.toString();
     this.saveClientPF.priceOfferCash = this.totalPrice === null ? '0' : this.totalPrice.toString();
@@ -268,7 +267,8 @@ export class ClientPfDetailComponent implements OnInit {
 
   private setWarrantyInfo() {
     const formModel = this.clientPFForm.value;
-    let dateNow = Date.now().toString()
+    let dateNow = Date.now().toString();
+    const payMethod = new PaymentMethod(0, 0, +formModel.advancePayment, 0, 0);
     for (let i = 0; i < formModel.phoneList.length; i++) {
       const phoneBrand = formModel.phoneList[i].phoneBrand.toLowerCase();
       const phoneModel = formModel.phoneList[i].phoneModel.toLowerCase();
@@ -279,7 +279,8 @@ export class ClientPfDetailComponent implements OnInit {
         formModel.phoneList[i].problems[j].problem = problemName === 'altele' ? formModel.phoneList[i].problems[j].partName : problemName;
       }
       this.warrantyInfo = new WarrantyInfo(dateNow, formModel.lastname, formModel.firstname, formModel.phone, this.totalPrice,
-        formModel.tested, formModel.aboutUs,formModel.phoneList, formModel.appointment, this.noOfClients + 1);
+        formModel.tested, formModel.aboutUs,formModel.phoneList, formModel.appointment, this.noOfClients + 1, payMethod);
+
       this.child.print(this.warrantyInfo);
     }
 
@@ -324,9 +325,9 @@ export class ClientPfDetailComponent implements OnInit {
     //noinspection TypeScriptUnresolvedFunction
     return this.clientPFForm.get('priceOffer');
   }
-  get paymentMethod() {
+  get advancePayment() {
     //noinspection TypeScriptUnresolvedFunction
-    return this.clientPFForm.get('paymentMethod');
+    return this.clientPFForm.get('advancePayment');
   }
 
   get appointment() {

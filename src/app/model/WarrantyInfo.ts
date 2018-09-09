@@ -1,4 +1,6 @@
 
+import {PaymentMethod} from "./PaymentMethod";
+
 export class WarrantyInfo {
 
   private _dateAdded: string;
@@ -11,9 +13,10 @@ export class WarrantyInfo {
   private _deliveredTime : string;
   private _phoneList: string[];
   private _noOfClients: number;
+  private _paymentMethod: PaymentMethod;
 
   constructor(dateAdded: string, lastname: string, firstname: string, phoneNumber: string, price: number,
-               tested: string, aboutUs: string, phoneList: string[], deliveredTime: string, noOfClients: number) {
+               tested: string, aboutUs: string, phoneList: string[], deliveredTime: string, noOfClients: number, paymentMethod: PaymentMethod) {
     this._dateAdded = dateAdded;
     this._lastname = lastname;
     this._firstname = firstname;
@@ -24,6 +27,7 @@ export class WarrantyInfo {
     this._deliveredTime = deliveredTime;
     this._phoneList = phoneList;
     this._noOfClients = noOfClients;
+    this._paymentMethod = paymentMethod;
   }
   get phoneList(): string[] {
     return this._phoneList;
@@ -105,4 +109,11 @@ export class WarrantyInfo {
   }
 
 
+  get paymentMethod(): PaymentMethod {
+    return this._paymentMethod;
+  }
+
+  set paymentMethod(value: PaymentMethod) {
+    this._paymentMethod = value;
+  }
 }

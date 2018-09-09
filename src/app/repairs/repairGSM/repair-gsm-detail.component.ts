@@ -257,7 +257,7 @@ export class RepairGSMDetailComponent implements OnInit{
   printGSMRepair(repairGSM) {
     this._clientGSMService.getAllClients().subscribe( client => {
         let warrantyGSMInfo = new WarrantyGSMInfo(repairGSM.addedDate, repairGSM.lastname, repairGSM.phone,
-          repairGSM.priceOffer, client.length, repairGSM.phoneList);
+          repairGSM.priceOffer, client.length, repairGSM.phoneList, repairGSM.paymentMethod);
           this.child.print(warrantyGSMInfo);
     })
   }

@@ -315,7 +315,7 @@ export class RepairPFDetailComponent implements OnInit {
   printRepair(repair) {
     this._clientPFService.getAllClients().subscribe( client => {
       let warrantyInfo = new WarrantyInfo(repair.addedDate, repair.lastname, repair.firstname, repair.phone, repair.priceOffer,
-         repair.tested, repair.aboutUs, repair.phoneList, repair.deliveredDate,  client.length);
+         repair.tested, repair.aboutUs, repair.phoneList, repair.deliveredDate,  client.length, repair['paymentMethod']);
       this.child.print(warrantyInfo);
     })
   }
