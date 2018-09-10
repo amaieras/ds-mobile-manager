@@ -63,11 +63,11 @@ export class RepairGsmDoneComponent implements OnInit{
 
   }
   onRowSelect(event) {
-    this.clientGSM = this.cloneClient(event.data);
+    this.clientGSM = RepairGsmDoneComponent.cloneClient(event.data);
     this.displayDialog = true;
     this.cdr.detectChanges();
   }
-  cloneClient(c: ClientGSM): ClientGSM {
+  static cloneClient(c: ClientGSM): ClientGSM {
     let clientGSM = new ClientGSM();
     for(let prop in c) {
       clientGSM[prop] = c[prop];
@@ -86,8 +86,12 @@ export class RepairGsmDoneComponent implements OnInit{
     const clientKey = clientGSM.$key;
     this.updateCheckedItem(clientGSM);
     delete clientGSM.$key;
-    this._repairGSMService.updateItem(clientKey, clientGSM);
-    this.successMessage(clientGSM.lastname, clientGSM.phone,'Valoare');
+    this._repairGSMService.updateItem(clientKey, clientGSM)
+      .then(item =>{
+        this.msgs = this._utilService.successUpdateMessage(clientGSM.lastname, '', clientGSM.phone,'Valoare modificata ');
+      }).catch(err => {
+        console.log('RepairGsmDoneComponent - ' + err);
+    });
   }
 
   checkPaymentIsNo(clientGSM, type) {
@@ -250,20 +254,5 @@ export class RepairGsmDoneComponent implements OnInit{
         repairGSM.priceOffer, client.length, repairGSM.phoneList, repairGSM.paymentMethod);
       this.child.print(warrantyGSMInfo);
     })
-  }
-  successMessage(lastname, phone, msg) {
-    this.msgs = [];
-    let msgAux = '';
-    if (lastname === undefined) {
-      msgAux = ' modificata pentru clientul cu numarul de telefon: ' + phone;
-    }
-    else {
-      msgAux = ' modificata pentru clientul: ' + lastname;
-    }
-    this.msgs.push({
-      severity: 'success',
-      summary: msg  + msgAux,
-      detail: 'Date modificate.'
-    });
   }
 }

@@ -77,28 +77,25 @@ export class ClientService {
       return arr.map(snap => Object.assign(snap.payload.val(), {$key: snap.key}));
     });
   }
-
-  private updateProblemPrice(key: string, value: any): void {
-    this.partPrices.update(key,{price: value} )
-  }
-
   /**
    * When the selected problem is 'Altele' this method will add new price for that problem given the selected phoneBrand + phoneModel
    * When the selected problem is not 'Altele' this method will update the price for the selected phoneBrand + phoneModel + problem
    * @param formModel
    */
-   addNewPartPrice(formModel: any) {
+   addNewPartPrice(formModel: any): any {
     this.getPartPrices().take(1).subscribe(part => {
       for (let i = 0; i < formModel.phoneList.length; i++) {
         for (let j = 0; j < formModel.phoneList[i].problems.length; j++) {
           const phoneItem = formModel.phoneList[i];
           const problemItem = formModel.phoneList[i].problems[j];
           let phoneProblem = problemItem.partName === undefined || problemItem.partName === 'Altele' ? problemItem.problem.toLowerCase() : problemItem.partName.toLowerCase();
+          //When new model need to be added for an existing brand, need to get the new model name
+          phoneItem.phoneModel = phoneItem.phoneModel === undefined ? phoneItem.newSingleModel : phoneItem.phoneModel;
           this.existingPartPrices = part.filter(item => item.phoneBrand.toLowerCase() === phoneItem.phoneBrand.toLowerCase()
             && item.phoneModel.toLowerCase() === phoneItem.phoneModel.toLowerCase()
             && item.problemId.toLowerCase() === phoneProblem);
           if (this.existingPartPrices.length > 0) {
-            this.updateProblemPrice(this.existingPartPrices[0].$key, problemItem.pricePerPart)
+            this.partPrices.update(this.existingPartPrices[0].$key,{price: problemItem.pricePerPart} )
           }
           else {
             let phoneBrand = phoneItem.phoneBrand.toLowerCase() === 'altele' ? phoneItem.newBrand.toLowerCase() : phoneItem.phoneBrand.toLowerCase();

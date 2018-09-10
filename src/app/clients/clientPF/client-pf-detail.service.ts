@@ -20,11 +20,11 @@ export class ClientPFService {
       return arr.map(snap => Object.assign(snap.payload.val(), {$key: snap.key}));
     });
   }
-  public addPFClient(clientPF: ClientPF): void {
-    this.clientsPF.push(clientPF);
+  public addPFClient(clientPF: ClientPF) {
+    return this.clientsPF.push(clientPF);
   }
-  updateItem(key: string, value: any): void {
-     this.partPrices.update(key,{price: value} )
+  updateItem(key: string, value: any) {
+     return this.partPrices.update(key,{price: value} )
   }
 
 }

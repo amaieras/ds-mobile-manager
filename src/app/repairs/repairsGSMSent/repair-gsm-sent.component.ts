@@ -86,8 +86,10 @@ export class RepairGsmSentComponent implements OnInit{
     const clientKey = clientGSM.$key;
     this.updateCheckedItem(clientGSM);
     delete clientGSM.$key;
-    this._repairGSMService.updateItem(clientKey, clientGSM);
-    this.successMessage(clientGSM.lastname, clientGSM.phone,'Valoare');
+    this._repairGSMService.updateItem(clientKey, clientGSM)
+      .then(item => {
+        this._utilService.successUpdateMessage(clientGSM.lastname, '', clientGSM.phone,'Valoare modificata ');
+      });
   }
   checkPaymentIsNo(clientGSM, type) {
     if(type === 'priceOffer') {
@@ -105,22 +107,46 @@ export class RepairGsmSentComponent implements OnInit{
   }
 
   updateCheckedItem(row) {
-    this._repairGSMService.updateItem(row.$key, {isPayed: row.isPayed});
+    this._repairGSMService.updateItem(row.$key, {isPayed: row.isPayed})
+      .then(item => {
+        this.msgs = this._utilService.successUpdateMessage(row.lastname, '', row.phone,
+          'Status reparatie modificat ');
+      }).catch(err=> {
+        console.log(err);
+    });
 
     if(row.isPayed) {
       //Delete deliveredeDate because of a bug
       //When updating for the second time the desired property, is is not updated, so I recreate it
       delete row.deliveredDate;
       let date = new Date().getTime().toString();
-      this._repairGSMService.updateItem(row.$key, {deliveredDate: date});
+      this._repairGSMService.updateItem(row.$key, {deliveredDate: date})
+        .then(item => {
+          this.msgs = this._utilService.successUpdateMessage(row.lastname, '', row.phone,
+            'Valoare  data terminare reparatie modificata ');
+        }).catch(err => {
+          console.log(err);
+      });
     }
   }
   updateRepairFinnish(row) {
-    this._repairGSMService.updateItem(row.$key, {isRepaired: row.isRepaired});
+    this._repairGSMService.updateItem(row.$key, {isRepaired: row.isRepaired})
+      .then(item => {
+        console.log('is repaired ok')
+        this.msgs = this._utilService.successUpdateMessage(row.lastname, '', row.phone,
+          'Valoare status reparatie ');
+      }).catch(err => {
+      console.log(err);
+    });
   }
   updateSentRepair(row) {
-    this._repairGSMService.updateItem(row.$key, {isSent: row.isSent});
-    this.successMessage(row.lastname, row.phone,'Valoare');
+    this._repairGSMService.updateItem(row.$key, {isSent: row.isSent})
+      .then(item => {
+        this.msgs = this._utilService.successUpdateMessage(row.lastname, '', row.phone,
+          'Valoare status colet trimis ');
+      }).catch(err => {
+        console.log(err);
+    });
 
   }
   exportTable() {
@@ -266,23 +292,8 @@ export class RepairGsmSentComponent implements OnInit{
   printGSMRepair(repairGSM) {
     this._clientGSMService.getAllClients().subscribe( client => {
       let warrantyGSMInfo = new WarrantyGSMInfo(repairGSM.addedDate, repairGSM.lastname, repairGSM.phone,
-        repairGSM.priceOffer, client.length, repairGSM.phoneList);
+        repairGSM.priceOffer, client.length, repairGSM.phoneList, repairGSM.paymentMethod);
       this.child.print(warrantyGSMInfo);
     })
-  }
-  successMessage(lastname, phone, msg) {
-    this.msgs = [];
-    let msgAux = '';
-    if (lastname === undefined) {
-      msgAux = ' modificata pentru clientul cu numarul de telefon: ' + phone;
-    }
-    else {
-      msgAux = ' modificata pentru clientul: ' + lastname;
-    }
-    this.msgs.push({
-      severity: 'success',
-      summary: msg  + msgAux,
-      detail: 'Date modificate.'
-    });
   }
 }

@@ -6,7 +6,7 @@ import {ReportService} from "../../shared/reports/report.service";
 import {ClientService} from 'app/clients/shared/client.service';
 import {DropdownModel} from "../../model/DropdownModel";
 import {Report} from "../../model/Report";
-import {FormControl} from '@angular/forms';
+import {FormControl, NgModel} from '@angular/forms';
 import {fuseAnimations} from "../../../@fuse/animations";
 
 @Component({
@@ -34,13 +34,13 @@ export class ReportsFilterComponent implements OnInit {
   clientsGSM = new FormControl();
   clientsGSMList : any[] = [];
   selectedGSMClients: any[] = [];
+  checked: boolean;
 
   constructor(private _phoneListService: PhoneListService, private _aboutUsService: AboutUsService,
               private _reportService: ReportService, private _clientService: ClientService) { }
 
   ngOnInit() {
     this.populateDropDownFilters();
-
   }
 
   private populateDropDownFilters() {
@@ -197,5 +197,19 @@ export class ReportsFilterComponent implements OnInit {
         + +fc.paymentMethod._collector + +fc.paymentMethod._repayment;
     })
     this.report.totalIn = totalPrice;
+  }
+
+  selectAll(checkAll, values) {
+    const clientGSMNames = [];
+    if(this.checked){
+      values.forEach(gsm => {
+        clientGSMNames.push(gsm.name);
+      })
+      this.selectedGSMClients = clientGSMNames;
+    }
+    else{
+      this.selectedGSMClients = [];
+      // select.update.emit([]);
+    }
   }
 }

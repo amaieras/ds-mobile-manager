@@ -61,11 +61,11 @@ export class RepairGSMDetailComponent implements OnInit{
 
   }
   onRowSelect(event) {
-    this.clientGSM = this.cloneClient(event.data);
+    this.clientGSM = RepairGSMDetailComponent.cloneClient(event.data);
     this.displayDialog = true;
     this.cdr.detectChanges();
   }
-  cloneClient(c: ClientGSM): ClientGSM {
+  static cloneClient(c: ClientGSM): ClientGSM {
     let clientGSM = new ClientGSM();
     for(let prop in c) {
       clientGSM[prop] = c[prop];
@@ -84,11 +84,16 @@ export class RepairGSMDetailComponent implements OnInit{
     const clientKey = clientGSM.$key;
     this.updateCheckedItem(clientGSM);
     delete clientGSM.$key;
-    this._repairGSMService.updateItem(clientKey, clientGSM);
-    this.successMessage(clientGSM.lastname, clientGSM.phone,'Valoare');
+    this._repairGSMService.updateItem(clientKey, clientGSM)
+      .then(item => {
+        this.msgs = this._utilService.successUpdateMessage(clientGSM.lastname, '',
+          clientGSM.phone,'Valoare modificata ');
+      }).catch(err => {
+        console.log(err);
+    });
   }
 
-  checkPaymentIsNo(clientGSM, type) {
+  static checkPaymentIsNo(clientGSM, type) {
     if(type === 'priceOffer') {
       clientGSM[type] = isNaN(clientGSM[type]) ||
       String(clientGSM[type]).trim().length === 0 ? 0 : +clientGSM[type];
@@ -247,10 +252,10 @@ export class RepairGSMDetailComponent implements OnInit{
       return null;
     }
   };
-  disabledRow(rowData: ClientGSM) {
+  static disabledRow(rowData: ClientGSM) {
     return rowData.isPayed ? 'disabled-account-row' : '';
   }
-  isRepairDone(rowData: ClientGSM) {
+  static isRepairDone(rowData: ClientGSM) {
     return rowData.isRepaired ? 'repair-is-done' : '';
   }
 

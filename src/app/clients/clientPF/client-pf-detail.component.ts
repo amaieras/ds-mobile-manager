@@ -85,9 +85,12 @@ export class ClientPfDetailComponent implements OnInit {
     this.prepareSavePhoneList();
     this.clientPF = this.saveClientPF;
     this.checkInputForNullOrUndefined();
-    this._clientPFService.addPFClient(this.clientPF);
-    this.resetAfterSubumit();
-    this.successMessage();
+    this._clientPFService.addPFClient(this.clientPF)
+      .then(item => {
+      this.resetAfterSubumit();
+      this.msgs = this._utilService.succesAddMessage('Adauga client PF',
+        'success', 'Client adaugat cu succes.');
+    })
   }
 
   private resetAfterSubumit() {
@@ -157,8 +160,15 @@ export class ClientPfDetailComponent implements OnInit {
         const item = formModel.phoneList[i];
         if (item.newBrand !== '' && this._utilService.isNullOrUndefined(item.newBrand)
           && item.newModel !== '' && this._utilService.isNullOrUndefined(item.newModel)) {
-          this._phoneListService.addNewBrand(item.newBrand);
-          this._phoneListService.addNewModel(item.newModel, item.newBrand.toLowerCase());
+          this._phoneListService.addNewBrand(item.newBrand).then(item => {
+            this.infoMessage('Adauga brand nou', 'Un nou brand: ' +
+              item.newBrand + ' a fost adaugat')
+          });
+          this._phoneListService.addNewModel(item.newModel, item.newBrand.toLowerCase())
+            .then(item => {
+              this.infoMessage('Adaugare model nou.', 'Un nou model: ' + item.newModel + ' a fost adaugat pentru brandul: ' +
+                item.newBrand);
+          });
         }
     }
   }
@@ -168,7 +178,11 @@ export class ClientPfDetailComponent implements OnInit {
       const item = formModel.phoneList[i];
       if (item.newSingleModel !== '' && this._utilService.isNullOrUndefined(item.newSingleModel)) {
         const brandId = item.phoneBrand.toLowerCase();
-        this._phoneListService.addNewModel(item.newSingleModel, brandId);
+        this._phoneListService.addNewModel(item.newSingleModel, brandId)
+          .then(item => {
+            this.infoMessage('Adaugare model nou.', 'Un nou model: ' + item.newSingleModel
+              + ' a fost adaugat');
+          });
       }
     }
   }
@@ -286,11 +300,11 @@ export class ClientPfDetailComponent implements OnInit {
 
   }
 
-  successMessage() {
-    this.msgs = [];
-    this.msgs.push({severity: 'success', summary: 'Adauga Client PF', detail: 'Client adaugat cu success.'});
-  }
 
+  infoMessage(summary, detail) {
+    this.msgs = [];
+    this.msgs.push({severity: 'info', summary: summary, detail: detail});
+  }
   get lastname() {
     //noinspection TypeScriptUnresolvedFunction
     return this.clientPFForm.get('lastname');

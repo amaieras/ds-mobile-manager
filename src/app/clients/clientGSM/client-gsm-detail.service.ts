@@ -16,17 +16,17 @@ export class ClientGSMService {
 
   }
 
-  addGSMClient(clientGSM: ClientGSM): void {
-    this.clientsGSM.push(clientGSM);
+  addGSMClient(clientGSM: ClientGSM) {
+    return this.clientsGSM.push(clientGSM);
   }
 
   /**
    * Adds a new gsm client type if does not exist
    * @param {ClientGSM} clientGSM
    */
-  addGSMClientList(clientGSMType: ClientGSMType): void {
+  addGSMClientList(clientGSMType: ClientGSMType) {
     delete(clientGSMType.$key);
-    this._db.list("/client-gsm-list").push(clientGSMType);
+    return this._db.list("/client-gsm-list").push(clientGSMType);
 }
 
   public getAllClients() {
@@ -65,8 +65,8 @@ export class ClientGSMService {
     });
   }
 
-  updateClientGSM(key: string, value: any): void {
-    this._db
+  updateClientGSM(key: string, value: any) {
+    return this._db
       .list("/client-gsm-list").update(key,{phone: value.phone, city: value.city, firm: value.firm} )
   }
 }

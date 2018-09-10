@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {
   GrowlModule, DropdownModule, CalendarModule, SpinnerModule, TooltipModule,
@@ -18,11 +17,8 @@ import {PhoneListComponent} from './clientPF/phone-list/phone-list.component';
 import {PhoneGSMListComponent} from './clientGSM/phone-gsm-list/phone-gsm-list.component';
 import {PhoneCascadeService} from '../shared/phone-cascade.service';
 import {AboutUsService} from 'app/clients/clientPF/phone-list/about-us/about-us.service';
-import {ClientGSMDisplayComponent} from "./clientGSMDisplay/client-gsm-display.component";
 import {PhoneListService} from "./clientPF/phone-list/phone-list.service";
 import {SharedDsModule} from "../shared/shared-ds.module";
-import {ClientGSMDisplayService} from "./clientGSMDisplay/client-gsm-display-detail.service";
-import {PhoneGSMDisplayListComponent} from "./clientGSMDisplay/phone-gsm-display-list/phone-gsm-display-list.component";
 import {TitleCasePipe} from "../shared/TitleCasePipe";
 import {ClientService} from "./shared/client.service";
 
@@ -38,8 +34,7 @@ import {ClientService} from "./shared/client.service";
     CalendarModule,
     SpinnerModule,
     TooltipModule,
-    SelectButtonModule,
-    //
+    SelectButtonModule
   ],
   declarations: [
     ClientTypeListComponent,
@@ -47,8 +42,6 @@ import {ClientService} from "./shared/client.service";
     ClientGSMDetailComponent,
     PhoneListComponent,
     PhoneGSMListComponent,
-    PhoneGSMDisplayListComponent,
-    ClientGSMDisplayComponent,
     TitleCasePipe
 
   ],
@@ -60,7 +53,6 @@ import {ClientService} from "./shared/client.service";
     PhoneCascadeService,
     AboutUsService,
     PhoneListService,
-    ClientGSMDisplayService,
     ClientService
   ]
 })

@@ -87,6 +87,23 @@ export class UtilService {
   }
 
   /**
+   * Return message for adding a client
+   * @param summary
+   * @param severity
+   * @param detail
+   */
+  succesAddMessage(summary, severity, detail) {
+    let msgs: Message[] = [];
+    msgs.push({
+      severity: severity,
+      summary: summary,
+      detail: detail
+    });
+    return msgs;
+  }
+
+
+  /**
    * Return a formatted success message
    * @param lastname
    * @param firstname
@@ -94,20 +111,34 @@ export class UtilService {
    * @param msg
    * @returns {Message[]}
    */
-  successMessage(lastname, firstname, phone, msg) {
-    let msgs:Message[] = [];
+  successUpdateMessage(lastname, firstname, phone, msg) {
+    let msgs: Message[] = [];
     let msgAux = '';
     if (lastname === undefined || firstname === undefined) {
-      msgAux = ' modificata pentru clientul cu numarul de telefon: ' + phone;
+      msgAux = ' pentru clientul cu numarul de telefon: ' + phone;
     }
     else {
-      msgAux = ' modificata pentru clientul: ' + lastname + ' ' + firstname;
+      msgAux = ' pentru clientul: ' + lastname + ' ' + firstname;
     }
     msgs.push({
       severity: 'success',
-      summary: msg  + msgAux,
+      summary: msg + msgAux,
       detail: 'Date modificate.'
     });
     return msgs;
+  }
+
+  /**
+     *
+     * @param msg
+     */
+    errorUpdateMessage(msg) {
+      let msgs:Message[] = [];
+      msgs.push({
+        severity: 'error',
+        summary: msg ,
+        detail: 'Date modificate.'
+      });
+      return msgs;
   }
 }

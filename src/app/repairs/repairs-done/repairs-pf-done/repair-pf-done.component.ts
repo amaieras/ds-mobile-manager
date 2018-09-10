@@ -19,7 +19,7 @@ export class RepairPfDoneComponent implements OnInit {
   clientPF: ClientPF = new ClientPF();
   loading = true;
   cols:any[];
-  msgs:Message[] = [];
+  msgs: Message[] = [];
   columnOptions:SelectItem[];
   testingValues: any[];
   defaultDate: Date = new Date();
@@ -30,8 +30,11 @@ export class RepairPfDoneComponent implements OnInit {
   selectedClient: ClientPF;
   @ViewChild(PrintReceiptComponent) child: PrintReceiptComponent;
 
-  constructor(private repairPFService:RepairPFDetailService, private _clientPFService: ClientPFService, private _el: ElementRef,
-              private _utilService: UtilService, private cdr: ChangeDetectorRef) {
+  constructor( private repairPFService:RepairPFDetailService
+              , private _clientPFService: ClientPFService
+              , private _el: ElementRef
+              , private _utilService: UtilService
+              , private cdr: ChangeDetectorRef) {
   }
 
   ngOnInit() {
@@ -115,8 +118,14 @@ export class RepairPfDoneComponent implements OnInit {
     const clientKey = clientPF.$key;
     this.updateCheckedItem(clientPF);
     delete clientPF.$key;
-    this.repairPFService.updateItem(clientKey, clientPF);
-    this.successMessage(clientPF.lastname, "", clientPF.phone,'Valoare');
+    this.repairPFService.updateItem(clientKey, clientPF)
+      .then(item => {
+        this.msgs = this._utilService.successUpdateMessage(clientPF.lastname, "",
+          clientPF.phone,'Valoare modificata ');
+      }).catch(err => {
+        console.log("RepairPfDoneComponent - " + err)
+    });
+
   }
   checkPaymentIsNo(clientGSM, type) {
     if(type === 'priceOffer') {
@@ -133,38 +142,33 @@ export class RepairPfDoneComponent implements OnInit {
   }
 
   updateCheckedItem(row) {
-    this.repairPFService.updateItem(row.$key, {isPayed: row.isPayed});
+    this.repairPFService.updateItem(row.$key, {isPayed: row.isPayed})
+      .then(item => {
+        this.msgs = this._utilService.successUpdateMessage(row.lastname, row.firstname, row.phone,'Status plata modificat ')
+      }).catch(err => {
+        console.log(err);
+    });
   }
 
   updateAppointmentDate(row, time) {
     let date = new Date(time).getTime().toString();
-    this.repairPFService.updateItem(row.$key, {appointmentDate: date});
-    this.defaultDate = new Date();
-    this.defaultDate.setHours(12,0);
-    this.successMessage(row.lastname, row.firstname, row.phone,'Data programarii a fost')
+    this.repairPFService.updateItem(row.$key, {appointmentDate: date})
+      .then(item => {
+        this.defaultDate = new Date();
+        this.defaultDate.setHours(12,0);
+        this.msgs = this._utilService.successUpdateMessage(row.lastname, row.firstname, row.phone,
+          'Data programarii a fost modificata ')
+      });
   }
 
   updateTestedItem(row) {
-    this.repairPFService.updateItem(row.$key, {tested: row.tested});
-    this.successMessage(row.lastname, row.firstname,row.phone, 'Valoarea `testat` a fost')
+    this.repairPFService.updateItem(row.$key, {tested: row.tested})
+      .then(item => {
+        this.msgs = this._utilService.successUpdateMessage(row.lastname, row.firstname,row.phone, 'Valoarea `testat` a fost')
+      });
   }
 
 
-  successMessage(lastname, firstname, phone, msg) {
-    this.msgs = [];
-    let msgAux = '';
-    if (lastname === undefined || firstname === undefined) {
-      msgAux = ' modificata pentru clientul cu numarul de telefon: ' + phone;
-    }
-    else {
-      msgAux = ' modificata pentru clientul: ' + lastname + ' ' + firstname;
-    }
-    this.msgs.push({
-      severity: 'success',
-      summary: msg  + msgAux,
-      detail: 'Date modificate.'
-    });
-  }
 
   disabledRow(rowData: ClientPF) {
     return rowData.isPayed ? 'disabled-account-row' : '';

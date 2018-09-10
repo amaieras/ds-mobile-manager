@@ -11,7 +11,14 @@ import { ReportsFilterComponent } from './reports-filter/reports-filter.componen
 import {ReportTypeListComponent} from "./report-type-list/report-type-list.component";
 import {RouterModule} from "@angular/router";
 import {ReportTypeListService} from "./report-type-list/report-type-list.service";
-import {MatAutocompleteModule, MatIconModule, MatInputModule, MatSelectModule, MatTabsModule} from "@angular/material";
+import {
+  MatAutocompleteModule,
+  MatCheckboxModule,
+  MatIconModule,
+  MatInputModule,
+  MatSelectModule,
+  MatTabsModule
+} from "@angular/material";
 import {FuseSharedModule} from "../../@fuse/shared.module";
 import {FuseSidebarModule, FuseWidgetModule} from "../../@fuse/components";
 
@@ -35,6 +42,7 @@ import {FuseSidebarModule, FuseWidgetModule} from "../../@fuse/components";
     MatInputModule,
     MatIconModule,
     MatTabsModule,
+    MatCheckboxModule,
 
     FuseSharedModule,
     FuseSidebarModule,

@@ -29,16 +29,8 @@ export class RepairPFDetailService {
       });
   }
 
-  updateItem(key: string, value: any): void {
-    this.repairsPF.update(key, value)
-      .catch(error => this.handleError(error));
+  updateItem(key: string, value: any) {
+    return this.repairsPF.update(key, value);
   }
 
-  updateArrayItem(key: string, value: any): void {
-    this.repairsPF.set(key, value)
-      .catch(error => this.handleError(error));
-  }
-  private handleError(error) {
-    console.log(error);
-  }
 }

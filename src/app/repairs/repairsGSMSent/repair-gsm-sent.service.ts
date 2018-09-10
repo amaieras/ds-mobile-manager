@@ -19,9 +19,8 @@ export class RepairGsmSentService {
     });;
   }
 
-  updateItem(key: string, value: any): void {
-    this.repairsGSM.update(key, value)
-      .catch(error => this.handleError(error))
+  updateItem(key: string, value: any) {
+    return this.repairsGSM.update(key, value);
   }
 
   handleError(error){

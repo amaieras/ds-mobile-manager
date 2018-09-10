@@ -52,7 +52,7 @@ export class ClientGSMDetailComponent implements OnInit {
       item.forEach(snapshot => {
         this.clientsGSM.push({$key: snapshot.$key ,label: snapshot.name, value: snapshot.name});
       });
-    })
+    });
     this._clientGSMService.getAllClientsListByName(this.startAt, this.endAt)
       .subscribe(clientGSMSearch => {
         this.clientGSMSearch = clientGSMSearch;
@@ -139,9 +139,14 @@ export class ClientGSMDetailComponent implements OnInit {
   onSubmit(event: Event) {
     this.prepareSaveClientGSM();
     this.clientGSM = this.saveClientGSM;
-    this._clientGSMService.addGSMClient(this.clientGSM);
-    this.resetAfterSubumit();
-    this.successMessage();
+    this._clientGSMService.addGSMClient(this.clientGSM)
+      .then(item => {
+        this.resetAfterSubumit();
+        this.msgs = this._utilService.succesAddMessage('Adauga client GSM',
+          'success', 'Client adaugat cu succes.');
+      });
+
+
   }
   private resetAfterSubumit() {
     this.clientGSM = new ClientGSM();
@@ -215,12 +220,19 @@ export class ClientGSMDetailComponent implements OnInit {
   }
 
   private addNewClientGSMType(clientTypeGSM) {
-   this._clientGSMService.addGSMClientList(clientTypeGSM);
-   this.resetClientGSMListFilter('cxvx');
+   this._clientGSMService.addGSMClientList(clientTypeGSM)
+     .then(item => {
+       this.resetClientGSMListFilter('cxvx');
+     });
   }
 
   private updateClientGSMType(clientTypeGSM) {
-    this._clientGSMService.updateClientGSM(clientTypeGSM.$key, {phone:clientTypeGSM.phone, city:clientTypeGSM.city, firm:clientTypeGSM.firm });
+    this._clientGSMService.updateClientGSM(clientTypeGSM.$key,
+      {phone: clientTypeGSM.phone, city: clientTypeGSM.city, firm:clientTypeGSM.firm })
+      .then(item => {
+        this._utilService.successUpdateMessage(clientTypeGSM.lastname, '',
+          clientTypeGSM.phone, 'Valoare ')
+      });
   }
 
   addBillingAddress() {
@@ -235,9 +247,7 @@ export class ClientGSMDetailComponent implements OnInit {
     }
   }
   print() {
-    let event: Event;
     this.clientGSMForm.patchValue({appointment: this.defaultDate.getTime().toString()});
-    this.onSubmit(event);
   }
 
   private setWarrantyInfo() {
@@ -260,10 +270,6 @@ export class ClientGSMDetailComponent implements OnInit {
      this.child.print(this.warrantyGSMInfo);
   }
 
-  successMessage() {
-    this.msgs = [];
-    this.msgs.push({severity:'success', summary:'Adauga Client GSM', detail:'Client GSM adaugat cu success.'});
-  }
 
   search(event) {
     if(event === "") {

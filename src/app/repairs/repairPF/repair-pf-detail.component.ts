@@ -87,11 +87,11 @@ export class RepairPFDetailComponent implements OnInit {
     }, 0)
   }
   onRowSelect(event) {
-    this.clientPF = this.cloneClient(event.data);
+    this.clientPF = RepairPFDetailComponent.cloneClient(event.data);
     this.displayDialog = true;
     this.cdr.detectChanges();
   }
-  cloneClient(c: ClientPF): ClientPF {
+  static cloneClient(c: ClientPF): ClientPF {
     let clientPF = new ClientPF();
     for(let prop in c) {
       clientPF[prop] = c[prop];
@@ -119,8 +119,17 @@ export class RepairPFDetailComponent implements OnInit {
     const clientKey = clientPF.$key;
     this.updateCheckedItem(clientPF);
     delete clientPF.$key;
-    this.repairPFService.updateItem(clientKey, clientPF);
-    this.successMessage(clientPF.lastname, "", clientPF.phone,'Valoare');
+    this.repairPFService
+      .updateItem(clientKey, clientPF)
+      .then(item => {
+         this.successUpdateMessage(clientPF.lastname, "", clientPF.phone,'Valoare');
+       })
+      .catch(err => {
+        this.errorUpdateMessage('Eroare la modificarea clientului. ' +
+          'Incercati din nou dupa un refresh al browseru-lui.' +
+          'Daca problema nu se rezolva, incercati un clear cache al browseru-lui.');
+
+      });
   }
 
   getClientsPFList(): Observable<any> {
@@ -128,13 +137,22 @@ export class RepairPFDetailComponent implements OnInit {
   }
 
   updateCheckedItem(row) {
-    this.repairPFService.updateItem(row.$key, {isPayed: row.isPayed});
+    this.repairPFService.updateItem(row.$key, {isPayed: row.isPayed})
+      .then(item => {
+      })
+      .catch(err => {
+      console.log("Erorr UpdateCheckedItem - isPayed: " + err);
+    });
     if(row.isPayed) {
       //Delete deliveredeDate because of a bug
-      //When updating for the second time the desired property, is is not updated, so I recreate it
+      //When updating for the second time the desired property, is not updated, so I recreate it
       delete row.deliveredDate;
       let date = new Date().getTime().toString();
-      this.repairPFService.updateItem(row.$key, {deliveredDate: date});
+      this.repairPFService.updateItem(row.$key, {deliveredDate: date})
+        .then(item => {})
+        .catch(err => {
+          console.log("Erorr UpdateCheckedItem - deliveredDate: " + err);
+        });
     }
   }
   checkPaymentIsNo(clientGSM, type) {
@@ -149,29 +167,22 @@ export class RepairPFDetailComponent implements OnInit {
   }
   updateAppointmentDate(row, time) {
     let date = new Date(time).getTime().toString();
-    this.repairPFService.updateItem(row.$key, {appointmentDate: date});
-    this.defaultDate = new Date();
-    this.defaultDate.setHours(12,0);
-    this.successMessage(row.lastname, row.firstname, row.phone,'Data programarii a fost')
-  }
-
-
-  successMessage(lastname, firstname, phone, msg) {
-    this.msgs = [];
-    let msgAux = '';
-    if (lastname === undefined || firstname === undefined) {
-      msgAux = ' modificata pentru clientul cu numarul de telefon: ' + phone;
-    }
-    else {
-      msgAux = ' modificata pentru clientul: ' + lastname + ' ' + firstname;
-    }
-    this.msgs.push({
-      severity: 'success',
-      summary: msg  + msgAux,
-      detail: 'Date modificate.'
+    this.repairPFService.updateItem(row.$key, {appointmentDate: date}).then(item => {
+      this.defaultDate = new Date();
+      this.defaultDate.setHours(12,0);
+      this.successUpdateMessage(row.lastname, row.firstname, row.phone,'Data programarii a fost')
     });
+
   }
 
+
+  successUpdateMessage(lastname, firstname, phone, msg) {
+    this.msgs = this._utilService.successUpdateMessage(lastname, firstname, phone, msg);
+  }
+
+  errorUpdateMessage(msg) {
+    this.msgs = this._utilService.errorUpdateMessage(msg);
+  }
   disabledRow(rowData: ClientPF) {
     return rowData.isRepaired ? 'disabled-account-row' : '';
   }
@@ -241,7 +252,7 @@ export class RepairPFDetailComponent implements OnInit {
         }
         document.body.removeChild(link);
       }
-    };
+    }
   }
   resolveFieldData(data, field) {
     if (data && field) {

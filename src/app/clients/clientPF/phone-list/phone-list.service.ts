@@ -29,11 +29,11 @@ export class PhoneListService implements OnInit {
   }
 
   public addNewBrand(brandName: string) {
-    this.brandList.push({name: brandName});
+    return this.brandList.push({name: brandName});
   }
 
   public addNewModel(modelName: string, brandId: string) {
-    this.modelList.push({name: modelName, phoneId: brandId});
+    return  this.modelList.push({name: modelName, phoneId: brandId});
   }
 
   public getModelsOfBrands(brand: string){

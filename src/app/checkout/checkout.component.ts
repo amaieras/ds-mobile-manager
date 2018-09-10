@@ -606,14 +606,14 @@ export class CheckoutComponent implements OnInit {
     clientPF.phoneList[0].phoneBrand = this.selectedBrand;
     clientPF.phoneList[0].phoneModel = this.selectedModel;
     this._repairPFService.updateItem(clientKey, clientPF);
-    this.msgs = this._utilService.successMessage(clientPF.lastname, "", clientPF.phone,'Valoare');
+    this.msgs = this._utilService.successUpdateMessage(clientPF.lastname, "", clientPF.phone,'Valoare modificata ');
   }
   updateGSMField(clientGSM) {
     const clientKey = clientGSM.$key;
     this.updateCheckedItem(clientGSM);
     delete clientGSM.$key;
     this._repairGSMService.updateItem(clientKey, clientGSM);
-    this.msgs = this._utilService.successMessage(clientGSM.lastname, "", clientGSM.phone,'Valoare');
+    this.msgs = this._utilService.successUpdateMessage(clientGSM.lastname, "", clientGSM.phone,'Valoare modificata ');
   }
 
   /**

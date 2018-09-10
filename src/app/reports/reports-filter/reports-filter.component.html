@@ -6,7 +6,9 @@
     </div>
     <div class="col-md-5">
       <label for="problem" style="display: block">Solicitare/Problema</label>
-      <p-multiSelect id="problem" [options]="problemsList" [(ngModel)]="selectedProblems" [panelStyle]="{minWidth:'12em'}">
+      <p-multiSelect id="problem" [options]="problemsList"
+                     [(ngModel)]="selectedProblems"
+                     [panelStyle]="{minWidth:'12em'}">
         <ng-template let-problem pTemplate="item">
           <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
             <div style="font-size:14px;float:right;margin-top:4px">{{problem.label}}</div>
@@ -17,14 +19,25 @@
     <div class="col-md-5">
       <mat-form-field>
         <mat-select placeholder="Alege clentul GSM"
-                    [formControl]="clientsGSM" [(ngModel)]="selectedGSMClients" multiple >
-          <mat-option *ngFor="let gsm of clientsGSMList" [value]="gsm.name">{{gsm.name}}</mat-option>
+                    [formControl]="clientsGSM" [(ngModel)]="selectedGSMClients" multiple>
+          <section class="example-section">
+            <mat-checkbox class="example-margin"
+                          [(ngModel)]="checked"
+
+                          (change)="selectAll(checked, clientsGSMList)">
+              Alege tot</mat-checkbox>
+          </section>
+          <mat-option *ngFor="let gsm of clientsGSMList" [value]="gsm.name">
+            {{gsm.name}}</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
     <div class="col-md-5">
       <label for="phone-brand" style="display: block">Brand</label>
-      <p-multiSelect id="phone-brand" [(ngModel)]="selectedBrands" [options]="phoneBrandsArray"[panelStyle]="{minWidth:'12em'}">
+      <p-multiSelect id="phone-brand"
+                     [(ngModel)]="selectedBrands"
+                     [options]="phoneBrandsArray"
+                     [panelStyle]="{minWidth:'12em'}">
         <ng-template let-phone pTemplate="item">
           <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
             <div style="font-size:14px;float:right;margin-top:4px">{{phone.label}}</div>
@@ -71,75 +84,6 @@
     </div>
   </div>
 </div>
-<!--<div class="row filter-spacer">-->
-  <!--<amexio-card-pane [enableFooter]="false">-->
-    <!--<amexio-pane-body>-->
-      <!--<div class="card">-->
-        <!--<div class="card-block">-->
-          <!--<div class="row">-->
-            <!--<div class="col-lg-3">-->
-              <!--<amexio-datapoints [west]="true" [center]="true" [east]="true" [south]="true" [backgroundColor]="'#4CAF50'" [fontColor]="'#ffffff'">-->
-                <!--<amexio-west [contentalign]="'center'">-->
-                  <!--<amexio-image [imageClass]="'fa fa-globe fa-4x'"></amexio-image>-->
-                <!--</amexio-west>-->
-                <!--<amexio-center [contentalign]="'right'">-->
-                  <!--<amexio-datapoints [north]="true" [center]="true" [south]="true">-->
-                    <!--<amexio-north [cClass]="'datapoint-north'">-->
-                      <!--<div class="data-counts">-->
-                        <!--{{report._piecesNo}}-->
-                      <!--</div>-->
-                    <!--</amexio-north>-->
-                    <!--<amexio-center [cClass]="'datapoint-center'">-->
-                      <!--Numar bucati-->
-                    <!--</amexio-center>-->
-                  <!--</amexio-datapoints>-->
-                <!--</amexio-center>-->
-              <!--</amexio-datapoints>-->
-            <!--</div>-->
-            <!--<div class="col-lg-3">-->
-              <!--<amexio-datapoints [west]="true" [center]="true" [east]="true" [south]="true" [backgroundColor]="'#FF9800'" [fontColor]="'#ffffff'">-->
-                <!--<amexio-west [contentalign]="'center'">-->
-                  <!--<amexio-image [imageClass]="'fa fa-money fa-4x'"></amexio-image>-->
-                <!--</amexio-west>-->
-                <!--<amexio-center [contentalign]="'right'">-->
-                  <!--<amexio-datapoints [north]="true" [center]="true" [south]="true">-->
-                    <!--<amexio-north [cClass]="'datapoint-north'">-->
-                      <!--<div class="data-counts">-->
-                        <!--{{report._totalIn}} RON-->
-                      <!--</div>-->
-                    <!--</amexio-north>-->
-                    <!--<amexio-center [cClass]="'datapoint-center'">-->
-                      <!--Total incasari-->
-                    <!--</amexio-center>-->
-                  <!--</amexio-datapoints>-->
-                <!--</amexio-center>-->
-              <!--</amexio-datapoints>-->
-            <!--</div>-->
-            <!--<div class="col-lg-3">-->
-              <!--<amexio-datapoints [west]="true" [center]="true" [east]="true" [south]="true" [backgroundColor]="'#00BCD4'" [fontColor]="'#ffffff'">-->
-                <!--<amexio-west [contentalign]="'center'">-->
-                  <!--<amexio-image [imageClass]="'fa fa-globe fa-4x'"></amexio-image>-->
-                <!--</amexio-west>-->
-                <!--<amexio-center [contentalign]="'right'">-->
-                  <!--<amexio-datapoints [north]="true" [center]="true" [south]="true">-->
-                    <!--<amexio-north [cClass]="'datapoint-north'">-->
-                      <!--<div class="data-counts">-->
-                        <!--{{report._noOfClients}}-->
-                      <!--</div>-->
-                    <!--</amexio-north>-->
-                    <!--<amexio-center [cClass]="'datapoint-center'">-->
-                      <!--Numar clienti-->
-                    <!--</amexio-center>-->
-                  <!--</amexio-datapoints>-->
-                <!--</amexio-center>-->
-              <!--</amexio-datapoints>-->
-            <!--</div>-->
-          <!--</div>-->
-        <!--</div>-->
-      <!--</div>-->
-    <!--</amexio-pane-body>-->
-  <!--</amexio-card-pane>-->
-<!--</div>-->
 
 <div class="content">
 

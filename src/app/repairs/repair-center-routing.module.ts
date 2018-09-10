@@ -5,12 +5,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { RepairTypeListComponent } from "./repair-type-list/repair-type-list.component"
 import { RepairPFDetailComponent } from "./repairPF/repair-pf-detail.component"
 import { RepairGSMDetailComponent } from "./repairGSM/repair-gsm-detail.component"
-import {RepairGSMDisplayDetailComponent} from "./repairGSMDisplay/repair-gsm-display-detail.component";
 import {RepairPfDoneComponent} from "./repairs-done/repairs-pf-done/repair-pf-done.component";
 import {RepairGsmDoneComponent} from "./repairs-done/repairs-gsm-done/repair-gsm-done.component";
-import {RepairGsmDisplayDoneComponent} from "./repairs-done/repairs-gsm-display-done/repair-gsm-display-done.component";
 import {RepairGsmSentComponent} from "./repairsGSMSent/repair-gsm-sent.component";
-import {AuthGuard} from "../guards/auth.guard";
 
 
 const repairsCenterRoutes: Routes = [
@@ -32,11 +29,6 @@ const repairsCenterRoutes: Routes = [
       {
         path: 'gsm',
         component: RepairGSMDetailComponent,
-        // canActivate: [AuthGuard]
-      },
-      {
-        path: 'gsm-display',
-        component: RepairGSMDisplayDetailComponent,
         // canActivate: [AuthGuard]
       },
       {
@@ -69,12 +61,7 @@ const repairsCenterRoutes: Routes = [
         path: 'gsm',
         component: RepairGsmDoneComponent,
         // canActivate: [AuthGuard]
-      },
-      {
-        path: 'gsm-display',
-        component: RepairGsmDisplayDoneComponent,
-        // canActivate: [AuthGuard]
-      },
+      }
     ],
     // canActivate: [AuthGuard],
     data: {
