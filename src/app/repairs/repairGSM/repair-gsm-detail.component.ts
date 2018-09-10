@@ -266,19 +266,4 @@ export class RepairGSMDetailComponent implements OnInit{
           this.child.print(warrantyGSMInfo);
     })
   }
-  successMessage(lastname, phone, msg) {
-    this.msgs = [];
-    let msgAux = '';
-    if (lastname === undefined) {
-      msgAux = ' modificata pentru clientul cu numarul de telefon: ' + phone;
-    }
-    else {
-      msgAux = ' modificata pentru clientul: ' + lastname;
-    }
-    this.msgs.push({
-      severity: 'success',
-      summary: msg  + msgAux,
-      detail: 'Date modificate.'
-    });
-  }
 }
