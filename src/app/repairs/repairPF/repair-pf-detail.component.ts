@@ -122,7 +122,7 @@ export class RepairPFDetailComponent implements OnInit {
     this.repairPFService
       .updateItem(clientKey, clientPF)
       .then(item => {
-         this.successUpdateMessage(clientPF.lastname, "", clientPF.phone,'Valoare');
+         this.successUpdateMessage(clientPF.lastname, "", clientPF.phone,'Date modificate ');
        })
       .catch(err => {
         this.errorUpdateMessage('Eroare la modificarea clientului. ' +

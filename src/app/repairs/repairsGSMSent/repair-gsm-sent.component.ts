@@ -110,7 +110,7 @@ export class RepairGsmSentComponent implements OnInit{
     this._repairGSMService.updateItem(row.$key, {isPayed: row.isPayed})
       .then(item => {
         this.msgs = this._utilService.successUpdateMessage(row.lastname, '', row.phone,
-          'Status reparatie modificat ');
+          'Date modificate ');
       }).catch(err=> {
         console.log(err);
     });
@@ -123,7 +123,7 @@ export class RepairGsmSentComponent implements OnInit{
       this._repairGSMService.updateItem(row.$key, {deliveredDate: date})
         .then(item => {
           this.msgs = this._utilService.successUpdateMessage(row.lastname, '', row.phone,
-            'Valoare  data terminare reparatie modificata ');
+            'Reparatie terminata ');
         }).catch(err => {
           console.log(err);
       });
