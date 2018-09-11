@@ -87,7 +87,7 @@ export class RepairGSMDetailComponent implements OnInit{
     this._repairGSMService.updateItem(clientKey, clientGSM)
       .then(item => {
         this.msgs = this._utilService.successUpdateMessage(clientGSM.lastname, '',
-          clientGSM.phone,'Date modificate ');
+          clientGSM.phone,'Valoare modificata ');
       }).catch(err => {
         console.log(err);
     });
@@ -252,10 +252,10 @@ export class RepairGSMDetailComponent implements OnInit{
       return null;
     }
   };
-  disabledRow(rowData: ClientGSM) {
+  static disabledRow(rowData: ClientGSM) {
     return rowData.isPayed ? 'disabled-account-row' : '';
   }
-  isRepairDone(rowData: ClientGSM) {
+  static isRepairDone(rowData: ClientGSM) {
     return rowData.isRepaired ? 'repair-is-done' : '';
   }
 
