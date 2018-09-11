@@ -15,12 +15,13 @@ import {
   MatAutocompleteModule,
   MatCheckboxModule,
   MatIconModule,
-  MatInputModule,
-  MatSelectModule,
+  MatInputModule, MatPaginatorModule,
+  MatSelectModule, MatTableModule,
   MatTabsModule
 } from "@angular/material";
 import {FuseSharedModule} from "../../@fuse/shared.module";
 import {FuseSidebarModule, FuseWidgetModule} from "../../@fuse/components";
+import {FilterDataTableComponent} from "./reports-filter/filter-data-table/filter-data-table.component";
 
 @NgModule({
   imports: [
@@ -37,18 +38,21 @@ import {FuseSidebarModule, FuseWidgetModule} from "../../@fuse/components";
     ReactiveFormsModule,
 
 
+
     MatSelectModule,
     MatAutocompleteModule,
     MatInputModule,
     MatIconModule,
     MatTabsModule,
     MatCheckboxModule,
+    MatTableModule,
+    MatPaginatorModule,
 
     FuseSharedModule,
     FuseSidebarModule,
     FuseWidgetModule
   ],
-  declarations: [ReportsShowComponent, ReportTypeListComponent, ReportsFilterComponent],
+  declarations: [ReportsShowComponent, ReportTypeListComponent, ReportsFilterComponent, FilterDataTableComponent],
   providers: [ReportService, ReportTypeListService]
 })
 export class ReportsModule { }

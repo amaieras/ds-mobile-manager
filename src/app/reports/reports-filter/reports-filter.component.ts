@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {SelectItem} from "primeng/api";
 import {PhoneListService} from "../../clients/clientPF/phone-list/phone-list.service";
 import {AboutUsService} from "../../clients/clientPF/phone-list/about-us/about-us.service";
@@ -8,6 +8,7 @@ import {DropdownModel} from "../../model/DropdownModel";
 import {Report} from "../../model/Report";
 import {FormControl, NgModel} from '@angular/forms';
 import {fuseAnimations} from "../../../@fuse/animations";
+import {FilterDataTableComponent} from "./filter-data-table/filter-data-table.component";
 
 @Component({
   selector: 'app-reports-filter',
@@ -35,6 +36,8 @@ export class ReportsFilterComponent implements OnInit {
   clientsGSMList : any[] = [];
   selectedGSMClients: any[] = [];
   checked: boolean;
+  filteredClientsList: any = [];
+  @ViewChild(FilterDataTableComponent) filterDataTableComponent: FilterDataTableComponent;
 
   constructor(private _phoneListService: PhoneListService, private _aboutUsService: AboutUsService,
               private _reportService: ReportService, private _clientService: ClientService) { }
@@ -158,6 +161,7 @@ export class ReportsFilterComponent implements OnInit {
       else if (that.selectedClientTypes[0] === 'pf') {
         this.report.clientsPF= filteredClients;
       }
+      this.filterDataTableComponent.getFilteredClients(filteredClients);
       this.countNoOfParts(filteredClients, that.selectedModels);
       this.countNoOfClients(filteredClients);
       this.calculateTotalIn(filteredClients);
