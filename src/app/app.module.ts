@@ -28,12 +28,11 @@ import {OfferModule} from "./offer/offer.module";
 import {OfferCenterRouting} from "./offer/offer-center-routing";
 import {ReportsModule} from "./reports/reports.module";
 import {ReportsCenterRoutingModule} from "./reports/reports-center-routing.module";
-import {environment} from "../environments/environment";
 import {AuthService} from "./guards/auth.service";
-import {LoginComponent} from "./login/login.component";
 import {AuthGuard} from 'app/guards/auth.guard';
 import {RegisterComponent} from "./main/pages/authentication/register/register.component";
-import {DashboardComponent} from "./navigation/dashboard/dashboard.component";
+import {LoginModule} from "./main/pages/authentication/login/login.module";
+import { DashboardComponent } from './main/pages/dashboard/dashboard.component';
 
 
 export const firebaseConfig = {
@@ -56,7 +55,6 @@ export const firebaseConfigProd = {
 @NgModule({
     declarations: [
         AppComponent,
-        LoginComponent,
         RegisterComponent,
         DashboardComponent
     ],
@@ -80,6 +78,8 @@ export const firebaseConfigProd = {
         ChartCenterRoutingModule,
         ClientCenterRoutingModule,
         RepairCenterRoutingModule,
+        LoginModule,
+
         //firebase
         AngularFireModule.initializeApp(firebaseConfig),
         AngularFireDatabaseModule,

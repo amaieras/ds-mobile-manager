@@ -4,6 +4,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { FuseConfigService } from '@fuse/services/config.service';
 import { fuseAnimations } from '@fuse/animations/index';
+import {AuthService} from "../../../../guards/auth.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector   : 'login',
@@ -15,6 +17,7 @@ export class LoginComponent implements OnInit
 {
   loginForm: FormGroup;
 
+
   /**
    * Constructor
    *
@@ -23,7 +26,9 @@ export class LoginComponent implements OnInit
    */
   constructor(
     private _fuseConfigService: FuseConfigService,
-    private _formBuilder: FormBuilder
+    private _formBuilder: FormBuilder,
+    public  _authService: AuthService,
+    private router: Router
   )
   {
     // Configure the layout
@@ -54,5 +59,20 @@ export class LoginComponent implements OnInit
       email   : ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     });
+  }
+  tryLogin(value){
+    this._authService.doLogin(value)
+      .then(res => {
+        this.router.navigate(['/dashboard']);
+      }, err => {
+        console.log(err);
+        // this.errorMessage = err.message;
+      })
+  }
+  tryGoogleLogin(){
+    this._authService.doGoogleLogin()
+      .then(res => {
+        this.router.navigate(['/dashboard']);
+      })
   }
 }

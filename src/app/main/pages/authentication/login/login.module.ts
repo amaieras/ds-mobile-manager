@@ -6,20 +6,16 @@ import { MatButtonModule, MatCheckboxModule, MatFormFieldModule, MatInputModule 
 import { FuseSharedModule } from '@fuse/shared.module';
 
 import { LoginComponent } from 'app/main/pages/authentication/login/login.component';
+import {FuseConfigService} from "../../../../../@fuse/services/config.service";
 
-const routes = [
-  {
-    path     : 'auth/login',
-    component: LoginComponent
-  }
-];
 
 @NgModule({
   declarations: [
     LoginComponent
   ],
-  imports     : [
-    RouterModule.forChild(routes),
+  imports: [
+    RouterModule,
+
 
     MatButtonModule,
     MatCheckboxModule,
@@ -27,7 +23,8 @@ const routes = [
     MatInputModule,
 
     FuseSharedModule
-  ]
+  ],
+  providers: [FuseConfigService]
 })
 export class LoginModule
 {
