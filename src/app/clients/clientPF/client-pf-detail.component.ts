@@ -87,7 +87,9 @@ export class ClientPfDetailComponent implements OnInit {
     this.checkInputForNullOrUndefined();
     this._clientPFService.addPFClient(this.clientPF)
       .then(item => {
+      this.print();
       this.resetAfterSubumit();
+      this.clientPFForm.patchValue({appointment: this.defaultDate.getTime().toString()});
       this.msgs = this._utilService.succesAddMessage('Adauga client PF',
         'success', 'Client adaugat cu succes.');
     })
@@ -273,10 +275,8 @@ export class ClientPfDetailComponent implements OnInit {
     }
   }
   print() {
-    this.clientPFForm.patchValue({appointment: this.defaultDate.getTime().toString()});
     this.setWarrantyInfo();
-    let event: Event;
-    this.onSubmit(event);
+    this.child.print(this.warrantyInfo);
   }
 
   private setWarrantyInfo() {
@@ -294,8 +294,6 @@ export class ClientPfDetailComponent implements OnInit {
       }
       this.warrantyInfo = new WarrantyInfo(dateNow, formModel.lastname, formModel.firstname, formModel.phone, this.totalPrice,
         formModel.tested, formModel.aboutUs,formModel.phoneList, formModel.appointment, this.noOfClients + 1, payMethod);
-
-      this.child.print(this.warrantyInfo);
     }
 
   }

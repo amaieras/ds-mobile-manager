@@ -14,8 +14,7 @@ export class PrintGsmReceiptComponent implements OnInit {
     this.dsMobilePhone = '0734.588.883';
   }
   @Input('clientGSMInfo') clientGSMInfo: WarrantyGSMInfo;
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   print(warranty) {
     this.warrantyGSMInfo = warranty;
