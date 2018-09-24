@@ -1,7 +1,7 @@
 <p-growl [(value)]="msgs"></p-growl>
 <div class="col-md-offset-1 col-md-9">
   <h1>Client - GSM</h1>
-  <form [formGroup]="clientGSMForm" (ngSubmit)="onSubmit($event)" novalidate #formGSM="ngForm">
+  <form [formGroup]="clientGSMForm" novalidate #formGSM="ngForm">
       <div class="form-group">
         <label for="lastname">Nume</label>
         <div class="ui-inputgroup">
@@ -241,7 +241,7 @@
     <!--</div>-->
       <button type="submit" class="btn btn-default btn-bottom"
               [disabled]="clientGSMForm.invalid"
-              (click)="print()">Salveaza/Printeaza</button>
+              (click)="onSubmit($event)">Salveaza/Printeaza</button>
     <app-print-gsm-receipt></app-print-gsm-receipt>
   </form>
 

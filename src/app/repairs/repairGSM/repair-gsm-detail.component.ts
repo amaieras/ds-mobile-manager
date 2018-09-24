@@ -252,10 +252,10 @@ export class RepairGSMDetailComponent implements OnInit{
       return null;
     }
   };
-  static disabledRow(rowData: ClientGSM) {
+  disabledRow(rowData: ClientGSM) {
     return rowData.isPayed ? 'disabled-account-row' : '';
   }
-  static isRepairDone(rowData: ClientGSM) {
+  isRepairDone(rowData: ClientGSM) {
     return rowData.isRepaired ? 'repair-is-done' : '';
   }
 

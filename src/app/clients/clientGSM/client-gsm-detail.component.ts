@@ -141,6 +141,8 @@ export class ClientGSMDetailComponent implements OnInit {
     this.clientGSM = this.saveClientGSM;
     this._clientGSMService.addGSMClient(this.clientGSM)
       .then(item => {
+        this.clientGSMForm.patchValue({appointment: this.defaultDate.getTime().toString()});
+        this.print();
         this.resetAfterSubumit();
         this.msgs = this._utilService.succesAddMessage('Adauga client GSM',
           'success', 'Client adaugat cu succes.');
@@ -173,6 +175,7 @@ export class ClientGSMDetailComponent implements OnInit {
     this._clientService.addNewProblemName(formModel);
     this.saveClientGSM.clientNo = this.noOfClients + 1;
     this.saveClientGSM.phoneList = PhoneListDeepCopy;
+
     this.removeCtrlForNewItems();
     this.addNewBrandModelSynced(formModel);
     this.addNewSingleModelSynced(formModel);
@@ -192,7 +195,6 @@ export class ClientGSMDetailComponent implements OnInit {
       clientGSMObj.$key = this.checkIfNewClientGSMExists(clientName);
       this.updateClientGSMType(clientGSMObj);
     }
-    this.setWarrantyInfo();
   }
 
   private removeCtrlForNewItems() {
@@ -247,7 +249,8 @@ export class ClientGSMDetailComponent implements OnInit {
     }
   }
   print() {
-    this.clientGSMForm.patchValue({appointment: this.defaultDate.getTime().toString()});
+    this.setWarrantyInfo();
+    this.child.print(this.warrantyGSMInfo);
   }
 
   private setWarrantyInfo() {
@@ -260,14 +263,13 @@ export class ClientGSMDetailComponent implements OnInit {
       phone.phoneModel = phone.phoneModel !== undefined && phone.phoneModel.toLowerCase() === 'altele' ? phone.newModel : phone.phoneModel;
 
       phone.problems.forEach(prbl=> {
-        totalPricePerPhone = totalPricePerPhone + prbl.pricePerPart;
+        totalPricePerPhone = totalPricePerPhone + prbl.pricePerPart * +prbl.phoneQuantity;
         prbl.problem = prbl.problem.toLowerCase() === 'altele' ? prbl.partName : prbl.problem;
-        phone.totalPricePerPhone = totalPricePerPhone * +prbl.phoneQuantity;
       })
+      phone.totalPricePerPhone = totalPricePerPhone;
     })
     this.warrantyGSMInfo = new WarrantyGSMInfo(dateNow, this.saveClientGSM.lastname, this.saveClientGSM.phone, this.totalPrice,
       this.noOfClients + 1, this.saveClientGSM.phoneList, payMethod);
-     this.child.print(this.warrantyGSMInfo);
   }
 
 

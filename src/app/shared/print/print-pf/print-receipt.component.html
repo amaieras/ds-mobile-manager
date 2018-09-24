@@ -148,7 +148,9 @@
           <td>Garanție:______DA__NU__</td>
         </tr>
         <tr>
-          <td>Preț estimativ: <span class="input-data">{{warrantyInfo.price}} RON </span></td>
+          <td>Preț estimativ: <span class="input-data">{{warrantyInfo.price}} RON </span>
+            <span *ngIf="warrantyInfo.paymentMethod._advance > 0">/ {{warrantyInfo.paymentMethod._advance}} - AVANS</span>
+          </td>
           <td>Observații: <span class="input-data">{{warrantyInfo.phoneList[0].observation}}</span></td>
         </tr>
         <tr>
