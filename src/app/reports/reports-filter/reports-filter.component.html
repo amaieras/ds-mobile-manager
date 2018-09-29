@@ -88,8 +88,7 @@
 <div class="content">
 
   <mat-tab-group dynamicHeight>
-
-    <mat-tab label="Informatii filtrate">
+    <mat-tab label="Sumar informatii">
 
       <div class="widget-group grey-100-bg p-12" fxLayout="row wrap" fxFlex="100" *fuseIfOnDom
            [@animateStagger]="{value:'50'}">
@@ -231,6 +230,8 @@
         </fuse-widget>
       </div>
   </mat-tab>
-
+    <mat-tab label="Lista filtrata">
+      <app-filter-data-table></app-filter-data-table>
+    </mat-tab>
   </mat-tab-group>
 </div>
