@@ -87,9 +87,9 @@ export class RepairGsmSentComponent implements OnInit{
     this.updateCheckedItem(clientGSM);
     delete clientGSM.$key;
     this._repairGSMService.updateItem(clientKey, clientGSM)
-      .then(item => {
+      // .then(item => {
         this._utilService.successUpdateMessage(clientGSM.lastname, '', clientGSM.phone,'Valoare modificata ');
-      });
+      // });
   }
   checkPaymentIsNo(clientGSM, type) {
     if(type === 'priceOffer') {
@@ -108,12 +108,12 @@ export class RepairGsmSentComponent implements OnInit{
 
   updateCheckedItem(row) {
     this._repairGSMService.updateItem(row.$key, {isPayed: row.isPayed})
-      .then(item => {
+      // .then(item => {
         this.msgs = this._utilService.successUpdateMessage(row.lastname, '', row.phone,
           'Status reparatie modificat ');
-      }).catch(err=> {
-        console.log(err);
-    });
+      // }).catch(err=> {
+      //   console.log(err);
+    // });
 
     if(row.isPayed) {
       //Delete deliveredeDate because of a bug
@@ -121,32 +121,31 @@ export class RepairGsmSentComponent implements OnInit{
       delete row.deliveredDate;
       let date = new Date().getTime().toString();
       this._repairGSMService.updateItem(row.$key, {deliveredDate: date})
-        .then(item => {
+        // .then(item => {
           this.msgs = this._utilService.successUpdateMessage(row.lastname, '', row.phone,
             'Valoare  data terminare reparatie modificata ');
-        }).catch(err => {
-          console.log(err);
-      });
+        // }).catch(err => {
+        //   console.log(err);
+      // });
     }
   }
   updateRepairFinnish(row) {
     this._repairGSMService.updateItem(row.$key, {isRepaired: row.isRepaired})
-      .then(item => {
-        console.log('is repaired ok')
+      // .then(item => {
         this.msgs = this._utilService.successUpdateMessage(row.lastname, '', row.phone,
           'Valoare status reparatie ');
-      }).catch(err => {
-      console.log(err);
-    });
+      // }).catch(err => {
+      // console.log(err);
+    // });
   }
   updateSentRepair(row) {
     this._repairGSMService.updateItem(row.$key, {isSent: row.isSent})
-      .then(item => {
+      // .then(item => {
         this.msgs = this._utilService.successUpdateMessage(row.lastname, '', row.phone,
           'Valoare status colet trimis ');
-      }).catch(err => {
-        console.log(err);
-    });
+      // }).catch(err => {
+      //   console.log(err);
+    // });
 
   }
   exportTable() {

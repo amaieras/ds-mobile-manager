@@ -13,11 +13,16 @@ export class ClientTypeListComponent implements OnInit {
   selectedClientType: ClientType;
   selectedId: number;
 
-  constructor(private clientTypeService: ClientTypeService,  private route: ActivatedRoute, private router: Router) { }
+  constructor( private clientTypeService: ClientTypeService,
+               private route: ActivatedRoute,
+               private router: Router) { }
 
   ngOnInit() {
     this.getClientTypes();
     this.selectedClientType = null;
+
+
+
   }
 
   getClientTypes() {

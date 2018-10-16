@@ -119,12 +119,12 @@ export class RepairPfDoneComponent implements OnInit {
     this.updateCheckedItem(clientPF);
     delete clientPF.$key;
     this.repairPFService.updateItem(clientKey, clientPF)
-      .then(item => {
+      // .then(item => {
         this.msgs = this._utilService.successUpdateMessage(clientPF.lastname, "",
           clientPF.phone,'Valoare modificata ');
-      }).catch(err => {
-        console.log("RepairPfDoneComponent - " + err)
-    });
+      // }).catch(err => {
+      //   console.log("RepairPfDoneComponent - " + err)
+    // });
 
   }
   checkPaymentIsNo(clientGSM, type) {
@@ -143,29 +143,29 @@ export class RepairPfDoneComponent implements OnInit {
 
   updateCheckedItem(row) {
     this.repairPFService.updateItem(row.$key, {isPayed: row.isPayed})
-      .then(item => {
+      // .then(item => {
         this.msgs = this._utilService.successUpdateMessage(row.lastname, row.firstname, row.phone,'Status plata modificat ')
-      }).catch(err => {
-        console.log(err);
-    });
+      // }).catch(err => {
+      //   console.log(err);
+    // });
   }
 
   updateAppointmentDate(row, time) {
     let date = new Date(time).getTime().toString();
     this.repairPFService.updateItem(row.$key, {appointmentDate: date})
-      .then(item => {
+      // .then(item => {
         this.defaultDate = new Date();
         this.defaultDate.setHours(12,0);
         this.msgs = this._utilService.successUpdateMessage(row.lastname, row.firstname, row.phone,
           'Data programarii a fost modificata ')
-      });
+      // });
   }
 
   updateTestedItem(row) {
     this.repairPFService.updateItem(row.$key, {tested: row.tested})
-      .then(item => {
+      // .then(item => {
         this.msgs = this._utilService.successUpdateMessage(row.lastname, row.firstname,row.phone, 'Valoarea `testat` a fost')
-      });
+      // });
   }
 
 

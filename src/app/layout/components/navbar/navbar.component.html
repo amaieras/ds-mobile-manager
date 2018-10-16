@@ -1,14 +1,14 @@
 <div fxLayout="column" fxFlex  [class.dark-theme]="isDarkTheme">
-  <mat-sidenav-container class="homepage-container">
-    <mat-sidenav #mainSideNav mode="side" opened>
+  <mat-sidenav-container>
+    <mat-sidenav #mainSideNav mode="side">
       <mat-toolbar>
-        <img src="../assets/logo.png" style="height:80%">
+        <img src="../assets/images/logos/logo.png" style="height:80%">
       </mat-toolbar>
       <mat-nav-list>
         <a *ngFor="let navItem of mainMenuItems"
            mat-list-item
            mat-ripple
-           [style.position]="'relative'"
+          [style.position]="'relative'"
            routerLinkActive="selected"
            [routerLink]="[navItem.path]">
           <!--<mat-icon *ngIf="navItem.icon">{{navItem.icon}}</mat-icon>-->
@@ -31,7 +31,14 @@
     </mat-toolbar>
     <router-outlet></router-outlet>
   </mat-sidenav-container>
+  <div class="row">
+    <div class="col-md-4">
+      <button type="button" (click)="logout()" class="btn btn-link">Logout</button>
+    </div>
+  </div>
   <mat-menu #themeMenu x-position="before">
     <button mat-menu-item (click)="isDarkTheme = !isDarkTheme">Toggle Theme</button>
   </mat-menu>
 </div>
+
+

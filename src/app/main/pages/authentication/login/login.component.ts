@@ -63,16 +63,17 @@ export class LoginComponent implements OnInit
   tryLogin(value){
     this._authService.doLogin(value)
       .then(res => {
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/clients']);
       }, err => {
         console.log(err);
         // this.errorMessage = err.message;
       })
   }
+
   tryGoogleLogin(){
     this._authService.doGoogleLogin()
       .then(res => {
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/clients']);
       })
   }
 }

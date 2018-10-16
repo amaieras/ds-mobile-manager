@@ -85,14 +85,14 @@ export class ClientPfDetailComponent implements OnInit {
     this.prepareSavePhoneList();
     this.clientPF = this.saveClientPF;
     this.checkInputForNullOrUndefined();
-    this._clientPFService.addPFClient(this.clientPF)
-      .then(item => {
+    this._clientPFService.addPFClient(this.clientPF);
+      // .then(item => {
       this.print();
       this.resetAfterSubumit();
       this.clientPFForm.patchValue({appointment: this.defaultDate.getTime().toString()});
       this.msgs = this._utilService.succesAddMessage('Adauga client PF',
         'success', 'Client adaugat cu succes.');
-    })
+    // })
   }
 
   private resetAfterSubumit() {
@@ -162,15 +162,15 @@ export class ClientPfDetailComponent implements OnInit {
         const item = formModel.phoneList[i];
         if (item.newBrand !== '' && this._utilService.isNullOrUndefined(item.newBrand)
           && item.newModel !== '' && this._utilService.isNullOrUndefined(item.newModel)) {
-          this._phoneListService.addNewBrand(item.newBrand).then(item => {
+          // this._phoneListService.addNewBrand(item.newBrand).then(item => {
             this.infoMessage('Adauga brand nou', 'Un nou brand: ' +
               item.newBrand + ' a fost adaugat')
-          });
+          // });
           this._phoneListService.addNewModel(item.newModel, item.newBrand.toLowerCase())
-            .then(item => {
+            // .then(item => {
               this.infoMessage('Adaugare model nou.', 'Un nou model: ' + item.newModel + ' a fost adaugat pentru brandul: ' +
                 item.newBrand);
-          });
+          // });
         }
     }
   }
@@ -181,10 +181,10 @@ export class ClientPfDetailComponent implements OnInit {
       if (item.newSingleModel !== '' && this._utilService.isNullOrUndefined(item.newSingleModel)) {
         const brandId = item.phoneBrand.toLowerCase();
         this._phoneListService.addNewModel(item.newSingleModel, brandId)
-          .then(item => {
+          // .then(item => {
             this.infoMessage('Adaugare model nou.', 'Un nou model: ' + item.newSingleModel
               + ' a fost adaugat');
-          });
+          // });
       }
     }
   }

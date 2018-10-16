@@ -32,7 +32,8 @@ import {AuthService} from "./guards/auth.service";
 import {AuthGuard} from 'app/guards/auth.guard';
 import {RegisterComponent} from "./main/pages/authentication/register/register.component";
 import {LoginModule} from "./main/pages/authentication/login/login.module";
-import { DashboardComponent } from './main/pages/dashboard/dashboard.component';
+import { NavbarComponent } from './layout/components/navbar/navbar.component';
+import {DashboardComponent} from "./main/apps/dashboard/dashboard.component";
 
 
 export const firebaseConfig = {
@@ -56,7 +57,8 @@ export const firebaseConfigProd = {
     declarations: [
         AppComponent,
         RegisterComponent,
-        DashboardComponent
+        DashboardComponent,
+        NavbarComponent
     ],
     imports: [
         BrowserModule,
@@ -79,7 +81,6 @@ export const firebaseConfigProd = {
         ClientCenterRoutingModule,
         RepairCenterRoutingModule,
         LoginModule,
-
         //firebase
         AngularFireModule.initializeApp(firebaseConfigProd),
         AngularFireDatabaseModule,

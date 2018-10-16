@@ -17,7 +17,7 @@ import {DialogModule} from "primeng/dialog";
 import {MultiSelectModule} from "@progress/kendo-angular-dropdowns";
 import {PanelModule} from "primeng/panel";
 import {DataViewModule} from "primeng/dataview";
-import {MatCheckboxModule, MatInputModule, MatRadioModule, MatSelectModule} from "@angular/material";
+import {MatSelectModule} from "@angular/material";
 
 @NgModule({
   imports: [

@@ -85,12 +85,12 @@ export class RepairGSMDetailComponent implements OnInit{
     this.updateCheckedItem(clientGSM);
     delete clientGSM.$key;
     this._repairGSMService.updateItem(clientKey, clientGSM)
-      .then(item => {
+      // .then(item => {
         this.msgs = this._utilService.successUpdateMessage(clientGSM.lastname, '',
           clientGSM.phone,'Valoare modificata ');
-      }).catch(err => {
-        console.log(err);
-    });
+      // }).catch(err => {
+      //   console.log(err);
+    // });
   }
 
   static checkPaymentIsNo(clientGSM, type) {

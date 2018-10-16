@@ -121,15 +121,15 @@ export class RepairPFDetailComponent implements OnInit {
     delete clientPF.$key;
     this.repairPFService
       .updateItem(clientKey, clientPF)
-      .then(item => {
+      // .then(item => {
          this.successUpdateMessage(clientPF.lastname, "", clientPF.phone,'Valoare');
-       })
-      .catch(err => {
-        this.errorUpdateMessage('Eroare la modificarea clientului. ' +
-          'Incercati din nou dupa un refresh al browseru-lui.' +
-          'Daca problema nu se rezolva, incercati un clear cache al browseru-lui.');
+       // })
+      // .catch(err => {
+      //   this.errorUpdateMessage('Eroare la modificarea clientului. ' +
+      //     'Incercati din nou dupa un refresh al browseru-lui.' +
+      //     'Daca problema nu se rezolva, incercati un clear cache al browseru-lui.');
 
-      });
+      // });
   }
 
   getClientsPFList(): Observable<any> {
@@ -138,21 +138,21 @@ export class RepairPFDetailComponent implements OnInit {
 
   updateCheckedItem(row) {
     this.repairPFService.updateItem(row.$key, {isPayed: row.isPayed})
-      .then(item => {
-      })
-      .catch(err => {
-      console.log("Erorr UpdateCheckedItem - isPayed: " + err);
-    });
+      // .then(item => {
+      // })
+      // .catch(err => {
+      // console.log("Erorr UpdateCheckedItem - isPayed: " + err);
+    // });
     if(row.isPayed) {
       //Delete deliveredeDate because of a bug
       //When updating for the second time the desired property, is not updated, so I recreate it
       delete row.deliveredDate;
       let date = new Date().getTime().toString();
       this.repairPFService.updateItem(row.$key, {deliveredDate: date})
-        .then(item => {})
-        .catch(err => {
-          console.log("Erorr UpdateCheckedItem - deliveredDate: " + err);
-        });
+        // .then(item => {})
+        // .catch(err => {
+        //   console.log("Erorr UpdateCheckedItem - deliveredDate: " + err);
+        // });
     }
   }
   checkPaymentIsNo(clientGSM, type) {
@@ -167,11 +167,12 @@ export class RepairPFDetailComponent implements OnInit {
   }
   updateAppointmentDate(row, time) {
     let date = new Date(time).getTime().toString();
-    this.repairPFService.updateItem(row.$key, {appointmentDate: date}).then(item => {
+    this.repairPFService.updateItem(row.$key, {appointmentDate: date})
+      // .then(item => {
       this.defaultDate = new Date();
       this.defaultDate.setHours(12,0);
       this.successUpdateMessage(row.lastname, row.firstname, row.phone,'Data programarii a fost')
-    });
+    // });
 
   }
 

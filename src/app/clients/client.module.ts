@@ -36,6 +36,9 @@ import {ClientService} from "./shared/client.service";
     TooltipModule,
     SelectButtonModule
   ],
+  exports: [
+    ClientTypeListComponent
+  ],
   declarations: [
     ClientTypeListComponent,
     ClientPfDetailComponent,
@@ -43,7 +46,6 @@ import {ClientService} from "./shared/client.service";
     PhoneListComponent,
     PhoneGSMListComponent,
     TitleCasePipe
-
   ],
   providers: [
     ClientTypeService,

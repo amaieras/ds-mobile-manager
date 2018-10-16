@@ -140,13 +140,13 @@ export class ClientGSMDetailComponent implements OnInit {
     this.prepareSaveClientGSM();
     this.clientGSM = this.saveClientGSM;
     this._clientGSMService.addGSMClient(this.clientGSM)
-      .then(item => {
+      // .then(item => {
         this.clientGSMForm.patchValue({appointment: this.defaultDate.getTime().toString()});
         this.print();
         this.resetAfterSubumit();
         this.msgs = this._utilService.succesAddMessage('Adauga client GSM',
           'success', 'Client adaugat cu succes.');
-      });
+      // });
 
 
   }
@@ -223,18 +223,18 @@ export class ClientGSMDetailComponent implements OnInit {
 
   private addNewClientGSMType(clientTypeGSM) {
    this._clientGSMService.addGSMClientList(clientTypeGSM)
-     .then(item => {
+     // .then(item => {
        this.resetClientGSMListFilter('cxvx');
-     });
+     // });
   }
 
   private updateClientGSMType(clientTypeGSM) {
     this._clientGSMService.updateClientGSM(clientTypeGSM.$key,
       {phone: clientTypeGSM.phone, city: clientTypeGSM.city, firm:clientTypeGSM.firm })
-      .then(item => {
+      // .then(item => {
         this._utilService.successUpdateMessage(clientTypeGSM.lastname, '',
           clientTypeGSM.phone, 'Valoare ')
-      });
+      // });
   }
 
   addBillingAddress() {
