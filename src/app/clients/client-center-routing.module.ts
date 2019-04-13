@@ -14,22 +14,22 @@ const clientsCenterRoutes: Routes = [
       children: [
         {
           path: '',
-          redirectTo: 'clients',
+          redirectTo: 'pf',
           pathMatch: 'full',
-          canActivate: [AuthGuard]
+          // canActivate: [AuthGuard]
         },
         {
           path: 'pf',
           component: ClientPfDetailComponent,
-          canActivate: [AuthGuard]
+          // canActivate: [AuthGuard]
         },
-        {
-          path: 'gsm',
-          component: ClientGSMDetailComponent,
-          canActivate: [AuthGuard]
-        }
+        // {
+        //   path: 'gsm',
+        //   component: ClientGSMDetailComponent,
+        //   canActivate: [AuthGuard]
+        // }
       ],
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
     data: {
       title: 'Adaugă clienţi'
     }

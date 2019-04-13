@@ -17,7 +17,7 @@ const repairsCenterRoutes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'repairs',
+        redirectTo: 'pf',
         pathMatch: 'full',
         // canActivate: [AuthGuard]
       },
@@ -26,16 +26,16 @@ const repairsCenterRoutes: Routes = [
         component: RepairPFDetailComponent,
         // canActivate: [AuthGuard]
       },
-      {
-        path: 'gsm',
-        component: RepairGSMDetailComponent,
-        // canActivate: [AuthGuard]
-      },
-      {
-        path: 'gsm-sent',
-        component: RepairGsmSentComponent,
-        // canActivate: [AuthGuard]
-      }
+      // {
+      //   path: 'gsm',
+      //   component: RepairGSMDetailComponent,
+      //   // canActivate: [AuthGuard]
+      // },
+      // {
+      //   path: 'gsm-sent',
+      //   component: RepairGsmSentComponent,
+      //   // canActivate: [AuthGuard]
+      // }
     ],
     data: {
       title: 'Reparaţii'
@@ -48,7 +48,7 @@ const repairsCenterRoutes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'repairs-done',
+        redirectTo: 'pf',
         pathMatch: 'full',
         // canActivate: [AuthGuard]
       },
@@ -57,11 +57,11 @@ const repairsCenterRoutes: Routes = [
         component: RepairPfDoneComponent,
         // canActivate: [AuthGuard]
       },
-      {
-        path: 'gsm',
-        component: RepairGsmDoneComponent,
-        // canActivate: [AuthGuard]
-      }
+      // {
+      //   path: 'gsm',
+      //   component: RepairGsmDoneComponent,
+      //   // canActivate: [AuthGuard]
+      // }
     ],
     // canActivate: [AuthGuard],
     data: {

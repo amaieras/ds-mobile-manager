@@ -308,8 +308,8 @@ export class RepairPFDetailComponent implements OnInit {
         }
       }
       else {
-        var fields = field.split('.');
-        var value = data;
+        let fields = field.split('.');
+        let value = data;
         for (var i = 0, len = fields.length; i < len; ++i) {
           if (value == null) {
             return null;
@@ -325,10 +325,8 @@ export class RepairPFDetailComponent implements OnInit {
   };
 
   printRepair(repair) {
-    this._clientPFService.getAllClients().subscribe( client => {
-      let warrantyInfo = new WarrantyInfo(repair.addedDate, repair.lastname, repair.firstname, repair.phone, repair.priceOffer,
-         repair.tested, repair.aboutUs, repair.phoneList, repair.deliveredDate,  client.length, repair['paymentMethod']);
-      this.child.print(warrantyInfo);
-    })
+    let warrantyInfo = new WarrantyInfo(repair.addedDate, repair.lastname, repair.firstname, repair.phone, repair.priceOffer,
+       repair.tested, repair.aboutUs, repair.phoneList, repair.deliveredDate,  repair["clientNo"], repair['paymentMethod']);
+    this.child.print(warrantyInfo);
   }
 }

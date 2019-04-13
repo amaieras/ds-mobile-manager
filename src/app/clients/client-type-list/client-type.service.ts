@@ -8,21 +8,21 @@ export class ClientType {
 }
 
 export const clientTypes: ClientType[] = [
-  {
-    id: 1,
-    type: 'PF',
-    url: 'pf'
-  },
-  {
-    id: 2,
-    type: 'GSM',
-    url: 'gsm'
-  },
-  {
-    id: 3,
-    type: 'GSM-trimis',
-    url: 'gsm-sent'
-  },
+  // {
+  //   id: 1,
+  //   type: 'PF',
+  //   url: 'clients/pf'
+  // },
+  // {
+  //   id: 2,
+  //   type: 'GSM',
+  //   url: 'gsm'
+  // },
+  // {
+  //   id: 3,
+  //   type: 'GSM-trimis',
+  //   url: 'gsm-sent'
+  // },
   // {
   //   id: 4,
   //   type: 'GSM-Vanzare/Imprumut Display',

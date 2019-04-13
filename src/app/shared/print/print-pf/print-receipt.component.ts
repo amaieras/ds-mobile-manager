@@ -11,7 +11,7 @@ export class PrintReceiptComponent implements OnInit {
   dsMobilePhone: string;
 
   constructor(private _changeDetector: ChangeDetectorRef) {
-    this.dsMobilePhone = '0734.588.883';
+    this.dsMobilePhone = '0763.372.404';
   }
   @Input('clientPFInfo') clientPFInfo: WarrantyInfo;
   ngOnInit() {

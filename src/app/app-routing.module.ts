@@ -8,7 +8,7 @@ import {AppComponent} from "./app.component";
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/clients',
+    redirectTo: '/clients/pf',
     pathMatch: 'full'
   },
   // {

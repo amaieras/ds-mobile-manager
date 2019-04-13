@@ -1,8 +1,10 @@
 <div fxLayout="column" fxFlex  [class.dark-theme]="isDarkTheme">
-  <mat-sidenav-container fxFlex>
-    <mat-sidenav #mainSideNav mode="side" opened>
+  <mat-drawer-container fxFlex>
+    <mat-drawer #mainSideNav mode="side" opened>
       <mat-toolbar>
-        <img src="../assets/images/logos/logo.png" style="height:80%">
+        <a href="/clients/clients/pf">
+          <img src="../assets/images/logos/logo.png" style="height: 100%;width: 9em;">
+        </a>
       </mat-toolbar>
       <mat-nav-list>
         <a *ngFor="let navItem of mainMenuItems"
@@ -15,7 +17,7 @@
           <span>{{navItem.title}}</span>
         </a>
       </mat-nav-list>
-    </mat-sidenav>
+    </mat-drawer>
     <mat-toolbar color="primary">
       <button mat-icon-button (click)="mainSideNav.toggle()">
         <mat-icon *ngIf="mainSideNav.opened">chevron_left</mat-icon>
@@ -32,7 +34,7 @@
     <div class="am-mat-sidenav-content">
       <router-outlet></router-outlet>
     </div>
-  </mat-sidenav-container>
+  </mat-drawer-container>
   <mat-menu #themeMenu x-position="before">
     <button mat-menu-item (click)="isDarkTheme = !isDarkTheme">Toggle Theme</button>
   </mat-menu>

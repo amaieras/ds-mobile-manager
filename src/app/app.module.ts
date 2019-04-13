@@ -45,12 +45,13 @@ export const firebaseConfig = {
     messagingSenderId: '931169905269'
 }
 export const firebaseConfigProd = {
-  apiKey: 'AIzaSyAexP1Haz3RsxHqPX--XncgC1Rxef_wMDA',
-    authDomain: 'ds-mobile-prod.firebaseapp.com',
-    databaseURL: 'https://ds-mobile-prod.firebaseio.com',
-    projectId: 'ds-mobile-prod',
-    storageBucket: '',
-    messagingSenderId: '662623055885'
+  apiKey: "AIzaSyDIwIoUurGaLK6-VChLEHw7X_zwxIlLGRI",
+  authDomain: "gen-phone-service-prod-36af8.firebaseapp.com",
+  databaseURL: "https://gen-phone-service-prod-36af8.firebaseio.com",
+  projectId: "gen-phone-service-prod-36af8",
+  storageBucket: "gen-phone-service-prod-36af8.appspot.com",
+  messagingSenderId: "281035311399"
+
 }
 
 @NgModule({
