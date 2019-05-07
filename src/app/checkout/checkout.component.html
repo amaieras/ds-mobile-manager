@@ -4,12 +4,12 @@
       <date-filter (onDatePicked)="getCheckoutForDate($event)"></date-filter>
     </div>
 
-    <mat-form-field>
-      <mat-select placeholder="Alege service-ul"  (selectionChange)="getCheckoutForShop()"
-                  [formControl]="shops" multiple [(ngModel)]="selectedShop">
-        <mat-option *ngFor="let shop of shopList" [value]="shop.key">{{shop.value}}</mat-option>
-      </mat-select>
-    </mat-form-field>
+<!--    <mat-form-field>-->
+<!--      <mat-select placeholder="Alege service-ul"  (selectionChange)="getCheckoutForShop()"-->
+<!--                  [formControl]="shops" multiple [(ngModel)]="selectedShop">-->
+<!--        <mat-option *ngFor="let shop of shopList" [value]="shop.key">{{shop.value}}</mat-option>-->
+<!--      </mat-select>-->
+<!--    </mat-form-field>-->
   </div>
   <amexio-card-pane [enableFooter]="false">
     <amexio-pane-header>

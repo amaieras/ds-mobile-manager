@@ -33,6 +33,16 @@
       </mat-form-field>
     </div>
     <div class="col-md-5">
+      <label for="phone-model" style="display: block">Model</label>
+      <p-multiSelect id="phone-model" [(ngModel)]="selectedModels" [options]="phoneModelsArray"[panelStyle]="{minWidth:'12em'}">
+        <ng-template let-phone pTemplate="item">
+          <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+            <div style="font-size:14px;float:right;margin-top:4px">{{phone.label}}</div>
+          </div>
+        </ng-template>
+      </p-multiSelect>
+    </div>
+    <div class="col-md-5">
       <label for="phone-brand" style="display: block">Brand</label>
       <p-multiSelect id="phone-brand"
                      [(ngModel)]="selectedBrands"
@@ -45,26 +55,17 @@
         </ng-template>
       </p-multiSelect>
     </div>
-    <div class="col-md-5">
-      <label for="about-us" style="display: block">De unde a venit?(Doar PF)</label>
-      <p-multiSelect id="about-us" [(ngModel)]="selectedAboutUs" [options]="aboutUsList" [panelStyle]="{minWidth:'12em'}">
-        <ng-template let-about pTemplate="item">
-          <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
-            <div style="font-size:14px;float:right;margin-top:4px">{{about.label}}</div>
-          </div>
-        </ng-template>
-      </p-multiSelect>
-    </div>
-    <div class="col-md-5">
-      <label for="phone-model" style="display: block">Model</label>
-      <p-multiSelect id="phone-model" [(ngModel)]="selectedModels" [options]="phoneModelsArray"[panelStyle]="{minWidth:'12em'}">
-        <ng-template let-phone pTemplate="item">
-          <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
-            <div style="font-size:14px;float:right;margin-top:4px">{{phone.label}}</div>
-          </div>
-        </ng-template>
-      </p-multiSelect>
-    </div>
+<!--    <div class="col-md-5">-->
+<!--      <label for="about-us" style="display: block">De unde a venit?(Doar PF)</label>-->
+<!--      <p-multiSelect id="about-us" [(ngModel)]="selectedAboutUs" [options]="aboutUsList" [panelStyle]="{minWidth:'12em'}">-->
+<!--        <ng-template let-about pTemplate="item">-->
+<!--          <div class="ui-helper-clearfix" style="position: relative;height: 25px;">-->
+<!--            <div style="font-size:14px;float:right;margin-top:4px">{{about.label}}</div>-->
+<!--          </div>-->
+<!--        </ng-template>-->
+<!--      </p-multiSelect>-->
+<!--    </div>-->
+
 
     <div class="col-md-5">
       <label for="appointmentDate" style="display: block">Perioada - Data intrare</label>
