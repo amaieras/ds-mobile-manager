@@ -36,7 +36,9 @@ export class ReportsFilterComponent implements OnInit {
   clientsGSMList : any[] = [];
   selectedGSMClients: any[] = [];
   checked: boolean;
-  filteredClientsList: any = [];
+  listToFilter: any = [];
+
+  gsmClientList: any = [];
   @ViewChild(FilterDataTableComponent) filterDataTableComponent: FilterDataTableComponent;
 
   constructor(private _phoneListService: PhoneListService, private _aboutUsService: AboutUsService,
@@ -86,6 +88,7 @@ export class ReportsFilterComponent implements OnInit {
 
     this._reportService.getClientsGSMList().subscribe(gsm => {
       gsm.forEach(snapshot=> {
+        this.gsmClientList.push(snapshot.name)
         this.clientsGSMList.push(snapshot);
         // this.selectedGSMClients.push(snapshot.name)
       })
