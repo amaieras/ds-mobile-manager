@@ -31,12 +31,11 @@ export class ReportsFilterComponent implements OnInit {
   problemsList: any = [];
   selectedProblems: any[];
   report: Report = new Report(0,0,0,[],[]);
-  isPayed: boolean = false;
+  isPayed: false;
   clientsGSM = new FormControl();
   clientsGSMList : any[] = [];
   selectedGSMClients: any[] = [];
   checked: boolean;
-  listToFilter: any = [];
 
   gsmClientList: any = [];
   @ViewChild(FilterDataTableComponent) filterDataTableComponent: FilterDataTableComponent;
@@ -50,10 +49,10 @@ export class ReportsFilterComponent implements OnInit {
 
   private populateDropDownFilters() {
     this.clientTypes = [
-      {label:'PF', value:'pf'},
+      // {label:'PF', value:'pf'},
       {label: 'GSM', value:'gsm'}
     ];
-    this.selectedClientTypes = [ "pf", "gsm" ];
+    this.selectedClientTypes = [ "gsm" ];
 
     this._phoneListService.getBrandList().subscribe(phoneModels => {
       this.phoneBrandsArray = [];

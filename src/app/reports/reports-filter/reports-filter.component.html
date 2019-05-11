@@ -1,21 +1,9 @@
 <div class="container">
   <div class="row">
-    <div class="col-md-5">
-      <label for="client-type" style="display: block">Tipul de client</label>
-      <p-multiSelect id="client-type" [options]="clientTypes" [(ngModel)]="selectedClientTypes" [panelStyle]="{minWidth:'12em'}"></p-multiSelect>
-    </div>
-    <div class="col-md-5">
-      <label for="problem" style="display: block">Solicitare/Problema</label>
-      <p-multiSelect id="problem" [options]="problemsList"
-                     [(ngModel)]="selectedProblems"
-                     [panelStyle]="{minWidth:'12em'}">
-        <ng-template let-problem pTemplate="item">
-          <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
-            <div style="font-size:14px;float:right;margin-top:4px">{{problem.label}}</div>
-          </div>
-        </ng-template>
-      </p-multiSelect>
-    </div>
+<!--    <div class="col-md-5">-->
+<!--      <label for="client-type" style="display: block">Tipul de client</label>-->
+<!--      <p-multiSelect id="client-type" [options]="clientTypes" [(ngModel)]="selectedClientTypes" [panelStyle]="{minWidth:'12em'}"></p-multiSelect>-->
+<!--    </div>-->
     <div class="col-md-5">
       <mat-form-field>
         <mat-select placeholder="Alege clentul GSM"
@@ -33,15 +21,20 @@
       </mat-form-field>
     </div>
     <div class="col-md-5">
-      <label for="phone-model" style="display: block">Model</label>
-      <p-multiSelect id="phone-model" [(ngModel)]="selectedModels" [options]="phoneModelsArray"[panelStyle]="{minWidth:'12em'}">
-        <ng-template let-phone pTemplate="item">
+      <label for="problem" style="display: block">Solicitare/Problema</label>
+      <p-multiSelect id="problem" [options]="problemsList"
+                     [(ngModel)]="selectedProblems"
+                     [panelStyle]="{minWidth:'12em'}">
+        <ng-template let-problem pTemplate="item">
           <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
-            <div style="font-size:14px;float:right;margin-top:4px">{{phone.label}}</div>
+            <div style="font-size:14px;float:right;margin-top:4px">{{problem.label}}</div>
           </div>
         </ng-template>
       </p-multiSelect>
     </div>
+
+  </div>
+  <div class="row">
     <div class="col-md-5">
       <label for="phone-brand" style="display: block">Brand</label>
       <p-multiSelect id="phone-brand"
@@ -55,6 +48,14 @@
         </ng-template>
       </p-multiSelect>
     </div>
+    <div class="col-md-5">
+      <label for="appointmentDate" style="display: block">Perioada - Data intrare</label>
+      <p-calendar id="appointmentDate" [(ngModel)]="rangeDates" selectionMode="range" readonlyInput="true"
+                  [monthNavigator]="true" [yearNavigator]="true" yearRange="2017:2030" [showIcon]="true"
+                  dateFormat="dd/mm/yy">
+      </p-calendar>
+    </div>
+  </div>
 <!--    <div class="col-md-5">-->
 <!--      <label for="about-us" style="display: block">De unde a venit?(Doar PF)</label>-->
 <!--      <p-multiSelect id="about-us" [(ngModel)]="selectedAboutUs" [options]="aboutUsList" [panelStyle]="{minWidth:'12em'}">-->
@@ -66,28 +67,30 @@
 <!--      </p-multiSelect>-->
 <!--    </div>-->
 
-
+  <div class="row">
     <div class="col-md-5">
-      <label for="appointmentDate" style="display: block">Perioada - Data intrare</label>
-      <p-calendar id="appointmentDate" [(ngModel)]="rangeDates" selectionMode="range" readonlyInput="true"
-                  [monthNavigator]="true" [yearNavigator]="true" yearRange="2017:2030" [showIcon]="true"
-                  dateFormat="dd/mm/yy">
-      </p-calendar>
-    </div>
-    <div class="ui-g" style="width:250px;margin-bottom:10px">
-      <div class="ui-g-12"><p-checkbox name="group1" binary="false" label="Achitat?" [(ngModel)]="isPayed" inputId="isp"></p-checkbox></div>
+      <label for="phone-model" style="display: block">Model</label>
+      <p-multiSelect id="phone-model" [(ngModel)]="selectedModels" [options]="phoneModelsArray"[panelStyle]="{minWidth:'12em'}">
+        <ng-template let-phone pTemplate="item">
+          <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+            <div style="font-size:14px;float:right;margin-top:4px">{{phone.label}}</div>
+          </div>
+        </ng-template>
+      </p-multiSelect>
     </div>
 
-    <div class="col-md-5"  style="padding:4px 14px">
-      <button type="button" (click)="applyFilters()" class="btn btn-success">
-        Afiseaza rezultatele
-      </button>
-    </div>
-  </div>
+      <div class="ui-g" style="width:250px;margin-bottom:10px">
+        <div class="ui-g-12"><p-checkbox name="group1" binary="false" label="Achitat?" [(ngModel)]="isPayed" inputId="isp"></p-checkbox></div>
+      </div>
+
+      <div class="col-md-5"  style="padding:4px 14px">
+        <button type="button" (click)="applyFilters()" class="btn btn-success">
+          Afiseaza rezultatele
+        </button>
+      </div>
 </div>
-
+</div>
 <div class="content">
-
   <mat-tab-group dynamicHeight>
     <mat-tab label="Sumar informatii">
 

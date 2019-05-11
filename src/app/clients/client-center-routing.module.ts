@@ -14,7 +14,7 @@ const clientsCenterRoutes: Routes = [
       children: [
         {
           path: '',
-          redirectTo: 'clients',
+          redirectTo: 'gsm',
           pathMatch: 'full',
           // canActivate: [AuthGuard]
         },

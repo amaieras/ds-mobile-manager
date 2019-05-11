@@ -7,7 +7,6 @@ import {ViewOfferComponent} from "./offer-view/view-offer.component";
 import {ViewOfferDoneComponent} from "./offer-view-done/view-offer-done.component";
 import {AuthGuard} from "../guards/auth.guard";
 
- // TODO - remove offer tab
 // const offerCenterRoutes: Routes = [
 //   {
 //     path: 'offer',
