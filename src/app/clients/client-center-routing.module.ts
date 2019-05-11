@@ -18,11 +18,11 @@ const clientsCenterRoutes: Routes = [
           pathMatch: 'full',
           // canActivate: [AuthGuard]
         },
-        {
-          path: 'pf',
-          component: ClientPfDetailComponent,
+        // {
+        //   path: 'pf',
+        //   component: ClientPfDetailComponent,
           // canActivate: [AuthGuard]
-        },
+        // },
         {
           path: 'gsm',
           component: ClientGSMDetailComponent,
