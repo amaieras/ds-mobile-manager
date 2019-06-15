@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import {AngularFireDatabase, AngularFireList} from "angularfire2/database";
-import {Observable} from "rxjs/Observable";
-import {UtilService} from "../../../../utils/util.service";
+import {AngularFireDatabase, AngularFireList} from 'angularfire2/database';
+import {Observable} from 'rxjs/Observable';
+import {UtilService} from '../../../../utils/util.service';
 
 @Injectable()
 export class AboutUsService {

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {of} from "rxjs/observable/of";
+import {of} from 'rxjs/observable/of';
 
 export class ReportType {
   constructor(public id: number, public type: string, public url: string) { }

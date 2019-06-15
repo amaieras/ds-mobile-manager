@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {isNull, isUndefined} from "util";
-import {Message} from "primeng/api";
+import {isNull, isUndefined} from 'util';
+import {Message} from 'primeng/api';
 
 @Injectable()
 export class UtilService {
@@ -61,18 +61,18 @@ export class UtilService {
   getMaxIdNewItems(itemsList) {
       const maxId = Math.max.apply(Math, itemsList.map(function (o) {
         return o.id;
-      }))
+      }));
       return maxId;
   }
 
   getDate() {
     const today = new Date();
-    let month = today.getMonth() + 1;
-    let day = today.getDate().toString();
-    let hours = today.getHours().toString();
-    let minutes = today.getMinutes().toString();
-    let seconds = today.getSeconds().toString();
-    let year = today.getFullYear().toString();
+    const month = today.getMonth() + 1;
+    const day = today.getDate().toString();
+    const hours = today.getHours().toString();
+    const minutes = today.getMinutes().toString();
+    const seconds = today.getSeconds().toString();
+    const year = today.getFullYear().toString();
     return day + month + year + '_' + hours + minutes + seconds;
   }
 
@@ -83,7 +83,7 @@ export class UtilService {
    */
   toTitleCase(str)
   {
-    return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+    return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); });
   }
 
   /**
@@ -93,7 +93,7 @@ export class UtilService {
    * @param detail
    */
   succesAddMessage(summary, severity, detail) {
-    let msgs: Message[] = [];
+    const msgs: Message[] = [];
     msgs.push({
       severity: severity,
       summary: summary,
@@ -112,7 +112,7 @@ export class UtilService {
    * @returns {Message[]}
    */
   successUpdateMessage(lastname, firstname, phone, msg) {
-    let msgs: Message[] = [];
+    const msgs: Message[] = [];
     let msgAux = '';
     if (lastname === undefined || firstname === undefined) {
       msgAux = ' pentru clientul cu numarul de telefon: ' + phone;
@@ -133,7 +133,7 @@ export class UtilService {
      * @param msg
      */
     errorUpdateMessage(msg) {
-      let msgs:Message[] = [];
+      const msgs: Message[] = [];
       msgs.push({
         severity: 'error',
         summary: msg ,

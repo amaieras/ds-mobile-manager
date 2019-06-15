@@ -4,8 +4,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { FuseConfigService } from '@fuse/services/config.service';
 import { fuseAnimations } from '@fuse/animations/index';
-import {AuthService} from "../../../../guards/auth.service";
-import {Router} from "@angular/router";
+import {AuthService} from '../../../../guards/auth.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector   : 'login',
@@ -67,13 +67,13 @@ export class LoginComponent implements OnInit
       }, err => {
         console.log(err);
         // this.errorMessage = err.message;
-      })
+      });
   }
 
   tryGoogleLogin(){
     this._authService.doGoogleLogin()
       .then(res => {
         this.router.navigate(['/clients']);
-      })
+      });
   }
 }

@@ -17,10 +17,10 @@ import {PhoneListComponent} from './clientPF/phone-list/phone-list.component';
 import {PhoneGSMListComponent} from './clientGSM/phone-gsm-list/phone-gsm-list.component';
 import {PhoneCascadeService} from '../shared/phone-cascade.service';
 import {AboutUsService} from 'app/clients/clientPF/phone-list/about-us/about-us.service';
-import {PhoneListService} from "./clientPF/phone-list/phone-list.service";
-import {SharedDsModule} from "../shared/shared-ds.module";
-import {TitleCasePipe} from "../shared/TitleCasePipe";
-import {ClientService} from "./shared/client.service";
+import {PhoneListService} from './clientPF/phone-list/phone-list.service';
+import {SharedDsModule} from '../shared/shared-ds.module';
+import {TitleCasePipe} from '../shared/TitleCasePipe';
+import {ClientService} from './shared/client.service';
 
 
 @NgModule({

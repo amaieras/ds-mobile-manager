@@ -1,12 +1,12 @@
 
-import {PhoneList} from "./PhoneList";
-import {Address} from "./Address";
-import {PaymentMethod} from "./PaymentMethod";
+import {PhoneList} from './PhoneList';
+import {Address} from './Address';
+import {PaymentMethod} from './PaymentMethod';
 
 export class ClientGSM {
   constructor() { }
   clientNo: number;
-  addedDate: string
+  addedDate: string;
   lastname: string;
   firstname: string;
   firm: string;
@@ -21,7 +21,7 @@ export class ClientGSM {
   deliveredDate: string;
   country: string;
   city: string;
-  priceOfferCash:number;
+  priceOfferCash: number;
   billingAddress: Address[];
   shipmentAddress: Address[];
 }

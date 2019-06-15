@@ -19,7 +19,7 @@ export class RepairPFDetailService {
   }
 
 
-  getClientsPfListByYear(year:number){
+  getClientsPfListByYear(year: number){
     return this.repairsPF.snapshotChanges()
       .map(arr => {
         return arr

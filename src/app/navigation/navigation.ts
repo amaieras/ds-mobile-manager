@@ -2,11 +2,11 @@
 
 export const navigation: any[] = [
   {
-    id       : "applications",
-    title    : "Applications",
-    translate: "NAV.APPLICATIONS",
-    type     : "group",
-    icon     : "apps",
+    id       : 'applications',
+    title    : 'Applications',
+    translate: 'NAV.APPLICATIONS',
+    type     : 'group',
+    icon     : 'apps',
     children : [
       // {
       //     id       : 'dashboards',
@@ -30,32 +30,32 @@ export const navigation: any[] = [
       //     ]
       // },
       {
-        id       : "add-clients",
-        title    : "Clienţi",
-        translate: "NAV.ADD-CLIENTS",
-        type     : "collapsable",
-        icon     : "account_box",
+        id       : 'add-clients',
+        title    : 'Clienţi',
+        translate: 'NAV.ADD-CLIENTS',
+        type     : 'collapsable',
+        icon     : 'account_box',
         children : [
           {
-            id   : "pf",
-            title: "PF",
-            type : "item",
-            url  : "/apps/clients/clients-pf"
+            id   : 'pf',
+            title: 'PF',
+            type : 'item',
+            url  : '/apps/clients/clients-pf'
           },
           {
-            id   : "gsm",
-            title: "GSM",
-            type : "item",
-            url  : "/apps/clients/clientGSM"
+            id   : 'gsm',
+            title: 'GSM',
+            type : 'item',
+            url  : '/apps/clients/clientGSM'
           }
         ]
       },
       {
-        id   : "parts",
-        title: "Piese",
-        type : "item",
-        icon:  "build",
-        url  : "/apps/parts/parts"
+        id   : 'parts',
+        title: 'Piese',
+        type : 'item',
+        icon:  'build',
+        url  : '/apps/parts/parts'
       },
       //         {
       //             id       : 'calendar',

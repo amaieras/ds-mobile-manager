@@ -1,17 +1,17 @@
-import {ChangeDetectorRef, Component, OnInit, ViewChild} from "@angular/core";
-import {CheckoutService} from "./checkout.service";
-import {Checkout} from "../model/Checkout";
-import {ClientPF} from "../model/ClientPF";
-import {ClientGSM} from "../model/ClientGSM";
-import {PaymentMethod} from "../model/PaymentMethod";
-import {RepairPFDetailService} from "../repairs/repairPF/repair-pf-detail.service";
-import {Message} from "primeng/api";
-import {RepairGSMDetailService} from "../repairs/repairGSM/repair-gsm-detail.service";
-import {UtilService} from "../utils/util.service";
-import {PhoneListService} from "../clients/clientPF/phone-list/phone-list.service";
-import {FormControl} from "@angular/forms";
-import {Observable} from "rxjs/Observable";
-import "rxjs/add/observable/forkJoin";
+import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
+import {CheckoutService} from './checkout.service';
+import {Checkout} from '../model/Checkout';
+import {ClientPF} from '../model/ClientPF';
+import {ClientGSM} from '../model/ClientGSM';
+import {PaymentMethod} from '../model/PaymentMethod';
+import {RepairPFDetailService} from '../repairs/repairPF/repair-pf-detail.service';
+import {Message} from 'primeng/api';
+import {RepairGSMDetailService} from '../repairs/repairGSM/repair-gsm-detail.service';
+import {UtilService} from '../utils/util.service';
+import {PhoneListService} from '../clients/clientPF/phone-list/phone-list.service';
+import {FormControl} from '@angular/forms';
+import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/observable/forkJoin';
 
 @Component({
   selector: 'checkout',
@@ -21,7 +21,7 @@ import "rxjs/add/observable/forkJoin";
 
 export class CheckoutComponent implements OnInit {
 
-  checkout: Checkout[] = [new Checkout(0,0,0,0)];
+  checkout: Checkout[] = [new Checkout(0, 0, 0, 0)];
   currDate = new Date();
   //total
   totalClientsPerDay = 0;
@@ -44,8 +44,8 @@ export class CheckoutComponent implements OnInit {
   modelList: any[] = [];
   phoneBrandsArray: any = [];
   phoneModelsArray: any = [];
-  selectedModel = "";
-  selectedBrand = "";
+  selectedModel = '';
+  selectedBrand = '';
 
   shops = new FormControl();
   shopList: any = [{key: 'shop1', value: 'Shop 1 - Galeria 1 (PF)'}, {key: 'shop2', value: 'Refurbish center (GSM)'}];
@@ -57,10 +57,10 @@ export class CheckoutComponent implements OnInit {
     this.currDate = new Date();
   }
   ngOnInit() {
-    this.clientPF.paymentMethod = new PaymentMethod(0,0,0,0,0);
-    this.clientGSM.paymentMethod = new PaymentMethod(0,0,0,0,0);
-    this.testingValues = [{label: 'DA', value: 'DA'},{label: 'NU', value: 'NU'}];
-    this.methodsOfPayment = [{label: 'Nu', value: 'nu'},{label: 'Cont Curent', value: 'cont'},{label: 'Ramburs', value: 'ramburs'}];
+    this.clientPF.paymentMethod = new PaymentMethod(0, 0, 0, 0, 0);
+    this.clientGSM.paymentMethod = new PaymentMethod(0, 0, 0, 0, 0);
+    this.testingValues = [{label: 'DA', value: 'DA'}, {label: 'NU', value: 'NU'}];
+    this.methodsOfPayment = [{label: 'Nu', value: 'nu'}, {label: 'Cont Curent', value: 'cont'}, {label: 'Ramburs', value: 'ramburs'}];
 
     this.getCheckoutForDate(new Date());
     this.initBrandModelList();
@@ -118,7 +118,7 @@ export class CheckoutComponent implements OnInit {
           this.totalCard = totalCard || 0;
 
           this.total = total || 0;
-        })
+        });
       }
       else if (this.selectedShop[0] === 'shop2') {
         gsmClients.subscribe(gsm => {
@@ -141,7 +141,7 @@ export class CheckoutComponent implements OnInit {
           this.totalCard = totalCard || 0;
 
           this.total = total || 0;
-        })
+        });
       }
     }
     else if (this.selectedShop.length > 1) {
@@ -194,8 +194,8 @@ export class CheckoutComponent implements OnInit {
           this.totalCard = totalCard || 0;
 
           this.total = total || 0;
-        })
-      })
+        });
+      });
       // pfClients.merge(gsmClients).subscribe(clients => {
       //   clients.filter(client => {
       //     const clientDate = new Date(+client.addedDate);
@@ -242,7 +242,7 @@ export class CheckoutComponent implements OnInit {
             const clientDate = new Date(+client.addedDate);
             return clientDate.toDateString() === event.toDateString();
           }).length;
-        })
+        });
       }
       else if (this.selectedShop[0] === 'shop2') {
         gsmClients.subscribe(gsm => {
@@ -250,7 +250,7 @@ export class CheckoutComponent implements OnInit {
             const clientDate = new Date(+client.addedDate);
             return clientDate.toDateString() === event.toDateString();
           }).length;
-        })
+        });
       }
     }
     else if (this.selectedShop.length > 1) {
@@ -271,8 +271,8 @@ export class CheckoutComponent implements OnInit {
           }).length;
 
           this.totalClientsPerDay = totalPF + totalGSM;
-        })
-      })
+        });
+      });
       // pfClients.merge(gsmClients).subscribe(clients => {
       //   this.totalClientsPerDay += clients.filter(client => {
       //       const clientDate = new Date(+client.addedDate);
@@ -299,7 +299,7 @@ export class CheckoutComponent implements OnInit {
             const clientDate = new Date(+client.deliveredDate);
             return clientDate.toDateString() === event.toDateString()  && client.isPayed;
           }).length;
-        })
+        });
       }
       else if (this.selectedShop[0] === 'shop2') {
         gsmClients.subscribe(gsm => {
@@ -307,10 +307,10 @@ export class CheckoutComponent implements OnInit {
             const clientDate = new Date(+client.deliveredDate);
             return clientDate.toDateString() === event.toDateString()  && client.isPayed;
           }).length;
-        })
+        });
       }
     }
-    else if(this.selectedShop.length > 1) {
+    else if (this.selectedShop.length > 1) {
       this.totalIsRepairedPerDay = 0;
       let totalPF = 0;
       let totalGSM = 0;
@@ -326,8 +326,8 @@ export class CheckoutComponent implements OnInit {
               }).length;
 
             this.totalIsRepairedPerDay = totalPF + totalGSM;
-        })
-      })
+        });
+      });
       // pfClients.merge(gsmClients).subscribe(clients => {
       //   this.totalIsRepairedPerDay += clients.filter(function (client) {
       //     const clientDate = new Date(+client.deliveredDate);
@@ -355,7 +355,7 @@ export class CheckoutComponent implements OnInit {
             const clientDate = new Date(+client.addedDate);
             return clientDate.toDateString() === event.toDateString()  && !client.isPayed;
           }).length;
-        })
+        });
       }
       else if (this.selectedShop[0] === 'shop2') {
         gsmClients.subscribe(gsm => {
@@ -363,7 +363,7 @@ export class CheckoutComponent implements OnInit {
             const clientDate = new Date(+client.addedDate);
             return clientDate.toDateString() === event.toDateString()  && !client.isPayed;
           }).length;
-        })
+        });
       }
     }
     else if (this.selectedShop.length > 1) {
@@ -381,8 +381,8 @@ export class CheckoutComponent implements OnInit {
           }).length;
 
           this.totalIsRemainingPerDay = totalPF + totalGSM;
-        })
-      })
+        });
+      });
       // this.totalIsRemainingPerDay = 0;
       // pfClients.merge(gsmClients).subscribe(clients => {
       //   this.totalIsRemainingPerDay += clients.filter(function (client) {
@@ -409,17 +409,17 @@ export class CheckoutComponent implements OnInit {
           this.totalIsRemaining = pf.filter(client => {
             return !client.isPayed;
           }).length;
-        })
+        });
       }
       else if (this.selectedShop[0] === 'shop2') {
         gsmClients.subscribe(gsm => {
           this.totalIsRemaining = gsm.filter(client => {
             return !client.isPayed;
           }).length;
-        })
+        });
       }
     }
-    else if(this.selectedShop.length > 1) {
+    else if (this.selectedShop.length > 1) {
       this.totalIsRemaining = 0;
       let totalPF = 0;
       let totalGSM = 0;
@@ -433,8 +433,8 @@ export class CheckoutComponent implements OnInit {
           }).length;
           this.totalIsRemaining = totalPF + totalGSM;
 
-        })
-      })
+        });
+      });
       // pfClients.merge(gsmClients).subscribe(clients => {
       //   this.totalIsRemaining += clients.filter(client => {
       //     return !client.isPayed;
@@ -452,7 +452,7 @@ export class CheckoutComponent implements OnInit {
     this.clientsGSMPerDay = [];
     this._checkoutService.getClientsPFCurrDay().subscribe(pf => {
       this._checkoutService.getClientsGSMCurrDay().subscribe(gsm => {
-        if(showType === 'totalAddedPerDay') {
+        if (showType === 'totalAddedPerDay') {
           if (this.selectedShop.length === 1) {
             if (this.selectedShop[0] === 'shop1') {
               this.clientsPFPerDay = pf.filter(client => {
@@ -480,7 +480,7 @@ export class CheckoutComponent implements OnInit {
 
 
         }
-        else if(showType === 'totalMoneyPerDay') {
+        else if (showType === 'totalMoneyPerDay') {
           if (this.selectedShop.length === 1) {
             if (this.selectedShop[0] === 'shop1') {
               this.clientsPFPerDay = pf.filter(client => {
@@ -506,7 +506,7 @@ export class CheckoutComponent implements OnInit {
             });
           }
         }
-        else if(showType === 'remainingRepairsPerDay') {
+        else if (showType === 'remainingRepairsPerDay') {
           if (this.selectedShop.length === 1) {
             if (this.selectedShop[0] === 'shop1') {
               this.clientsPFPerDay = pf.filter(client => {
@@ -532,7 +532,7 @@ export class CheckoutComponent implements OnInit {
             });
           }
         }
-        else if(showType === 'remainingRepairs') {
+        else if (showType === 'remainingRepairs') {
           if (this.selectedShop.length === 1) {
             if (this.selectedShop[0] === 'shop1') {
               this.clientsPFPerDay = pf.filter(client => {
@@ -570,15 +570,15 @@ export class CheckoutComponent implements OnInit {
     this.cdr.detectChanges();
   }
   cloneClientGSM(c: ClientGSM): ClientGSM {
-    let clientGSM = new ClientGSM();
-    for(let prop in c) {
+    const clientGSM = new ClientGSM();
+    for (const prop in c) {
       clientGSM[prop] = c[prop];
     }
     return clientGSM;
   }
   cloneClient(c: ClientPF): ClientPF {
-    let clientPF = new ClientPF();
-    for(let prop in c) {
+    const clientPF = new ClientPF();
+    for (const prop in c) {
       clientPF[prop] = c[prop];
     }
     return clientPF;
@@ -606,14 +606,14 @@ export class CheckoutComponent implements OnInit {
     clientPF.phoneList[0].phoneBrand = this.selectedBrand;
     clientPF.phoneList[0].phoneModel = this.selectedModel;
     this._repairPFService.updateItem(clientKey, clientPF);
-    this.msgs = this._utilService.successUpdateMessage(clientPF.lastname, "", clientPF.phone,'Valoare modificata ');
+    this.msgs = this._utilService.successUpdateMessage(clientPF.lastname, '', clientPF.phone, 'Valoare modificata ');
   }
   updateGSMField(clientGSM) {
     const clientKey = clientGSM.$key;
     this.updateCheckedItem(clientGSM);
     delete clientGSM.$key;
     this._repairGSMService.updateItem(clientKey, clientGSM);
-    this.msgs = this._utilService.successUpdateMessage(clientGSM.lastname, "", clientGSM.phone,'Valoare modificata ');
+    this.msgs = this._utilService.successUpdateMessage(clientGSM.lastname, '', clientGSM.phone, 'Valoare modificata ');
   }
 
   /**
@@ -621,26 +621,26 @@ export class CheckoutComponent implements OnInit {
    * @param row
    */
   updateCheckedItem(row) {
-    if(row.city) {
+    if (row.city) {
       this._repairGSMService.updateItem(row.$key, {isPayed: row.isPayed});
 
 
-      if(row.isPayed) {
-        let date = new Date().getTime().toString();
+      if (row.isPayed) {
+        const date = new Date().getTime().toString();
         this._repairGSMService.updateItem(row.$key, {deliveredDate: date});
       }
     } else {
       this._repairPFService.updateItem(row.$key, {isPayed: row.isPayed});
 
-      if(row.isPayed) {
-        let date = new Date().getTime().toString();
+      if (row.isPayed) {
+        const date = new Date().getTime().toString();
         this._repairPFService.updateItem(row.$key, {deliveredDate: date});
       }
     }
 
   }
   checkPaymentIsNo(client, type) {
-    if(type === 'priceOffer') {
+    if (type === 'priceOffer') {
       client[type] = isNaN(client[type]) ||
       String(client[type]).trim().length === 0 ? 0 : +client[type];
     }
@@ -665,7 +665,7 @@ export class CheckoutComponent implements OnInit {
         this.phoneModelsArray.push({label: snapshot.name, value: snapshot.name.toLowerCase(), phoneId: snapshot.phoneId.toLowerCase()});
         this.modelList = this.phoneModelsArray;
       });
-      this.phoneModelsArray = this.phoneModelsArray.filter((item) => item.phoneId === "iphone" || item.phoneId === 'altele');
+      this.phoneModelsArray = this.phoneModelsArray.filter((item) => item.phoneId === 'iphone' || item.phoneId === 'altele');
     });
   }
 
@@ -677,7 +677,7 @@ export class CheckoutComponent implements OnInit {
         });
         this.phoneModelsArray = this.phoneModelsArray.filter((item) => item.phoneId.toLowerCase() === this.selectedBrand.toLowerCase());
         this.modelList = this.phoneModelsArray;
-    })
+    });
   }
   setBrandModel() {
     //TODO - update full array not just first value

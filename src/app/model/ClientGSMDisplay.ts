@@ -1,11 +1,11 @@
 
 
-import {PhoneList} from "./PhoneList";
+import {PhoneList} from './PhoneList';
 
 export class ClientGSMDisplay {
   constructor() { }
   clientNo: number;
-  addedDate: string
+  addedDate: string;
   lastname: string;
   phone: string;
   phoneList: PhoneList[];
@@ -15,5 +15,5 @@ export class ClientGSMDisplay {
   isRepaired = false;
   isPayed = false;
   deliveredDate: string;
-  priceOfferCash:number;
+  priceOfferCash: number;
 }

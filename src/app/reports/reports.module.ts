@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {SharedDsModule} from "../shared/shared-ds.module";
-import {AmexioDashboardModule} from "amexio-ng-extensions/dashboard";
-import {AmexioWidgetModule} from "amexio-ng-extensions";
-import {CalendarModule, CheckboxModule, DropdownModule, MultiSelectModule} from "primeng/primeng";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {ReportsShowComponent} from "./reports-show/reports-show.component";
-import {ReportService} from "../shared/reports/report.service";
+import {SharedDsModule} from '../shared/shared-ds.module';
+import {AmexioDashboardModule} from 'amexio-ng-extensions/dashboard';
+import {AmexioWidgetModule} from 'amexio-ng-extensions';
+import {CalendarModule, CheckboxModule, DropdownModule, MultiSelectModule} from 'primeng/primeng';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {ReportsShowComponent} from './reports-show/reports-show.component';
+import {ReportService} from '../shared/reports/report.service';
 import { ReportsFilterComponent } from './reports-filter/reports-filter.component';
-import {ReportTypeListComponent} from "./report-type-list/report-type-list.component";
-import {RouterModule} from "@angular/router";
-import {ReportTypeListService} from "./report-type-list/report-type-list.service";
+import {ReportTypeListComponent} from './report-type-list/report-type-list.component';
+import {RouterModule} from '@angular/router';
+import {ReportTypeListService} from './report-type-list/report-type-list.service';
 import {
   MatAutocompleteModule,
   MatCheckboxModule,
@@ -18,10 +18,10 @@ import {
   MatInputModule, MatPaginatorModule,
   MatSelectModule, MatTableModule,
   MatTabsModule
-} from "@angular/material";
-import {FuseSharedModule} from "../../@fuse/shared.module";
-import {FuseSidebarModule, FuseWidgetModule} from "../../@fuse/components";
-import {FilterDataTableComponent} from "./reports-filter/filter-data-table/filter-data-table.component";
+} from '@angular/material';
+import {FuseSharedModule} from '../../@fuse/shared.module';
+import {FuseSidebarModule, FuseWidgetModule} from '../../@fuse/components';
+import {FilterDataTableComponent} from './reports-filter/filter-data-table/filter-data-table.component';
 
 @NgModule({
   imports: [

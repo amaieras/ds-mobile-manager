@@ -1,5 +1,5 @@
-import {ChangeDetectorRef, Component, Input, OnInit} from "@angular/core";
-import {WarrantyInfo} from "../../../model/WarrantyInfo";
+import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
+import {WarrantyInfo} from '../../../model/WarrantyInfo';
 
 @Component({
   selector: 'app-print-receipt',
@@ -23,7 +23,7 @@ export class PrintReceiptComponent implements OnInit {
       this._changeDetector.detectChanges();
     }
     let popupWin;
-    let innerContents = document.getElementById('print-section').innerHTML;
+    const innerContents = document.getElementById('print-section').innerHTML;
     popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
     popupWin.document.open();
     popupWin.document.write(`

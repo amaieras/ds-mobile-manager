@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import {ClientPF} from '../../model/ClientPF';
-import {Observable} from "rxjs/Observable";
+import {Observable} from 'rxjs/Observable';
 
 
 
@@ -24,7 +24,7 @@ export class ClientPFService {
     return this.clientsPF.push(clientPF);
   }
   updateItem(key: string, value: any) {
-     return this.partPrices.update(key,{price: value} )
+     return this.partPrices.update(key, {price: value} );
   }
 
 }

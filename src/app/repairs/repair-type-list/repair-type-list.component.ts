@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable }        from 'rxjs/Observable';
 import 'rxjs/add/operator/finally';
-import { ClientType, ClientTypeService } from "../../clients/client-type-list/client-type.service"
+import { ClientType, ClientTypeService } from '../../clients/client-type-list/client-type.service';
 
 @Component({
   selector: 'repair-type-list',
@@ -28,7 +28,7 @@ export class RepairTypeListComponent implements OnInit {
       data => '',
       err => console.log(err + ' Error fetching client types.')
 
-    )
+    );
     this.selectedClientType = undefined;
   }
 

@@ -1,4 +1,4 @@
-import {ProblemList} from "./ProblemList";
+import {ProblemList} from './ProblemList';
 /**
  * Created by Spacaru on 10/22/2017.
  */

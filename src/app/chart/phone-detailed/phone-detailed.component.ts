@@ -1,8 +1,8 @@
 import { ViewChild, Component, OnInit } from '@angular/core';
-import {RepairPFDetailService} from "../../repairs/repairPF/repair-pf-detail.service";
-import {PhoneListService} from "../../clients/clientPF/phone-list/phone-list.service";
-import {SelectItem} from "primeng/primeng";
-import {UIChart} from "primeng/components/chart/chart";
+import {RepairPFDetailService} from '../../repairs/repairPF/repair-pf-detail.service';
+import {PhoneListService} from '../../clients/clientPF/phone-list/phone-list.service';
+import {SelectItem} from 'primeng/primeng';
+import {UIChart} from 'primeng/components/chart/chart';
 
 @Component({
   selector: 'app-phone-detailed',
@@ -23,11 +23,11 @@ export class PhoneDetailedComponent implements OnInit {
   constructor(private repairPFService: RepairPFDetailService, private phoneService: PhoneListService) {
 
     this.isDisabled = true;
-    this.series = [{name: 'S'},{name: 'A'},{name: 'J'}, {name: 'NOTE'}];
+    this.series = [{name: 'S'}, {name: 'A'}, {name: 'J'}, {name: 'NOTE'}];
     this.initChartDataset();
 
     this.phoneService.getBrandList().subscribe(item => {
-      this.phoneBrands =  item
+      this.phoneBrands =  item;
     });
 
   }
@@ -41,7 +41,7 @@ export class PhoneDetailedComponent implements OnInit {
   }
 
   getDataset(item, headers){
-    let obj = {
+    const obj = {
       label: headers.label,
       backgroundColor: headers.backgroundColor,
       borderColor: headers.borderColor,
@@ -55,33 +55,33 @@ export class PhoneDetailedComponent implements OnInit {
     let jan = 0 , feb = 0, mar = 0, apr = 0, mai = 0, iun = 0, iul = 0, aug = 0, sep = 0, oct = 0, nov = 0, dec = 0;
 
     item.forEach(it => {
-      let date = new Date(+it.data);
-      if(date.getMonth() === 0)
+      const date = new Date(+it.data);
+      if (date.getMonth() === 0)
         jan++;
-      if(date.getMonth() === 1)
+      if (date.getMonth() === 1)
         feb++;
-      if(date.getMonth() === 2)
+      if (date.getMonth() === 2)
         mar++;
-      if(date.getMonth() === 3)
+      if (date.getMonth() === 3)
         apr++;
-      if(date.getMonth() === 4)
+      if (date.getMonth() === 4)
         mai++;
-      if(date.getMonth() === 5)
+      if (date.getMonth() === 5)
         iun++;
-      if(date.getMonth() === 6)
+      if (date.getMonth() === 6)
         iul++;
-      if(date.getMonth() === 7)
+      if (date.getMonth() === 7)
         aug++;
-      if(date.getMonth() === 8)
+      if (date.getMonth() === 8)
         sep++;
-      if(date.getMonth() === 9)
+      if (date.getMonth() === 9)
         oct++;
-      if(date.getMonth() === 10)
+      if (date.getMonth() === 10)
         nov++;
-      if(date.getMonth() === 11)
+      if (date.getMonth() === 11)
         dec++;
     });
-    let data = {jan: jan, feb: feb, mar: mar, apr: apr, mai: mai, iun: iun,
+    const data = {jan: jan, feb: feb, mar: mar, apr: apr, mai: mai, iun: iun,
             iul: iul, aug: aug, sep: sep, oct: oct, nov: nov, dec: dec
     };
     return data;
@@ -92,25 +92,25 @@ export class PhoneDetailedComponent implements OnInit {
 
   getStatisticsForBrand(event){
 
-    if(event.value.name === 'Samsung'){
+    if (event.value.name === 'Samsung'){
       this.isDisabled = false;
     }
 
     else {
       this.isDisabled = true;
-      this.getStatisticsForSeries(event.value.name, event)
+      this.getStatisticsForSeries(event.value.name, event);
     }
   }
 
   getStatisticsForSeries(brand, event){
     this.data.datasets = [];
 
-    if(brand === event.value.name) {
+    if (brand === event.value.name) {
 
       this.phoneService.getModelsOfBrands(brand).subscribe(item => {
         item.forEach(it => {
           this.pushModelToDataset(it);
-        })
+        });
       });
     }
 
@@ -119,7 +119,7 @@ export class PhoneDetailedComponent implements OnInit {
 
       item.forEach(it => {
         this.pushModelToDataset(it);
-      })
+      });
 
     });
 
@@ -127,14 +127,14 @@ export class PhoneDetailedComponent implements OnInit {
 
   private pushModelToDataset(it) {
 
-    let phones = [];
+    const phones = [];
 
     this.repairPFService.getClientsPFList().subscribe(clients => {
 
       clients.forEach(client => {
 
-        let auxI = client.phoneList.filter(ph => {
-          return ph.phoneModel === it.name
+        const auxI = client.phoneList.filter(ph => {
+          return ph.phoneModel === it.name;
         });
 
         if (auxI.length > 0)
@@ -146,7 +146,7 @@ export class PhoneDetailedComponent implements OnInit {
 
       if (phones.length > 0) {
 
-        let headers = {
+        const headers = {
           label: it.name,
           backgroundColor: this.getRandomColor(),
           borderColor: this.getRandomColor(),
@@ -157,14 +157,14 @@ export class PhoneDetailedComponent implements OnInit {
 
       }
 
-    })
+    });
 
   }
 
   private getRandomColor() {
-  var letters = '0123456789ABCDEF'.split('');
-  var color = '#';
-  for (var i = 0; i < 6; i++ ) {
+  const letters = '0123456789ABCDEF'.split('');
+  let color = '#';
+  for (let i = 0; i < 6; i++ ) {
     color += letters[Math.floor(Math.random() * 16)];
   }
   return color;

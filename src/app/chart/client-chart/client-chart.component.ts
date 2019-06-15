@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {ChartService} from "../chart.service";
-import {RepairPFDetailService} from "../../repairs/repairPF/repair-pf-detail.service";
+import {ChartService} from '../chart.service';
+import {RepairPFDetailService} from '../../repairs/repairPF/repair-pf-detail.service';
 
 @Component({
   selector: 'app-client-chart',
@@ -15,52 +15,52 @@ export class ClientChartComponent implements OnInit {
   avgDY: any;
   avgMY: any;
 
-  constructor(private repairPFService:RepairPFDetailService, private chartService: ChartService) {
+  constructor(private repairPFService: RepairPFDetailService, private chartService: ChartService) {
     this.getStatisticsByYear( new Date());
   }
 
   getStatisticsByYear(event) {
-    let auxYear = event.getFullYear(),
+    const auxYear = event.getFullYear(),
       auxMonth = event.getMonth(),
       auxDay = event.getDate();
 
-    if(auxMonth != null && auxYear != null && auxDay != null)
+    if (auxMonth != null && auxYear != null && auxDay != null)
 
       this.repairPFService.getClientsPFList().subscribe(item => {
 
         this.data = {
-          labels: [ 'Zi (Medie ZI/LUNA)','Luna (MEDIE LUNA/AN)','Anul (MEDIA ZI/AN)'],
+          labels: [ 'Zi (Medie ZI/LUNA)', 'Luna (MEDIE LUNA/AN)', 'Anul (MEDIA ZI/AN)'],
           datasets: []
         };
 
-        let newItems = item.filter(function (fl) {
-          return new Date(+fl.addedDate).getFullYear() === auxYear
+        const newItems = item.filter(function (fl) {
+          return new Date(+fl.addedDate).getFullYear() === auxYear;
         });
 
-        let monthItems = newItems.filter(fi => {
-          return new Date(+fi.addedDate).getMonth() === auxMonth
+        const monthItems = newItems.filter(fi => {
+          return new Date(+fi.addedDate).getMonth() === auxMonth;
         });
 
-        let dayItems = monthItems.filter(fi => {
-          return new Date(+fi.addedDate).getDate() === auxDay
+        const dayItems = monthItems.filter(fi => {
+          return new Date(+fi.addedDate).getDate() === auxDay;
         });
 
-        let count = newItems.length;
-        let monthCount = monthItems.length;
-        let dayCount = dayItems.length;
+        const count = newItems.length;
+        const monthCount = monthItems.length;
+        const dayCount = dayItems.length;
 
         this.avgDM = this.chartService.getAveragePerDayInMonth(monthCount, auxMonth, auxYear);
         this.avgDY = this.chartService.getAveragePerDayInYear(count, auxYear);
         this.avgMY = this.chartService.getAveragePerMonthOfYear(count, auxYear);
 
 
-        let obj = {
-          label: 'Statistici: '+ auxDay + " " + (auxMonth+1) + " " + auxYear,
+        const obj = {
+          label: 'Statistici: ' + auxDay + ' ' + (auxMonth + 1) + ' ' + auxYear,
           backgroundColor: '#42f571',
           borderColor: '#36e53e',
           data: [dayCount, monthCount, count]
         };
-        let obj2 = {
+        const obj2 = {
           label: 'Media',
           backgroundColor: '#1d19f5',
           borderColor: '#0b1de5',

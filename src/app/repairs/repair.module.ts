@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { RouterModule } from "@angular/router";
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
-import { RepairTypeListComponent } from "./repair-type-list/repair-type-list.component";
-import { RepairGSMDetailComponent } from "./repairGSM/repair-gsm-detail.component"
+import { RepairTypeListComponent } from './repair-type-list/repair-type-list.component';
+import { RepairGSMDetailComponent } from './repairGSM/repair-gsm-detail.component';
 import {
   CalendarModule, DataTableModule, DropdownModule, GrowlModule, MultiSelectModule, RadioButtonModule,
   SharedModule
-} from "primeng/primeng"
-import { DialogModule, CheckboxModule } from "primeng/primeng";
-import { RepairPFDetailService } from "./repairPF/repair-pf-detail.service";
-import { RepairGSMDetailService } from "./repairGSM/repair-gsm-detail.service";
+} from 'primeng/primeng';
+import { DialogModule, CheckboxModule } from 'primeng/primeng';
+import { RepairPFDetailService } from './repairPF/repair-pf-detail.service';
+import { RepairGSMDetailService } from './repairGSM/repair-gsm-detail.service';
 import {CdkTableModule} from '@angular/cdk/table';
 import {
   MatAutocompleteModule,
@@ -46,12 +46,12 @@ import {
   MatTooltipModule,
   MatStepperModule,
 } from '@angular/material';
-import {SharedDsModule} from "../shared/shared-ds.module";
+import {SharedDsModule} from '../shared/shared-ds.module';
 import {RepairPfDoneComponent} from 'app/repairs/repairs-done/repairs-pf-done/repair-pf-done.component';
-import {RepairGsmDoneComponent} from "./repairs-done/repairs-gsm-done/repair-gsm-done.component";
-import {TableModule} from "primeng/table";
-import {RepairGsmSentService} from "./repairsGSMSent/repair-gsm-sent.service";
-import {RepairGsmSentComponent} from "./repairsGSMSent/repair-gsm-sent.component";
+import {RepairGsmDoneComponent} from './repairs-done/repairs-gsm-done/repair-gsm-done.component';
+import {TableModule} from 'primeng/table';
+import {RepairGsmSentService} from './repairsGSMSent/repair-gsm-sent.service';
+import {RepairGsmSentComponent} from './repairsGSMSent/repair-gsm-sent.component';
 
 
 @NgModule({

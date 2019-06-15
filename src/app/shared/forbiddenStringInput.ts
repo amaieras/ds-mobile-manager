@@ -1,5 +1,5 @@
 /** Input price cannot be a string */
-import {AbstractControl, ValidatorFn} from "@angular/forms";
+import {AbstractControl, ValidatorFn} from '@angular/forms';
 
 export function forbiddenStringInput(priceRe: RegExp): ValidatorFn {
   return (control: AbstractControl): {[key: string]: any} => {

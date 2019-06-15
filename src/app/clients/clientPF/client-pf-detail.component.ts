@@ -9,10 +9,10 @@ import {PhoneList} from '../../model/PhoneList';
 import {AboutUsService} from './phone-list/about-us/about-us.service';
 import {Observable} from 'rxjs/Observable';
 import {PhoneListService} from 'app/clients/clientPF/phone-list/phone-list.service';
-import {PrintReceiptComponent} from "../../shared/print/print-pf/print-receipt.component";
-import {WarrantyInfo} from "../../model/WarrantyInfo";
+import {PrintReceiptComponent} from '../../shared/print/print-pf/print-receipt.component';
+import {WarrantyInfo} from '../../model/WarrantyInfo';
 import {ClientService} from 'app/clients/shared/client.service';
-import {PaymentMethod} from "../../model/PaymentMethod";
+import {PaymentMethod} from '../../model/PaymentMethod';
 
 @Component({
   selector: 'app-client-pf-detail',
@@ -20,9 +20,9 @@ import {PaymentMethod} from "../../model/PaymentMethod";
 })
 export class ClientPfDetailComponent implements OnInit {
   name: any;
-  state: string = '';
+  state = '';
   clientPF: ClientPF = new ClientPF();
-  paymentMethodType: PaymentMethod = new PaymentMethod(0,0,0,0,0);
+  paymentMethodType: PaymentMethod = new PaymentMethod(0, 0, 0, 0, 0);
   msgs: Message[] = [];
   tests: SelectItem[];
   clientPFForm: FormGroup;
@@ -37,7 +37,7 @@ export class ClientPfDetailComponent implements OnInit {
   selectedAboutUs = '';
   selectedOtherName = '';
   totalPrice = 0;
-  noOfClients: number = 0;
+  noOfClients = 0;
   warrantyInfo: WarrantyInfo;
 
   @ViewChild(PrintReceiptComponent ) child: PrintReceiptComponent;
@@ -55,7 +55,7 @@ export class ClientPfDetailComponent implements OnInit {
   ngOnInit(): void {
     this._clientPFService.getAllClients().subscribe( client => {
       this.noOfClients = client.length;
-    })
+    });
     this.populateDropDowns();
     this.clientPF.tested = this.saveClientPF.tested;
     this.defaultDate.setHours(12, 0);
@@ -74,7 +74,7 @@ export class ClientPfDetailComponent implements OnInit {
       ]),
       phoneList: this.fb.array([]),
       'tested': new FormControl('NU', []),
-      'advancePayment': new FormControl(0,[]),
+      'advancePayment': new FormControl(0, []),
       'priceOffer': new FormControl({value: this.paymentMethodType.cash, disabled: true}),
       'appointment': new FormControl(this.defaultDate.getTime().toString(), []),
       'aboutUs': new FormControl('FACEBOOK', [])
@@ -107,7 +107,7 @@ export class ClientPfDetailComponent implements OnInit {
     let totalPrice = 0;
     for (let i = 0; i < formModel.phoneList.length; i++) {
       for (let j = 0; j < formModel.phoneList[i].problems.length; j++) {
-        let phoneQuantity = +formModel.phoneList[i].problems[j].phoneQuantity;
+        const phoneQuantity = +formModel.phoneList[i].problems[j].phoneQuantity;
         const item = formModel.phoneList[i].problems[j];
         if (item.pricePerPart !== '') {
           totalPrice = totalPrice + item.pricePerPart * phoneQuantity;
@@ -135,7 +135,7 @@ export class ClientPfDetailComponent implements OnInit {
     this.saveClientPF.clientNo = this.noOfClients + 1;
     this.saveClientPF.phone = formModel.phone;
     this.saveClientPF.tested = formModel.tested;
-    this.saveClientPF.paymentMethod = new PaymentMethod(this.totalPrice,0,formModel.advancePayment,0,0);
+    this.saveClientPF.paymentMethod = new PaymentMethod(this.totalPrice, 0, formModel.advancePayment, 0, 0);
     this.saveClientPF.aboutUs = this.selectedOtherName !== '' ? this.selectedOtherName : formModel.aboutUs;
     this.saveClientPF.priceOffer = this.totalPrice === null ? '0' : this.totalPrice.toString();
     this.saveClientPF.priceOfferCash = this.totalPrice === null ? '0' : this.totalPrice.toString();
@@ -164,9 +164,9 @@ export class ClientPfDetailComponent implements OnInit {
           && item.newModel !== '' && this._utilService.isNullOrUndefined(item.newModel)) {
           // this._phoneListService.addNewBrand(item.newBrand).then(item => {
             this.infoMessage('Adauga brand nou', 'Un nou brand: ' +
-              item.newBrand + ' a fost adaugat')
+              item.newBrand + ' a fost adaugat');
           // });
-          this._phoneListService.addNewModel(item.newModel, item.newBrand.toLowerCase())
+          this._phoneListService.addNewModel(item.newModel, item.newBrand.toLowerCase());
             // .then(item => {
               this.infoMessage('Adaugare model nou.', 'Un nou model: ' + item.newModel + ' a fost adaugat pentru brandul: ' +
                 item.newBrand);
@@ -180,7 +180,7 @@ export class ClientPfDetailComponent implements OnInit {
       const item = formModel.phoneList[i];
       if (item.newSingleModel !== '' && this._utilService.isNullOrUndefined(item.newSingleModel)) {
         const brandId = item.phoneBrand.toLowerCase();
-        this._phoneListService.addNewModel(item.newSingleModel, brandId)
+        this._phoneListService.addNewModel(item.newSingleModel, brandId);
           // .then(item => {
             this.infoMessage('Adaugare model nou.', 'Un nou model: ' + item.newSingleModel
               + ' a fost adaugat');
@@ -281,7 +281,7 @@ export class ClientPfDetailComponent implements OnInit {
 
   private setWarrantyInfo() {
     const formModel = this.clientPFForm.value;
-    let dateNow = Date.now().toString();
+    const dateNow = Date.now().toString();
     const payMethod = new PaymentMethod(0, 0, +formModel.advancePayment, 0, 0);
     for (let i = 0; i < formModel.phoneList.length; i++) {
       const phoneBrand = formModel.phoneList[i].phoneBrand.toLowerCase();
@@ -293,7 +293,7 @@ export class ClientPfDetailComponent implements OnInit {
         formModel.phoneList[i].problems[j].problem = problemName === 'altele' ? formModel.phoneList[i].problems[j].partName : problemName;
       }
       this.warrantyInfo = new WarrantyInfo(dateNow, formModel.lastname, formModel.firstname, formModel.phone, this.totalPrice,
-        formModel.tested, formModel.aboutUs,formModel.phoneList, formModel.appointment, this.noOfClients + 1, payMethod);
+        formModel.tested, formModel.aboutUs, formModel.phoneList, formModel.appointment, this.noOfClients + 1, payMethod);
     }
 
   }

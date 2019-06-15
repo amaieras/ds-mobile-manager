@@ -1,5 +1,5 @@
-import {ChangeDetectorRef, Component, Input, OnInit} from "@angular/core";
-import {WarrantyGSMInfo} from "../../../model/WarrantyGSMInfo";
+import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
+import {WarrantyGSMInfo} from '../../../model/WarrantyGSMInfo';
 
 @Component({
   selector: 'app-print-gsm-receipt',
@@ -23,7 +23,7 @@ export class PrintGsmReceiptComponent implements OnInit {
       this._changeDetector.detectChanges();
     }
     let popupWin;
-    let innerContents = document.getElementById('print-section').innerHTML;
+    const innerContents = document.getElementById('print-section').innerHTML;
     popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
     popupWin.document.open();
     popupWin.document.write(`
@@ -125,10 +125,10 @@ export class PrintGsmReceiptComponent implements OnInit {
    * add missing rows up to 10
    */
   addEmptyCells() {
-    let warrantyGSMInfoDeepCopy:any = Object.assign([],this.warrantyGSMInfo.phoneList);
+    const warrantyGSMInfoDeepCopy: any = Object.assign([], this.warrantyGSMInfo.phoneList);
     const noOfPhones = this.warrantyGSMInfo.phoneList.length;
     if (noOfPhones < 9) {
-      for(let i=0; i<9-noOfPhones; i++) {
+      for (let i = 0; i < 9 - noOfPhones; i++) {
         warrantyGSMInfoDeepCopy.push('empty');
       }
     }

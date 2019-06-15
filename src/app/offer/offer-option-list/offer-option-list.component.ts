@@ -1,6 +1,6 @@
-import {Component, OnInit} from "@angular/core";
-import {Observable} from "rxjs/Observable";
-import {OfferOptionService} from "./offer-option.service";
+import {Component, OnInit} from '@angular/core';
+import {Observable} from 'rxjs/Observable';
+import {OfferOptionService} from './offer-option.service';
 
 @Component({
   selector: 'app-option-offer-list',

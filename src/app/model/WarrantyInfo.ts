@@ -1,5 +1,5 @@
 
-import {PaymentMethod} from "./PaymentMethod";
+import {PaymentMethod} from './PaymentMethod';
 
 export class WarrantyInfo {
 

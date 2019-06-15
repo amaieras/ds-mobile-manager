@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import {AngularFireDatabase, AngularFireList} from "angularfire2/database";
-import {UtilService} from "../../utils/util.service";
+import {AngularFireDatabase, AngularFireList} from 'angularfire2/database';
+import {UtilService} from '../../utils/util.service';
 
 @Injectable()
 export class ClientService {
@@ -39,9 +39,9 @@ export class ClientService {
           problem.problem = problem.partName;
           delete problem.partName;
         }
-      })
+      });
       if (phone.newBrand !== undefined) {
-        phone.phoneBrand = phone.newBrand
+        phone.phoneBrand = phone.newBrand;
         delete phone.newBrand;
       }
       if (phone.newModel !== undefined) {
@@ -88,17 +88,17 @@ export class ClientService {
         for (let j = 0; j < formModel.phoneList[i].problems.length; j++) {
           const phoneItem = formModel.phoneList[i];
           const problemItem = formModel.phoneList[i].problems[j];
-          let phoneProblem = problemItem.partName === undefined || problemItem.partName === 'Altele' ? problemItem.problem.toLowerCase() : problemItem.partName.toLowerCase();
+          const phoneProblem = problemItem.partName === undefined || problemItem.partName === 'Altele' ? problemItem.problem.toLowerCase() : problemItem.partName.toLowerCase();
           //When new model need to be added for an existing brand, need to get the new model name
           phoneItem.phoneModel = phoneItem.phoneModel === undefined ? phoneItem.newSingleModel : phoneItem.phoneModel;
           this.existingPartPrices = part.filter(item => item.phoneBrand.toLowerCase() === phoneItem.phoneBrand.toLowerCase()
             && item.phoneModel.toLowerCase() === phoneItem.phoneModel.toLowerCase()
             && item.problemId.toLowerCase() === phoneProblem);
           if (this.existingPartPrices.length > 0) {
-            this.partPrices.update(this.existingPartPrices[0].$key,{price: problemItem.pricePerPart} )
+            this.partPrices.update(this.existingPartPrices[0].$key, {price: problemItem.pricePerPart} );
           }
           else {
-            let phoneBrand = phoneItem.phoneBrand.toLowerCase() === 'altele' ? phoneItem.newBrand.toLowerCase() : phoneItem.phoneBrand.toLowerCase();
+            const phoneBrand = phoneItem.phoneBrand.toLowerCase() === 'altele' ? phoneItem.newBrand.toLowerCase() : phoneItem.phoneBrand.toLowerCase();
             let phoneModel = phoneItem.phoneModel.toLowerCase();
             if (phoneItem.phoneModel.toLowerCase() === 'altele') {
               phoneModel = this._utilService.isNullOrUndefined(phoneItem.newSingleModel) ?  phoneItem.newSingleModel : phoneItem.newModel;
@@ -107,7 +107,7 @@ export class ClientService {
           }
         }
       }
-    })
+    });
   }
 
 }

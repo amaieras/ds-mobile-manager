@@ -1,6 +1,6 @@
 
-import {PhoneList} from "./PhoneList";
-import {PaymentMethod} from "./PaymentMethod";
+import {PhoneList} from './PhoneList';
+import {PaymentMethod} from './PaymentMethod';
 
 export class WarrantyGSMInfo {
   private _dateAdded: string;

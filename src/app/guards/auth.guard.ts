@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from "@angular/router";
+import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 import { AngularFireAuth } from 'angularfire2/auth';
-import {Observable} from "rxjs/Observable";
+import {Observable} from 'rxjs/Observable';
 
 
 
@@ -20,12 +20,12 @@ export class AuthGuard {
     return this.afAuth.authState
       .take(1)
       .map(user => {
-        return !!user
+        return !!user;
       })
       .do(loggedIn => {
         if (!loggedIn) {
           this.router.navigate(['/login']);
         }
-      })
+      });
   }
 }

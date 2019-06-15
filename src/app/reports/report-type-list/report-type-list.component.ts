@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ReportTypeListService} from "./report-type-list.service";
+import {ReportTypeListService} from './report-type-list.service';
 
 @Component({
   selector: 'app-report-type-list',
@@ -14,7 +14,7 @@ export class ReportTypeListComponent implements OnInit {
     this.getReportTypes();
   }
   getReportTypes() {
-    this.reportTypes = this._reportTypeListService.getReportTypes()
+    this.reportTypes = this._reportTypeListService.getReportTypes();
     // Todo: error handling
     this.reportTypes.subscribe(
       data => '',

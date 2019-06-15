@@ -1,18 +1,18 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {Message} from "primeng/primeng";
-import {FormControl, FormGroup, Validators, FormBuilder, FormArray} from "@angular/forms";
-import { ClientGSMService} from "./client-gsm-detail.service";
-import {Address} from "../../model/Address";
-import {ClientGSM} from "../../model/ClientGSM";
-import {PhoneList} from "../../model/PhoneList";
-import {WarrantyGSMInfo} from "../../model/WarrantyGSMInfo";
-import {PrintGsmReceiptComponent} from "../../shared/print/print-gsm/print-gsm-receipt.component";
-import {BehaviorSubject} from "rxjs/BehaviorSubject";
-import {UtilService} from "../../utils/util.service";
-import {ClientGSMType} from "../../model/ClientGSMType";
-import {ClientService} from "../shared/client.service";
-import {PaymentMethod} from "../../model/PaymentMethod";
-import {PhoneListService} from "../clientPF/phone-list/phone-list.service";
+import {Message} from 'primeng/primeng';
+import {FormControl, FormGroup, Validators, FormBuilder, FormArray} from '@angular/forms';
+import { ClientGSMService} from './client-gsm-detail.service';
+import {Address} from '../../model/Address';
+import {ClientGSM} from '../../model/ClientGSM';
+import {PhoneList} from '../../model/PhoneList';
+import {WarrantyGSMInfo} from '../../model/WarrantyGSMInfo';
+import {PrintGsmReceiptComponent} from '../../shared/print/print-gsm/print-gsm-receipt.component';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {UtilService} from '../../utils/util.service';
+import {ClientGSMType} from '../../model/ClientGSMType';
+import {ClientService} from '../shared/client.service';
+import {PaymentMethod} from '../../model/PaymentMethod';
+import {PhoneListService} from '../clientPF/phone-list/phone-list.service';
 
 @Component({
   selector: 'client-gsm-detail',
@@ -32,9 +32,9 @@ export class ClientGSMDetailComponent implements OnInit {
   totalNoQuantity = 0;
   warrantyGSMInfo: WarrantyGSMInfo;
   @ViewChild(PrintGsmReceiptComponent ) child: PrintGsmReceiptComponent;
-  noOfClients: number = 0;
-  startAt: BehaviorSubject<string|null> = new BehaviorSubject("cxzx");
-  endAt: BehaviorSubject<string|null> = new BehaviorSubject("cxzx\uf8ff");
+  noOfClients = 0;
+  startAt: BehaviorSubject<string|null> = new BehaviorSubject('cxzx');
+  endAt: BehaviorSubject<string|null> = new BehaviorSubject('cxzx\uf8ff');
   constructor(
     private fb: FormBuilder,
     private _clientGSMService: ClientGSMService,
@@ -50,7 +50,7 @@ export class ClientGSMDetailComponent implements OnInit {
     this._clientGSMService.getAllClientsList().subscribe(item => {
       this.clientsGSM = [];
       item.forEach(snapshot => {
-        this.clientsGSM.push({$key: snapshot.$key ,label: snapshot.name, value: snapshot.name});
+        this.clientsGSM.push({$key: snapshot.$key , label: snapshot.name, value: snapshot.name});
       });
     });
     this._clientGSMService.getAllClientsListByName(this.startAt, this.endAt)
@@ -74,7 +74,7 @@ export class ClientGSMDetailComponent implements OnInit {
       // 'email': new FormControl('', [
       //   // Validators.required
       // ]),
-      'advancePayment': new FormControl(0,[]),
+      'advancePayment': new FormControl(0, []),
       'priceOffer': new FormControl({value: 0, disabled: true}),
       'totalQuantity': new FormControl({value: 0, disabled: true}),
       // 'country': new FormControl('', [
@@ -105,7 +105,7 @@ export class ClientGSMDetailComponent implements OnInit {
     let totalPrice = 0;
     for (let i = 0; i < formModel.phoneList.length; i++) {
       for (let j = 0; j < formModel.phoneList[i].problems.length; j++) {
-        let phoneQuantity = +formModel.phoneList[i].problems[j].phoneQuantity;
+        const phoneQuantity = +formModel.phoneList[i].problems[j].phoneQuantity;
         const item = formModel.phoneList[i].problems[j];
         if (item.pricePerPart !== '') {
           totalPrice = totalPrice + item.pricePerPart * phoneQuantity;
@@ -119,7 +119,7 @@ export class ClientGSMDetailComponent implements OnInit {
     const formModel = this.clientGSMForm.value;
     let totalQuantity = 0;
     for (let i = 0; i < formModel.phoneList.length; i++) {
-      for(let j=0; j < formModel.phoneList[i].problems.length; j++) {
+      for (let j = 0; j < formModel.phoneList[i].problems.length; j++) {
         const item = formModel.phoneList[i].problems[j];
         totalQuantity = totalQuantity + +item.phoneQuantity;
       }
@@ -134,12 +134,12 @@ export class ClientGSMDetailComponent implements OnInit {
       totalPricePerPhone: '0',
       problems: this.fb.array([]),
       observation: ''
-    })
+    });
   }
   onSubmit(event: Event) {
     this.prepareSaveClientGSM();
     this.clientGSM = this.saveClientGSM;
-    this._clientGSMService.addGSMClient(this.clientGSM)
+    this._clientGSMService.addGSMClient(this.clientGSM);
       // .then(item => {
         this.clientGSMForm.patchValue({appointment: this.defaultDate.getTime().toString()});
         this.print();
@@ -158,8 +158,8 @@ export class ClientGSMDetailComponent implements OnInit {
   }
   prepareSaveClientGSM() {
     const formModel = this.clientGSMForm.value;
-    let clientName = formModel.lastname.toLowerCase();
-    let clientCity = formModel.city.toLowerCase();
+    const clientName = formModel.lastname.toLowerCase();
+    const clientCity = formModel.city.toLowerCase();
     // const billingAddressDeepCopy: Address[] = formModel.billingAddress.map(
     //   (address: Address) => Object.assign({}, address)
     // );
@@ -183,11 +183,11 @@ export class ClientGSMDetailComponent implements OnInit {
     this.saveClientGSM.phone = formModel.phone;
     this.saveClientGSM.city = formModel.city;
     this.saveClientGSM.firm = formModel.firm;
-    this.saveClientGSM.paymentMethod = new PaymentMethod(this.totalPrice,0,0,0,formModel.advancePayment);
+    this.saveClientGSM.paymentMethod = new PaymentMethod(this.totalPrice, 0, 0, 0, formModel.advancePayment);
     this.saveClientGSM.priceOffer = this.totalPrice;
     this.saveClientGSM.priceOfferCash = this.totalPrice === null ? 0 : +this.totalPrice;
     this.saveClientGSM.addedDate = new Date().getTime().toString();
-    let clientGSMObj = new ClientGSMType(this.clientGSMTypeKey, clientName, formModel.phone, formModel.firm, clientCity);
+    const clientGSMObj = new ClientGSMType(this.clientGSMTypeKey, clientName, formModel.phone, formModel.firm, clientCity);
     if (this.checkIfNewClientGSMExists(clientName) === ''){
       this.addNewClientGSMType(clientGSMObj);
     }
@@ -222,7 +222,7 @@ export class ClientGSMDetailComponent implements OnInit {
   }
 
   private addNewClientGSMType(clientTypeGSM) {
-   this._clientGSMService.addGSMClientList(clientTypeGSM)
+   this._clientGSMService.addGSMClientList(clientTypeGSM);
      // .then(item => {
        this.resetClientGSMListFilter('cxvx');
      // });
@@ -230,21 +230,21 @@ export class ClientGSMDetailComponent implements OnInit {
 
   private updateClientGSMType(clientTypeGSM) {
     this._clientGSMService.updateClientGSM(clientTypeGSM.$key,
-      {phone: clientTypeGSM.phone, city: clientTypeGSM.city, firm:clientTypeGSM.firm })
+      {phone: clientTypeGSM.phone, city: clientTypeGSM.city, firm: clientTypeGSM.firm });
       // .then(item => {
         this._utilService.successUpdateMessage(clientTypeGSM.lastname, '',
-          clientTypeGSM.phone, 'Valoare ')
+          clientTypeGSM.phone, 'Valoare ');
       // });
   }
 
   addBillingAddress() {
-    if(this.billingAddress.length == 0) {
+    if (this.billingAddress.length == 0) {
       this.billingAddress.push(this.fb.group(new Address()));
     }
   }
 
   addShipmentAddress() {
-    if(this.shipmentAddress.length == 0) {
+    if (this.shipmentAddress.length == 0) {
       this.shipmentAddress.push(this.fb.group(new Address()));
     }
   }
@@ -257,24 +257,24 @@ export class ClientGSMDetailComponent implements OnInit {
     const dateNow = Date.now().toString();
     const formModel = this.clientGSMForm.value;
     const payMethod = new PaymentMethod(0, 0, formModel.advancePayment, 0, 0);
-    this.saveClientGSM.phoneList.forEach(phone=> {
+    this.saveClientGSM.phoneList.forEach(phone => {
       let totalPricePerPhone = 0;
       phone.phoneBrand = phone.phoneBrand !== undefined && phone.phoneBrand.toLowerCase() === 'altele' ? phone.newBrand : phone.phoneBrand;
       phone.phoneModel = phone.phoneModel !== undefined && phone.phoneModel.toLowerCase() === 'altele' ? phone.newModel : phone.phoneModel;
 
-      phone.problems.forEach(prbl=> {
+      phone.problems.forEach(prbl => {
         totalPricePerPhone = totalPricePerPhone + prbl.pricePerPart * +prbl.phoneQuantity;
         prbl.problem = prbl.problem.toLowerCase() === 'altele' ? prbl.partName : prbl.problem;
-      })
+      });
       phone.totalPricePerPhone = totalPricePerPhone;
-    })
+    });
     this.warrantyGSMInfo = new WarrantyGSMInfo(dateNow, this.saveClientGSM.lastname, this.saveClientGSM.phone, this.totalPrice,
       this.noOfClients + 1, this.saveClientGSM.phoneList, payMethod);
   }
 
 
   search(event) {
-    if(event === "") {
+    if (event === '') {
       this.resetClientGSMListFilter('cxzx');
     } else {
       this.resetClientGSMListFilter(event);
@@ -291,14 +291,14 @@ export class ClientGSMDetailComponent implements OnInit {
 
   private resetClientGSMListFilter(event) {
     this.startAt.next(event);
-    this.endAt.next(event + "\uf8ff");
+    this.endAt.next(event + '\uf8ff');
   }
   checkIfNewClientGSMExists(newClientGSM) {
-    if(this._utilService.isNullOrUndefined(newClientGSM)) {
+    if (this._utilService.isNullOrUndefined(newClientGSM)) {
       if (this._utilService.containsObject(newClientGSM, this.clientsGSM)) {
-        let existingClient = this.clientsGSM.filter(function(client) {
+        const existingClient = this.clientsGSM.filter(function(client) {
           return client.value.toLowerCase() === newClientGSM.toLowerCase();
-        })
+        });
         return existingClient[0].$key;
       };
       return '';

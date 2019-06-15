@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import {AngularFireDatabase, AngularFireList} from "angularfire2/database";
-import {ClientPF} from "../../model/ClientPF";
-import {ClientGSM} from "../../model/ClientGSM";
+import {AngularFireDatabase, AngularFireList} from 'angularfire2/database';
+import {ClientPF} from '../../model/ClientPF';
+import {ClientGSM} from '../../model/ClientGSM';
 
 @Injectable()
 export class ReportService {

@@ -1,7 +1,7 @@
-import {RouterModule, Routes} from "@angular/router";
-import {CheckoutComponent} from "./checkout.component";
-import {NgModule} from "@angular/core";
-import {AuthGuard} from "../guards/auth.guard";
+import {RouterModule, Routes} from '@angular/router';
+import {CheckoutComponent} from './checkout.component';
+import {NgModule} from '@angular/core';
+import {AuthGuard} from '../guards/auth.guard';
 
 
 const checkoutCenterRoutes: Routes = [

@@ -1,14 +1,14 @@
 import {Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
-import {SelectItem} from "primeng/api";
-import {PhoneListService} from "../../clients/clientPF/phone-list/phone-list.service";
-import {AboutUsService} from "../../clients/clientPF/phone-list/about-us/about-us.service";
-import {ReportService} from "../../shared/reports/report.service";
+import {SelectItem} from 'primeng/api';
+import {PhoneListService} from '../../clients/clientPF/phone-list/phone-list.service';
+import {AboutUsService} from '../../clients/clientPF/phone-list/about-us/about-us.service';
+import {ReportService} from '../../shared/reports/report.service';
 import {ClientService} from 'app/clients/shared/client.service';
-import {DropdownModel} from "../../model/DropdownModel";
-import {Report} from "../../model/Report";
-import {FormControl, NgModel} from '@angular/forms';
-import {fuseAnimations} from "../../../@fuse/animations";
-import {FilterDataTableComponent} from "./filter-data-table/filter-data-table.component";
+import {DropdownModel} from '../../model/DropdownModel';
+import {Report} from '../../model/Report';
+import {FormControl} from '@angular/forms';
+import {fuseAnimations} from '../../../@fuse/animations';
+import {FilterDataTableComponent} from './filter-data-table/filter-data-table.component';
 
 @Component({
   selector: 'app-reports-filter',
@@ -18,30 +18,31 @@ import {FilterDataTableComponent} from "./filter-data-table/filter-data-table.co
   animations   : fuseAnimations
 })
 export class ReportsFilterComponent implements OnInit {
-  clientTypes: SelectItem[];
-  selectedClientTypes: any[];
+  clientTypes: SelectItem[] = [];
+  selectedClientTypes: any[] = [];
   phoneBrandsArray: any = [];
-  selectedBrands: any[];
+  selectedBrands: any[] = [];
   phoneModelsArray: any = [];
-  selectedModels: any[];
+  selectedModels: any[] = [];
   rangeDates: Date[];
   aboutUsList: any = [];
   selectedAboutUs = [];
   problems: Array<{}>;
   problemsList: any = [];
-  selectedProblems: any[];
-  report: Report = new Report(0,0,0,[],[]);
-  isPayed: false;
+  selectedProblems: any[] = [];
+  report: Report = new Report(0, 0, 0, [], []);
+  isPayed: Boolean = false;
   clientsGSM = new FormControl();
-  clientsGSMList : any[] = [];
+  clientsGSMList: any[] = [];
   selectedGSMClients: any[] = [];
   checked: boolean;
 
-  gsmClientList: any = [];
   @ViewChild(FilterDataTableComponent) filterDataTableComponent: FilterDataTableComponent;
 
-  constructor(private _phoneListService: PhoneListService, private _aboutUsService: AboutUsService,
-              private _reportService: ReportService, private _clientService: ClientService) { }
+  constructor( private _phoneListService: PhoneListService,
+               private _aboutUsService: AboutUsService,
+               private _reportService: ReportService,
+               private _clientService: ClientService) { }
 
   ngOnInit() {
     this.populateDropDownFilters();
@@ -50,12 +51,11 @@ export class ReportsFilterComponent implements OnInit {
   private populateDropDownFilters() {
     this.clientTypes = [
       // {label:'PF', value:'pf'},
-      {label: 'GSM', value:'gsm'}
+      {label: 'GSM', value: 'gsm'}
     ];
-    this.selectedClientTypes = [ "gsm" ];
+    this.selectedClientTypes = [ 'gsm' ];
 
     this._phoneListService.getBrandList().subscribe(phoneModels => {
-      this.phoneBrandsArray = [];
       phoneModels.forEach(snapshot => {
         this.phoneBrandsArray.push({label: snapshot.name, value: snapshot.name});
       });
@@ -63,14 +63,12 @@ export class ReportsFilterComponent implements OnInit {
     });
 
     this._phoneListService.getModelList().subscribe(phoneModels => {
-      this.phoneModelsArray = [];
       phoneModels.forEach(snapshot => {
         this.phoneModelsArray.push({label: snapshot.name, value: snapshot.name});
       });
       this.phoneModelsArray.shift();
     });
     this._aboutUsService.getAboutUsList().subscribe(aboutUsList => {
-      this.aboutUsList = [];
       aboutUsList.forEach(snapshot => {
         this.aboutUsList.push({label: snapshot.name, value: snapshot.name});
       });
@@ -78,118 +76,91 @@ export class ReportsFilterComponent implements OnInit {
     });
 
     this._clientService.getProblemList().subscribe(problemsList => {
-      this.problemsList = [];
       problemsList.forEach(snapshot => {
         this.problemsList.push(new DropdownModel(snapshot.name, snapshot.name));
       });
-      this.problemsList.shift()
+      this.problemsList.shift();
     });
 
     this._reportService.getClientsGSMList().subscribe(gsm => {
-      gsm.forEach(snapshot=> {
-        this.gsmClientList.push(snapshot.name)
-        this.clientsGSMList.push(snapshot);
-        // this.selectedGSMClients.push(snapshot.name)
-      })
-      this.clientsGSMList.sort((a, b) => {
-        const nameA = a.name, nameB = b.name;
-        if(nameA < nameB) return -1;
-        if(nameA > nameB) return 1;
-        return 0;
+      gsm.forEach(snapshot => {
+        this.clientsGSMList.push(new DropdownModel(snapshot.name, snapshot.name));
       });
-    })
+      this.clientsGSMList.sort((a, b) => a.label.localeCompare(b.label));
+    });
   }
 
   applyFilters() {
-    this.filterByClientType(this.selectedClientTypes[0]);
+    this.filterItems('gsm');
   }
 
-  private filterByClientType(clientType) {
-    const that = this;
-    const selectedAboutUs = that.selectedAboutUs.map(item=> item.toUpperCase());
-    const selectedBrands = that.selectedBrands.map(item=> item.toUpperCase());
-    const selectedModels = that.selectedModels.map(item=> item.toUpperCase());
-    const selectedProblems = that.selectedProblems.map(item=> item.toUpperCase());
-    const selectedGSMClientList = that.selectedGSMClients.map(item => item.toUpperCase());
-    const gsmClientList = [];
+  private filterItems(clientType) {
     this._reportService.getClientsByType(clientType).subscribe(clients => {
-      let filterItems;
-      let filteredClients = clients.filter(function (c) {
-        let phoneBrands = [];
-        let phoneModels = [];
-        let problems = [];
-        const aboutUs = c.aboutUs === undefined ? 'UNDEFINED' : c.aboutUs.toUpperCase();
-        const clientDate = new Date(+c.addedDate).setHours(0, 0, 0, 0);
-        c.phoneList.forEach(phone => {
-          phoneBrands.push(phone.phoneBrand);
-          phoneModels.push(phone.phoneModel);
-          phone.problems.forEach(problem => {
-            problems.push(problem.problem)
-          })
+      const selectedBrands = this.selectedBrands.map(item => item.toUpperCase());
+      const selectedModels = this.selectedModels.map(item => item.toUpperCase());
+      const selectedProblems = this.selectedProblems.map(item => item.toUpperCase());
+      const selectedGSMClientList = this.selectedGSMClients.map(item => item.toUpperCase());
+
+      // first filter by payed or not payed in order to avoid looping through unnecessary clients
+      let filteredClients = clients.filter(client => client.isPayed === this.isPayed);
+
+
+      // Filter by selected client name
+      filteredClients = filteredClients.filter(client => selectedGSMClientList.includes(client.lastname.toUpperCase()));
+
+      // Filter by selected phone brand
+      filteredClients = filteredClients.filter(client => {
+        return client.phoneList.every(brand => selectedBrands.includes(brand.phoneBrand.toUpperCase()));
+      });
+
+      // Filter by selected phone model
+      filteredClients = filteredClients.filter(client => {
+        return client.phoneList.every(model => selectedModels.includes(model.phoneModel.toUpperCase()));
+      });
+
+      // Filter by selected problem
+      filteredClients = filteredClients.filter(client => {
+        return client.phoneList.every(phone => {
+          return phone.problems.every(problem => selectedProblems.includes(problem.problem.toUpperCase()));
         });
+      });
 
+      filteredClients = filteredClients.filter(client => {
+        const clientDate = new Date(+client.addedDate).setHours(0, 0, 0, 0);
+        return clientDate >= this.rangeDates[0].getTime()
+            && clientDate <= this.rangeDates[1].getTime();
+      });
 
-        phoneBrands = phoneBrands.map(item=> item.toUpperCase());
-        phoneModels = phoneModels.map(item=> item.toUpperCase());
-        problems = problems.map(item=> item.toUpperCase());
-        if (that.selectedClientTypes[0] === 'pf') {
-          filterItems = selectedAboutUs.includes(aboutUs)
-            && selectedBrands.some(v => phoneBrands.includes(v))
-            && selectedModels.some(v => phoneModels.includes(v))
-            && selectedProblems.some(v => problems.includes(v))
-            && clientDate >= that.rangeDates[0].getTime()
-            && clientDate <= that.rangeDates[1].getTime()
-            && c.isPayed === that.isPayed;
-        }
-        else if (that.selectedClientTypes[0] === 'gsm') {
-          clients.forEach(item => {
-            gsmClientList.push(item.lastname.toUpperCase());
-          })
-          filterItems = selectedBrands.some(v => phoneBrands.includes(v))
-            && selectedModels.some(v => phoneModels.includes(v))
-            && selectedProblems.some(v => problems.includes(v))
-            && clientDate >= that.rangeDates[0].getTime()
-            && clientDate <= that.rangeDates[1].getTime()
-            && c.isPayed === that.isPayed;
-        }
-        return filterItems;
-      })
-      if (that.selectedClientTypes[0] === 'gsm') {
-        this.report.clientGSM = filteredClients;
-        filteredClients = filteredClients.filter(item => {
-          return selectedGSMClientList.includes(item.lastname.toUpperCase());
-        })
-      }
-      else if (that.selectedClientTypes[0] === 'pf') {
-        this.report.clientsPF= filteredClients;
-      }
-      this.filterDataTableComponent.getFilteredClients(filteredClients);
-      this.countNoOfParts(filteredClients, that.selectedModels);
+      this.report.clientGSM = filteredClients;
+      this.countNoOfParts(filteredClients, this.selectedModels);
       this.countNoOfClients(filteredClients);
       this.calculateTotalIn(filteredClients);
+      // sends filtered client data to filtered list to be displayed by material table
+      this.filterDataTableComponent.getFilteredClients(filteredClients);
+
     });
   }
 
   private countNoOfParts(filteredClients, models) {
-    let pieces = [];
-    const selectedProblems = this.selectedProblems.map(item=> item.toLowerCase());
+    const pieces = [];
+    const selectedProblems = this.selectedProblems.map(item => item.toLowerCase());
     filteredClients.forEach(c => {
       c.phoneList.forEach(p => {
-        p.problems.forEach(prob =>{
-          let quantity = prob.phoneQuantity === undefined ? 1 : +prob.phoneQuantity;
+        p.problems.forEach(prob => {
+          const quantity = prob.phoneQuantity === undefined ? 1 : +prob.phoneQuantity;
           if (models.map(v => v.toLowerCase()).indexOf(p.phoneModel.toLowerCase()) > -1) {
-            for(let i = 1; i <= quantity; i++) {
+            for (let i = 1; i <= quantity; i++) {
               selectedProblems.forEach(selProb => {
                 if (selProb.toLowerCase() === prob.problem.toLowerCase()) {
                   pieces.push(prob.problem);
                 }
-              })
+              });
 
             }
           }
-        })
+        });
       });
-    })
+    });
     this.report.piecesNo = pieces.length;
   }
 
@@ -201,21 +172,7 @@ export class ReportsFilterComponent implements OnInit {
     filteredClients.forEach(fc => {
       totalPrice = totalPrice + +fc.paymentMethod._advance + +fc.paymentMethod._card + +fc.paymentMethod._cash
         + +fc.paymentMethod._collector + +fc.paymentMethod._repayment;
-    })
+    });
     this.report.totalIn = totalPrice;
-  }
-
-  selectAll(checkAll, values) {
-    const clientGSMNames = [];
-    if(this.checked){
-      values.forEach(gsm => {
-        clientGSMNames.push(gsm.name);
-      })
-      this.selectedGSMClients = clientGSMNames;
-    }
-    else{
-      this.selectedGSMClients = [];
-      // select.update.emit([]);
-    }
   }
 }

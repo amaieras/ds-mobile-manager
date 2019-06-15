@@ -1,12 +1,12 @@
-import {Component, OnInit} from "@angular/core";
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {Message} from "primeng/api";
-import {OfferModel} from "../../model/OfferModel";
-import {UtilService} from "../../utils/util.service";
-import {Observable} from "rxjs/Observable";
-import {AboutUsService} from "../../clients/clientPF/phone-list/about-us/about-us.service";
-import {PhoneList} from "../../model/PhoneList";
-import {OfferService} from "../offer.service";
+import {Component, OnInit} from '@angular/core';
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {Message} from 'primeng/api';
+import {OfferModel} from '../../model/OfferModel';
+import {UtilService} from '../../utils/util.service';
+import {Observable} from 'rxjs/Observable';
+import {AboutUsService} from '../../clients/clientPF/phone-list/about-us/about-us.service';
+import {PhoneList} from '../../model/PhoneList';
+import {OfferService} from '../offer.service';
 
 @Component({
   selector: 'app-add-offer-list',
@@ -145,9 +145,9 @@ export class AddOfferComponent implements OnInit {
           problem.problem = problem.partName;
           delete problem.partName;
         }
-      })
+      });
       if (phone.newBrand !== undefined) {
-        phone.phoneBrand = phone.newBrand
+        phone.phoneBrand = phone.newBrand;
         delete phone.newBrand;
       }
       if (phone.newModel !== undefined) {

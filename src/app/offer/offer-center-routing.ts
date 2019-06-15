@@ -1,11 +1,11 @@
 
-import { NgModule } from "@angular/core"
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {OfferOptionListComponent} from "./offer-option-list/offer-option-list.component";
-import {AddOfferComponent} from "./offer-add/add-offer.component";
-import {ViewOfferComponent} from "./offer-view/view-offer.component";
-import {ViewOfferDoneComponent} from "./offer-view-done/view-offer-done.component";
-import {AuthGuard} from "../guards/auth.guard";
+import {OfferOptionListComponent} from './offer-option-list/offer-option-list.component';
+import {AddOfferComponent} from './offer-add/add-offer.component';
+import {ViewOfferComponent} from './offer-view/view-offer.component';
+import {ViewOfferDoneComponent} from './offer-view-done/view-offer-done.component';
+import {AuthGuard} from '../guards/auth.guard';
 
 // const offerCenterRoutes: Routes = [
 //   {

@@ -7,8 +7,10 @@
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e"
+    "lint": "eslint --ext .js,.ts src --fix",
+    "e2e": "ng e2e",
+    "lint-autofix": "eslint --ext .js,.ts src --fix",
+    "eslint-check": "eslint --print-config .eslintrc.js | eslint-config-prettier-check"
   },
   "private": true,
   "dependencies": {
@@ -72,6 +74,7 @@
     "@types/jasmine": "^2.5.38",
     "@types/node": "^6.0.88",
     "codelyzer": "^2.0.1",
+    "eslint": "5.16.0",
     "jasmine-core": "~2.5.2",
     "jasmine-spec-reporter": "^3.2.0",
     "karma": "^1.4.1",

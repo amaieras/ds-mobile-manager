@@ -1,16 +1,16 @@
-import {PhoneList} from "./PhoneList";
+import {PhoneList} from './PhoneList';
 
 export class OfferModel {
 
-  $key:string;
+  $key: string;
   clientNo: number;
-  addedDate:string;
-  name:string;
-  phone:string;
+  addedDate: string;
+  name: string;
+  phone: string;
   isDone: boolean;
-  phoneList:PhoneList[];
-  priceOffer:string;
-  aboutUs:string;
+  phoneList: PhoneList[];
+  priceOffer: string;
+  aboutUs: string;
 
   constructor() {
 

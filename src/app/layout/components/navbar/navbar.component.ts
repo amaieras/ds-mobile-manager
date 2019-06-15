@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {Observable} from "rxjs/Observable";
-import {MenuItem} from "primeng/api";
-import {Router} from "@angular/router";
+import {Observable} from 'rxjs/Observable';
+import {MenuItem} from 'primeng/api';
+import {Router} from '@angular/router';
 import {AuthService} from 'app/guards/auth.service';
 import {AppToolbarService} from 'app/app-toolbar/app-toolbar.service';
 
@@ -28,8 +28,8 @@ export class NavbarComponent implements OnInit {
     // put `grafice` link to the end
     this.mainMenuItems.push(this.mainMenuItems.shift());
     // swap reports link which is invisble with `grafice` links
-    let aux = this.mainMenuItems[this.mainMenuItems.length-1];
-    this.mainMenuItems[this.mainMenuItems.length-1] = this.mainMenuItems[this.mainMenuItems.length - 2];
+    const aux = this.mainMenuItems[this.mainMenuItems.length - 1];
+    this.mainMenuItems[this.mainMenuItems.length - 1] = this.mainMenuItems[this.mainMenuItems.length - 2];
     this.mainMenuItems[this.mainMenuItems.length - 2] = aux;
     this.activeMenuItem$ = this.toolbarService.activeMenuItem$;
   }
@@ -42,7 +42,7 @@ export class NavbarComponent implements OnInit {
       .then((res) => {
         this.router.navigate(['/login']);
       }, (error) => {
-        console.log("Logout error", error);
+        console.log('Logout error', error);
       });
   }
 }

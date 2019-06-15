@@ -40,20 +40,20 @@ export class PhoneListService implements OnInit {
     return this.modelList.snapshotChanges().map(arr => {
       return arr
         .filter(snap => {
-          return snap.payload.val().phoneId.toLowerCase() === brand.toLowerCase()})
+          return snap.payload.val().phoneId.toLowerCase() === brand.toLowerCase(); })
         .map(snap => Object.assign(snap.payload.val(), {$key: snap.key})
-      )
-    })
+      );
+    });
   }
 
-  public getModelsOfSeries(brand:string, series: string) {
+  public getModelsOfSeries(brand: string, series: string) {
    return this.modelList.snapshotChanges().map(arr => {
       return arr
         .filter(snap => {
-          if(series === 'NOTE') {
+          if (series === 'NOTE') {
             if (snap.payload.val().name.includes(series) && snap.payload.val().phoneId === brand) {
-              return true
-            } else return false
+              return true;
+            } else return false;
 
           }else{
             if (snap.payload.val().name.startsWith(series) && snap.payload.val().phoneId === brand)
@@ -62,8 +62,8 @@ export class PhoneListService implements OnInit {
           }
         })
         .map(snap => Object.assign(snap.payload.val(), {$key: snap.key})
-        )
-   })
+        );
+   });
 
   }
 

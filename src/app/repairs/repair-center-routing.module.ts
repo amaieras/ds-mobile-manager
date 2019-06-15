@@ -1,13 +1,13 @@
 
-import { NgModule } from "@angular/core"
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { RepairTypeListComponent } from "./repair-type-list/repair-type-list.component"
-import { RepairPFDetailComponent } from "./repairPF/repair-pf-detail.component"
-import { RepairGSMDetailComponent } from "./repairGSM/repair-gsm-detail.component"
-import {RepairPfDoneComponent} from "./repairs-done/repairs-pf-done/repair-pf-done.component";
-import {RepairGsmDoneComponent} from "./repairs-done/repairs-gsm-done/repair-gsm-done.component";
-import {RepairGsmSentComponent} from "./repairsGSMSent/repair-gsm-sent.component";
+import { RepairTypeListComponent } from './repair-type-list/repair-type-list.component';
+import { RepairPFDetailComponent } from './repairPF/repair-pf-detail.component';
+import { RepairGSMDetailComponent } from './repairGSM/repair-gsm-detail.component';
+import {RepairPfDoneComponent} from './repairs-done/repairs-pf-done/repair-pf-done.component';
+import {RepairGsmDoneComponent} from './repairs-done/repairs-gsm-done/repair-gsm-done.component';
+import {RepairGsmSentComponent} from './repairsGSMSent/repair-gsm-sent.component';
 
 
 const repairsCenterRoutes: Routes = [

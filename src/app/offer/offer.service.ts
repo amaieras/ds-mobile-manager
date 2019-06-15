@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {AngularFireDatabase, AngularFireList } from 'angularfire2/database';
-import {OfferModel} from "../model/OfferModel";
+import {OfferModel} from '../model/OfferModel';
 
 
 
@@ -26,12 +26,12 @@ export class OfferService {
   public getPartPrices() {
     return this.partPrices.snapshotChanges().map(arr => {
       return arr.map(snap => Object.assign(snap.payload.val(), {$key: snap.key}));
-    })
+    });
   }
 
   updateItem(key: string, value: any): void {
     delete(value.$key);
-    this.offers.update(key, value)
+    this.offers.update(key, value);
   }
 
 

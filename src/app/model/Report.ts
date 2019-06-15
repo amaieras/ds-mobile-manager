@@ -1,5 +1,5 @@
-import {ClientPF} from "./ClientPF";
-import {ClientGSM} from "./ClientGSM";
+import {ClientPF} from './ClientPF';
+import {ClientGSM} from './ClientGSM';
 
 export class Report {
 

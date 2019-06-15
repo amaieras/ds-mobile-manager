@@ -1,10 +1,10 @@
-import { Injectable } from "@angular/core";
-import {AngularFireDatabase, AngularFireList} from "angularfire2/database";
-import {ClientGSM} from "../../model/ClientGSM";
+import { Injectable } from '@angular/core';
+import {AngularFireDatabase, AngularFireList} from 'angularfire2/database';
+import {ClientGSM} from '../../model/ClientGSM';
 import 'rxjs/add/observable/zip';
-import {BehaviorSubject} from "rxjs/BehaviorSubject";
-import {Observable} from "rxjs/Observable";
-import {ClientGSMType} from "../../model/ClientGSMType";
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {Observable} from 'rxjs/Observable';
+import {ClientGSMType} from '../../model/ClientGSMType';
 
 
 
@@ -26,7 +26,7 @@ export class ClientGSMService {
    */
   addGSMClientList(clientGSMType: ClientGSMType) {
     delete(clientGSMType.$key);
-    return this._db.list("/client-gsm-list").push(clientGSMType);
+    return this._db.list('/client-gsm-list').push(clientGSMType);
 }
 
   public getAllClients() {
@@ -36,7 +36,7 @@ export class ClientGSMService {
   }
   public getAllClientsList() {
     return this._db
-      .list("/client-gsm-list").snapshotChanges().map(arr => {
+      .list('/client-gsm-list').snapshotChanges().map(arr => {
       return arr.map(snap => Object.assign(snap.payload.val(), {$key: snap.key}));
     });
   }
@@ -50,9 +50,9 @@ export class ClientGSMService {
   public getAllClientsListByName(startAt, endAt) {
     return Observable.zip(startAt, endAt).switchMap(param => {
       return this._db
-        .list("/client-gsm-list", ref =>
+        .list('/client-gsm-list', ref =>
           ref
-            .orderByChild("name")
+            .orderByChild('name')
             .startAt(param[0])
             .endAt(param[1])
         )
@@ -67,6 +67,6 @@ export class ClientGSMService {
 
   updateClientGSM(key: string, value: any) {
     return this._db
-      .list("/client-gsm-list").update(key,{phone: value.phone, city: value.city, firm: value.firm} )
+      .list('/client-gsm-list').update(key, {phone: value.phone, city: value.city, firm: value.firm} );
   }
 }

@@ -3,8 +3,8 @@ import {ChangeDetectorRef, Component, Input, OnInit, Output, EventEmitter} from 
 import {UtilService} from '../../utils/util.service';
 import {DropdownModel} from '../../model/DropdownModel';
 import {Observable} from 'rxjs/Observable';
-import {ProblemPrice} from "../../model/ProblemPrice";
-import {ClientService} from "../../clients/shared/client.service";
+import {ProblemPrice} from '../../model/ProblemPrice';
+import {ClientService} from '../../clients/shared/client.service';
 
 
 @Component({
@@ -53,7 +53,7 @@ export class ProblemListComponent implements OnInit {
         this.problemsPriceList.push(new ProblemPrice(snapshot.problemId, snapshot.phoneBrand, snapshot.phoneModel, snapshot.price));
       });
       this.problemsPriceList = this.problemsPriceList.filter((item) => item._problemId === val.selectedProblem);
-    })
+    });
     this.isRequired = this._utilService.checkIsOther(val.selectedProblem);
     if (this.isRequired) {
       this.problemListGroup.addControl('partName',
@@ -67,8 +67,8 @@ export class ProblemListComponent implements OnInit {
     }
   }
   setPriceForPart() {
-    let phoneBrand = this.phoneGroup.controls['phoneBrand'].value.toLowerCase();
-    let phoneModel = this.phoneGroup.controls['phoneModel'].value.toLowerCase();
+    const phoneBrand = this.phoneGroup.controls['phoneBrand'].value.toLowerCase();
+    const phoneModel = this.phoneGroup.controls['phoneModel'].value.toLowerCase();
     this.setPriceOnGUI(phoneBrand, phoneModel);
   }
 
@@ -77,18 +77,18 @@ export class ProblemListComponent implements OnInit {
       this.problemsPriceList = [];
       parts.forEach(snapshot => {
         this.problemsPriceList.push(new ProblemPrice(snapshot.problemId, snapshot.phoneBrand, snapshot.phoneModel, snapshot.price));
-      })
+      });
       const items = this.problemsPriceList.filter(phone => {
         return phone._phoneBrand.toLowerCase() === phoneBrand
           && phone._phoneModel.toLowerCase() === phoneModel
           && phone._problemId.toLowerCase() === this.selectedProblem.toLowerCase();
       });
       if (items[0] !== undefined) {
-        this.problemListGroup.controls['pricePerPart'].setValue(items[0]._price)
+        this.problemListGroup.controls['pricePerPart'].setValue(items[0]._price);
       } else {
         this.problemListGroup.controls['pricePerPart'].setValue(0);
       }
-    })
+    });
   }
 
   get partName() {

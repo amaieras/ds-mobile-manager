@@ -1,7 +1,7 @@
-import { AngularFireAuth} from "angularfire2/auth";
-import { Injectable } from "@angular/core";
+import { AngularFireAuth} from 'angularfire2/auth';
+import { Injectable } from '@angular/core';
 import * as firebase from 'firebase/app';
-import {Router} from "@angular/router";
+import {Router} from '@angular/router';
 
 
 @Injectable()
@@ -14,7 +14,7 @@ export class AuthService {
 
   doGoogleLogin(){
     return new Promise<any>((resolve, reject) => {
-      let provider = new firebase.auth.GoogleAuthProvider();
+      const provider = new firebase.auth.GoogleAuthProvider();
       provider.addScope('profile');
       provider.addScope('email');
       this.afAuth.auth
@@ -23,8 +23,8 @@ export class AuthService {
           resolve(res);
         }, err => {
           reject(err);
-        })
-    })
+        });
+    });
   }
 
   doLogin(value) {
@@ -32,16 +32,16 @@ export class AuthService {
       firebase.auth().signInWithEmailAndPassword(value.email, value.password)
         .then(res => {
           resolve(res);
-        }, err => reject(err))
-    })
+        }, err => reject(err));
+    });
   }
   doRegister(value) {
     return new Promise<any>((resolve, reject) => {
       firebase.auth().createUserWithEmailAndPassword(value.email, value.password)
         .then(res => {
           resolve(res);
-        }, err => reject(err))
-    })
+        }, err => reject(err));
+    });
   }
   doLogout(){
     return new Promise(() => {

@@ -20,7 +20,7 @@ export class AppToolbarService {
             .filter(e => e instanceof NavigationEnd)
             .map(_ => this.router.routerState.root)
             .map(route => {
-                let active = this.lastRouteWithMenuItem(route.root);
+                const active = this.lastRouteWithMenuItem(route.root);
                 this.titleService.setTitle(active.title);
                 return active;
             });
@@ -47,10 +47,10 @@ export class AppToolbarService {
         return lastMenu;
     }
     private extractMenu(route: ActivatedRoute): MenuItem {
-        let cfg = route.routeConfig;
+        const cfg = route.routeConfig;
         return cfg && cfg.data && cfg.data.title
             ? { path: cfg.path, title: cfg.data.title, icon: cfg.data.icon }
-            : undefined
+            : undefined;
     }
 }
 

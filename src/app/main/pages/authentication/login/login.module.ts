@@ -6,7 +6,7 @@ import { MatButtonModule, MatCheckboxModule, MatFormFieldModule, MatInputModule 
 import { FuseSharedModule } from '@fuse/shared.module';
 
 import { LoginComponent } from 'app/main/pages/authentication/login/login.component';
-import {FuseConfigService} from "../../../../../@fuse/services/config.service";
+import {FuseConfigService} from '../../../../../@fuse/services/config.service';
 
 
 @NgModule({

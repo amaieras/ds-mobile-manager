@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
-import {ReportsShowComponent} from "./reports-show/reports-show.component";
-import {RouterModule, Routes} from "@angular/router";
-import {ReportTypeListComponent} from "./report-type-list/report-type-list.component";
-import {ReportsFilterComponent} from "./reports-filter/reports-filter.component";
-import {AuthGuard} from "../guards/auth.guard";
+import {ReportsShowComponent} from './reports-show/reports-show.component';
+import {RouterModule, Routes} from '@angular/router';
+import {ReportTypeListComponent} from './report-type-list/report-type-list.component';
+import {ReportsFilterComponent} from './reports-filter/reports-filter.component';
+import {AuthGuard} from '../guards/auth.guard';
 
 const reportsCenterRoutes: Routes = [
   {

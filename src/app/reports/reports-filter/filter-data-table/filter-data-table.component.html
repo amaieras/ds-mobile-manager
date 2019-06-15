@@ -19,21 +19,13 @@
       <mat-cell *matCellDef="let element">{{element.lastname}}</mat-cell>
     </ng-container>
 
-    <!-- PhoneList Column -->
-    <ng-container matColumnDef="phoneList">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Lista telefoane </mat-header-cell>
-      <mat-cell *matCellDef="let element">
-        <span *ngFor="let column of element.phoneList">{{column.phoneBrand}} - {{column.phoneModel}};</span>
-        </mat-cell>
-    </ng-container>
-
     <!-- ProblemList Column -->
     <ng-container matColumnDef="problems">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Lista probleme </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Lista telefoane - probleme  </mat-header-cell>
       <mat-cell *matCellDef="let element">
           <div class="ui-grid ui-grid-responsive ui-grid-pad" *ngFor="let item of element.phoneList">
             <div class="ui-grid-row" *ngFor="let it of item.problems">
-              <div class="ui-grid-col-10">{{it.problem}} X {{it.phoneQuantity}};</div>
+              <p>{{ item.phoneBrand }} {{ item.phoneModel }} - {{ it.problem }} X {{ it.phoneQuantity }}</p>
             </div>
           </div>
       </mat-cell>

@@ -1,5 +1,5 @@
 /** IMEI has exactly 14 digits */
-import {AbstractControl, ValidatorFn} from "@angular/forms";
+import {AbstractControl, ValidatorFn} from '@angular/forms';
 
 export function imeiValidator(nameRe: RegExp): ValidatorFn {
   return (control: AbstractControl): {[key: string]: any} => {
