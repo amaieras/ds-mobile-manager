@@ -214,6 +214,7 @@ export class RepairGsmSentComponent implements OnInit{
   }
 
   resolveFieldData(data, field) {
+    let d;
     if (data && field) {
       if (field.indexOf('.') == -1) {
         let auxDate = '';
@@ -251,7 +252,7 @@ export class RepairGsmSentComponent implements OnInit{
           if (data[field] == '' || data[field] == null || data[field] === 'undefined') {
             return '';
           }else
-            let d = new Date(+data[field]);
+            d = new Date(+data[field]);
           auxDate = d.toLocaleDateString()  + '  ' + d.toLocaleTimeString();
           return auxDate;
 

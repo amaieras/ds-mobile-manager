@@ -18,7 +18,7 @@ export class ReportsShowComponent implements OnInit {
     this.rangeDates = [new Date(), new Date()];
     this.rangeDates[0].setHours(0, 0, 0, 0);
     this.rangeDates[1].setHours(0, 0, 0, 0);
-    const event: Event;
+    const event: Event = null;
     this.onRangeSelect(event);
   }
   getCheckoutForDate(dates) {

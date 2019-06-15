@@ -185,6 +185,7 @@ export class RepairGSMDetailComponent implements OnInit{
   }
 
   resolveFieldData(data, field) {
+    let d;
     if (data && field) {
       if (field.indexOf('.') == -1) {
         let auxDate = '';
@@ -221,8 +222,8 @@ export class RepairGSMDetailComponent implements OnInit{
         if (field == 'addedDate' || field == 'appointmentDate' || field === 'deliveredDate'){
           if (data[field] == '' || data[field] == null || data[field] === 'undefined') {
             return '';
-          }else
-            let d = new Date(+data[field]);
+          } else
+             d = new Date(+data[field]);
           auxDate = d.toLocaleDateString()  + '  ' + d.toLocaleTimeString();
           return auxDate;
 
