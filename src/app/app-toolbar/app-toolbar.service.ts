@@ -9,6 +9,7 @@ export class MenuItem {
     path: string;
     title: string;
     icon: string;
+    position: number;
 }
 
 @Injectable()
@@ -35,7 +36,8 @@ export class AppToolbarService {
                 return {
                     path: route.path,
                     title: route.data.title,
-                    icon: route.data.icon
+                    icon: route.data.icon,
+                    position: route.data.position
                 };
             });
     }

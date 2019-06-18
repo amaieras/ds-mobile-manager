@@ -1,41 +1,36 @@
-import {RouterModule, Routes} from '@angular/router';
-import {CheckoutComponent} from './checkout.component';
-import {NgModule} from '@angular/core';
-import {AuthGuard} from '../guards/auth.guard';
-
+import { RouterModule, Routes } from "@angular/router";
+import { CheckoutComponent } from "./checkout.component";
+import { NgModule } from "@angular/core";
+import { AuthGuard } from "../guards/auth.guard";
 
 const checkoutCenterRoutes: Routes = [
   {
-    path: 'checkout',
+    path: "checkout",
     component: CheckoutComponent,
     children: [
       {
-        path: '',
-        redirectTo: '',
-        pathMatch: 'full',
+        path: "",
+        redirectTo: "",
+        pathMatch: "full"
         // canActivate: [AuthGuard]
       },
       {
-        path: '',
-        component: CheckoutComponent,
+        path: "",
+        component: CheckoutComponent
         // canActivate: [AuthGuard]
-      },
+      }
     ],
     // canActivate: [AuthGuard],
     data: {
-      title: 'Casa - final de zi'
+      title: "Casa - final de zi",
+      position: 5
     }
   }
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forRoot(checkoutCenterRoutes)
-  ],
-  exports: [
-    RouterModule
-  ],
-  providers: [
-  ]
+  imports: [RouterModule.forRoot(checkoutCenterRoutes)],
+  exports: [RouterModule],
+  providers: []
 })
-export class CheckoutCenterRoutingModule { }
+export class CheckoutCenterRoutingModule {}

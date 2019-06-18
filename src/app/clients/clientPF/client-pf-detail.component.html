@@ -136,7 +136,8 @@
     </div>
     <div class="col-md-3" *ngIf="isOtherRequired">
       <label for="other">Alte</label>
-      <input placeholder="Altele" id="other" (ngModelChange)="checkIfAboutUsExists($event)" [(ngModel)]="selectedOtherName" class="form-control" formControlName="aboutAsName" [required]="isRequired ? true : null">
+      <input placeholder="Altele" id="other" (ngModelChange)="checkIfAboutUsExists($event)" [(ngModel)]="selectedOtherName" class="form-control" formControlName="aboutAsName"
+             [required]="isRequired ? true : null">
       <div *ngIf="aboutUsValExists" class="alert alert-danger">
         <div *ngIf="aboutUsValExists">
           Alta modalitate pe care vrei sa o introduci exista deja in lista `Cum a aflat de noi?`.

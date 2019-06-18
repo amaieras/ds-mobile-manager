@@ -33,11 +33,7 @@ export class UtilService {
    * @returns {boolean}
    */
   checkIsOther(part) {
-    if (part.toLowerCase() !== 'altele') {
-      return false;
-    } else {
-      return true;
-    }
+    return part.toLowerCase() === 'altele';
   }
   /**
    * Check if a string is present in a property of a given object
@@ -47,10 +43,9 @@ export class UtilService {
    */
 
   containsObject(newName, list) {
-    const found = list.some(function (el) {
+    return list.some(el => {
       return el.label.toUpperCase().trim() === newName.toUpperCase().trim();
     });
-    return found;
   }
 
   /**

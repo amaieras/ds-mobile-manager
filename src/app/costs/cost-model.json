@@ -1,0 +1,16 @@
+{
+  "costs": {
+    "key1": {
+      "addedDate": "some-date",
+      "cost-type": "transport",
+      "cost": 700
+    },
+    "key2": {
+      "addedDate": "some-date",
+      "cost-type": "paguba",
+      "cost": 300
+    }
+  }
+}
+
+

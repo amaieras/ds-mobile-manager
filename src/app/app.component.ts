@@ -13,21 +13,6 @@ export class AppComponent {
   activeMenuItem$: Observable<MenuItem>;
 
   constructor(private toolbarService: AppToolbarService) {
-
-    // console.log(this.toolbarService.getMenuItems())
-    this.mainMenuItems = this.toolbarService.getMenuItems();
-    // push first element to end of array
-    // this.mainMenuItems.push(this.mainMenuItems.shift());
-    // this.mainMenuItems.push(this.mainMenuItems.shift());
-    this.mainMenuItems.push(this.mainMenuItems.shift());
-
-    // put `grafice` link to the end
-    this.mainMenuItems.push(this.mainMenuItems.shift());
-    // swap reports link which is invisble with `grafice` links
-    // const aux = this.mainMenuItems[this.mainMenuItems.length - 1];
-    // this.mainMenuItems[this.mainMenuItems.length - 1] = this.mainMenuItems[this.mainMenuItems.length - 2];
-    // this.mainMenuItems[this.mainMenuItems.length - 2] = aux;
-
-    // this.activeMenuItem$ = this.toolbarService.activeMenuItem$;
+    this.mainMenuItems = this.toolbarService.getMenuItems().sort((a, b) => a.position - b.position);
   }
 }

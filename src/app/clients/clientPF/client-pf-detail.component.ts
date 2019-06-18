@@ -42,9 +42,11 @@ export class ClientPfDetailComponent implements OnInit {
 
   @ViewChild(PrintReceiptComponent ) child: PrintReceiptComponent;
 
-  constructor(private _clientPFService: ClientPFService, private fb: FormBuilder,
+  constructor(private _clientPFService: ClientPFService,
+              private fb: FormBuilder,
               private _utilService: UtilService,
-              private _aboutUsService: AboutUsService, private _phoneListService: PhoneListService,
+              private _aboutUsService: AboutUsService,
+              private _phoneListService: PhoneListService,
               private _clientService: ClientService) {
     this.tests = [];
     this.mainArray = [];
@@ -88,14 +90,14 @@ export class ClientPfDetailComponent implements OnInit {
     this._clientPFService.addPFClient(this.clientPF);
       // .then(item => {
       this.print();
-      this.resetAfterSubumit();
+      this.resetAfterSubmit();
       this.clientPFForm.patchValue({appointment: this.defaultDate.getTime().toString()});
       this.msgs = this._utilService.succesAddMessage('Adauga client PF',
         'success', 'Client adaugat cu succes.');
     // })
   }
 
-  private resetAfterSubumit() {
+  private resetAfterSubmit() {
     this.clientPF = new ClientPF();
     this.clientPFForm.controls['phoneList'] = this.fb.array([]);
     this.clientPFForm.reset();

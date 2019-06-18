@@ -29,7 +29,8 @@ const reportsCenterRoutes: Routes = [
     ],
     // canActivate: [AuthGuard],
     data: {
-      title: 'Rapoarte'
+      title: 'Rapoarte',
+      position: 5
     }
   }
 ];

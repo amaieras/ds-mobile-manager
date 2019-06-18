@@ -38,7 +38,8 @@ const repairsCenterRoutes: Routes = [
       }
     ],
     data: {
-      title: 'Reparaţii'
+      title: 'Reparaţii',
+      position: 3
     },
     // canActivate: [AuthGuard],
   },
@@ -65,7 +66,8 @@ const repairsCenterRoutes: Routes = [
     ],
     // canActivate: [AuthGuard],
     data: {
-      title: 'Reparaţii/Terminat'
+      title: 'Reparaţii/Terminat',
+      position: 4
     }
   }
 ];
