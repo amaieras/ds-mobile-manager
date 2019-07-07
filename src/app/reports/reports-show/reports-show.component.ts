@@ -36,22 +36,9 @@ export class ReportsShowComponent implements OnInit {
     }
   }
   getCashPFGSM(dates) {
-    let totalCashPF = 0;
     let totalCashGSM = 0;
-    let totalPF = 0;
     let totalGSM = 0;
-    let clientPFisPayed;
     let clientGSMisPayed;
-    this._reportService.getAllPFClients().subscribe(pf => {
-      clientPFisPayed = pf.filter(function (client) {
-          const clientDate = new Date(+client.addedDate).setHours(0, 0, 0, 0);
-          return clientDate >= dates[0].getTime() && clientDate <= dates[1].getTime();
-      });
-      clientPFisPayed.forEach(item => {
-        totalCashPF = +totalCashPF + +item.paymentMethod._advance;
-
-      });
-    });
     this._reportService.getAllGSMClients().subscribe(gsm => {
       clientGSMisPayed = gsm.filter(function (client) {
         const clientDate = new Date(+client.addedDate).setHours(0, 0, 0, 0);
@@ -61,20 +48,6 @@ export class ReportsShowComponent implements OnInit {
         totalCashGSM = totalCashGSM + +item.paymentMethod._advance;
 
       });
-    });
-    this._reportService.getAllPFClients().subscribe(pf => {
-      clientPFisPayed = pf.filter(function (client) {
-        const clientDate = new Date(+client.deliveredDate).setHours(0, 0, 0, 0);
-        return clientDate >= dates[0].getTime() && clientDate <= dates[1].getTime() && client.isPayed;
-      });
-      clientPFisPayed.forEach(item => {
-        totalCashPF = +totalCashPF + +item.paymentMethod._cash + +item.paymentMethod._repayment;
-        totalPF += +item.paymentMethod._cash + +item.paymentMethod._card + +item.paymentMethod._advance + +item.paymentMethod._collector +
-          +item.paymentMethod._repayment;
-      });
-      totalCashPF = totalCashPF || 0;
-      this.report.pfCash = totalCashPF;
-      this.report.pfTotal = totalPF || 0;
     });
     this._reportService.getAllGSMClients().subscribe(gsm => {
       clientGSMisPayed = gsm.filter(function (client) {
@@ -93,27 +66,12 @@ export class ReportsShowComponent implements OnInit {
   }
 
   getCardPFGSM(dates) {
-    let totalCardPF;
     let totalCardGSM ;
-    let clientPFisPayed;
     let clientGSMisPayed;
 
-    this._reportService.getAllPFClients().subscribe(pf => {
-      totalCardPF = 0;
-      clientPFisPayed = pf.filter(function(client) {
-        const clientDate = new Date(+client.deliveredDate).setHours(0, 0, 0, 0);
-        return client.isPayed &&
-          clientDate >= dates[0].getTime() &&
-          clientDate <= dates[1].getTime();
-      });
-      clientPFisPayed.forEach(item => {
-        totalCardPF = totalCardPF + +item.paymentMethod._card;
-      });
-      this.report.pfCard = totalCardPF || 0;
-    });
     this._reportService.getAllGSMClients().subscribe(gsm => {
       totalCardGSM = 0;
-      clientGSMisPayed = gsm.filter(function(client) {
+      clientGSMisPayed = gsm.filter(client => {
         const clientDate = new Date(+client.deliveredDate).setHours(0, 0, 0, 0);
         return client.isPayed &&
           clientDate >= dates[0].getTime() &&
@@ -127,23 +85,8 @@ export class ReportsShowComponent implements OnInit {
   }
 
   getRepaymentPFGSM(dates) {
-    let totalRepaymentPF;
     let totalRepaymentGSM ;
-    let clientPFisPayed;
     let clientGSMisPayed;
-    this._reportService.getAllPFClients().subscribe(pf => {
-      totalRepaymentPF = 0;
-      clientPFisPayed = pf.filter(function(client) {
-        const clientDate = new Date(+client.deliveredDate).setHours(0, 0, 0, 0);
-        return client.isPayed &&
-          clientDate >= dates[0].getTime() &&
-          clientDate <= dates[1].getTime();
-      });
-      clientPFisPayed.forEach(item => {
-        totalRepaymentPF = totalRepaymentPF + +item.paymentMethod._repayment;
-      });
-      this.report.pfRepayment = totalRepaymentPF || 0;
-    });
     this._reportService.getAllGSMClients().subscribe(gsm => {
       totalRepaymentGSM = 0;
       clientGSMisPayed = gsm.filter(function(client) {
@@ -160,21 +103,8 @@ export class ReportsShowComponent implements OnInit {
   }
 
   getAdvancePFGSM(dates) {
-    let totalAdvancePF;
     let totalAdvanceGSM ;
-    let clientPFisPayed;
     let clientGSMisPayed;
-    this._reportService.getAllPFClients().subscribe(pf => {
-      totalAdvancePF = 0;
-      clientPFisPayed = pf.filter(function(client) {
-        const clientDate = new Date(+client.addedDate).setHours(0, 0, 0, 0);
-        return clientDate >= dates[0].getTime() && clientDate <= dates[1].getTime();
-      });
-      clientPFisPayed.forEach(item => {
-        totalAdvancePF = totalAdvancePF + +item.paymentMethod._advance;
-      });
-      this.report.pfAdvance = totalAdvancePF;
-    });
     this._reportService.getAllGSMClients().subscribe(gsm => {
       totalAdvanceGSM = 0;
       clientGSMisPayed = gsm.filter(function(client) {
@@ -189,103 +119,55 @@ export class ReportsShowComponent implements OnInit {
   }
 
   getTotalIn(dates) {
-    let totalIn;
-    let clientPFisPayed;
-    let clientGSMisPayed;
-    this._reportService.getAllPFClients().subscribe(pf => {
-      this._reportService.getAllGSMClients().subscribe(gsm => {
-        totalIn = 0;
-        clientPFisPayed = pf.filter(function(client) {
-          const clientDate = new Date(+client.addedDate).setHours(0, 0, 0, 0);
-          return clientDate >= dates[0].getTime() && clientDate <= dates[1].getTime();
-        });
-        clientPFisPayed.forEach(item => {
-          totalIn = totalIn + +item.paymentMethod._advance;
-        });
-        clientGSMisPayed = gsm.filter(function(client) {
-          const clientDate = new Date(+client.addedDate).setHours(0, 0, 0, 0);
-          return clientDate >= dates[0].getTime() && clientDate <= dates[1].getTime();
-        });
-        clientGSMisPayed.forEach(item => {
-          totalIn = totalIn + +item.paymentMethod._advance;
-        });
-        clientPFisPayed = pf.filter(function(client) {
-          const clientDate = new Date(+client.deliveredDate).setHours(0, 0, 0, 0);
-          return clientDate >= dates[0].getTime() && clientDate <= dates[1].getTime() && client.isPayed;
-        });
-        clientPFisPayed.forEach(item => {
-          totalIn = totalIn + +item.paymentMethod._cash + +item.paymentMethod._card + +item.paymentMethod._repayment + +item.paymentMethod._collector;
-        });
-        clientGSMisPayed = gsm.filter(function(client) {
-          const clientDate = new Date(+client.deliveredDate).setHours(0, 0, 0, 0);
-          return clientDate >= dates[0].getTime() && clientDate <= dates[1].getTime() && client.isPayed;
-        });
-        clientGSMisPayed.forEach(item => {
-          totalIn = totalIn + +item.paymentMethod._cash + +item.paymentMethod._card + +item.paymentMethod._repayment + +item.paymentMethod._collector;
-        });
-        this.report.totalIn = totalIn;
+    let totalPrice = 0;
+    let clientGSMByDate;
+    this._reportService.getAllGSMClients().subscribe(gsm => {
+      clientGSMByDate = gsm.filter(client => {
+        const clientDate = new Date(+client.deliveredDate).setHours(0, 0, 0, 0);
+        return clientDate >= dates[0].getTime() && clientDate <= dates[1].getTime();
       });
+      console.log(clientGSMByDate)
+      clientGSMByDate.forEach(clientByDate => {
+        clientByDate["phoneList"].forEach(phone => {
+          phone.problems.forEach(problem => {
+            const quantity = problem.phoneQuantity === undefined ? 1 : +problem.phoneQuantity;
+            totalPrice += problem.pricePerPart * +quantity;
+          });
+        });
+      });
+      this.report.totalIn = totalPrice;
     });
   }
 
   getTotalCash(dates) {
-    let totalCashPF = 0;
     let totalCashGSM = 0;
-    let clientPFisPayed;
-    let clientGSMisPayed;
-    this._reportService.getAllPFClients().subscribe(pf => {
+    let clientGSMByDate;
       this._reportService.getAllGSMClients().subscribe(gsm => {
-        //adding advance for given interval
-        clientPFisPayed = pf.filter(function(client) {
+        clientGSMByDate = gsm.filter(client => {
           const clientDate = new Date(+client.addedDate).setHours(0, 0, 0, 0);
           return clientDate >= dates[0].getTime() && clientDate <= dates[1].getTime();
         });
-        clientPFisPayed.forEach(item => {
-          totalCashPF = +totalCashPF + +item.paymentMethod._advance;
-        });
-        clientGSMisPayed = gsm.filter(function(client) {
-          const clientDate = new Date(+client.addedDate).setHours(0, 0, 0, 0);
-          return clientDate >= dates[0].getTime() && clientDate <= dates[1].getTime();
-        });
-        clientGSMisPayed.forEach(item => {
+        clientGSMByDate.forEach(item => {
           totalCashGSM = +totalCashGSM + +item.paymentMethod._advance;
         });
-        //adding rest of payment for given interval
-        clientPFisPayed = pf.filter(function(client) {
+        clientGSMByDate = gsm.filter(client => {
           const clientDate = new Date(+client.deliveredDate).setHours(0, 0, 0, 0);
           return clientDate >= dates[0].getTime() && clientDate <= dates[1].getTime() && client.isPayed;
         });
-        clientPFisPayed.forEach(item => {
-          totalCashPF = +totalCashPF + +item.paymentMethod._cash + +item.paymentMethod._repayment;
-        });
-        clientGSMisPayed = gsm.filter(function(client) {
-          const clientDate = new Date(+client.deliveredDate).setHours(0, 0, 0, 0);
-          return clientDate >= dates[0].getTime() && clientDate <= dates[1].getTime() && client.isPayed;
-        });
-        clientGSMisPayed.forEach(item => {
+
+        console.log(clientGSMByDate)
+        clientGSMByDate.forEach(item => {
           totalCashGSM = +totalCashGSM + +item.paymentMethod._cash + +item.paymentMethod._repayment;
         });
-        this.report.totalCash = totalCashPF + totalCashGSM;
+        this.report.totalCash = totalCashGSM;
       });
-    });
   }
 
   getTotalBank(dates) {
     let totalBank;
-    let clientPFisPayed;
     let clientGSMisPayed;
-    this._reportService.getAllPFClients().subscribe(pf => {
       this._reportService.getAllGSMClients().subscribe(gsm => {
         totalBank = 0;
-        clientPFisPayed = pf.filter(function(client) {
-          const clientDate = new Date(+client.deliveredDate).setHours(0, 0, 0, 0);
-          return client.isPayed &&
-            clientDate >= dates[0].getTime() &&
-            clientDate <= dates[1].getTime();
-        });
-        clientPFisPayed.forEach(item => {
-          totalBank = totalBank + +item.paymentMethod._card + +item.paymentMethod._collector;
-        });
         clientGSMisPayed = gsm.filter(function(client) {
           const clientDate = new Date(+client.deliveredDate).setHours(0, 0, 0, 0);
           return client.isPayed &&
@@ -297,6 +179,5 @@ export class ReportsShowComponent implements OnInit {
         });
         this.report.totalBank = totalBank;
       });
-    });
   }
 }
