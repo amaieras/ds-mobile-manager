@@ -106,12 +106,11 @@ export class PhoneGSMListComponent implements OnInit {
           this.phoneModelsArray.push({label: snapshot.name, value: snapshot.name, phoneId: snapshot.phoneId});
         });
         this.onModelSelect(firstModelOfBrandPrint);
-        this.phoneModelsArray = this.phoneModelsArray
-          .filter((item) => item.phoneId.toLowerCase() === phoneId.toLowerCase() || item.phoneId === 'altele');
+        this.phoneModelsArray = this.phoneModelsArray.filter((item) => item.phoneId.toLowerCase() === phoneId.toLowerCase() || item.phoneId === 'altele');
         for (let i = 0; i < problemArray.length; i++) {
           const that = this;
           const itemInput = <FormGroup>problemArray.at(i);
-          if (firstModelOfBrandPrint !== null) { // will be null when `Altele` is selected so no price will be retrieved as it doesn't exist
+          if (firstModelOfBrandPrint !== null) { //will be null when `Altele` is selected so no price will be retrieved as it doesn't exist
             const results = this.problemsPriceList.filter(function(part) {
               return part._phoneBrand.toLowerCase() === that.selectedBrand.toLowerCase()
                 && part._phoneModel.toLowerCase() === firstModelOfBrandPrint.toLowerCase()

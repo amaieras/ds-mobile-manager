@@ -143,14 +143,14 @@ export class ClientGSMDetailComponent implements OnInit {
       // .then(item => {
         this.clientGSMForm.patchValue({appointment: this.defaultDate.getTime().toString()});
         this.print();
-        this.resetAfterSubmit();
+        this.resetAfterSubumit();
         this.msgs = this._utilService.succesAddMessage('Adauga client GSM',
           'success', 'Client adaugat cu succes.');
       // });
 
 
   }
-  private resetAfterSubmit() {
+  private resetAfterSubumit() {
     this.clientGSM = new ClientGSM();
     this.clientGSMForm.controls['phoneList'] = this.fb.array([]);
     this.clientGSMForm.reset();
@@ -188,7 +188,7 @@ export class ClientGSMDetailComponent implements OnInit {
     this.saveClientGSM.priceOfferCash = this.totalPrice === null ? 0 : +this.totalPrice;
     this.saveClientGSM.addedDate = new Date().getTime().toString();
     const clientGSMObj = new ClientGSMType(this.clientGSMTypeKey, clientName, formModel.phone, formModel.firm, clientCity);
-    if (this.checkIfNewClientGSMExists(clientName) === '') {
+    if (this.checkIfNewClientGSMExists(clientName) === ''){
       this.addNewClientGSMType(clientGSMObj);
     }
     else {

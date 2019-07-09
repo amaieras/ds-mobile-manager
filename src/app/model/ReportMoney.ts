@@ -9,8 +9,6 @@ export class ReportMoney {
   private _pfCard: number;
   private _gsmCard: number;
 
-  private _gsmCollector: number;
-
   private _pfRepayment: number;
   private _gsmRepayment: number;
 
@@ -127,13 +125,5 @@ export class ReportMoney {
 
   set totalBank(value: number) {
     this._totalBank = value;
-  }
-
-  get gsmCollector(): number {
-    return this._gsmCollector;
-  }
-
-  set gsmCollector(value: number) {
-    this._gsmCollector = value;
   }
 }

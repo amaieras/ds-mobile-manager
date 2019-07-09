@@ -51,7 +51,7 @@ export class AppToolbarService {
     private extractMenu(route: ActivatedRoute): MenuItem {
         const cfg = route.routeConfig;
         return cfg && cfg.data && cfg.data.title
-            ? { path: cfg.path, title: cfg.data.title, icon: cfg.data.icon, position: 0 }
+            ? { path: cfg.path, title: cfg.data.title, icon: cfg.data.icon }
             : undefined;
     }
 }

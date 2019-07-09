@@ -34,8 +34,11 @@ import { RegisterComponent } from "./main/pages/authentication/register/register
 import { LoginModule } from "./main/pages/authentication/login/login.module";
 import { NavbarComponent } from "./layout/components/navbar/navbar.component";
 import { DashboardComponent } from "./main/apps/dashboard/dashboard.component";
+import { CostComponent } from "./costs/cost.component";
 import { CostModule } from "./costs/cost.module";
 import { CostRoutingModule } from "./costs/cost-center-routing.module";
+import { CostComponent } from "./layout/components/cost/cost.component";
+import { CostAddListComponent } from "./costs/cost-add/cost-add.component";
 
 export const firebaseConfig = {
   apiKey: "AIzaSyDL-_f_lQb4dnkx6GRrL7O7L7sp2A1Kj1w",
@@ -85,7 +88,7 @@ export const firebaseConfigProd = {
     RepairCenterRoutingModule,
     LoginModule,
     // firebase
-    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireModule.initializeApp(firebaseConfigProd),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     AngularFirestoreModule,

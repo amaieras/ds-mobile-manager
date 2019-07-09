@@ -1,21 +1,21 @@
-import { NgModule } from "@angular/core";
-import { RouterModule } from "@angular/router";
-import {
-  MatButtonModule,
-  MatCheckboxModule,
-  MatFormFieldModule,
-  MatInputModule
-} from "@angular/material";
 
-import { FuseSharedModule } from "@fuse/shared.module";
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { MatButtonModule, MatCheckboxModule, MatFormFieldModule, MatInputModule } from '@angular/material';
 
-import { LoginComponent } from "app/main/pages/authentication/login/login.component";
-import { FuseConfigService } from "../../../../../@fuse/services/config.service";
+import { FuseSharedModule } from '@fuse/shared.module';
+
+import { LoginComponent } from 'app/main/pages/authentication/login/login.component';
+import {FuseConfigService} from '../../../../../@fuse/services/config.service';
+
 
 @NgModule({
-  declarations: [LoginComponent],
+  declarations: [
+    LoginComponent
+  ],
   imports: [
     RouterModule,
+
 
     MatButtonModule,
     MatCheckboxModule,
@@ -26,4 +26,6 @@ import { FuseConfigService } from "../../../../../@fuse/services/config.service"
   ],
   providers: [FuseConfigService]
 })
-export class LoginModule {}
+export class LoginModule
+{
+}
