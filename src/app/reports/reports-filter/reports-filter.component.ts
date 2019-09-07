@@ -89,6 +89,17 @@ export class ReportsFilterComponent implements OnInit {
       this.clientsGSMList.sort((a, b) => a.label.localeCompare(b.label));
     });
   }
+  onBrandSelect(brands) {
+    this.phoneModelsArray = [];
+    this._phoneListService.getModelList().subscribe(models => {
+      const phoneModels = models.filter(model => {
+        return brands.map(brand => brand.toLowerCase().trim()).includes(model.phoneId.toLowerCase().trim());
+      })
+      phoneModels.forEach(snapshot => {
+        this.phoneModelsArray.push({label: snapshot.name, value: snapshot.name});
+      });
+    });
+  }
 
   applyFilters() {
     this.filterItems('gsm');
@@ -96,66 +107,63 @@ export class ReportsFilterComponent implements OnInit {
 
   private filterItems(clientType) {
     this._reportService.getClientsByType(clientType).subscribe(clients => {
-      const selectedBrands = this.selectedBrands.map(item => item.toUpperCase());
-      const selectedModels = this.selectedModels.map(item => item.toUpperCase());
-      const selectedProblems = this.selectedProblems.map(item => item.toUpperCase());
-      const selectedGSMClientList = this.selectedGSMClients.map(item => item.toUpperCase());
+      const selectedBrands = this.selectedBrands.map(item => item.toUpperCase().trim());
+      const selectedModels = this.selectedModels.map(item => item.toUpperCase().trim());
+      const selectedProblems = this.selectedProblems.map(item => item.toUpperCase().trim());
+      const selectedGSMClientList = this.selectedGSMClients.map(item => item.toUpperCase().trim());
 
       // first filter by payed or not payed in order to avoid looping through unnecessary clients
       let filteredClients = clients.filter(client => client.isPayed === this.isPayed);
 
-
       // Filter by selected client name
-      filteredClients = filteredClients.filter(client => selectedGSMClientList.includes(client.lastname.toUpperCase()));
+      filteredClients = filteredClients.filter(client => selectedGSMClientList.includes(client.lastname.toUpperCase().trim()));
 
       // Filter by selected phone brand
       filteredClients = filteredClients.filter(client => {
-        return client.phoneList.every(brand => selectedBrands.includes(brand.phoneBrand.toUpperCase()));
+        return client.phoneList.some(brand => selectedBrands.includes(brand.phoneBrand.toUpperCase().trim()));
       });
 
       // Filter by selected phone model
       filteredClients = filteredClients.filter(client => {
-        return client.phoneList.every(model => selectedModels.includes(model.phoneModel.toUpperCase()));
+        return client.phoneList.some(model => selectedModels.includes(model.phoneModel.toUpperCase().trim()));
       });
 
       // Filter by selected problem
       filteredClients = filteredClients.filter(client => {
-        return client.phoneList.every(phone => {
-          return phone.problems.every(problem => selectedProblems.includes(problem.problem.toUpperCase()));
+        return client.phoneList.some(phone => {
+          return phone.problems.some(problem => selectedProblems.includes(problem.problem.toUpperCase().trim()));
         });
       });
 
       filteredClients = filteredClients.filter(client => {
-        const clientDate = new Date(+client.addedDate).setHours(0, 0, 0, 0);
+        const clientDate = new Date(+client.deliveredDate).setHours(0, 0, 0, 0);
         return clientDate >= this.rangeDates[0].getTime()
             && clientDate <= this.rangeDates[1].getTime();
       });
 
       this.report.clientGSM = filteredClients;
-      this.countNoOfParts(filteredClients, this.selectedModels);
+      this.countNoOfParts(filteredClients, selectedBrands, selectedModels, selectedProblems);
       this.countNoOfClients(filteredClients);
-      this.calculateTotalIn(filteredClients);
+      this.calculateTotalIn(filteredClients, selectedBrands, selectedModels, selectedProblems);
       // sends filtered client data to filtered list to be displayed by material table
       this.filterDataTableComponent.getFilteredClients(filteredClients);
 
     });
   }
 
-  private countNoOfParts(filteredClients, models) {
+  private countNoOfParts(filteredClients, selectedBrands, selectedModels, selectedProblems) {
     const pieces = [];
-    const selectedProblems = this.selectedProblems.map(item => item.toLowerCase());
     filteredClients.forEach(c => {
       c.phoneList.forEach(p => {
         p.problems.forEach(prob => {
           const quantity = prob.phoneQuantity === undefined ? 1 : +prob.phoneQuantity;
-          if (models.map(v => v.toLowerCase()).indexOf(p.phoneModel.toLowerCase()) > -1) {
+          if (selectedBrands.includes(p.phoneBrand.toUpperCase().trim()) && selectedModels.includes(p.phoneModel.toUpperCase().trim())) {
             for (let i = 1; i <= quantity; i++) {
               selectedProblems.forEach(selProb => {
-                if (selProb.toLowerCase() === prob.problem.toLowerCase()) {
+                if (selProb.toUpperCase().trim() === prob.problem.toUpperCase().trim()) {
                   pieces.push(prob.problem);
                 }
               });
-
             }
           }
         });
@@ -167,11 +175,20 @@ export class ReportsFilterComponent implements OnInit {
   private countNoOfClients(filteredClients) {
     this.report.noOfClients = filteredClients.length;
   }
-  private calculateTotalIn(filteredClients) {
+  private calculateTotalIn(filteredClients, selectedBrands, selectedModels, selectedProblems) {
     let totalPrice = 0;
     filteredClients.forEach(fc => {
-      totalPrice = totalPrice + +fc.paymentMethod._advance + +fc.paymentMethod._card + +fc.paymentMethod._cash
-        + +fc.paymentMethod._collector + +fc.paymentMethod._repayment;
+      fc.phoneList.forEach(phone => {
+        if (selectedBrands.includes(phone.phoneBrand.toUpperCase().trim())
+          && selectedModels.includes(phone.phoneModel.toUpperCase().trim())) {
+          phone.problems.forEach(problem => {
+            const quantity = problem.phoneQuantity === undefined ? 1 : +problem.phoneQuantity;
+            if (selectedProblems.includes(problem.problem.toUpperCase().trim())) {
+              totalPrice += problem.pricePerPart * +quantity;
+            }
+          });
+        }
+      });
     });
     this.report.totalIn = totalPrice;
   }

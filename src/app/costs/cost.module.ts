@@ -7,6 +7,7 @@ import { DropdownModule } from "primeng/primeng";
 import { CommonModule } from "@angular/common";
 import { CostComponent } from "./cost/cost.component";
 import { CostAddComponent } from "./cost-add/cost-add.component";
+import { CostListComponent } from './cost-list/cost-list.component';
 
 @NgModule({
   imports: [
@@ -17,7 +18,7 @@ import { CostAddComponent } from "./cost-add/cost-add.component";
     CommonModule
   ],
   exports: [CostComponent, CostAddComponent],
-  declarations: [CostComponent, CostAddComponent],
+  declarations: [CostComponent, CostAddComponent, CostListComponent],
   providers: []
 })
 export class CostModule {}

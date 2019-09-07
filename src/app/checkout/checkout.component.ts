@@ -170,7 +170,6 @@ export class CheckoutComponent implements OnInit {
             totalCash = +totalCash +  +c.paymentMethod._advance;
             total = total + +c.paymentMethod._advance;
           });
-
           clientPFIsRepaired = pf.filter(function (client) {
             const clientDate = new Date(+client.deliveredDate);
             return clientDate.toDateString() === event.toDateString() && client.isPayed;

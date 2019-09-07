@@ -89,15 +89,14 @@ export class ClientService {
           const phoneItem = formModel.phoneList[i];
           const problemItem = formModel.phoneList[i].problems[j];
           const phoneProblem = problemItem.partName === undefined || problemItem.partName === 'Altele' ? problemItem.problem.toLowerCase() : problemItem.partName.toLowerCase();
-          //When new model need to be added for an existing brand, need to get the new model name
+          // When new model need to be added for an existing brand, need to get the new model name
           phoneItem.phoneModel = phoneItem.phoneModel === undefined ? phoneItem.newSingleModel : phoneItem.phoneModel;
           this.existingPartPrices = part.filter(item => item.phoneBrand.toLowerCase() === phoneItem.phoneBrand.toLowerCase()
             && item.phoneModel.toLowerCase() === phoneItem.phoneModel.toLowerCase()
             && item.problemId.toLowerCase() === phoneProblem);
           if (this.existingPartPrices.length > 0) {
             this.partPrices.update(this.existingPartPrices[0].$key, {price: problemItem.pricePerPart} );
-          }
-          else {
+          } else {
             const phoneBrand = phoneItem.phoneBrand.toLowerCase() === 'altele' ? phoneItem.newBrand.toLowerCase() : phoneItem.phoneBrand.toLowerCase();
             let phoneModel = phoneItem.phoneModel.toLowerCase();
             if (phoneItem.phoneModel.toLowerCase() === 'altele') {

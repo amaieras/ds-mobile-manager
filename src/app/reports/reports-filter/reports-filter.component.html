@@ -32,7 +32,8 @@
       <p-multiSelect id="phone-brand"
                      [(ngModel)]="selectedBrands"
                      [options]="phoneBrandsArray"
-                     [panelStyle]="{minWidth:'12em'}">
+                     [panelStyle]="{minWidth:'12em'}"
+                     (onChange)="onBrandSelect($event.value)">
         <ng-template let-phone pTemplate="item">
           <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
             <div style="font-size:14px;float:right;margin-top:4px">{{phone.label}}</div>
@@ -51,7 +52,7 @@
   <div class="row">
     <div class="col-md-5">
       <label for="phone-model" style="display: block">Model</label>
-      <p-multiSelect id="phone-model" [(ngModel)]="selectedModels" [options]="phoneModelsArray"[panelStyle]="{minWidth:'12em'}">
+      <p-multiSelect id="phone-model" [(ngModel)]="selectedModels" [options]="phoneModelsArray" [panelStyle]="{minWidth:'12em'}">
         <ng-template let-phone pTemplate="item">
           <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
             <div style="font-size:14px;float:right;margin-top:4px">{{phone.label}}</div>
