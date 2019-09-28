@@ -1,2 +1,2 @@
 email -> gen.phone.service@gmail.com
-password -> gen1phone1service
+password -> Gen1phone_service
