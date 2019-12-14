@@ -1,0 +1,47 @@
+<div class="panel-body" [formGroup]="costTypeGroup">
+  <div class="col-md-3">
+    <div class="form-group">
+      <label for="cost-type" style="display: block">Tip Cheltuiala?</label>
+      <p-dropdown
+        id="cost-type"
+        [options]="costTypes"
+        formControlName="costType"
+        [style]="{'width':'150px'}"
+        filter="filter"
+        [(ngModel)]="selectedCost"
+        (onChange)="onCostTypeChange($event)">
+        <ng-template let-cost pTemplate="item">
+          <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+            <div style="font-size:14px;float:right;margin-top:4px">{{ cost.label }}</div>
+          </div>
+        </ng-template>
+      </p-dropdown>
+    </div>
+    <div *ngIf="isOtherRequired">
+      <label for="otherCostType">Alt tip de cheltuiala</label>
+      <input placeholder="Tip nou cheltuiala"
+             id="otherCostType"
+             (ngModelChange)="checkIfCostTypeExists($event)"
+             [(ngModel)]="selectedOtherCostType"
+             class="form-control"
+             formControlName="costTypeName"
+      >
+      <div *ngIf="costTypeValExists" class="alert alert-danger">
+        <div *ngIf="costTypeValExists">
+          Alt tip de cheltuiala pe care vrei sa il introduci exista deja in lista `Tip Cheltiuiala?`.
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="form-group">
+      <label for="cost">Cost</label>
+      <div class="ui-inputgroup">
+        <span class="ui-inputgroup-addon" style="width: 50px;">RON</span>
+        <input placeholder="Cost" id="cost" class="form-control" type="number" formControlName="costValue" style="width: auto !important;">
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+<hr />

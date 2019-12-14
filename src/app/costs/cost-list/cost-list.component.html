@@ -1,0 +1,69 @@
+<div class="container-fluid mt-2">
+  <div class="row">
+    <div class="col-md-12">
+      <date-filter (onDatePicked)="getCostsForDate($event)"></date-filter>
+    </div>
+  </div>
+
+  <amexio-card-pane [enableFooter]="false">
+    <amexio-pane-header>
+      <h1>Cheltuieli - {{currDate | date:"dd/MM/yyyy"}}</h1>
+    </amexio-pane-header>
+    <amexio-pane-body>
+      <div class="card">
+        <div class="card-block">
+          <div class="row">
+            <div class="col-lg-6 col-lg-offset-3">
+              <amexio-datapoints (click)="getCostsForDate(currDate)"  [west]="true" [center]="true" [east]="true" [south]="true" [backgroundColor]="'#efa64c'" [fontColor]="'#ffffff'">
+                <amexio-west [contentalign]="'center'" [width]="'100px'">
+                  <amexio-image [imageClass]="'fa fa-line-chart fa-4x'"></amexio-image>
+                </amexio-west>
+                <amexio-center [contentalign]="'right'">
+                  <amexio-datapoints [north]="true" [center]="true" [south]="true">
+                    <amexio-north [cClass]="'datapoint-north'">
+                      <div class="data-counts">
+                        {{ totalCostPerDay }} RON
+                      </div>
+                    </amexio-north>
+                    <amexio-center [cClass]="'datapoint-center'">
+                      Total costuri adaugate la data selectata
+                    </amexio-center>
+                  </amexio-datapoints>
+                </amexio-center>
+              </amexio-datapoints>
+            </div>
+          </div>
+          <br>
+        </div>
+      </div>
+    </amexio-pane-body>
+  </amexio-card-pane>
+  <div *ngIf="totalCountCostsPerDay > 0">
+    <p-dataView #dv [value]="costsPerDay" [paginator]="true" [rows]="16" paginatorPosition="both" [layout]="layoutType">
+      <p-header>
+        <div class="ui-helper-clearfix">
+          <div class="ui-g">
+            <div class="ui-g-12 ui-md-4">
+              Lista Costuri
+            </div>
+          </div>
+        </div>
+      </p-header>
+      <ng-template let-cost pTemplate="gridItem">
+        <div style="padding:.5em" class="ui-g-12 ui-md-3">
+          <p-panel [style]="{'text-align':'center'}">
+            <p-header>
+              <span>Tip cost:</span>
+              <span class="am-fw">{{ cost.costType }}</span>
+            </p-header>
+            <div>
+              <span>Valoare cost:</span>
+              <span class="am-fw">{{ cost.costValue }} RON</span>
+            </div>
+            <hr class="ui-widget-content" style="border-top:0">
+          </p-panel>
+        </div>
+      </ng-template>
+    </p-dataView>
+  </div>
+</div>

@@ -1,0 +1,30 @@
+<p-growl [(value)]="msgs"></p-growl>
+<div class="container-fluid">
+  <h1>Aduga cheltuiala</h1>
+  <form [formGroup]="costForm" novalidate #formCost="ngForm">
+    <div formArrayName="costList" class="well well-lg">
+      <div *ngFor="let cost of costForm.controls['costList']['controls']; let i=index">
+        <div class="panel-heading">
+          <h3>Cheltuiala numarul: #{{i + 1}}</h3>
+          <span class="glyphicon glyphicon-remove pull-right"
+                *ngIf="costForm.controls.costList.controls.length > 1" (click)="removeFromCostList(i)"></span>
+        </div>
+        <div class="panel-body" [formGroupName]="i">
+          <app-cost-add [costForm]='costForm' [group]="costForm.controls['costList']['controls'][i]"
+                          (change)="getCostTypeItem($event)"></app-cost-add>
+        </div>
+        <br>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <button type="button" class="btn btn-primary" (click)="addInCostList()">Adauga alta cheltuiala +</button>
+        </div>
+        <div class="col-md-offset-10">
+          <button type="submit" class="btn btn-success"
+                  [disabled]="costForm.invalid"
+                  (click)="onSubmit($event)">Salveaza cheltuiala</button>
+        </div>
+        </div>
+      </div>
+  </form>
+</div>
