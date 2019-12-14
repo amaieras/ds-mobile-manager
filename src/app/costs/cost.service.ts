@@ -26,7 +26,12 @@ export class CostService {
         costValue
       });
   }
-
+  getCostList() {
+    return this.costList.snapshotChanges().map(arr => {
+      //noinspection TypeScriptUnresolvedVariable
+      return arr.map(snap => Object.assign(snap.payload.val(), {$key: snap.key}));
+    });
+  }
   public getCostTypeList() {
     return this.costTypeList.snapshotChanges().map(arr => {
       //noinspection TypeScriptUnresolvedVariable

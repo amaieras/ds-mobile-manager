@@ -10,7 +10,6 @@ import {RepairGSMDetailService} from '../repairs/repairGSM/repair-gsm-detail.ser
 import {UtilService} from '../utils/util.service';
 import {PhoneListService} from '../clients/clientPF/phone-list/phone-list.service';
 import {FormControl} from '@angular/forms';
-import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/forkJoin';
 
 @Component({
