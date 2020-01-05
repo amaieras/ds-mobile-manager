@@ -196,12 +196,12 @@ export class PhoneListComponent implements OnInit {
     });
   }
   checkIfNewBrandExists(newBrandName) {
-    if (this._utilService.isNullOrUndefined(newBrandName)) {
+    if (this._utilService.isNotNullOrUndefined(newBrandName)) {
       this.newBrandNameExists = this._utilService.containsObject(newBrandName, this.phoneBrandsArray);
     }
   }
   checkIfNewModelExists(newModelName) {
-    if (this._utilService.isNullOrUndefined(newModelName)) {
+    if (this._utilService.isNotNullOrUndefined(newModelName)) {
       this._phoneListService.getModelList().subscribe(phoneBrands => {
         this.phoneModelsArray = [];
         phoneBrands.forEach(snapshot => {

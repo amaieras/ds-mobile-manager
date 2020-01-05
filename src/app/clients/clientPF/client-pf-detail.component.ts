@@ -162,8 +162,8 @@ export class ClientPfDetailComponent implements OnInit {
   private addNewBrandModelSynced(formModel: any) {
     for (let i = 0; i < formModel.phoneList.length; i++) {
         const item = formModel.phoneList[i];
-        if (item.newBrand !== '' && this._utilService.isNullOrUndefined(item.newBrand)
-          && item.newModel !== '' && this._utilService.isNullOrUndefined(item.newModel)) {
+        if (item.newBrand !== '' && this._utilService.isNotNullOrUndefined(item.newBrand)
+          && item.newModel !== '' && this._utilService.isNotNullOrUndefined(item.newModel)) {
           // this._phoneListService.addNewBrand(item.newBrand).then(item => {
             this.infoMessage('Adauga brand nou', 'Un nou brand: ' +
               item.newBrand + ' a fost adaugat');
@@ -180,7 +180,7 @@ export class ClientPfDetailComponent implements OnInit {
   private addNewSingleModelSynced(formModel: any){
     for (let i = 0; i < formModel.phoneList.length; i++) {
       const item = formModel.phoneList[i];
-      if (item.newSingleModel !== '' && this._utilService.isNullOrUndefined(item.newSingleModel)) {
+      if (item.newSingleModel !== '' && this._utilService.isNotNullOrUndefined(item.newSingleModel)) {
         const brandId = item.phoneBrand.toLowerCase();
         this._phoneListService.addNewModel(item.newSingleModel, brandId);
           // .then(item => {
@@ -228,19 +228,19 @@ export class ClientPfDetailComponent implements OnInit {
 
 
   private checkInputForNullOrUndefined() {
-    if (!this._utilService.isNullOrUndefined(this.clientPF.imei)) {
+    if (!this._utilService.isNotNullOrUndefined(this.clientPF.imei)) {
       this.clientPF.imei = null;
     }
-    if (!this._utilService.isNullOrUndefined(this.clientPF.firm)) {
+    if (!this._utilService.isNotNullOrUndefined(this.clientPF.firm)) {
       this.clientPF.firm = null;
     }
-    if (!this._utilService.isNullOrUndefined(this.clientPF.email)) {
+    if (!this._utilService.isNotNullOrUndefined(this.clientPF.email)) {
       this.clientPF.email = null;
     }
-    if (!this._utilService.isNullOrUndefined(this.clientPF.firstname)) {
+    if (!this._utilService.isNotNullOrUndefined(this.clientPF.firstname)) {
       this.clientPF.firstname = null;
     }
-    if (!this._utilService.isNullOrUndefined(this.clientPF.lastname)) {
+    if (!this._utilService.isNotNullOrUndefined(this.clientPF.lastname)) {
       this.clientPF.lastname = null;
     }
   }
@@ -272,7 +272,7 @@ export class ClientPfDetailComponent implements OnInit {
     }
   }
   checkIfAboutUsExists(newValue) {
-    if (this._utilService.isNullOrUndefined(newValue)) {
+    if (this._utilService.isNotNullOrUndefined(newValue)) {
       this.aboutUsValExists = this._utilService.containsObject(newValue, this.aboutUsList);
     }
   }

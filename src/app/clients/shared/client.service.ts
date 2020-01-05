@@ -100,7 +100,7 @@ export class ClientService {
             const phoneBrand = phoneItem.phoneBrand.toLowerCase() === 'altele' ? phoneItem.newBrand.toLowerCase() : phoneItem.phoneBrand.toLowerCase();
             let phoneModel = phoneItem.phoneModel.toLowerCase();
             if (phoneItem.phoneModel.toLowerCase() === 'altele') {
-              phoneModel = this._utilService.isNullOrUndefined(phoneItem.newSingleModel) ?  phoneItem.newSingleModel : phoneItem.newModel;
+              phoneModel = this._utilService.isNotNullOrUndefined(phoneItem.newSingleModel) ?  phoneItem.newSingleModel : phoneItem.newModel;
             }
             this.partPrices.push({phoneBrand: phoneBrand, phoneModel: phoneModel, price: +problemItem.pricePerPart, problemId: phoneProblem});
           }

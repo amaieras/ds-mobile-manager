@@ -39,7 +39,7 @@ export class CostAddComponent implements OnInit {
     });
   }
   checkIfCostTypeExists(newValue) {
-    if (this._utilService.isNullOrUndefined(newValue)) {
+    if (this._utilService.isNotNullOrUndefined(newValue)) {
       this.costTypeValExists = this._utilService.containsObject(newValue, this.costTypes);
     }
   }

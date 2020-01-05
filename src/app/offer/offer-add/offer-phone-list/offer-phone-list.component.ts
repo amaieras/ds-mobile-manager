@@ -151,7 +151,7 @@ export class OfferPhoneListComponent implements OnInit {
     }
   }
   checkIfNewModelExists(newModelName) {
-    if (this._utilService.isNullOrUndefined(newModelName)) {
+    if (this._utilService.isNotNullOrUndefined(newModelName)) {
       this._phoneListService.getModelList().subscribe(phoneBrands => {
         this.phoneModelsArray = [];
         phoneBrands.forEach(snapshot => {

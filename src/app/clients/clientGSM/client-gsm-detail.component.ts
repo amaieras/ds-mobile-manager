@@ -203,8 +203,8 @@ export class ClientGSMDetailComponent implements OnInit {
   private addNewBrandModelSynced(formModel: any) {
     for (let i = 0; i < formModel.phoneList.length; i++) {
       const item = formModel.phoneList[i];
-      if (item.newBrand !== '' && this._utilService.isNullOrUndefined(item.newBrand)
-        && item.newModel !== '' && this._utilService.isNullOrUndefined(item.newModel)) {
+      if (item.newBrand !== '' && this._utilService.isNotNullOrUndefined(item.newBrand)
+        && item.newModel !== '' && this._utilService.isNotNullOrUndefined(item.newModel)) {
         this._phoneListService.addNewBrand(item.newBrand);
         this._phoneListService.addNewModel(item.newModel, item.newBrand.toLowerCase());
       }
@@ -214,7 +214,7 @@ export class ClientGSMDetailComponent implements OnInit {
   private addNewSingleModelSynced(formModel: any){
     for (let i = 0; i < formModel.phoneList.length; i++) {
       const item = formModel.phoneList[i];
-      if (item.newSingleModel !== '' && this._utilService.isNullOrUndefined(item.newSingleModel)) {
+      if (item.newSingleModel !== '' && this._utilService.isNotNullOrUndefined(item.newSingleModel)) {
         const brandId = item.phoneBrand.toLowerCase();
         this._phoneListService.addNewModel(item.newSingleModel, brandId);
       }
@@ -294,7 +294,7 @@ export class ClientGSMDetailComponent implements OnInit {
     this.endAt.next(event + '\uf8ff');
   }
   checkIfNewClientGSMExists(newClientGSM) {
-    if (this._utilService.isNullOrUndefined(newClientGSM)) {
+    if (this._utilService.isNotNullOrUndefined(newClientGSM)) {
       if (this._utilService.containsObject(newClientGSM, this.clientsGSM)) {
         const existingClient = this.clientsGSM.filter(function(client) {
           return client.value.toLowerCase() === newClientGSM.toLowerCase();

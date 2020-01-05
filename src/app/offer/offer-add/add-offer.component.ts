@@ -127,7 +127,7 @@ export class AddOfferComponent implements OnInit {
     }
   }
   checkIfAboutUsExists(newValue) {
-    if (this._utilService.isNullOrUndefined(newValue)) {
+    if (this._utilService.isNotNullOrUndefined(newValue)) {
       this.aboutUsValExists = this._utilService.containsObject(newValue, this.aboutUsList);
     }
   }

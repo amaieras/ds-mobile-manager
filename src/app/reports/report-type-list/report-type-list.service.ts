@@ -24,5 +24,10 @@ export const reportTypes: ReportType[] = [
     id: 2,
     type: 'Filtre',
     url: 'filter'
+  },
+  {
+    id: 3,
+    type: 'Clienti general',
+    url: 'overview'
   }
 ];
