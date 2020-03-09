@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { AppToolbarService, MenuItem } from './app-toolbar/app-toolbar.service';
+import {Message} from 'primeng/api';
 
 @Component({
   selector: 'body',
@@ -10,6 +11,7 @@ import { AppToolbarService, MenuItem } from './app-toolbar/app-toolbar.service';
 export class AppComponent {
   isDarkTheme = false;
   mainMenuItems;
+  msgs: Message[] = [];
   activeMenuItem$: Observable<MenuItem>;
 
   constructor(private toolbarService: AppToolbarService) {

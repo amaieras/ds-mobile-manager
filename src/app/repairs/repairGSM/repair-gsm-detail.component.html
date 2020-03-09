@@ -69,7 +69,9 @@
     </p-column>
   </p-dataTable>
 
-  <p-dialog header="Modificare date client - GSM" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="false">
+  <p-dialog header="Modificare date client - GSM" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="false"
+            [contentStyle]="{'min-width':'400px'}"
+  >
     <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="true">
       <div class="ui-grid-row">
         <div class="ui-grid-col-4"><label for="isRepaired">Reparat?</label></div>
@@ -82,7 +84,7 @@
       <div class="ui-grid-row">
         <div class="ui-grid-col-4"><label for="isSent">Colet trimis?</label></div>
         <div class="ui-grid-col-8">
-          <p-dropdown id="isSent" [(ngModel)]="clientGSM.isSent" [options]="methodsOfPayment" [autoWidth]="false" [style]="{'width':'100%'}"></p-dropdown>
+          <p-dropdown id="isSent" [(ngModel)]="clientGSM.isSent" [options]="methodsOfPayment" [autoWidth]="false" [style]="{'width':'66%'}"></p-dropdown>
         </div>
       </div>
       <div class="ui-grid-row">
@@ -108,6 +110,17 @@
         <div class="ui-grid-col-8"><input pInputText id="advance" [(ngModel)]="clientGSM.paymentMethod._advance"
                                           (blur)="checkPaymentIsNo(clientGSM, '_advance')"/></div>
       </div>
+<!--      New Feature-->
+<!--      <div class="ui-grid-row">-->
+<!--        <div class="ui-grid-col-4"><label for="loss">Pierdere (RON)</label></div>-->
+<!--        <div class="ui-grid-col-8"><input pInputText id="loss" [(ngModel)]="clientGSM.paymentMethod._collector"-->
+<!--                                          (blur)="checkPaymentIsNo(clientGSM, '_collector')"/></div>-->
+<!--      </div>-->
+<!--      <div class="ui-grid-row">-->
+<!--        <div class="ui-grid-col-4"><label for="quantity">Cantiate</label></div>-->
+<!--        <div class="ui-grid-col-8"><input pInputText id="quantity" [(ngModel)]="clientGSM.paymentMethod._collector"-->
+<!--                                          (blur)="checkPaymentIsNo(clientGSM, '_collector')"/></div>-->
+<!--      </div>-->
       <div class="ui-grid-row">
         <div class="ui-grid-col-4"><label for="collector">Cont colector</label></div>
         <div class="ui-grid-col-8"><input pInputText id="collector" [(ngModel)]="clientGSM.paymentMethod._collector"

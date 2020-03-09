@@ -36,6 +36,7 @@ import { NavbarComponent } from "./layout/components/navbar/navbar.component";
 import { DashboardComponent } from "./main/apps/dashboard/dashboard.component";
 import { CostModule } from "./costs/cost.module";
 import { CostRoutingModule } from "./costs/cost-center-routing.module";
+import { UtilsModule } from "./utils/utils.module";
 
 export const firebaseConfig = {
   apiKey: "AIzaSyDL-_f_lQb4dnkx6GRrL7O7L7sp2A1Kj1w",
@@ -77,6 +78,7 @@ export const firebaseConfigProd = {
     OfferModule,
     CostModule,
     CostRoutingModule,
+    UtilsModule,
     OfferCenterRouting,
     CheckoutCenterRoutingModule,
     ReportsCenterRoutingModule,
@@ -85,7 +87,7 @@ export const firebaseConfigProd = {
     RepairCenterRoutingModule,
     LoginModule,
     // firebase
-    AngularFireModule.initializeApp(firebaseConfigProd),
+    AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     AngularFirestoreModule,

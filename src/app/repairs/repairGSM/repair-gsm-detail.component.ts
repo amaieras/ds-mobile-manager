@@ -93,7 +93,7 @@ export class RepairGSMDetailComponent implements OnInit{
     // });
   }
 
-  static checkPaymentIsNo(clientGSM, type) {
+  checkPaymentIsNo(clientGSM, type) {
     if (type === 'priceOffer') {
       clientGSM[type] = isNaN(clientGSM[type]) ||
       String(clientGSM[type]).trim().length === 0 ? 0 : +clientGSM[type];

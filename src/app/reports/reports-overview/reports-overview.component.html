@@ -1,5 +1,17 @@
+<div class="container-fluid">
+  <div class="col-md-12">
+    <label for="inDate" style="display: block">Perioada - Data intrare</label>
+    <p-calendar id="inDate" [(ngModel)]="rangeDates" selectionMode="range" readonlyInput="true"
+                [monthNavigator]="true" [yearNavigator]="true" yearRange="2017:2030" [showIcon]="true" (onSelect)="onRangeSelect()">
+    </p-calendar>
+  </div>
+</div>
+
 <div class="am-margin-table">
-  <p-table #dt1 [value]="clients" [paginator]="true" [rows]="30" [loading]="loading" [rowsPerPageOptions]="[5, 20, 30, 40]" [sortOrder]="-1" sortField="count">
+  <p-table #dt1 [value]="clients" [paginator]="true" [rows]="30" [loading]="loading" [rowsPerPageOptions]="[5, 20, 30, 40]" [sortOrder]="-1" sortField="totalCostsForClient">
+    <ng-template pTemplate="caption">
+      Suma totala pentru data selectata: {{ totalMoneyForDate }}
+    </ng-template>
     <ng-template pTemplate="header">
       <tr>
         <th *ngFor="let col of displayedColumns" [pSortableColumn]="col.value">
@@ -16,15 +28,9 @@
     <ng-template pTemplate="body" let-client>
       <tr>
         <td>{{ client.lastName }}</td>
-        <td>{{ client.count}} </td>
+        <td>{{ client.clientCount }} </td>
+        <td>{{ client.totalCostsForClient }} RON</td>
       </tr>
-    </ng-template>
-    <ng-template pTemplate="footer">
-  <!--    <tr>-->
-  <!--      <td colspan="3">Totals</td>-->
-  <!--      <td>$506,202</td>-->
-  <!--      <td>$531,020</td>-->
-  <!--    </tr>-->
     </ng-template>
   </p-table>
 </div>
