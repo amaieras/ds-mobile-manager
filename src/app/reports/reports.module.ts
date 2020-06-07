@@ -7,8 +7,8 @@ import {
   CalendarModule,
   CheckboxModule,
   DropdownModule,
-  MultiSelectModule
-} from "primeng/primeng";
+  MultiSelectModule, SelectButtonModule, ToolbarModule
+} from 'primeng/primeng';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { ReportsShowComponent } from "./reports-show/reports-show.component";
 import { ReportService } from "../shared/reports/report.service";
@@ -58,7 +58,9 @@ import {TableModule} from 'primeng/table';
     FuseSharedModule,
     FuseSidebarModule,
     FuseWidgetModule,
-    TableModule
+    TableModule,
+    SelectButtonModule,
+    ToolbarModule
   ],
   declarations: [
     ReportsShowComponent,

@@ -32,6 +32,4 @@ export class RepairTypeListComponent implements OnInit {
     this.selectedClientType = undefined;
   }
 
-
-
 }

@@ -9,7 +9,6 @@ import {RepairPfDoneComponent} from './repairs-done/repairs-pf-done/repair-pf-do
 import {RepairGsmDoneComponent} from './repairs-done/repairs-gsm-done/repair-gsm-done.component';
 import {RepairGsmSentComponent} from './repairsGSMSent/repair-gsm-sent.component';
 
-
 const repairsCenterRoutes: Routes = [
   {
     path: 'repairs',
@@ -17,7 +16,7 @@ const repairsCenterRoutes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'repairs',
+        redirectTo: 'gsm',
         pathMatch: 'full',
         // canActivate: [AuthGuard]
       },
@@ -49,7 +48,7 @@ const repairsCenterRoutes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'repairs-done',
+        redirectTo: 'gsm',
         pathMatch: 'full',
         // canActivate: [AuthGuard]
       },

@@ -4,6 +4,7 @@ import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {ClientGSMService} from '../../clients/clientGSM/client-gsm-detail.service';
 import {UtilService} from '../../utils/util.service';
 import * as _ from 'lodash';
+import {SelectItem} from 'primeng/api';
 
 
 @Component({
@@ -28,6 +29,8 @@ export class ReportsOverviewComponent implements OnInit {
       value: "totalCostsForClient"
     }
   ];
+  filters: SelectItem[];
+  selectedFilter = "current-year";
   allClients: any[];
   clients: any[];
   loading: boolean;
@@ -38,7 +41,18 @@ export class ReportsOverviewComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(private _clientGSMService: ClientGSMService,
-              private _utilService: UtilService) {}
+              private _utilService: UtilService) {
+    this.filters = [
+      {
+        label: "Luna curenta",
+        value: "current-month"
+      },
+      {
+        label: "Anul curent",
+        value: "current-year"
+      }
+    ];
+  }
 
   getClients() {
     this._clientGSMService.getAllClients().subscribe( clients => {
@@ -104,15 +118,29 @@ export class ReportsOverviewComponent implements OnInit {
     let total = 0;
     clients.forEach(client => {
       total += +client.priceOffer;
-    })
+    });
     this.totalMoneyForDate = total;
   }
-  setFilterDates(){
-    const rangeDates = []
-    const start = "1/1/" + (new Date()).getFullYear();
-    const end = "12/31/" + (new Date()).getFullYear();
+  setFilterDates(period = "year") {
+    const rangeDates = [];
+    const currentYear = new Date().getFullYear();
+    let start, end;
+    if (period === "year") {
+      start = "1/1/" + currentYear;
+      end = "12/31/" + currentYear;
+    } else if (period === "month") {
+      start = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+      end = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0);
+    }
     rangeDates.push(new Date(start), new Date(end));
     this.rangeDates = rangeDates;
     this.onRangeSelect();
+  }
+  filterBy() {
+    if (this.selectedFilter === "current-year") {
+      this.setFilterDates("year");
+    } else if (this.selectedFilter === "current-month") {
+      this.setFilterDates("month");
+    }
   }
 }

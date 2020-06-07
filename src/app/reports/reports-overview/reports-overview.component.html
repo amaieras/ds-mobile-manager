@@ -1,12 +1,17 @@
 <div class="container-fluid">
-  <div class="col-md-12">
-    <label for="inDate" style="display: block">Perioada - Data intrare</label>
-    <p-calendar id="inDate" [(ngModel)]="rangeDates" selectionMode="range" readonlyInput="true"
-                [monthNavigator]="true" [yearNavigator]="true" yearRange="2017:2030" [showIcon]="true" (onSelect)="onRangeSelect()">
-    </p-calendar>
+  <div class="row">
+    <div class="col-md-4">
+      <label for="inDate" style="display: block">Perioada - Data intrare</label>
+      <p-calendar id="inDate" [(ngModel)]="rangeDates" selectionMode="range" readonlyInput="true"
+                  [monthNavigator]="true" [yearNavigator]="true" yearRange="2017:2030" [showIcon]="true" (onSelect)="onRangeSelect()">
+      </p-calendar>
+    </div>
+    <div class="col-md-3">
+      <label for="filter-type" style="display: block">Tip</label>
+      <p-selectButton id="filter-type" [options]="filters" [(ngModel)]="selectedFilter" (onChange)="filterBy()"></p-selectButton>
+    </div>
   </div>
 </div>
-
 <div class="am-margin-table">
   <p-table #dt1 [value]="clients" [paginator]="true" [rows]="30" [loading]="loading" [rowsPerPageOptions]="[5, 20, 30, 40]" [sortOrder]="-1" sortField="totalCostsForClient">
     <ng-template pTemplate="caption">
