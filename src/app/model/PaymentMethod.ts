@@ -1,9 +1,9 @@
 export class PaymentMethod {
-  private _cash = 0;
-  private _card = 0;
-  private _advance = 0;
-  private _collector = 0;
-  private _repayment = 0;
+  public _cash = 0;
+  public _card = 0;
+  public _advance = 0;
+  public _collector = 0;
+  public _repayment = 0;
 
 
   constructor(cash: number, card: number, advance: number, collector: number, repayment: number) {

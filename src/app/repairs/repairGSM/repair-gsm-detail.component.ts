@@ -28,8 +28,8 @@ export class RepairGSMDetailComponent implements OnInit{
   methodsOfPayment: any[];
   displayDialog: boolean;
   selectedClient: ClientGSM;
-  phoneBrandsArray: [];
-  phoneModelsArray: [];
+  phoneBrandsArray: any[];
+  phoneModelsArray: any[];
   selectedBrand: ""
   @ViewChild(PrintGsmReceiptComponent) child: PrintGsmReceiptComponent;
 
@@ -292,8 +292,5 @@ export class RepairGSMDetailComponent implements OnInit{
           repairGSM.priceOffer, client.length, repairGSM.phoneList, repairGSM.paymentMethod);
           this.child.print(warrantyGSMInfo);
     });
-  },
-  onSelect() {
-
   }
 }

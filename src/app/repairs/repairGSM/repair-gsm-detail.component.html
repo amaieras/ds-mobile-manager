@@ -142,12 +142,12 @@
 
         </div>
       </p-tabPanel>
-      <p-tabPanel header="Probleme">
+      <p-tabPanel header="Telefoane">
         <div *ngFor="let phoneItem of clientGSM.phoneList; let i=index" class="well well-lg">
           <div class="ui-grid-row">
             <div class="ui-grid-col-5"><label for="phoneBrand">Brand</label>
               <p-dropdown id="phoneBrand" [(ngModel)]="clientGSM.phoneList[i].phoneBrand" [options]="phoneBrandsArray"
-                          [style]="{'width':'150px'}" filter="true" (onChange)="onSelect($event.value)">
+                          [style]="{'width':'150px'}" filter="true">
                 <ng-template let-phone pTemplate="item">
                   <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
                     <div style="font-size:14px;float:right;margin-top:4px">{{phone.label}}</div>
@@ -158,7 +158,7 @@
             <div class="ui-grid-col-5">
               <label for="phoneModel">Model</label>
               <p-dropdown id="phoneModel" [(ngModel)]="clientGSM.phoneList[i].phoneModel" [options]="phoneModelsArray"
-                          [style]="{'width':'150px'}" filter="true" (onChange)="onSelect($event.value)">
+                          [style]="{'width':'150px'}" filter="true">
                 <ng-template let-phone pTemplate="item">
                   <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
                     <div style="font-size:14px;float:right;margin-top:4px">{{phone.label}}</div>
