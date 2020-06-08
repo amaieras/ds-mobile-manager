@@ -8,6 +8,8 @@ import {ClientGSMService} from '../../clients/clientGSM/client-gsm-detail.servic
 import {WarrantyGSMInfo} from '../../model/WarrantyGSMInfo';
 import {PrintGsmReceiptComponent} from '../../shared/print/print-gsm/print-gsm-receipt.component';
 import {PaymentMethod} from 'app/model/PaymentMethod';
+import {ProblemPrice} from '../../model/ProblemPrice';
+import {PhoneListService} from '../../clients/clientPF/phone-list/phone-list.service';
 
 @Component({
   selector: 'repair-gsm-detail',
@@ -26,10 +28,13 @@ export class RepairGSMDetailComponent implements OnInit{
   methodsOfPayment: any[];
   displayDialog: boolean;
   selectedClient: ClientGSM;
+  phoneBrandsArray: [];
+  phoneModelsArray: [];
+  selectedBrand: ""
   @ViewChild(PrintGsmReceiptComponent) child: PrintGsmReceiptComponent;
 
   constructor(private _repairGSMService: RepairGSMDetailService, private _clientGSMService: ClientGSMService,
-              private _utilService: UtilService, private cdr: ChangeDetectorRef) { }
+              private _utilService: UtilService, private cdr: ChangeDetectorRef, private _phoneListService: PhoneListService) { }
 
   ngOnInit() {
     this.clientGSM.paymentMethod = new PaymentMethod(0, 0, 0, 0, 0);
@@ -58,7 +63,28 @@ export class RepairGSMDetailComponent implements OnInit{
         this.columnOptions.push({label: this.cols[i].header, value: this.cols[i]});
       }
     });
+    this.populateAllDropDowns();
+  }
+  private populateAllDropDowns() {
+    this._phoneListService.getBrandList().subscribe(phoneModels => {
+      this.phoneBrandsArray = [];
+      phoneModels.forEach(snapshot => {
+        this.phoneBrandsArray.push({label: snapshot.name, value: snapshot.name});
+      });
+      this.phoneBrandsArray = this.phoneBrandsArray.filter(item => {
+        return 'altele' !== item.phoneId;
+      });
 
+    });
+    this._phoneListService.getModelList().subscribe(phoneBrands => {
+      this.phoneModelsArray = [];
+      phoneBrands.forEach(snapshot => {
+        this.phoneModelsArray.push({label: snapshot.name, value: snapshot.name, phoneId: snapshot.phoneId});
+      });
+      this.phoneModelsArray = this.phoneModelsArray.filter(item => {
+        return 'altele' !== item.phoneId;
+      });
+    });
   }
   onRowSelect(event) {
     this.clientGSM = RepairGSMDetailComponent.cloneClient(event.data);
@@ -266,5 +292,8 @@ export class RepairGSMDetailComponent implements OnInit{
           repairGSM.priceOffer, client.length, repairGSM.phoneList, repairGSM.paymentMethod);
           this.child.print(warrantyGSMInfo);
     });
+  },
+  onSelect() {
+
   }
 }

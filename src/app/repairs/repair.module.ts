@@ -7,7 +7,7 @@ import { RepairTypeListComponent } from './repair-type-list/repair-type-list.com
 import { RepairGSMDetailComponent } from './repairGSM/repair-gsm-detail.component';
 import {
   CalendarModule, DataTableModule, DropdownModule, GrowlModule, MultiSelectModule, RadioButtonModule,
-  SharedModule
+  SharedModule, TabViewModule
 } from 'primeng/primeng';
 import { DialogModule, CheckboxModule } from 'primeng/primeng';
 import { RepairPFDetailService } from './repairPF/repair-pf-detail.service';
@@ -106,7 +106,8 @@ import {RepairGsmSentComponent} from './repairsGSMSent/repair-gsm-sent.component
     GrowlModule,
 
     SharedDsModule,
-    TableModule
+    TableModule,
+    TabViewModule
   ],
   declarations: [
     RepairTypeListComponent,

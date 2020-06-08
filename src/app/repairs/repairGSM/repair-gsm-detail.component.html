@@ -70,74 +70,130 @@
   </p-dataTable>
 
   <p-dialog header="Modificare date client - GSM" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="false"
-            [contentStyle]="{'min-width':'400px'}"
+            [contentStyle]="{'min-width':'400px'}" [style]="{height: '80vh'}"
   >
-    <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="true">
-      <div class="ui-grid-row">
-        <div class="ui-grid-col-4"><label for="isRepaired">Reparat?</label></div>
-        <div class="ui-grid-col-8"><p-checkbox [(ngModel)]="clientGSM.isRepaired" binary="true" id="isRepaired"></p-checkbox></div>
-      </div>
-      <div class="ui-grid-row">
-        <div class="ui-grid-col-4"><label for="isPayed">Achitat?</label></div>
-        <div class="ui-grid-col-8"><p-checkbox [(ngModel)]="clientGSM.isPayed" binary="true" id="isPayed"></p-checkbox></div>
-      </div>
-      <div class="ui-grid-row">
-        <div class="ui-grid-col-4"><label for="isSent">Colet trimis?</label></div>
-        <div class="ui-grid-col-8">
-          <p-dropdown id="isSent" [(ngModel)]="clientGSM.isSent" [options]="methodsOfPayment" [autoWidth]="false" [style]="{'width':'66%'}"></p-dropdown>
-        </div>
-      </div>
-      <div class="ui-grid-row">
-        <div class="ui-grid-col-4"><label for="name">Nume</label></div>
-        <div class="ui-grid-col-8"><input pInputText id="name" [(ngModel)]="clientGSM.lastname"/></div>
-      </div>
-      <div class="ui-grid-row">
-        <div class="ui-grid-col-4"><label for="phone">Telefon</label></div>
-        <div class="ui-grid-col-8"><input pInputText id="phone" [(ngModel)]="clientGSM.phone"/></div>
-      </div>
-      <div class="ui-grid-row">
-        <div class="ui-grid-col-4"><label for="cash">Cash</label></div>
-        <div class="ui-grid-col-8"><input pInputText id="cash" [(ngModel)]="clientGSM.paymentMethod._cash"
-                                          (blur)="checkPaymentIsNo(clientGSM, '_cash')"/></div>
-      </div>
-      <div class="ui-grid-row">
-        <div class="ui-grid-col-4"><label for="card">Card</label></div>
-        <div class="ui-grid-col-8"><input pInputText id="card" [(ngModel)]="clientGSM.paymentMethod._card"
-                                          (blur)="checkPaymentIsNo(clientGSM, '_card')"/></div>
-      </div>
-      <div class="ui-grid-row">
-        <div class="ui-grid-col-4"><label for="advance">Avans</label></div>
-        <div class="ui-grid-col-8"><input pInputText id="advance" [(ngModel)]="clientGSM.paymentMethod._advance"
-                                          (blur)="checkPaymentIsNo(clientGSM, '_advance')"/></div>
-      </div>
-<!--      New Feature-->
-<!--      <div class="ui-grid-row">-->
-<!--        <div class="ui-grid-col-4"><label for="loss">Pierdere (RON)</label></div>-->
-<!--        <div class="ui-grid-col-8"><input pInputText id="loss" [(ngModel)]="clientGSM.paymentMethod._collector"-->
-<!--                                          (blur)="checkPaymentIsNo(clientGSM, '_collector')"/></div>-->
-<!--      </div>-->
-<!--      <div class="ui-grid-row">-->
-<!--        <div class="ui-grid-col-4"><label for="quantity">Cantiate</label></div>-->
-<!--        <div class="ui-grid-col-8"><input pInputText id="quantity" [(ngModel)]="clientGSM.paymentMethod._collector"-->
-<!--                                          (blur)="checkPaymentIsNo(clientGSM, '_collector')"/></div>-->
-<!--      </div>-->
-      <div class="ui-grid-row">
-        <div class="ui-grid-col-4"><label for="collector">Cont colector</label></div>
-        <div class="ui-grid-col-8"><input pInputText id="collector" [(ngModel)]="clientGSM.paymentMethod._collector"
-                                          (blur)="checkPaymentIsNo(clientGSM, '_collector')"/></div>
-      </div>
-      <div class="ui-grid-row">
-        <div class="ui-grid-col-4"><label for="repayment">Ramburs</label></div>
-        <div class="ui-grid-col-8"><input pInputText id="repayment" [(ngModel)]="clientGSM.paymentMethod._repayment"
-                                          (blur)="checkPaymentIsNo(clientGSM, '_repayment')"/></div>
-      </div>
-      <div class="ui-grid-row">
-        <div class="ui-grid-col-4"><label for="priceOffer">Oferta pret</label></div>
-        <div class="ui-grid-col-8"><input pInputText id="priceOffer" [(ngModel)]="clientGSM.priceOffer"
-                                          (blur)="checkPaymentIsNo(clientGSM, 'priceOffer')"/></div>
-      </div>
+    <p-tabView>
+      <p-tabPanel header="General">
+        <div class="ui-grid ui-grid-responsive ui-fluid">
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-4"><label for="isRepaired">Reparat?</label></div>
+            <div class="ui-grid-col-8"><p-checkbox [(ngModel)]="clientGSM.isRepaired" binary="true" id="isRepaired"></p-checkbox></div>
+          </div>
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-4"><label for="isPayed">Achitat?</label></div>
+            <div class="ui-grid-col-8"><p-checkbox [(ngModel)]="clientGSM.isPayed" binary="true" id="isPayed"></p-checkbox></div>
+          </div>
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-4"><label for="isSent">Colet trimis?</label></div>
+            <div class="ui-grid-col-8">
+              <p-dropdown id="isSent" [(ngModel)]="clientGSM.isSent" [options]="methodsOfPayment" [autoWidth]="false" [style]="{'width':'66%'}"></p-dropdown>
+            </div>
+          </div>
 
-    </div>
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-4"><label for="name">Nume</label></div>
+            <div class="ui-grid-col-8"><input pInputText id="name" [(ngModel)]="clientGSM.lastname"/></div>
+          </div>
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-4"><label for="phone">Telefon</label></div>
+            <div class="ui-grid-col-8"><input pInputText id="phone" [(ngModel)]="clientGSM.phone"/></div>
+          </div>
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-4"><label for="cash">Cash</label></div>
+            <div class="ui-grid-col-8"><input pInputText id="cash" [(ngModel)]="clientGSM.paymentMethod._cash"
+                                              (blur)="checkPaymentIsNo(clientGSM, '_cash')"/></div>
+          </div>
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-4"><label for="card">Card</label></div>
+            <div class="ui-grid-col-8"><input pInputText id="card" [(ngModel)]="clientGSM.paymentMethod._card"
+                                              (blur)="checkPaymentIsNo(clientGSM, '_card')"/></div>
+          </div>
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-4"><label for="advance">Avans</label></div>
+            <div class="ui-grid-col-8"><input pInputText id="advance" [(ngModel)]="clientGSM.paymentMethod._advance"
+                                              (blur)="checkPaymentIsNo(clientGSM, '_advance')"/></div>
+          </div>
+          <!--      New Feature-->
+          <!--      <div class="ui-grid-row">-->
+          <!--        <div class="ui-grid-col-4"><label for="loss">Pierdere (RON)</label></div>-->
+          <!--        <div class="ui-grid-col-8"><input pInputText id="loss" [(ngModel)]="clientGSM.paymentMethod._collector"-->
+          <!--                                          (blur)="checkPaymentIsNo(clientGSM, '_collector')"/></div>-->
+          <!--      </div>-->
+          <!--      <div class="ui-grid-row">-->
+          <!--        <div class="ui-grid-col-4"><label for="quantity">Cantiate</label></div>-->
+          <!--        <div class="ui-grid-col-8"><input pInputText id="quantity" [(ngModel)]="clientGSM.paymentMethod._collector"-->
+          <!--                                          (blur)="checkPaymentIsNo(clientGSM, '_collector')"/></div>-->
+          <!--      </div>-->
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-4"><label for="collector">Cont colector</label></div>
+            <div class="ui-grid-col-8"><input pInputText id="collector" [(ngModel)]="clientGSM.paymentMethod._collector"
+                                              (blur)="checkPaymentIsNo(clientGSM, '_collector')"/></div>
+          </div>
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-4"><label for="repayment">Ramburs</label></div>
+            <div class="ui-grid-col-8"><input pInputText id="repayment" [(ngModel)]="clientGSM.paymentMethod._repayment"
+                                              (blur)="checkPaymentIsNo(clientGSM, '_repayment')"/></div>
+          </div>
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-4"><label for="priceOffer">Oferta pret</label></div>
+            <div class="ui-grid-col-8"><input pInputText id="priceOffer" [(ngModel)]="clientGSM.priceOffer"
+                                              (blur)="checkPaymentIsNo(clientGSM, 'priceOffer')"/></div>
+          </div>
+
+        </div>
+      </p-tabPanel>
+      <p-tabPanel header="Probleme">
+        <div *ngFor="let phoneItem of clientGSM.phoneList; let i=index" class="well well-lg">
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-5"><label for="phoneBrand">Brand</label>
+              <p-dropdown id="phoneBrand" [(ngModel)]="clientGSM.phoneList[i].phoneBrand" [options]="phoneBrandsArray"
+                          [style]="{'width':'150px'}" filter="true" (onChange)="onSelect($event.value)">
+                <ng-template let-phone pTemplate="item">
+                  <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+                    <div style="font-size:14px;float:right;margin-top:4px">{{phone.label}}</div>
+                  </div>
+                </ng-template>
+              </p-dropdown>
+            </div>
+            <div class="ui-grid-col-5">
+              <label for="phoneModel">Model</label>
+              <p-dropdown id="phoneModel" [(ngModel)]="clientGSM.phoneList[i].phoneModel" [options]="phoneModelsArray"
+                          [style]="{'width':'150px'}" filter="true" (onChange)="onSelect($event.value)">
+                <ng-template let-phone pTemplate="item">
+                  <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+                    <div style="font-size:14px;float:right;margin-top:4px">{{phone.label}}</div>
+                  </div>
+                </ng-template>
+              </p-dropdown>
+            </div>
+          </div>
+        </div>
+<!--        <div class="ui-grid-row">-->
+<!--          <div class="ui-grid-col-4"><label for="phoneBrand">Brand</label></div>-->
+<!--          <p-dropdown id="phoneBrand" [(ngModel)]="selectedBrand" [options]="phoneBrandsArray"-->
+<!--                      [style]="{'width':'150px'}" filter="true" (onChange)="onSelect($event.value)">-->
+<!--            <ng-template let-phone pTemplate="item">-->
+<!--              <div class="ui-helper-clearfix" style="position: relative;height: 25px;">-->
+<!--                <div style="font-size:14px;float:right;margin-top:4px">{{phone.label}}</div>-->
+<!--              </div>-->
+<!--            </ng-template>-->
+<!--          </p-dropdown>-->
+<!--        </div>-->
+<!--        <div class="ui-grid-row">-->
+<!--          <div class="ui-grid-col-4"><label for="phoneModel">Model</label></div>-->
+<!--          <p-dropdown id="phoneModel" [(ngModel)]="selectedBrand" [options]="phoneBrandsArray"-->
+<!--                      [style]="{'width':'150px'}" filter="true" (onChange)="onSelect($event.value)">-->
+<!--            <ng-template let-phone pTemplate="item">-->
+<!--              <div class="ui-helper-clearfix" style="position: relative;height: 25px;">-->
+<!--                <div style="font-size:14px;float:right;margin-top:4px">{{phone.label}}</div>-->
+<!--              </div>-->
+<!--            </ng-template>-->
+<!--          </p-dropdown>-->
+<!--        </div>-->
+      </p-tabPanel>
+    </p-tabView>
+
+
     <p-footer>
       <div class="ui-dialog-buttonpane ui-helper-clearfix">
         <button type="button" pButton icon="fa-close" (click)="cancel()" label="Anuleaza"></button>
