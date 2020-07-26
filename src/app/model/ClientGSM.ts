@@ -14,6 +14,7 @@ export class ClientGSM {
   email: string;
   phoneList: PhoneList[];
   priceOffer: number;
+  totalCostForRepair: number;
   paymentMethod: PaymentMethod;
   isRepaired = false;
   isPayed = false;

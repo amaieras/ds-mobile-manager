@@ -30,7 +30,7 @@ export class RepairGSMDetailComponent implements OnInit{
   selectedClient: ClientGSM;
   phoneBrandsArray: any[];
   phoneModelsArray: any[];
-  selectedBrand: ""
+  selectedBrand: "";
   @ViewChild(PrintGsmReceiptComponent) child: PrintGsmReceiptComponent;
 
   constructor(private _repairGSMService: RepairGSMDetailService, private _clientGSMService: ClientGSMService,
@@ -44,6 +44,7 @@ export class RepairGSMDetailComponent implements OnInit{
       });
       this.totalRecords = this.dataSource.length;
       this.repairsGSM = this.dataSource;
+      this.addTotalCostForEachRepair();
       this.loading = false;
       this.methodsOfPayment = [{label: 'Nu', value: 'nu'}, {label: 'Cont Curent', value: 'cont'}, {label: 'Ramburs', value: 'ramburs'}];
       this.cols = [
@@ -51,7 +52,7 @@ export class RepairGSMDetailComponent implements OnInit{
         {field: 'lastname', header: 'Nume', filter: true, editable: true, sortable: true},
         {field: 'phone', header: 'Numar telefon', filter: true, editable: true, sortable: true},
         {field: 'phoneList', header: 'Model', filter: true, sortable: true},
-        {field: 'observation', header: 'Observatii', filter: true, editable: true, sortable: true},
+        {field: 'totalCostForRepair', header: 'Reparatii incasat', filter: true, editable: true, sortable: true},
         {field: 'phoneColor', header: 'Culoare', filter: true, editable: true, sortable: true},
         {field: 'problem', header: 'Problema', filter: true, sortable: true},
         {field: 'city', header: 'Orasul', filter: true, editable: true, sortable: true},
@@ -64,6 +65,17 @@ export class RepairGSMDetailComponent implements OnInit{
       }
     });
     this.populateAllDropDowns();
+  }
+  addTotalCostForEachRepair() {
+    this.repairsGSM.forEach(repair => {
+      let totalCostForRepair = 0;
+      repair.phoneList.forEach(phone => {
+        phone.problems.forEach(problem => {
+          totalCostForRepair += problem.phoneQuantity * problem.pricePerPart;
+        });
+      });
+      repair.totalCostForRepair = totalCostForRepair;
+    });
   }
   private populateAllDropDowns() {
     this._phoneListService.getBrandList().subscribe(phoneModels => {

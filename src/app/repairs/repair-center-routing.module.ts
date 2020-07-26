@@ -65,7 +65,7 @@ const repairsCenterRoutes: Routes = [
     ],
     // canActivate: [AuthGuard],
     data: {
-      title: 'Reparaţii/Terminat',
+      title: 'Reparaţii/Incasat',
       position: 4
     }
   }
