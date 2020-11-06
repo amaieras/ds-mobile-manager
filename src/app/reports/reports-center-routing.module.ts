@@ -32,7 +32,12 @@ const reportsCenterRoutes: Routes = [
         component: ReportsOverviewComponent
         // canActivate: [AuthGuard]
       }
-    ]
+    ],
+    // canActivate: [AuthGuard],
+    data: {
+      title: "Rapoarte",
+      position: 5
+    }
   }
 ];
 

@@ -70,9 +70,12 @@ export class RepairGSMDetailComponent implements OnInit{
     this.repairsGSM.forEach(repair => {
       let totalCostForRepair = 0;
       repair.phoneList.forEach(phone => {
+        let totalCostForPhone = 0;
         phone.problems.forEach(problem => {
-          totalCostForRepair += problem.phoneQuantity * problem.pricePerPart;
+          totalCostForPhone += problem.phoneQuantity * problem.pricePerPart;
         });
+        phone.totalPricePerPhone = totalCostForPhone;
+        totalCostForRepair += totalCostForPhone;
       });
       repair.totalCostForRepair = totalCostForRepair;
     });

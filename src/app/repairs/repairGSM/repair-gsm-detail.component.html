@@ -145,7 +145,7 @@
       <p-tabPanel header="Telefoane">
         <div *ngFor="let phoneItem of clientGSM.phoneList; let i=index" class="well well-lg">
           <div class="ui-grid-row">
-            <div class="ui-grid-col-5"><label for="phoneBrand">Brand</label>
+            <div class="ui-grid-col-3"><label for="phoneBrand">Brand</label>
               <p-dropdown id="phoneBrand" [(ngModel)]="clientGSM.phoneList[i].phoneBrand" [options]="phoneBrandsArray"
                           [style]="{'width':'150px'}" filter="true">
                 <ng-template let-phone pTemplate="item">
@@ -155,7 +155,7 @@
                 </ng-template>
               </p-dropdown>
             </div>
-            <div class="ui-grid-col-5">
+            <div class="ui-grid-col-3">
               <label for="phoneModel">Model</label>
               <p-dropdown id="phoneModel" [(ngModel)]="clientGSM.phoneList[i].phoneModel" [options]="phoneModelsArray"
                           [style]="{'width':'150px'}" filter="true">
@@ -167,29 +167,12 @@
               </p-dropdown>
             </div>
           </div>
+          <div class="ui-grid-col-3">
+            <label for="phoneModel">Pret</label>
+            <input pInputText [(ngModel)]="phoneItem.totalCostForRepair"/>
+          </div>
         </div>
-<!--        <div class="ui-grid-row">-->
-<!--          <div class="ui-grid-col-4"><label for="phoneBrand">Brand</label></div>-->
-<!--          <p-dropdown id="phoneBrand" [(ngModel)]="selectedBrand" [options]="phoneBrandsArray"-->
-<!--                      [style]="{'width':'150px'}" filter="true" (onChange)="onSelect($event.value)">-->
-<!--            <ng-template let-phone pTemplate="item">-->
-<!--              <div class="ui-helper-clearfix" style="position: relative;height: 25px;">-->
-<!--                <div style="font-size:14px;float:right;margin-top:4px">{{phone.label}}</div>-->
-<!--              </div>-->
-<!--            </ng-template>-->
-<!--          </p-dropdown>-->
-<!--        </div>-->
-<!--        <div class="ui-grid-row">-->
-<!--          <div class="ui-grid-col-4"><label for="phoneModel">Model</label></div>-->
-<!--          <p-dropdown id="phoneModel" [(ngModel)]="selectedBrand" [options]="phoneBrandsArray"-->
-<!--                      [style]="{'width':'150px'}" filter="true" (onChange)="onSelect($event.value)">-->
-<!--            <ng-template let-phone pTemplate="item">-->
-<!--              <div class="ui-helper-clearfix" style="position: relative;height: 25px;">-->
-<!--                <div style="font-size:14px;float:right;margin-top:4px">{{phone.label}}</div>-->
-<!--              </div>-->
-<!--            </ng-template>-->
-<!--          </p-dropdown>-->
-<!--        </div>-->
+
       </p-tabPanel>
     </p-tabView>
 
