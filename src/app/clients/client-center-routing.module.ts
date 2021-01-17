@@ -14,15 +14,15 @@ const clientsCenterRoutes: Routes = [
       children: [
         {
           path: '',
-          redirectTo: 'gsm',
+          redirectTo: 'pf',
           pathMatch: 'full',
           // canActivate: [AuthGuard]
         },
-        // {
-        //   path: 'pf',
-        //   component: ClientPfDetailComponent,
+        {
+          path: 'pf',
+          component: ClientPfDetailComponent,
           // canActivate: [AuthGuard]
-        // },
+        },
         {
           path: 'gsm',
           component: ClientGSMDetailComponent,

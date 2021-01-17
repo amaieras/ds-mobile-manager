@@ -1,6 +1,7 @@
 
 import {Injectable} from "@angular/core";
 import {AngularFireDatabase, AngularFireList} from "angularfire2/database";
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class CheckoutService {
@@ -28,6 +29,12 @@ export class CheckoutService {
     return this.dailyClientsGSMDisplay.snapshotChanges().map(arr => {
       return arr.map(snap => Object.assign(snap.payload.val(), {$key: snap.key}));
     });
+  }
+
+  getAllData(key): Observable<any> {
+   return this.db.list(key).snapshotChanges().map(arr => {
+     return arr.map(snap => Object.assign(snap.payload.val(), {$key: snap.key}));
+   });
   }
 
 }

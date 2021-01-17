@@ -18,40 +18,51 @@ import { ClientCenterRoutingModule } from './clients/client-center-routing.modul
 import 'hammerjs';
 import {RepairModule} from './repairs/repair.module';
 import {RepairCenterRoutingModule} from './repairs/repair-center-routing.module';
-import {AngularFirestoreModule} from "angularfire2/firestore";
-import {CheckoutModule} from "./checkout/checkout.module";
-import {CheckoutCenterRoutingModule} from "./checkout/checkout-center-routing.module";
-import {ChartsModule} from "./chart/chart.module";
-import {ChartCenterRoutingModule} from "./chart/chart-center-routing.module";
-import {HttpClientModule} from "@angular/common/http";
-import {OfferModule} from "./offer/offer.module";
-import {OfferCenterRouting} from "./offer/offer-center-routing";
-import {ReportsModule} from "./reports/reports.module";
-import {ReportsCenterRoutingModule} from "./reports/reports-center-routing.module";
-import {AuthService} from "./guards/auth.service";
+import {AngularFirestoreModule} from 'angularfire2/firestore';
+import {CheckoutModule} from './checkout/checkout.module';
+import {CheckoutCenterRoutingModule} from './checkout/checkout-center-routing.module';
+import {ChartsModule} from './chart/chart.module';
+import {ChartCenterRoutingModule} from './chart/chart-center-routing.module';
+import {HttpClientModule} from '@angular/common/http';
+import {OfferModule} from './offer/offer.module';
+import {OfferCenterRouting} from './offer/offer-center-routing';
+import {ReportsModule} from './reports/reports.module';
+import {ReportsCenterRoutingModule} from './reports/reports-center-routing.module';
+import {AuthService} from './guards/auth.service';
 import {AuthGuard} from 'app/guards/auth.guard';
-import {RegisterComponent} from "./main/pages/authentication/register/register.component";
-import {LoginModule} from "./main/pages/authentication/login/login.module";
+import {RegisterComponent} from './main/pages/authentication/register/register.component';
+import {LoginModule} from './main/pages/authentication/login/login.module';
 import { NavbarComponent } from './layout/components/navbar/navbar.component';
-import {DashboardComponent} from "./main/apps/dashboard/dashboard.component";
+import {DashboardComponent} from './main/apps/dashboard/dashboard.component';
 
 
 export const firebaseConfig = {
-  apiKey: 'AIzaSyDL-_f_lQb4dnkx6GRrL7O7L7sp2A1Kj1w',
-    authDomain: 'ds-mobile-dev.firebaseapp.com',
-    databaseURL: 'https://ds-mobile-dev.firebaseio.com',
-    projectId: 'ds-mobile-dev',
-    storageBucket: 'ds-mobile-dev.appspot.com',
-    messagingSenderId: '931169905269'
-}
+  apiKey: 'AIzaSyBuKcJaWliAV9edyz9Kau4HEnXMNdgFWI4',
+  authDomain: 'florin-ds-mobile-manager-dev.firebaseapp.com',
+  databaseURL: 'https://florin-ds-mobile-manager-dev.firebaseio.com',
+  projectId: 'florin-ds-mobile-manager-dev',
+  storageBucket: 'florin-ds-mobile-manager-dev.appspot.com',
+  messagingSenderId: '352076074196'
+};
 export const firebaseConfigProd = {
-  apiKey: 'AIzaSyAexP1Haz3RsxHqPX--XncgC1Rxef_wMDA',
-    authDomain: 'ds-mobile-prod.firebaseapp.com',
-    databaseURL: 'https://ds-mobile-prod.firebaseio.com',
-    projectId: 'ds-mobile-prod',
-    storageBucket: '',
-    messagingSenderId: '662623055885'
-}
+  apiKey: 'AIzaSyAAt3PEGNSB1UxcNU3lWORNqdYgZKUOBBg',
+  authDomain: 'florin-ds-mobile-manager-prod.firebaseapp.com',
+  databaseURL: 'https://florin-ds-mobile-manager-prod.firebaseio.com',
+  projectId: 'florin-ds-mobile-manager-prod',
+  storageBucket: 'florin-ds-mobile-manager-prod.appspot.com',
+  messagingSenderId: '297820752691'
+};
+
+export const firebaseConfigProdNew = {
+  apiKey: 'AIzaSyBOoqLV5u8t6q-7yV2DlMR5-s-7Hndxs1Q',
+  authDomain: 'florin-ds-mobile-prod.firebaseapp.com',
+  databaseURL: 'https://florin-ds-mobile-prod.firebaseio.com',
+  projectId: 'florin-ds-mobile-prod',
+  storageBucket: 'florin-ds-mobile-prod.appspot.com',
+  messagingSenderId: '78644814075',
+  appId: '1:78644814075:web:746dfc62658163b174105e',
+  measurementId: 'G-8S0RE0TGZD'
+};
 
 @NgModule({
     declarations: [
@@ -82,7 +93,7 @@ export const firebaseConfigProd = {
         RepairCenterRoutingModule,
         LoginModule,
         //firebase
-        AngularFireModule.initializeApp(firebaseConfigProd),
+        AngularFireModule.initializeApp(firebaseConfigProdNew),
         AngularFireDatabaseModule,
         AngularFireAuthModule,
         AngularFirestoreModule,

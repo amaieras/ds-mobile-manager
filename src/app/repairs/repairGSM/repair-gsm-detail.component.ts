@@ -1,19 +1,19 @@
-import {ChangeDetectorRef, Component, OnInit, ViewChild} from "@angular/core";
-import { SelectItem,Message } from "primeng/primeng";
-import { RepairGSMDetailService } from "./repair-gsm-detail.service";
-import {Observable} from "rxjs/Observable";
-import {ClientGSM} from "../../model/ClientGSM";
-import {UtilService} from "../../utils/util.service";
-import {ClientGSMService} from "../../clients/clientGSM/client-gsm-detail.service";
-import {WarrantyGSMInfo} from "../../model/WarrantyGSMInfo";
-import {PrintGsmReceiptComponent} from "../../shared/print/print-gsm/print-gsm-receipt.component";
-import {PaymentMethod} from "app/model/PaymentMethod";
+import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
+import { SelectItem, Message } from 'primeng/primeng';
+import { RepairGSMDetailService } from './repair-gsm-detail.service';
+import {Observable} from 'rxjs/Observable';
+import {ClientGSM} from '../../model/ClientGSM';
+import {UtilService} from '../../utils/util.service';
+import {ClientGSMService} from '../../clients/clientGSM/client-gsm-detail.service';
+import {WarrantyGSMInfo} from '../../model/WarrantyGSMInfo';
+import {PrintGsmReceiptComponent} from '../../shared/print/print-gsm/print-gsm-receipt.component';
+import {PaymentMethod} from 'app/model/PaymentMethod';
 
 @Component({
-  selector: 'repair-gsm-detail',
+  selector: 'app-repair-gsm-detail',
   templateUrl: './repair-gsm-detail.component.html'
 })
-export class RepairGSMDetailComponent implements OnInit{
+export class RepairGSMDetailComponent implements OnInit {
   repairsGSM: ClientGSM[];
   clientGSM: ClientGSM = new ClientGSM();
   cols: any[];
@@ -30,9 +30,8 @@ export class RepairGSMDetailComponent implements OnInit{
 
   constructor(private _repairGSMService: RepairGSMDetailService, private _clientGSMService: ClientGSMService,
               private _utilService: UtilService, private cdr: ChangeDetectorRef) { }
-
   ngOnInit() {
-    this.clientGSM.paymentMethod = new PaymentMethod(0,0,0,0,0);
+    this.clientGSM.paymentMethod = new PaymentMethod(0, 0, 0, 0, 0);
     this.getClientsGSMList().subscribe(clientGSM => {
       this.dataSource = clientGSM.filter(function(item) {
         return !item.isPayed && (item.isSent !== 'cont' && item.isSent !== 'ramburs');
@@ -40,7 +39,7 @@ export class RepairGSMDetailComponent implements OnInit{
       this.totalRecords = this.dataSource.length;
       this.repairsGSM = this.dataSource;
       this.loading = false;
-      this.methodsOfPayment = [{label: 'Nu', value: 'nu'},{label: 'Cont Curent', value: 'cont'},{label: 'Ramburs', value: 'ramburs'}];
+      this.methodsOfPayment = [{label: 'Nu', value: 'nu'}, {label: 'Cont Curent', value: 'cont'}, {label: 'Ramburs', value: 'ramburs'}];
       this.cols = [
         {field: 'addedDate', header: 'Data introducerii', filter: true, sortable: true},
         {field: 'lastname', header: 'Nume', filter: true, editable: true, sortable: true},
@@ -54,7 +53,7 @@ export class RepairGSMDetailComponent implements OnInit{
 
       this.columnOptions = [];
 
-      for(let i = 0; i < this.cols.length; i++) {
+      for (let i = 0; i < this.cols.length; i++) {
         this.columnOptions.push({label: this.cols[i].header, value: this.cols[i]});
       }
     });
@@ -64,13 +63,6 @@ export class RepairGSMDetailComponent implements OnInit{
     this.clientGSM = RepairGSMDetailComponent.cloneClient(event.data);
     this.displayDialog = true;
     this.cdr.detectChanges();
-  }
-  static cloneClient(c: ClientGSM): ClientGSM {
-    let clientGSM = new ClientGSM();
-    for(let prop in c) {
-      clientGSM[prop] = c[prop];
-    }
-    return clientGSM;
   }
   save() {
     this.updateField(this.clientGSM);
@@ -84,21 +76,20 @@ export class RepairGSMDetailComponent implements OnInit{
     const clientKey = clientGSM.$key;
     this.updateCheckedItem(clientGSM);
     delete clientGSM.$key;
-    this._repairGSMService.updateItem(clientKey, clientGSM)
+    this._repairGSMService.updateItem(clientKey, clientGSM);
       // .then(item => {
         this.msgs = this._utilService.successUpdateMessage(clientGSM.lastname, '',
-          clientGSM.phone,'Valoare modificata ');
+          clientGSM.phone, 'Valoare modificata ');
       // }).catch(err => {
       //   console.log(err);
     // });
   }
 
   static checkPaymentIsNo(clientGSM, type) {
-    if(type === 'priceOffer') {
+    if (type === 'priceOffer') {
       clientGSM[type] = isNaN(clientGSM[type]) ||
       String(clientGSM[type]).trim().length === 0 ? 0 : +clientGSM[type];
-    }
-    else {
+    } else {
       clientGSM.paymentMethod[type] = isNaN(clientGSM.paymentMethod[type]) ||
       String(clientGSM.paymentMethod[type]).trim().length === 0 ? 0 : +clientGSM.paymentMethod[type];
     }
@@ -110,24 +101,24 @@ export class RepairGSMDetailComponent implements OnInit{
   updateCheckedItem(row) {
     this._repairGSMService.updateItem(row.$key, {isPayed: row.isPayed});
 
-    if(row.isPayed) {
-      //Delete deliveredeDate because of a bug
-      //When updating for the second time the desired property, is is not updated, so I recreate it
+    if (row.isPayed) {
+      // Delete deliveredeDate because of a bug
+      // When updating for the second time the desired property, is is not updated, so I recreate it
       delete row.deliveredDate;
-      let date = new Date().getTime().toString();
+      const date = new Date().getTime().toString();
       this._repairGSMService.updateItem(row.$key, {deliveredDate: date});
     }
   }
 
   exportTable() {
     {
-      let data = this.dataSource;
+      const data = this.dataSource;
       let csv = '\ufeff';
-      let exportFilename = this._utilService.getDate();
+      const exportFilename = this._utilService.getDate();
 
-      for (var i = 0; i < this.cols.length; i++) {
+      for (let i = 0; i < this.cols.length; i++) {
 
-        var column = this.cols[i];
+        const column = this.cols[i];
         if (column.field) {
           csv += '"' + (column.header || column.field) + '"';
           if (i < (this.cols.length - 1)) {
@@ -136,22 +127,21 @@ export class RepairGSMDetailComponent implements OnInit{
         }
       }
 
-      //body
+      // body
       data.forEach(entry => {
         csv += '\n';
 
-        for (var i_1 = 0; i_1 < this.cols.length; i_1++) {
-          var column = this.cols[i_1];
-          if(column.field === 'imei' || column.field === 'problem'){
-            if(column.field === 'imei'){
+        for (let i_1 = 0; i_1 < this.cols.length; i_1++) {
+          const column = this.cols[i_1];
+          if (column.field === 'imei' || column.field === 'problem'){
+            if (column.field === 'imei'){
               csv += '"' + this.resolveFieldData(entry, 'phoneList_imei') + '"';
             }
-            if(column.field === 'problem'){
+            if (column.field === 'problem'){
               csv += '"' + this.resolveFieldData(entry, 'phoneList_problem') + '"';
 
             }
-          }
-          else {
+          } else {
             csv += '"' + this.resolveFieldData(entry, column.field) + '"';
           }
           if (i_1 < (this.cols.length - 1)) {
@@ -160,22 +150,20 @@ export class RepairGSMDetailComponent implements OnInit{
         }
       });
 
-      var blob = new Blob([csv], {
+      const blob = new Blob([csv], {
         type: 'text/csv;charset=utf-8;'
       });
       if (window.navigator.msSaveOrOpenBlob) {
         navigator.msSaveOrOpenBlob(blob, exportFilename + '.csv');
-      }
-      else {
-        var link = document.createElement("a");
+      } else {
+        const link = document.createElement('a');
         link.style.display = 'none';
         document.body.appendChild(link);
         if (link.download !== undefined) {
           link.setAttribute('href', URL.createObjectURL(blob));
           link.setAttribute('download', exportFilename + '.csv');
           link.click();
-        }
-        else {
+        } else {
           csv = 'data:text/csv;charset=utf-8,' + csv;
           window.open(encodeURI(csv));
         }
@@ -187,43 +175,44 @@ export class RepairGSMDetailComponent implements OnInit{
   resolveFieldData(data, field) {
     if (data && field) {
       if (field.indexOf('.') == -1) {
-        var auxDate = '';
-        var auxPhones = '';
+        let auxDate = '';
+        let auxPhones = '';
         if (field === 'phoneList') {
-          data[field].forEach(phone => auxPhones += phone.phoneBrand + " " +phone.phoneModel + " " +phone.phoneColor + " ");
+          data[field].forEach(phone => auxPhones += phone.phoneBrand + ' ' + phone.phoneModel + ' ' + phone.phoneColor + ' ');
           return auxPhones;
         }
         let imeiCount = '';
-        if(field === 'phoneList_imei') {
+        if (field === 'phoneList_imei') {
           data['phoneList'].forEach(phone => {
-            if(phone.imei === '' || phone.imei === 'undefined')
-              imeiCount += "";
-            else imeiCount += phone.imei + " "
+            if (phone.imei === '' || phone.imei === 'undefined')
+              imeiCount += '';
+            else imeiCount += phone.imei + ' ';
           });
           return imeiCount;
         }
-        let problemsCount ='';
-        if(field === 'phoneList_problem'){
+        let problemsCount = '';
+        if (field === 'phoneList_problem') {
           data['phoneList'].forEach(phone =>  {
             phone.problems.forEach(problem => {
-              if(problem.problem === 'undefined' || problem.problem === '')
+              if (problem.problem === 'undefined' || problem.problem === '')
                 problemsCount += '';
-              else problemsCount += problem.problem + " "
-            })
+              else problemsCount += problem.problem + ' ';
+            });
           });
           return problemsCount;
         }
-        if(field === 'isPayed'){
-          if(data[field] === true) return 'DA';
+        if (field === 'isPayed'){
+          if (data[field] === true) return 'DA';
           else return 'NU';
         }
 
-        if(field == 'addedDate' || field == 'appointmentDate' || field === 'deliveredDate'){
-          if(data[field] == '' || data[field] == null || data[field] === 'undefined') {
+        if (field == 'addedDate' || field == 'appointmentDate' || field === 'deliveredDate'){
+          if (data[field] == '' || data[field] == null || data[field] === 'undefined') {
             return '';
-          }else
-            var d = new Date(+data[field]);
-          auxDate = d.toLocaleDateString()  + "  " + d.toLocaleTimeString();
+          } else {
+            const d = new Date(+data[field]);
+            auxDate = d.toLocaleDateString()  + '  ' + d.toLocaleTimeString();
+          }
           return auxDate;
 
         }else{
@@ -235,11 +224,10 @@ export class RepairGSMDetailComponent implements OnInit{
             // else return '';
           }
         }
-      }
-      else {
-        var fields = field.split('.');
-        var value = data;
-        for (var i = 0, len = fields.length; i < len; ++i) {
+      } else {
+        const fields = field.split('.');
+        let value = data;
+        for (let i = 0, len = fields.length; i < len; ++i) {
           if (value == null) {
             return null;
           }
@@ -261,9 +249,18 @@ export class RepairGSMDetailComponent implements OnInit{
 
   printGSMRepair(repairGSM) {
     this._clientGSMService.getAllClients().subscribe( client => {
-        let warrantyGSMInfo = new WarrantyGSMInfo(repairGSM.addedDate, repairGSM.lastname, repairGSM.phone,
+        const warrantyGSMInfo = new WarrantyGSMInfo(repairGSM.addedDate, repairGSM.lastname, repairGSM.phone,
           repairGSM.priceOffer, client.length, repairGSM.phoneList, repairGSM.paymentMethod);
           this.child.print(warrantyGSMInfo);
-    })
+    });
+  }
+  // tslint:disable-next-line:member-ordering
+  static cloneClient(c: ClientGSM): ClientGSM {
+    const clientGSM = new ClientGSM();
+    // tslint:disable-next-line:forin
+    for (const prop in c) {
+      clientGSM[prop] = c[prop];
+    }
+    return clientGSM;
   }
 }

@@ -8,11 +8,11 @@ export class ClientType {
 }
 
 export const clientTypes: ClientType[] = [
-  // {
-  //   id: 1,
-  //   type: 'PF',
-  //   url: 'pf'
-  // },
+  {
+    id: 1,
+    type: 'PF',
+    url: 'pf'
+  },
   {
     id: 2,
     type: 'GSM',

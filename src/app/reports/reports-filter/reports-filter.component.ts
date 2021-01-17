@@ -1,14 +1,14 @@
 import {Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
-import {SelectItem} from "primeng/api";
-import {PhoneListService} from "../../clients/clientPF/phone-list/phone-list.service";
-import {AboutUsService} from "../../clients/clientPF/phone-list/about-us/about-us.service";
-import {ReportService} from "../../shared/reports/report.service";
+import {SelectItem} from 'primeng/api';
+import {PhoneListService} from '../../clients/clientPF/phone-list/phone-list.service';
+import {AboutUsService} from '../../clients/clientPF/phone-list/about-us/about-us.service';
+import {ReportService} from '../../shared/reports/report.service';
 import {ClientService} from 'app/clients/shared/client.service';
-import {DropdownModel} from "../../model/DropdownModel";
-import {Report} from "../../model/Report";
+import {DropdownModel} from '../../model/DropdownModel';
+import {Report} from '../../model/Report';
 import {FormControl, NgModel} from '@angular/forms';
-import {fuseAnimations} from "../../../@fuse/animations";
-import {FilterDataTableComponent} from "./filter-data-table/filter-data-table.component";
+import {fuseAnimations} from '../../../@fuse/animations';
+import {FilterDataTableComponent} from './filter-data-table/filter-data-table.component';
 
 @Component({
   selector: 'app-reports-filter',
@@ -30,10 +30,10 @@ export class ReportsFilterComponent implements OnInit {
   problems: Array<{}>;
   problemsList: any = [];
   selectedProblems: any[];
-  report: Report = new Report(0,0,0,[],[]);
+  report: Report = new Report(0, 0, 0, [], []);
   isPayed: false;
   clientsGSM = new FormControl();
-  clientsGSMList : any[] = [];
+  clientsGSMList: any[] = [];
   selectedGSMClients: any[] = [];
   checked: boolean;
 
@@ -50,9 +50,9 @@ export class ReportsFilterComponent implements OnInit {
   private populateDropDownFilters() {
     this.clientTypes = [
       // {label:'PF', value:'pf'},
-      {label: 'GSM', value:'gsm'}
+      {label: 'GSM', value: 'gsm'}
     ];
-    this.selectedClientTypes = [ "gsm" ];
+    this.selectedClientTypes = [ 'pf', 'gsm' ];
 
     this._phoneListService.getBrandList().subscribe(phoneModels => {
       this.phoneBrandsArray = [];
@@ -82,22 +82,22 @@ export class ReportsFilterComponent implements OnInit {
       problemsList.forEach(snapshot => {
         this.problemsList.push(new DropdownModel(snapshot.name, snapshot.name));
       });
-      this.problemsList.shift()
+      this.problemsList.shift();
     });
 
     this._reportService.getClientsGSMList().subscribe(gsm => {
-      gsm.forEach(snapshot=> {
-        this.gsmClientList.push(snapshot.name)
+      gsm.forEach(snapshot => {
+        this.gsmClientList.push(snapshot.name);
         this.clientsGSMList.push(snapshot);
         // this.selectedGSMClients.push(snapshot.name)
-      })
+      });
       this.clientsGSMList.sort((a, b) => {
         const nameA = a.name, nameB = b.name;
-        if(nameA < nameB) return -1;
-        if(nameA > nameB) return 1;
+        if (nameA < nameB) return -1;
+        if (nameA > nameB) return 1;
         return 0;
       });
-    })
+    });
   }
 
   applyFilters() {
@@ -106,10 +106,10 @@ export class ReportsFilterComponent implements OnInit {
 
   private filterByClientType(clientType) {
     const that = this;
-    const selectedAboutUs = that.selectedAboutUs.map(item=> item.toUpperCase());
-    const selectedBrands = that.selectedBrands.map(item=> item.toUpperCase());
-    const selectedModels = that.selectedModels.map(item=> item.toUpperCase());
-    const selectedProblems = that.selectedProblems.map(item=> item.toUpperCase());
+    const selectedAboutUs = that.selectedAboutUs.map(item => item.toUpperCase());
+    const selectedBrands = that.selectedBrands.map(item => item.toUpperCase());
+    const selectedModels = that.selectedModels.map(item => item.toUpperCase());
+    const selectedProblems = that.selectedProblems.map(item => item.toUpperCase());
     const selectedGSMClientList = that.selectedGSMClients.map(item => item.toUpperCase());
     const gsmClientList = [];
     this._reportService.getClientsByType(clientType).subscribe(clients => {
@@ -124,27 +124,25 @@ export class ReportsFilterComponent implements OnInit {
           phoneBrands.push(phone.phoneBrand);
           phoneModels.push(phone.phoneModel);
           phone.problems.forEach(problem => {
-            problems.push(problem.problem)
-          })
+            problems.push(problem.problem);
+          });
         });
 
 
-        phoneBrands = phoneBrands.map(item=> item.toUpperCase());
-        phoneModels = phoneModels.map(item=> item.toUpperCase());
-        problems = problems.map(item=> item.toUpperCase());
+        phoneBrands = phoneBrands.map(item => item.toUpperCase());
+        phoneModels = phoneModels.map(item => item.toUpperCase());
+        problems = problems.map(item => item.toUpperCase());
         if (that.selectedClientTypes[0] === 'pf') {
-          filterItems = selectedAboutUs.includes(aboutUs)
-            && selectedBrands.some(v => phoneBrands.includes(v))
+          filterItems = selectedBrands.some(v => phoneBrands.includes(v))
             && selectedModels.some(v => phoneModels.includes(v))
             && selectedProblems.some(v => problems.includes(v))
             && clientDate >= that.rangeDates[0].getTime()
             && clientDate <= that.rangeDates[1].getTime()
             && c.isPayed === that.isPayed;
-        }
-        else if (that.selectedClientTypes[0] === 'gsm') {
+        } else if (that.selectedClientTypes[0] === 'gsm') {
           clients.forEach(item => {
             gsmClientList.push(item.lastname.toUpperCase());
-          })
+          });
           filterItems = selectedBrands.some(v => phoneBrands.includes(v))
             && selectedModels.some(v => phoneModels.includes(v))
             && selectedProblems.some(v => problems.includes(v))
@@ -153,15 +151,15 @@ export class ReportsFilterComponent implements OnInit {
             && c.isPayed === that.isPayed;
         }
         return filterItems;
-      })
+      });
       if (that.selectedClientTypes[0] === 'gsm') {
         this.report.clientGSM = filteredClients;
         filteredClients = filteredClients.filter(item => {
           return selectedGSMClientList.includes(item.lastname.toUpperCase());
-        })
+        });
       }
       else if (that.selectedClientTypes[0] === 'pf') {
-        this.report.clientsPF= filteredClients;
+        this.report.clientsPF = filteredClients;
       }
       this.filterDataTableComponent.getFilteredClients(filteredClients);
       this.countNoOfParts(filteredClients, that.selectedModels);
@@ -171,25 +169,25 @@ export class ReportsFilterComponent implements OnInit {
   }
 
   private countNoOfParts(filteredClients, models) {
-    let pieces = [];
-    const selectedProblems = this.selectedProblems.map(item=> item.toLowerCase());
+    const pieces = [];
+    const selectedProblems = this.selectedProblems.map(item => item.toLowerCase());
     filteredClients.forEach(c => {
       c.phoneList.forEach(p => {
-        p.problems.forEach(prob =>{
-          let quantity = prob.phoneQuantity === undefined ? 1 : +prob.phoneQuantity;
+        p.problems.forEach(prob => {
+          const quantity = prob.phoneQuantity === undefined ? 1 : +prob.phoneQuantity;
           if (models.map(v => v.toLowerCase()).indexOf(p.phoneModel.toLowerCase()) > -1) {
-            for(let i = 1; i <= quantity; i++) {
+            for (let i = 1; i <= quantity; i++) {
               selectedProblems.forEach(selProb => {
                 if (selProb.toLowerCase() === prob.problem.toLowerCase()) {
                   pieces.push(prob.problem);
                 }
-              })
+              });
 
             }
           }
-        })
+        });
       });
-    })
+    });
     this.report.piecesNo = pieces.length;
   }
 
@@ -201,19 +199,18 @@ export class ReportsFilterComponent implements OnInit {
     filteredClients.forEach(fc => {
       totalPrice = totalPrice + +fc.paymentMethod._advance + +fc.paymentMethod._card + +fc.paymentMethod._cash
         + +fc.paymentMethod._collector + +fc.paymentMethod._repayment;
-    })
+    });
     this.report.totalIn = totalPrice;
   }
 
   selectAll(checkAll, values) {
     const clientGSMNames = [];
-    if(this.checked){
+    if (this.checked) {
       values.forEach(gsm => {
         clientGSMNames.push(gsm.name);
-      })
+      });
       this.selectedGSMClients = clientGSMNames;
-    }
-    else{
+    } else{
       this.selectedGSMClients = [];
       // select.update.emit([]);
     }
