@@ -113,7 +113,7 @@
         <td>{{phone.phoneColor}}</td>
         <td><span *ngFor="let part of phone.problems">{{part.phoneQuantity}};</span></td>
         <td><span *ngIf="phone.phoneBrand"><span *ngFor="let part of phone.problems">{{part.problem}};</span></span></td>
-        <td><span *ngIf="phone.phoneBrand">{{phone.totalPricePerPhone}}</span></td>
+        <td><span *ngIf="phone.phoneBrand">{{calculatePricePerPhone(phone)}}</span></td>
         <td>{{phone.observation}}</td>
       </tr>
       <tr>

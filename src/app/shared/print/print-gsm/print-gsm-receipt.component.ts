@@ -134,4 +134,12 @@ export class PrintGsmReceiptComponent implements OnInit {
     }
     this.warrantyGSMInfoDeepCopy = warrantyGSMInfoDeepCopy;
   }
+
+  calculatePricePerPhone(phone: any) {
+    let totalCostPerPhone = 0;
+    phone.problems.forEach(problem => {
+      totalCostPerPhone += +problem.phoneQuantity * problem.pricePerPart;
+    });
+    return totalCostPerPhone;
+  }
 }
