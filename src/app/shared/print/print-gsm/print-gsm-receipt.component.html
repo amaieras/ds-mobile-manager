@@ -1,18 +1,27 @@
 <div *ngIf="warrantyGSMInfo" id="print-section" style="display: none">
   <div class="container">
     <div class="row">
-        <div class="col-md-3">
-        </div>
-        <div class="col-md-3" style="margin-left: 11%;">
-          <h4 class="center-title title-epmhasis">Proces verbal de primire/ predare în service <br>(garanție)</h4>
-        </div>
-        <div class="col-md-3" style="margin-left: 17%; width:22% !important; margin-bottom: 7%;">
-          <h3 class="title-epmhasis">Nr.: <span class="input-data">{{warrantyGSMInfo.noOfClients + 1}}</span></h3>
-        </div>
+      <div class="col-md-3"></div>
+      <div class="col-md-3" style="margin-left: 11%;">
+        <h4 class="center-title title-epmhasis">
+          Proces verbal de primire/ predare în service
+        </h4>
+      </div>
+      <div
+        class="col-md-3"
+        style="margin-left: 17%; width:22% !important; margin-bottom: 7%;"
+      >
+        <h3 class="title-epmhasis">
+          Nr.:
+          <span class="input-data">{{ warrantyGSMInfo.noOfClients + 1 }}</span>
+        </h3>
+      </div>
     </div>
     <div class="row">
       <div class="col-md-4" style="position: absolute; margin-top: 7%;">
-        <h4 class="title-epmhasis">Tel DS Mobile: <span class="input-data">{{dsMobilePhone}}</span></h4>
+        <h4 class="title-epmhasis">
+          Tel DS Refurbish: <span class="input-data">{{ dsMobilePhone }}</span>
+        </h4>
       </div>
     </div>
     <div class="row">
@@ -22,124 +31,153 @@
     </div>
     <table class="table table-bordered">
       <thead>
-      <tr>
-        <th>MODEL DISPLAY</th>
-        <th>CANTITATE</th>
-        <th>CULOARE</th>
-        <th>OBSERVAȚII</th>
-        <th>VALOARE</th>
-      </tr>
+        <tr>
+          <th>MODEL DISPLAY</th>
+          <th>CANTITATE</th>
+          <th>CULOARE</th>
+          <th>OBSERVAȚII</th>
+          <th>VALOARE</th>
+        </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let phone of warrantyGSMInfoDeepCopy">
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
+        <tr *ngFor="let phone of warrantyGSMInfoDeepCopy">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
       </tbody>
     </table>
 
     <div class="row" style="margin-top: 15px;">
-      <div class="col-md-8" style="margin-bottom: 10px;">DATA PRIMIRE COLET:______________</div>
+      <div class="col-md-8" style="margin-bottom: 10px;">
+        DATA PRIMIRE COLET:______________
+      </div>
       <div class="col-md-4 col-md-offset-8">TOTAL PLATA:______________</div>
     </div>
     <div class="row">
-      <div class="col-md-6" style=" position: absolute; margin-top: 29px;">DATA LIVRARE COLET:______________</div>
-    </div>
-  </div>
-  <div class="col-md-12">
-    <div class="col-md-offset-8">
-      <h3>Garanție</h3>
-    </div>
-    <div  class="footer">
-      Retururile sunt acceptate doar dacă sigiliile aplicate pe produse sunt intacte, iar produsele nu prezintă urme de deteriorare
-      (mufe rupte, cablu flex, rupt/tăiat, geam fisurat, display spart, display pătat, etc. ).
-      Pentru retur este necesară expedierea produsului defect la adresa noastră, iar acesta trebuie să fie ambalat corespunzător.
-      Rambursarea sumei se face doar dacă produsul corespunde din punct de vedere optic / funcțional.
-      Nu se acceptă produse ambalate, fără folii de protecție, fără sigilii.
-
-      <br><br>
-      <span class="title-epmhasis">Notă de informare privind protecţia datelor</span><br>
-      Conform cerinţelor Legii nr. 677/2001 pentru protecţia persoanelor cu privire la prelucrarea datelor cu caracter
-      personal şi libera circulaţie a acestor date, modificată şi completată, şi ale Legii nr. 506/2004 privind prelucrarea
-      datelor cu caracter personal şi protecţia vieţii private în sectorul comunicaţiilor electronice,
-      eu – SC MOBITECH SERVICE SRL  mă oblig de a administra în condiţii de siguranţă şi numai pentru scopurile
-      specificate datele personale pe care mi le furnizaţi.
-      <br><br>
-      Voi stoca datele dumneavoastră personale numai atât timp cât este necesar pentru a le folosi în scopul în care
-      le-aţi furnizat,  mă oblig să iau toate măsurile tehnice şi organizatorice de securitate pentru a  mă  asigura
-      că datele dumneavoastră personale sunt păstrate în siguranţă şi pentru a le proteja împotriva distrugerii ilegale,
-      pierderii sau modificării accidentale, dezvăluirii sau accesului neautorizat. Aceste măsuri oferă un nivel de
-      securitate corespunzător riscului reprezentat de prelucrarea şi natura datelor personale ce trebuie protejate.
+      <div class="col-md-6" style=" position: absolute; margin-top: 29px;">
+        DATA LIVRARE COLET:______________
+      </div>
     </div>
   </div>
   <div class="dotted-border">
     <div class="col-md-3">
-      <h3 class="center-title title-epmhasis">Fișă GSM  -
-        <span *ngIf="warrantyGSMInfo.phoneList[0].displayOpType">Vanzare/Imprumut Display</span>
+      <h3 class="center-title title-epmhasis">
+        Fișă GSM -
+        <span *ngIf="warrantyGSMInfo.phoneList[0].displayOpType"
+          >Vanzare/Imprumut Display</span
+        >
         <span *ngIf="!warrantyGSMInfo.phoneList[0].displayOpType">Service</span>
       </h3>
     </div>
     <div class="col-md-3" style="margin-left: 42%; width:22%">
-      <h3 class="title-epmhasis">Nr.: <span class="input-data">{{warrantyGSMInfo.noOfClients + 1}}</span></h3>
+      <h3 class="title-epmhasis">
+        Nr.:
+        <span class="input-data">{{ warrantyGSMInfo.noOfClients + 1 }}</span>
+      </h3>
     </div>
     <table class="table table-bordered">
       <thead>
-      <tr>
-        <th><span class="head-1-gsm">Nume: <span class="input-data">{{warrantyGSMInfo.lastname}}</span></span></th>
-        <th><span class="head-1-gsm">Data intrare: <span class="input-data">{{warrantyGSMInfo.dateAdded | date:'dd/MM/yyyy, hh:mm a'}}</span></span></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th><span class="head-1-gsm">Nr telefon: <span class="input-data">{{warrantyGSMInfo.phoneNumber}}</span></span></th>
-      </tr>
-      <tr>
-        <th>Tip telefon</th>
-        <th>Model</th>
-        <th>Culoare</th>
-        <th>Cantitate</th>
-        <th>Solicitare/problema</th>
-        <th>Pret</th>
-        <th>Observatii</th>
-      </tr>
+        <tr>
+          <th>
+            <span class="head-1-gsm"
+              >Nume:
+              <span class="input-data">{{
+                warrantyGSMInfo.lastname
+              }}</span></span
+            >
+          </th>
+          <th>
+            <span class="head-1-gsm"
+              >Data intrare:
+              <span class="input-data">{{
+                warrantyGSMInfo.dateAdded | date: "dd/MM/yyyy, hh:mm a"
+              }}</span></span
+            >
+          </th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th>
+            <span class="head-1-gsm"
+              >Nr telefon:
+              <span class="input-data">{{
+                warrantyGSMInfo.phoneNumber
+              }}</span></span
+            >
+          </th>
+        </tr>
+        <tr>
+          <th>Tip telefon</th>
+          <th>Model</th>
+          <th>Culoare</th>
+          <th>Cantitate</th>
+          <th>Solicitare/problema</th>
+          <th>Pret</th>
+          <th>Observatii</th>
+        </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let phone of warrantyGSMInfoDeepCopy">
-        <td>{{phone.phoneBrand}}</td>
-        <td>{{phone.phoneModel}}</td>
-        <td>{{phone.phoneColor}}</td>
-        <td><span *ngFor="let part of phone.problems">{{part.phoneQuantity}};</span></td>
-        <td><span *ngIf="phone.phoneBrand"><span *ngFor="let part of phone.problems">{{part.problem}};</span></span></td>
-        <td><span *ngIf="phone.phoneBrand">{{calculatePricePerPhone(phone)}}</span></td>
-        <td>{{phone.observation}}</td>
-      </tr>
-      <tr>
-        <td *ngFor="let i of [1,2,3,4,5]"></td>
-        <td>
-          <span class="title-epmhasis">Total: </span>{{warrantyGSMInfo.price}}
-          <span *ngIf="warrantyGSMInfo.paymentMethod._advance > 0">/ {{warrantyGSMInfo.paymentMethod._advance}} - AVANS</span>
-        </td>
-        <td></td>
-      </tr>
+        <tr *ngFor="let phone of warrantyGSMInfoDeepCopy">
+          <td>{{ phone.phoneBrand }}</td>
+          <td>{{ phone.phoneModel }}</td>
+          <td>{{ phone.phoneColor }}</td>
+          <td>
+            <span *ngFor="let part of phone.problems"
+              >{{ part.phoneQuantity }};</span
+            >
+          </td>
+          <td>
+            <span *ngIf="phone.phoneBrand"
+              ><span *ngFor="let part of phone.problems"
+                >{{ part.problem }};</span
+              ></span
+            >
+          </td>
+          <td>
+            <span *ngIf="phone.phoneBrand">{{
+              calculatePricePerPhone(phone)
+            }}</span>
+          </td>
+          <td>{{ phone.observation }}</td>
+        </tr>
+        <tr>
+          <td *ngFor="let i of [1, 2, 3, 4, 5]"></td>
+          <td>
+            <span class="title-epmhasis">Total: </span
+            >{{ warrantyGSMInfo.price }}
+            <span *ngIf="warrantyGSMInfo.paymentMethod._advance > 0"
+              >/ {{ warrantyGSMInfo.paymentMethod._advance }} - AVANS</span
+            >
+          </td>
+          <td></td>
+        </tr>
       </tbody>
     </table>
     <div class="footer">
-      <br><br>
-      <span class="title-epmhasis">Notă de informare privind protecţia datelor</span><br>
-      Conform cerinţelor Legii nr. 677/2001 pentru protecţia persoanelor cu privire la prelucrarea datelor cu caracter
-      personal şi libera circulaţie a acestor date, modificată şi completată, şi ale Legii nr. 506/2004 privind prelucrarea
-      datelor cu caracter personal şi protecţia vieţii private în sectorul comunicaţiilor electronice,
-      eu – SC MOBITECH SERVICE SRL  mă oblig de a administra în condiţii de siguranţă şi numai pentru scopurile
+      <br /><br />
+      <span class="title-epmhasis"
+        >Notă de informare privind protecţia datelor</span
+      ><br />
+      Conform cerinţelor Legii nr. 677/2001 pentru protecţia persoanelor cu
+      privire la prelucrarea datelor cu caracter personal şi libera circulaţie a
+      acestor date, modificată şi completată, şi ale Legii nr. 506/2004 privind
+      prelucrarea datelor cu caracter personal şi protecţia vieţii private în
+      sectorul comunicaţiilor electronice, eu – SC MOBITECH SERVICE SRL mă oblig
+      de a administra în condiţii de siguranţă şi numai pentru scopurile
       specificate datele personale pe care mi le furnizaţi.
-      <br><br>
-      Voi stoca datele dumneavoastră personale numai atât timp cât este necesar pentru a le folosi în scopul în care
-      le-aţi furnizat,  mă oblig să iau toate măsurile tehnice şi organizatorice de securitate pentru a  mă  asigura
-      că datele dumneavoastră personale sunt păstrate în siguranţă şi pentru a le proteja împotriva distrugerii ilegale,
-      pierderii sau modificării accidentale, dezvăluirii sau accesului neautorizat. Aceste măsuri oferă un nivel de
-      securitate corespunzător riscului reprezentat de prelucrarea şi natura datelor personale ce trebuie protejate.
+      <br /><br />
+      Voi stoca datele dumneavoastră personale numai atât timp cât este necesar
+      pentru a le folosi în scopul în care le-aţi furnizat, mă oblig să iau
+      toate măsurile tehnice şi organizatorice de securitate pentru a mă asigura
+      că datele dumneavoastră personale sunt păstrate în siguranţă şi pentru a
+      le proteja împotriva distrugerii ilegale, pierderii sau modificării
+      accidentale, dezvăluirii sau accesului neautorizat. Aceste măsuri oferă un
+      nivel de securitate corespunzător riscului reprezentat de prelucrarea şi
+      natura datelor personale ce trebuie protejate.
     </div>
   </div>
 </div>

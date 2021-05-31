@@ -11,7 +11,7 @@ export class PrintGsmReceiptComponent implements OnInit {
   warrantyGSMInfoDeepCopy: any;
 
   constructor(private _changeDetector: ChangeDetectorRef) {
-    this.dsMobilePhone = '0734.588.883';
+    this.dsMobilePhone = '0756.713.705';
   }
   @Input('clientGSMInfo') clientGSMInfo: WarrantyGSMInfo;
   ngOnInit() { }
