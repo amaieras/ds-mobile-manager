@@ -2,185 +2,367 @@
 <div class="content">
   <div class="ui-widget-header" style="padding:4px 10px;border-bottom: 0 none">
     <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
-    <input #gb type="text" pInputText size="50" placeholder="Cauta peste tot">
+    <input #gb type="text" pInputText size="50" placeholder="Cauta peste tot" />
   </div>
-  <p-dataTable [value]="repairsGSM" [paginator]="true" rows="50" [rowsPerPageOptions]="[10,20,50,100]" [globalFilter]="gb"
-               [responsive]="true" [rowStyleClass]="isRepairDone" [sortOrder]="-1" sortField="addedDate"
-               [loading]="loading" [rowStyleClass]="disabledRow" [reorderableColumns]="true"
-               scrollable="true" scrollHeight="700px" virtualScroll="virtualScroll"
-               (onRowSelect)="onRowSelect($event)" [(selection)]="selectedClient" selectionMode="single">
+  <p-dataTable
+    [value]="repairsGSM"
+    [paginator]="true"
+    rows="50"
+    [rowsPerPageOptions]="[10, 20, 50, 100]"
+    [globalFilter]="gb"
+    [responsive]="true"
+    [rowStyleClass]="isRepairDone"
+    [sortOrder]="-1"
+    sortField="addedDate"
+    [loading]="loading"
+    [rowStyleClass]="disabledRow"
+    [reorderableColumns]="true"
+    scrollable="true"
+    scrollHeight="700px"
+    virtualScroll="virtualScroll"
+    (onRowSelect)="onRowSelect($event)"
+    [(selection)]="selectedClient"
+    selectionMode="single"
+  >
     <p-header #fixedBox>
       <div style="text-align:left">
-        <button type="button" pButton icon="fa-file-o" iconPos="left" label="Excel" style="float:right" (click)="exportTable()"></button>
-        <p-multiSelect [options]="columnOptions" [(ngModel)]="cols"></p-multiSelect>
+        <button
+          type="button"
+          pButton
+          icon="fa-file-o"
+          iconPos="left"
+          label="Excel"
+          style="float:right"
+          (click)="exportTable()"
+        ></button>
+        <p-multiSelect
+          [options]="columnOptions"
+          [(ngModel)]="cols"
+        ></p-multiSelect>
       </div>
       Reparatii pentru clientii GSM
     </p-header>
-    <p-column *ngFor="let column of cols" [field]="column.field" [header]="column.header" [filter]="column.filter" [editable]="column.editable" [sortable]="column.sortable" >
+    <p-column
+      *ngFor="let column of cols"
+      [field]="column.field"
+      [header]="column.header"
+      [filter]="column.filter"
+      [editable]="column.editable"
+      [sortable]="column.sortable"
+    >
       <ng-container *ngIf="column.field == 'addedDate'">
         <ng-template let-col let-row="rowData" pTemplate="body">
-          <span [style.color]="row[col.field]">{{row[col.field] | date:"dd-MM-yyyy HH:mm"}}</span>
+          <span [style.color]="row[col.field]">{{
+            row[col.field] | date: "dd-MM-yyyy HH:mm"
+          }}</span>
         </ng-template>
       </ng-container>
 
-      <p-column field="lastname" header="Nume" [sortable]="true" [filter]="true" [editable]="true"></p-column>
-      <p-column field="phone" header="Numar telefon" [sortable]="true" [filter]="true" [editable]="true"></p-column>
-      <p-column field="priceOffer" header="Oferta pret" [sortable]="true" [filter]="true" [editable]="true"></p-column>
+      <p-column
+        field="lastname"
+        header="Nume"
+        [sortable]="true"
+        [filter]="true"
+        [editable]="true"
+      ></p-column>
+      <p-column
+        field="phone"
+        header="Numar telefon"
+        [sortable]="true"
+        [filter]="true"
+        [editable]="true"
+      ></p-column>
+      <p-column
+        field="priceOffer"
+        header="Oferta pret"
+        [sortable]="true"
+        [filter]="true"
+        [editable]="true"
+      ></p-column>
 
-      <ng-container *ngIf="column.field == 'phoneList'" >
-        <ng-template let-col let-childs="rowData.phoneList"  pTemplate="body">
-          <div class="ui-grid ui-grid-responsive ui-grid-pad" *ngFor="let item of childs">
-            <div class="ui-grid-col-10">{{item.phoneBrand}} {{item.phoneModel}};</div>
-          </div>
-        </ng-template>
-      </ng-container>
-      <ng-container *ngIf="column.field == 'observation'" >
-        <ng-template let-col let-childs="rowData.phoneList"  pTemplate="body">
-          <div class="ui-grid ui-grid-responsive ui-grid-pad" *ngFor="let item of childs">
-            <div class="ui-grid-col-10">{{item.observation}};</div>
-          </div>
-        </ng-template>
-      </ng-container>
-      <ng-container *ngIf="column.field == 'phoneColor'" >
-        <ng-template let-col let-childs="rowData.phoneList"  pTemplate="body">
-          <div class="ui-grid ui-grid-responsive ui-grid-pad" *ngFor="let item of childs">
-            <div class="ui-grid-col-10">{{item.phoneColor}};</div>
-          </div>
-        </ng-template>
-      </ng-container>
-      <ng-container *ngIf="column.field == 'problem'" >
-        <ng-template let-col let-childs="rowData.phoneList"  pTemplate="body">
-          <div class="ui-grid ui-grid-responsive ui-grid-pad" *ngFor="let item of childs">
-            <div class="ui-grid-row" *ngFor="let it of item.problems">
-              <div class="ui-grid-col-10">{{it.problem}};</div>
+      <ng-container *ngIf="column.field == 'phoneList'">
+        <ng-template let-col let-children="rowData.phoneList" pTemplate="body">
+          <div
+            class="ui-grid ui-grid-responsive ui-grid-pad"
+            *ngFor="let item of children"
+          >
+            <div class="ui-grid-col-10">
+              {{ item.phoneBrand }} {{ item.phoneModel }};
             </div>
           </div>
         </ng-template>
       </ng-container>
-      <p-column field="city" header="Orasul" [sortable]="true" [filter]="true" [editable]="true"></p-column>
+      <ng-container *ngIf="column.field == 'observation'">
+        <ng-template let-col let-childs="rowData.phoneList" pTemplate="body">
+          <div
+            class="ui-grid ui-grid-responsive ui-grid-pad"
+            *ngFor="let item of childs"
+          >
+            <div class="ui-grid-col-10">{{ item.observation }};</div>
+          </div>
+        </ng-template>
+      </ng-container>
+      <ng-container *ngIf="column.field == 'phoneColor'">
+        <ng-template let-col let-childs="rowData.phoneList" pTemplate="body">
+          <div
+            class="ui-grid ui-grid-responsive ui-grid-pad"
+            *ngFor="let item of childs"
+          >
+            <div class="ui-grid-col-10">{{ item.phoneColor }};</div>
+          </div>
+        </ng-template>
+      </ng-container>
+      <ng-container *ngIf="column.field == 'problem'">
+        <ng-template let-col let-childs="rowData.phoneList" pTemplate="body">
+          <div
+            class="ui-grid ui-grid-responsive ui-grid-pad"
+            *ngFor="let item of childs"
+          >
+            <div class="ui-grid-row" *ngFor="let it of item.problems">
+              <div class="ui-grid-col-10">{{ it.problem }};</div>
+            </div>
+          </div>
+        </ng-template>
+      </ng-container>
+      <p-column
+        field="city"
+        header="Orasul"
+        [sortable]="true"
+        [filter]="true"
+        [editable]="true"
+      ></p-column>
     </p-column>
     <p-column styleClass="col-button">
       <ng-template pTemplate="header">
         Printeaza
       </ng-template>
       <ng-template let-repairGSM="rowData" pTemplate="body">
-        <button type="button" pButton (click)="printGSMRepair(repairGSM)" icon="fa-print"></button>
+        <button
+          type="button"
+          pButton
+          (click)="printGSMRepair(repairGSM)"
+          icon="fa-print"
+        ></button>
       </ng-template>
     </p-column>
   </p-dataTable>
 
-  <p-dialog header="Modificare date client - GSM" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="false"
-            [contentStyle]="{'min-width':'400px'}" [style]="{height: '80vh'}"
+  <p-dialog
+    header="Modificare date client - GSM"
+    [(visible)]="displayDialog"
+    [responsive]="true"
+    showEffect="fade"
+    [modal]="false"
+    [contentStyle]="{ 'min-width': '400px' }"
+    [style]="{ height: '80vh' }"
   >
     <p-tabView>
       <p-tabPanel header="General">
         <div class="ui-grid ui-grid-responsive ui-fluid">
           <div class="ui-grid-row">
-            <div class="ui-grid-col-4"><label for="isRepaired">Reparat?</label></div>
-            <div class="ui-grid-col-8"><p-checkbox [(ngModel)]="clientGSM.isRepaired" binary="true" id="isRepaired"></p-checkbox></div>
-          </div>
-          <div class="ui-grid-row">
-            <div class="ui-grid-col-4"><label for="isPayed">Achitat?</label></div>
-            <div class="ui-grid-col-8"><p-checkbox [(ngModel)]="clientGSM.isPayed" binary="true" id="isPayed"></p-checkbox></div>
-          </div>
-          <div class="ui-grid-row">
-            <div class="ui-grid-col-4"><label for="isSent">Colet trimis?</label></div>
+            <div class="ui-grid-col-4">
+              <label for="isRepaired">Reparat?</label>
+            </div>
             <div class="ui-grid-col-8">
-              <p-dropdown id="isSent" [(ngModel)]="clientGSM.isSent" [options]="methodsOfPayment" [autoWidth]="false" [style]="{'width':'66%'}"></p-dropdown>
+              <p-checkbox
+                [(ngModel)]="clientGSM.isRepaired"
+                binary="true"
+                id="isRepaired"
+              ></p-checkbox>
+            </div>
+          </div>
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-4">
+              <label for="isPayed">Achitat?</label>
+            </div>
+            <div class="ui-grid-col-8">
+              <p-checkbox
+                [(ngModel)]="clientGSM.isPayed"
+                binary="true"
+                id="isPayed"
+              ></p-checkbox>
+            </div>
+          </div>
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-4">
+              <label for="isSent">Colet trimis?</label>
+            </div>
+            <div class="ui-grid-col-8">
+              <p-dropdown
+                id="isSent"
+                [(ngModel)]="clientGSM.isSent"
+                [options]="methodsOfPayment"
+                [autoWidth]="false"
+                [style]="{ width: '66%' }"
+              ></p-dropdown>
             </div>
           </div>
 
           <div class="ui-grid-row">
             <div class="ui-grid-col-4"><label for="name">Nume</label></div>
-            <div class="ui-grid-col-8"><input pInputText id="name" [(ngModel)]="clientGSM.lastname"/></div>
+            <div class="ui-grid-col-8">
+              <input pInputText id="name" [(ngModel)]="clientGSM.lastname" />
+            </div>
           </div>
           <div class="ui-grid-row">
             <div class="ui-grid-col-4"><label for="phone">Telefon</label></div>
-            <div class="ui-grid-col-8"><input pInputText id="phone" [(ngModel)]="clientGSM.phone"/></div>
+            <div class="ui-grid-col-8">
+              <input pInputText id="phone" [(ngModel)]="clientGSM.phone" />
+            </div>
           </div>
           <div class="ui-grid-row">
             <div class="ui-grid-col-4"><label for="cash">Cash</label></div>
-            <div class="ui-grid-col-8"><input pInputText id="cash" [(ngModel)]="clientGSM.paymentMethod._cash"
-                                              (blur)="checkPaymentIsNo(clientGSM, '_cash')"/></div>
+            <div class="ui-grid-col-8">
+              <input
+                pInputText
+                id="cash"
+                [(ngModel)]="clientGSM.paymentMethod._cash"
+                (blur)="checkPaymentIsNo(clientGSM, '_cash')"
+              />
+            </div>
           </div>
           <div class="ui-grid-row">
             <div class="ui-grid-col-4"><label for="card">Card</label></div>
-            <div class="ui-grid-col-8"><input pInputText id="card" [(ngModel)]="clientGSM.paymentMethod._card"
-                                              (blur)="checkPaymentIsNo(clientGSM, '_card')"/></div>
+            <div class="ui-grid-col-8">
+              <input
+                pInputText
+                id="card"
+                [(ngModel)]="clientGSM.paymentMethod._card"
+                (blur)="checkPaymentIsNo(clientGSM, '_card')"
+              />
+            </div>
           </div>
           <div class="ui-grid-row">
             <div class="ui-grid-col-4"><label for="advance">Avans</label></div>
-            <div class="ui-grid-col-8"><input pInputText id="advance" [(ngModel)]="clientGSM.paymentMethod._advance"
-                                              (blur)="checkPaymentIsNo(clientGSM, '_advance')"/></div>
-          </div>
-          <!--      New Feature-->
-          <!--      <div class="ui-grid-row">-->
-          <!--        <div class="ui-grid-col-4"><label for="loss">Pierdere (RON)</label></div>-->
-          <!--        <div class="ui-grid-col-8"><input pInputText id="loss" [(ngModel)]="clientGSM.paymentMethod._collector"-->
-          <!--                                          (blur)="checkPaymentIsNo(clientGSM, '_collector')"/></div>-->
-          <!--      </div>-->
-          <!--      <div class="ui-grid-row">-->
-          <!--        <div class="ui-grid-col-4"><label for="quantity">Cantiate</label></div>-->
-          <!--        <div class="ui-grid-col-8"><input pInputText id="quantity" [(ngModel)]="clientGSM.paymentMethod._collector"-->
-          <!--                                          (blur)="checkPaymentIsNo(clientGSM, '_collector')"/></div>-->
-          <!--      </div>-->
-          <div class="ui-grid-row">
-            <div class="ui-grid-col-4"><label for="collector">Cont colector</label></div>
-            <div class="ui-grid-col-8"><input pInputText id="collector" [(ngModel)]="clientGSM.paymentMethod._collector"
-                                              (blur)="checkPaymentIsNo(clientGSM, '_collector')"/></div>
+            <div class="ui-grid-col-8">
+              <input
+                pInputText
+                id="advance"
+                [(ngModel)]="clientGSM.paymentMethod._advance"
+                (blur)="checkPaymentIsNo(clientGSM, '_advance')"
+              />
+            </div>
           </div>
           <div class="ui-grid-row">
-            <div class="ui-grid-col-4"><label for="repayment">Ramburs</label></div>
-            <div class="ui-grid-col-8"><input pInputText id="repayment" [(ngModel)]="clientGSM.paymentMethod._repayment"
-                                              (blur)="checkPaymentIsNo(clientGSM, '_repayment')"/></div>
+            <div class="ui-grid-col-4">
+              <label for="collector">Cont colector</label>
+            </div>
+            <div class="ui-grid-col-8">
+              <input
+                pInputText
+                id="collector"
+                [(ngModel)]="clientGSM.paymentMethod._collector"
+                (blur)="checkPaymentIsNo(clientGSM, '_collector')"
+              />
+            </div>
           </div>
           <div class="ui-grid-row">
-            <div class="ui-grid-col-4"><label for="priceOffer">Oferta pret</label></div>
-            <div class="ui-grid-col-8"><input pInputText id="priceOffer" [(ngModel)]="clientGSM.priceOffer"
-                                              (blur)="checkPaymentIsNo(clientGSM, 'priceOffer')"/></div>
+            <div class="ui-grid-col-4">
+              <label for="repayment">Ramburs</label>
+            </div>
+            <div class="ui-grid-col-8">
+              <input
+                pInputText
+                id="repayment"
+                [(ngModel)]="clientGSM.paymentMethod._repayment"
+                (blur)="checkPaymentIsNo(clientGSM, '_repayment')"
+              />
+            </div>
           </div>
-
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-4">
+              <label for="priceOffer">Oferta pret</label>
+            </div>
+            <div class="ui-grid-col-8">
+              <input
+                pInputText
+                id="priceOffer"
+                [(ngModel)]="clientGSM.priceOffer"
+                (blur)="checkPaymentIsNo(clientGSM, 'priceOffer')"
+              />
+            </div>
+          </div>
         </div>
       </p-tabPanel>
       <p-tabPanel header="Telefoane">
-        <div *ngFor="let phoneItem of clientGSM.phoneList; let i=index" class="well well-lg">
+        <div
+          *ngFor="let phoneItem of clientGSM.phoneList; let i = index"
+          class="well well-lg"
+        >
           <div class="ui-grid-row">
-            <div class="ui-grid-col-3"><label for="phoneBrand">Brand</label>
-              <p-dropdown id="phoneBrand" [(ngModel)]="clientGSM.phoneList[i].phoneBrand" [options]="phoneBrandsArray"
-                          [style]="{'width':'150px'}" filter="true">
+            <div class="ui-grid-col-4">
+              <label for="phoneBrand">Brand</label>
+              <p-dropdown
+                id="phoneBrand"
+                [(ngModel)]="clientGSM.phoneList[i].phoneBrand"
+                [options]="phoneBrandsArray"
+                [style]="{ width: '150px' }"
+                filter="true"
+              >
                 <ng-template let-phone pTemplate="item">
-                  <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
-                    <div style="font-size:14px;float:right;margin-top:4px">{{phone.label}}</div>
+                  <div
+                    class="ui-helper-clearfix"
+                    style="position: relative;height: 25px;"
+                  >
+                    <div style="font-size:14px;float:right;margin-top:4px">
+                      {{ phone.label }}
+                    </div>
                   </div>
                 </ng-template>
               </p-dropdown>
             </div>
-            <div class="ui-grid-col-3">
+            <div class="ui-grid-col-4">
               <label for="phoneModel">Model</label>
-              <p-dropdown id="phoneModel" [(ngModel)]="clientGSM.phoneList[i].phoneModel" [options]="phoneModelsArray"
-                          [style]="{'width':'150px'}" filter="true">
+              <p-dropdown
+                id="phoneModel"
+                [(ngModel)]="clientGSM.phoneList[i].phoneModel"
+                [options]="phoneModelsArray"
+                [style]="{ width: '150px' }"
+                filter="true"
+              >
                 <ng-template let-phone pTemplate="item">
-                  <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
-                    <div style="font-size:14px;float:right;margin-top:4px">{{phone.label}}</div>
+                  <div
+                    class="ui-helper-clearfix"
+                    style="position: relative;height: 25px;"
+                  >
+                    <div style="font-size:14px;float:right;margin-top:4px">
+                      {{ phone.label }}
+                    </div>
                   </div>
                 </ng-template>
               </p-dropdown>
             </div>
-          </div>
-          <div class="ui-grid-col-3">
-            <label for="phoneModel">Pret</label>
-            <input pInputText [(ngModel)]="phoneItem.totalCostForRepair"/>
+            <div class="ui-grid-col-4">
+              <label [attr.for]="'phoneModelPrice_' + i" style="display: block"
+                >Pret</label
+              >
+              <input
+                [id]="'phoneModelPrice' + i"
+                pInputText
+                [(ngModel)]="clientGSM.phoneList[i].totalPricePerPhone"
+              />
+            </div>
           </div>
         </div>
-
       </p-tabPanel>
     </p-tabView>
 
-
     <p-footer>
       <div class="ui-dialog-buttonpane ui-helper-clearfix">
-        <button type="button" pButton icon="fa-close" (click)="cancel()" label="Anuleaza"></button>
-        <button type="button" pButton icon="fa-check" (click)="save()" label="Salveaza"></button>
+        <button
+          type="button"
+          pButton
+          icon="fa-close"
+          (click)="cancel()"
+          label="Anuleaza"
+        ></button>
+        <button
+          type="button"
+          pButton
+          icon="fa-check"
+          (click)="save()"
+          label="Salveaza"
+        ></button>
       </div>
     </p-footer>
   </p-dialog>

@@ -8,7 +8,6 @@ import {ClientGSMService} from '../../clients/clientGSM/client-gsm-detail.servic
 import {WarrantyGSMInfo} from '../../model/WarrantyGSMInfo';
 import {PrintGsmReceiptComponent} from '../../shared/print/print-gsm/print-gsm-receipt.component';
 import {PaymentMethod} from 'app/model/PaymentMethod';
-import {ProblemPrice} from '../../model/ProblemPrice';
 import {PhoneListService} from '../../clients/clientPF/phone-list/phone-list.service';
 
 @Component({
@@ -52,7 +51,7 @@ export class RepairGSMDetailComponent implements OnInit{
         {field: 'lastname', header: 'Nume', filter: true, editable: true, sortable: true},
         {field: 'phone', header: 'Numar telefon', filter: true, editable: true, sortable: true},
         {field: 'phoneList', header: 'Model', filter: true, sortable: true},
-        {field: 'totalCostForRepair', header: 'Reparatii incasat', filter: true, editable: true, sortable: true},
+        {field: 'priceOffer', header: 'Reparatii incasat', filter: true, editable: true, sortable: true},
         {field: 'phoneColor', header: 'Culoare', filter: true, editable: true, sortable: true},
         {field: 'problem', header: 'Problema', filter: true, sortable: true},
         {field: 'city', header: 'Orasul', filter: true, editable: true, sortable: true},
@@ -74,6 +73,8 @@ export class RepairGSMDetailComponent implements OnInit{
         phone.problems.forEach(problem => {
           totalCostForPhone += problem.phoneQuantity * problem.pricePerPart;
         });
+        // it means that total cost per phone has already been calculated and the user decided to change it
+        if (phone.totalPricePerPhone > 0) return;
         phone.totalPricePerPhone = totalCostForPhone;
         totalCostForRepair += totalCostForPhone;
       });
@@ -152,8 +153,8 @@ export class RepairGSMDetailComponent implements OnInit{
     this._repairGSMService.updateItem(row.$key, {isPayed: row.isPayed});
 
     if (row.isPayed) {
-      //Delete deliveredeDate because of a bug
-      //When updating for the second time the desired property, is is not updated, so I recreate it
+      // Delete deliveredeDate because of a bug
+      // When updating for the second time the desired property, is is not updated, so I recreate it
       delete row.deliveredDate;
       const date = new Date().getTime().toString();
       this._repairGSMService.updateItem(row.$key, {deliveredDate: date});
