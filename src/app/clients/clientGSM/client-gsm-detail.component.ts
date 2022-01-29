@@ -104,11 +104,13 @@ export class ClientGSMDetailComponent implements OnInit {
     const formModel = this.clientGSMForm.value;
     let totalPrice = 0;
     for (let i = 0; i < formModel.phoneList.length; i++) {
+      const totalPhones = +formModel.phoneList[i].phoneQuantity;
       for (let j = 0; j < formModel.phoneList[i].problems.length; j++) {
         const phoneQuantity = +formModel.phoneList[i].problems[j].phoneQuantity;
         const item = formModel.phoneList[i].problems[j];
         if (item.pricePerPart !== '') {
-          totalPrice = totalPrice + item.pricePerPart * phoneQuantity;
+          const totalPricePerPhone = totalPhones * (item.pricePerPart * item.phoneQuantity);
+          totalPrice = (totalPrice + totalPricePerPhone);
         }
       }
     }
@@ -121,7 +123,7 @@ export class ClientGSMDetailComponent implements OnInit {
     for (let i = 0; i < formModel.phoneList.length; i++) {
       for (let j = 0; j < formModel.phoneList[i].problems.length; j++) {
         const item = formModel.phoneList[i].problems[j];
-        totalQuantity = totalQuantity + +item.phoneQuantity;
+        totalQuantity = totalQuantity + (item.phoneQuantity * +formModel.phoneList[i].phoneQuantity) ;
       }
     }
     this.totalNoQuantity = totalQuantity;
@@ -131,6 +133,7 @@ export class ClientGSMDetailComponent implements OnInit {
       phoneBrand: '',
       phoneModel: '',
       phoneColor: '',
+      phoneQuantity: '1',
       totalPricePerPhone: '0',
       problems: this.fb.array([]),
       observation: ''

@@ -290,8 +290,8 @@
           class="well well-lg"
         >
           <div class="ui-grid-row">
-            <div class="ui-grid-col-4">
-              <label for="phoneBrand">Brand</label>
+            <div class="ui-grid-col-6">
+              <label for="phoneBrand" style="display: block">Brand</label>
               <p-dropdown
                 id="phoneBrand"
                 [(ngModel)]="clientGSM.phoneList[i].phoneBrand"
@@ -311,8 +311,8 @@
                 </ng-template>
               </p-dropdown>
             </div>
-            <div class="ui-grid-col-4">
-              <label for="phoneModel">Model</label>
+            <div class="ui-grid-col-6">
+              <label for="phoneModel" style="display: block">Model</label>
               <p-dropdown
                 id="phoneModel"
                 [(ngModel)]="clientGSM.phoneList[i].phoneModel"
@@ -332,15 +332,39 @@
                 </ng-template>
               </p-dropdown>
             </div>
-            <div class="ui-grid-col-4">
-              <label [attr.for]="'phoneModelPrice_' + i" style="display: block"
-                >Pret</label
-              >
-              <input
-                [id]="'phoneModelPrice' + i"
-                pInputText
-                [(ngModel)]="clientGSM.phoneList[i].totalPricePerPhone"
-              />
+            <div class="ui-grid-row">
+              <div class="ui-grid-col-4">
+                <label
+                  [attr.for]="'phoneModelPrice_' + i"
+                  style="display: block"
+                  >Pret</label
+                >
+                <input
+                  [id]="'phoneModelPrice' + i"
+                  pInputText
+                  [(ngModel)]="clientGSM.phoneList[i].totalPricePerPhone"
+                />
+              </div>
+              <div class="ui-grid-col-4">
+                <label [attr.for]="'phoneQuantity_' + i" style="display: block"
+                  >Total telefoane</label
+                >
+                <input
+                  [id]="'phoneModelPrice' + i"
+                  pInputText
+                  [(ngModel)]="clientGSM.phoneList[i].phoneQuantity"
+                />
+              </div>
+              <div class="ui-grid-col-4">
+                <label [attr.for]="'phoneSent_' + i" style="display: block"
+                  >Total trimise</label
+                >
+                <input
+                  [id]="'phoneSent' + i"
+                  pInputText
+                  [(ngModel)]="clientGSM.phoneList[i].phoneSent"
+                />
+              </div>
             </div>
           </div>
         </div>

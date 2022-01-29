@@ -13,4 +13,6 @@ export class PhoneList {
   totalPricePerPhone = 0;
   problems: ProblemList[]  = [];
   observation = '';
+  phoneQuantity = 1;
+  phoneSent = 0;
 }

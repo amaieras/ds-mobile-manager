@@ -32,6 +32,14 @@ export class RepairGSMDetailComponent implements OnInit{
   selectedBrand: "";
   @ViewChild(PrintGsmReceiptComponent) child: PrintGsmReceiptComponent;
 
+  static cloneClient(c: ClientGSM): ClientGSM {
+    const clientGSM = new ClientGSM();
+    for (const prop in c) {
+      clientGSM[prop] = c[prop];
+    }
+    return clientGSM;
+  }
+
   constructor(private _repairGSMService: RepairGSMDetailService, private _clientGSMService: ClientGSMService,
               private _utilService: UtilService, private cdr: ChangeDetectorRef, private _phoneListService: PhoneListService) { }
 
@@ -65,6 +73,7 @@ export class RepairGSMDetailComponent implements OnInit{
     });
     this.populateAllDropDowns();
   }
+
   addTotalCostForEachRepair() {
     this.repairsGSM.forEach(repair => {
       let totalCostForRepair = 0;
@@ -106,13 +115,6 @@ export class RepairGSMDetailComponent implements OnInit{
     this.clientGSM = RepairGSMDetailComponent.cloneClient(event.data);
     this.displayDialog = true;
     this.cdr.detectChanges();
-  }
-  static cloneClient(c: ClientGSM): ClientGSM {
-    const clientGSM = new ClientGSM();
-    for (const prop in c) {
-      clientGSM[prop] = c[prop];
-    }
-    return clientGSM;
   }
   save() {
     this.updateField(this.clientGSM);
@@ -256,7 +258,7 @@ export class RepairGSMDetailComponent implements OnInit{
           });
           return problemsCount;
         }
-        if (field === 'isPayed'){
+        if (field === 'isPayed') {
           if (data[field] === true) return 'DA';
           else return 'NU';
         }
@@ -269,7 +271,7 @@ export class RepairGSMDetailComponent implements OnInit{
           auxDate = d.toLocaleDateString()  + '  ' + d.toLocaleTimeString();
           return auxDate;
 
-        }else{
+        }else {
           if (data[field] === null || data[field] === '-' || data[field] === undefined)
             return '';
           else {
@@ -278,8 +280,7 @@ export class RepairGSMDetailComponent implements OnInit{
             // else return '';
           }
         }
-      }
-      else {
+      } else {
         const fields = field.split('.');
         let value = data;
         for (let i = 0, len = fields.length; i < len; ++i) {
@@ -290,8 +291,7 @@ export class RepairGSMDetailComponent implements OnInit{
         }
         return value;
       }
-    }
-    else {
+    } else {
       return null;
     }
   };
