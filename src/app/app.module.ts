@@ -35,24 +35,6 @@ import {LoginModule} from './main/pages/authentication/login/login.module';
 import { NavbarComponent } from './layout/components/navbar/navbar.component';
 import {DashboardComponent} from './main/apps/dashboard/dashboard.component';
 
-
-export const firebaseConfig = {
-  apiKey: 'AIzaSyBuKcJaWliAV9edyz9Kau4HEnXMNdgFWI4',
-  authDomain: 'florin-ds-mobile-manager-dev.firebaseapp.com',
-  databaseURL: 'https://florin-ds-mobile-manager-dev.firebaseio.com',
-  projectId: 'florin-ds-mobile-manager-dev',
-  storageBucket: 'florin-ds-mobile-manager-dev.appspot.com',
-  messagingSenderId: '352076074196'
-};
-export const firebaseConfigProd = {
-  apiKey: 'AIzaSyAAt3PEGNSB1UxcNU3lWORNqdYgZKUOBBg',
-  authDomain: 'florin-ds-mobile-manager-prod.firebaseapp.com',
-  databaseURL: 'https://florin-ds-mobile-manager-prod.firebaseio.com',
-  projectId: 'florin-ds-mobile-manager-prod',
-  storageBucket: 'florin-ds-mobile-manager-prod.appspot.com',
-  messagingSenderId: '297820752691'
-};
-
 export const firebaseConfigProdNew = {
   apiKey: 'AIzaSyBOoqLV5u8t6q-7yV2DlMR5-s-7Hndxs1Q',
   authDomain: 'florin-ds-mobile-prod.firebaseapp.com',

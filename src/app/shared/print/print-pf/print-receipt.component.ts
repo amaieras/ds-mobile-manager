@@ -103,6 +103,9 @@ export class PrintReceiptComponent implements OnInit {
           .empty-cells {
             visibility:hidden
           }
+          .phone-number-text {
+            font-size: 24px;
+          }
         </style>
       </head>
   <body>${innerContents}</body>
