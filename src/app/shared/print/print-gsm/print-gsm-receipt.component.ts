@@ -114,9 +114,6 @@ export class PrintGsmReceiptComponent implements OnInit {
            .head-1-gsm{
             font-size: 10px;
           }
-          .phone-number-text {
-            font-size: 24px;
-          }
         </style>
       </head>
   <body>${innerContents}</body>

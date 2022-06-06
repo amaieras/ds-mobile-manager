@@ -104,7 +104,7 @@ export class PrintReceiptComponent implements OnInit {
             visibility:hidden
           }
           .phone-number-text {
-            font-size: 24px;
+            font-size: 20px;
           }
         </style>
       </head>
