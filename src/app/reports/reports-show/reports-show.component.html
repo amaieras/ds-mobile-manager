@@ -1,9 +1,12 @@
 <div class="col-md-12">
-  <label for="appointmentDate" style="display: block">Interval (Data terminarii reparatiei)</label>
-  <p-calendar id="appointmentDate" [(ngModel)]="rangeDates" selectionMode="range" readonlyInput="true"
-              [monthNavigator]="true" [yearNavigator]="true" yearRange="2017:2030" [showIcon]="true"
-              (onSelect)="onRangeSelect($event)">
-  </p-calendar>
+  <label for="appointmentDate" style="display: block; margin-top: 24px;">Interval (Data terminarii reparatiei)</label>
+  <div class="ui-g-12 ui-md-4">
+    <p-calendar id="appointmentDate" [(ngModel)]="rangeDates" selectionMode="range" readonlyInput="true"
+                [monthNavigator]="true" [yearNavigator]="true" yearRange="2017:2030" [showIcon]="true"
+                [dateFormat]="'dd/mm/yy'"
+                (onSelect)="onRangeSelect($event)">
+    </p-calendar>
+  </div>
 </div>
 
 <amexio-card-pane [enableFooter]="false">

@@ -210,3 +210,18 @@ a[href='/reports']:hover {
   font-size: 1.6em;
   margin-left: 8px;
 }
+
+.loading-text {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+#appointmentDate {
+  input {
+    width: 180px;
+  }
+}
