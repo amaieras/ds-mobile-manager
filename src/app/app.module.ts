@@ -87,7 +87,7 @@ export const firebaseConfigProd = {
     RepairCenterRoutingModule,
     LoginModule,
     // firebase
-    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireModule.initializeApp(firebaseConfigProd),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     AngularFirestoreModule,
