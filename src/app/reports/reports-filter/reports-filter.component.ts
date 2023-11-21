@@ -94,7 +94,7 @@ export class ReportsFilterComponent implements OnInit {
     this._phoneListService.getModelList().subscribe(models => {
       const phoneModels = models.filter(model => {
         return brands.map(brand => brand.toLowerCase().trim()).includes(model.phoneId.toLowerCase().trim());
-      })
+      });
       phoneModels.forEach(snapshot => {
         this.phoneModelsArray.push({label: snapshot.name, value: snapshot.name});
       });
@@ -116,22 +116,22 @@ export class ReportsFilterComponent implements OnInit {
       let filteredClients = clients.filter(client => client.isPayed === this.isPayed);
 
       // Filter by selected client name
-      filteredClients = filteredClients.filter(client => selectedGSMClientList.includes(client.lastname.toUpperCase().trim()));
+      filteredClients = filteredClients.filter(client => selectedGSMClientList.includes(client.lastname && client.lastname.toUpperCase().trim()));
 
       // Filter by selected phone brand
       filteredClients = filteredClients.filter(client => {
-        return client.phoneList.some(brand => selectedBrands.includes(brand.phoneBrand.toUpperCase().trim()));
+        return client.phoneList.some(brand => selectedBrands.includes(brand.phoneBrand && brand.phoneBrand.toUpperCase().trim()));
       });
 
       // Filter by selected phone model
       filteredClients = filteredClients.filter(client => {
-        return client.phoneList.some(model => selectedModels.includes(model.phoneModel.toUpperCase().trim()));
+        return client.phoneList.some(model => selectedModels.includes(model.phoneModel && model.phoneModel.toUpperCase().trim()));
       });
 
       // Filter by selected problem
       filteredClients = filteredClients.filter(client => {
         return client.phoneList.some(phone => {
-          return phone.problems.some(problem => selectedProblems.includes(problem.problem.toUpperCase().trim()));
+          return phone.problems.some(problem => selectedProblems.includes(problem.problem && problem.problem.toUpperCase().trim()));
         });
       });
 
