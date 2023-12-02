@@ -4,10 +4,10 @@ import { SharedDsModule } from "../shared/shared-ds.module";
 import { AmexioDashboardModule } from "amexio-ng-extensions/dashboard";
 import { AmexioWidgetModule } from "amexio-ng-extensions";
 import {
-  CalendarModule,
-  CheckboxModule,
-  DropdownModule,
-  MultiSelectModule, SelectButtonModule, ToolbarModule
+    CalendarModule,
+    CheckboxModule,
+    DropdownModule,
+    MultiSelectModule, RadioButtonModule, SelectButtonModule, ToolbarModule
 } from 'primeng/primeng';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { ReportsShowComponent } from "./reports-show/reports-show.component";
@@ -33,35 +33,36 @@ import { ReportsOverviewComponent } from "./reports-overview/reports-overview.co
 import {TableModule} from 'primeng/table';
 
 @NgModule({
-  imports: [
-    AmexioDashboardModule,
-    AmexioWidgetModule,
-    CommonModule,
-    DropdownModule,
-    FormsModule,
-    SharedDsModule,
-    RouterModule,
-    MultiSelectModule,
-    CalendarModule,
-    CheckboxModule,
-    ReactiveFormsModule,
+    imports: [
+        AmexioDashboardModule,
+        AmexioWidgetModule,
+        CommonModule,
+        DropdownModule,
+        FormsModule,
+        SharedDsModule,
+        RouterModule,
+        MultiSelectModule,
+        CalendarModule,
+        CheckboxModule,
+        ReactiveFormsModule,
 
-    MatSelectModule,
-    MatAutocompleteModule,
-    MatInputModule,
-    MatIconModule,
-    MatTabsModule,
-    MatCheckboxModule,
-    MatTableModule,
-    MatPaginatorModule,
+        MatSelectModule,
+        MatAutocompleteModule,
+        MatInputModule,
+        MatIconModule,
+        MatTabsModule,
+        MatCheckboxModule,
+        MatTableModule,
+        MatPaginatorModule,
 
-    FuseSharedModule,
-    FuseSidebarModule,
-    FuseWidgetModule,
-    TableModule,
-    SelectButtonModule,
-    ToolbarModule
-  ],
+        FuseSharedModule,
+        FuseSidebarModule,
+        FuseWidgetModule,
+        TableModule,
+        SelectButtonModule,
+        ToolbarModule,
+        RadioButtonModule
+    ],
   declarations: [
     ReportsShowComponent,
     ReportTypeListComponent,

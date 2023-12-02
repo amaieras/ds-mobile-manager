@@ -18,24 +18,22 @@ import {FilterDataTableComponent} from './filter-data-table/filter-data-table.co
   animations   : fuseAnimations
 })
 export class ReportsFilterComponent implements OnInit {
-  clientTypes: SelectItem[] = [];
-  selectedClientTypes: any[] = [];
   phoneBrandsArray: any = [];
   selectedBrands: any[] = [];
   phoneModelsArray: any = [];
   selectedModels: any[] = [];
   rangeDates: Date[];
   aboutUsList: any = [];
-  selectedAboutUs = [];
   problems: Array<{}>;
   problemsList: any = [];
   selectedProblems: any[] = [];
   report: Report = new Report(0, 0, 0, [], []);
   isPayed: Boolean = false;
-  clientsGSM = new FormControl();
   clientsGSMList: any[] = [];
   selectedGSMClients: any[] = [];
   checked: boolean;
+  rangeType = 'addedDate';
+  loading = false;
 
   @ViewChild(FilterDataTableComponent) filterDataTableComponent: FilterDataTableComponent;
 
@@ -49,12 +47,6 @@ export class ReportsFilterComponent implements OnInit {
   }
 
   private populateDropDownFilters() {
-    this.clientTypes = [
-      // {label:'PF', value:'pf'},
-      {label: 'GSM', value: 'gsm'}
-    ];
-    this.selectedClientTypes = [ 'gsm' ];
-
     this._phoneListService.getBrandList().subscribe(phoneModels => {
       phoneModels.forEach(snapshot => {
         this.phoneBrandsArray.push({label: snapshot.name, value: snapshot.name});
@@ -106,6 +98,7 @@ export class ReportsFilterComponent implements OnInit {
   }
 
   private filterItems(clientType) {
+    this.loading = true;
     this._reportService.getClientsByType(clientType).subscribe(clients => {
       const selectedBrands = this.selectedBrands.map(item => item.toUpperCase().trim());
       const selectedModels = this.selectedModels.map(item => item.toUpperCase().trim());
@@ -116,7 +109,8 @@ export class ReportsFilterComponent implements OnInit {
       let filteredClients = clients.filter(client => client.isPayed === this.isPayed);
 
       // Filter by selected client name
-      filteredClients = filteredClients.filter(client => selectedGSMClientList.includes(client.lastname && client.lastname.toUpperCase().trim()));
+      filteredClients = filteredClients.filter(client =>
+        selectedGSMClientList.includes(client.lastname && client.lastname.toUpperCase().trim()));
 
       // Filter by selected phone brand
       filteredClients = filteredClients.filter(client => {
@@ -136,7 +130,7 @@ export class ReportsFilterComponent implements OnInit {
       });
 
       filteredClients = filteredClients.filter(client => {
-        const clientDate = new Date(+client.deliveredDate).setHours(0, 0, 0, 0);
+        const clientDate = new Date(+client[this.rangeType]).setHours(0, 0, 0, 0);
         return clientDate >= this.rangeDates[0].getTime()
             && clientDate <= this.rangeDates[1].getTime();
       });
@@ -147,6 +141,7 @@ export class ReportsFilterComponent implements OnInit {
       this.calculateTotalIn(filteredClients, selectedBrands, selectedModels, selectedProblems);
       // sends filtered client data to filtered list to be displayed by material table
       this.filterDataTableComponent.getFilteredClients(filteredClients);
+      this.loading = false;
 
     });
   }

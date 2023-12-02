@@ -225,3 +225,22 @@ a[href='/reports']:hover {
     width: 180px;
   }
 }
+
+.d-flex {
+  display: flex;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-items: center;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+.justify-space-between {
+  justify-content: space-between;
+}

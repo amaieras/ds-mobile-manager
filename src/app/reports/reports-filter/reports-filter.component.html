@@ -41,12 +41,20 @@
         </ng-template>
       </p-multiSelect>
     </div>
-    <div class="col-md-5">
-      <label for="appointmentDate" style="display: block">Perioada - Data intrare</label>
-      <p-calendar id="appointmentDate" [(ngModel)]="rangeDates" selectionMode="range" readonlyInput="true"
-                  [monthNavigator]="true" [yearNavigator]="true" yearRange="2017:2030" [showIcon]="true"
-                  dateFormat="dd/mm/yy">
-      </p-calendar>
+    <div class="col-md-6">
+      <div class="d-flex align-center justify-space-between">
+        <div class="d-flex flex-column">
+          <label for="appointmentDate" style="display: block">Interval date</label>
+          <p-calendar id="appointmentDate" [(ngModel)]="rangeDates" selectionMode="range" readonlyInput="true"
+                      [monthNavigator]="true" [yearNavigator]="true" yearRange="2017:2030" [showIcon]="true"
+                      dateFormat="dd/mm/yy">
+          </p-calendar>
+        </div>
+        <div style="margin-left: 12px">
+          <div class="ui-g-12"><p-radioButton name="group2" value="addedDate" label="Data Intrare" [(ngModel)]="rangeType" inputId="preopt1"></p-radioButton></div>
+            <div class="ui-g-12"><p-radioButton name="group2" value="deliveredDate" label="Data finalizare reparatie" [(ngModel)]="rangeType" inputId="preopt2"></p-radioButton></div>
+        </div>
+      </div>
     </div>
   </div>
   <div class="row">
@@ -66,8 +74,8 @@
       </div>
 
       <div class="col-md-5"  style="padding:4px 14px">
-        <button type="button" (click)="applyFilters()" class="btn btn-success">
-          Afiseaza rezultatele
+        <button [disabled]="loading" type="button" (click)="applyFilters()" class="btn btn-success">
+          {{loading ? 'Se incarca rezultatele' : 'Afiseaza rezultatele'}}
         </button>
       </div>
 </div>
