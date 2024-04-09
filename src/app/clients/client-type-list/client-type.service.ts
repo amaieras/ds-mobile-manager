@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs/observable/of';
 import 'rxjs/add/operator/delay';
+import {Router} from '@angular/router';
 
 
 export class ClientType {
@@ -20,8 +21,13 @@ export const clientTypes: ClientType[] = [
   },
   {
     id: 3,
-    type: 'GSM-trimis',
+    type: 'GSM Trimis',
     url: 'gsm-sent'
+  },
+  {
+    id: 4,
+    type: 'GSM Reparat',
+    url: 'gsm-fixed'
   },
   // {
   //   id: 4,
@@ -33,7 +39,15 @@ export const clientTypes: ClientType[] = [
 
 @Injectable()
 export class ClientTypeService {
+  constructor(private router: Router) {}
+
   getClientTypes(): any {
-    return of(clientTypes);
+    const currentUrl = this.router.url; // Get the current browser URL
+    if (currentUrl === '/repairs-done/gsm') {
+      // Exclude entries with IDs 3 and 4 for the specified URL
+      return of(clientTypes.filter(clientType => clientType.id !== 3 && clientType.id !== 4));
+    } else {
+      return of(clientTypes);
+    }
   }
 }

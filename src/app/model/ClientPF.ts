@@ -24,6 +24,7 @@ export class ClientPF {
   aboutUsName: string;
   priceOfferCash: string;
   deliveredDate: string;
+  repairedDate: string;
   isRepaired = false;
   isPayed = false;
 

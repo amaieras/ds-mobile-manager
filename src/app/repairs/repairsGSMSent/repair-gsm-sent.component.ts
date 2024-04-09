@@ -13,7 +13,7 @@ import {PaymentMethod} from 'app/model/PaymentMethod';
   selector: 'app-repair-gsm-sent',
   templateUrl: './repair-gsm-sent.component.html'
 })
-export class RepairGsmSentComponent implements OnInit{
+export class RepairGsmSentComponent implements OnInit {
   repairsGSM: ClientGSM[];
   clientGSM: ClientGSM = new ClientGSM();
   cols: any[];

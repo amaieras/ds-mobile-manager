@@ -15,5 +15,6 @@ export class ClientGSMDisplay {
   isRepaired = false;
   isPayed = false;
   deliveredDate: string;
+  repairedDate: string;
   priceOfferCash: number;
 }

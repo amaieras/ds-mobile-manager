@@ -1,4 +1,6 @@
 # Prerequisites
+node v14.20.0
+npm v6.14.17
 Run from home directory the following commands:                                              
 `npm install`                                                                 
 `npm install angularfire2@latest firebase@latest --save`     

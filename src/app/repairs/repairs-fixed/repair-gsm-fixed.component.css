@@ -1,0 +1,11 @@
+.content {
+  transform: translateY(60px);
+}
+.fix-date {
+  margin-top: 12px;
+}
+#inDate {
+  input {
+    min-width: 200px;
+  }
+}

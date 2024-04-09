@@ -52,6 +52,7 @@ import {RepairGsmDoneComponent} from './repairs-done/repairs-gsm-done/repair-gsm
 import {TableModule} from 'primeng/table';
 import {RepairGsmSentService} from './repairsGSMSent/repair-gsm-sent.service';
 import {RepairGsmSentComponent} from './repairsGSMSent/repair-gsm-sent.component';
+import {RepairGsmFixedComponent} from './repairs-fixed/repair-gsm-fixed.component';
 
 
 @NgModule({
@@ -115,8 +116,8 @@ import {RepairGsmSentComponent} from './repairsGSMSent/repair-gsm-sent.component
     RepairGSMDetailComponent,
     RepairPfDoneComponent,
     RepairGsmDoneComponent,
-    RepairGsmSentComponent
-
+    RepairGsmSentComponent,
+    RepairGsmFixedComponent
   ],
   providers: [
     RepairPFDetailService,

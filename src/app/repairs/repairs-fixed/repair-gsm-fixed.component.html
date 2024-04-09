@@ -1,4 +1,10 @@
 <p-growl [(value)]="msgs"></p-growl>
+<div class="col-md-4 fix-date">
+  <label for="inDate" style="display: block">Perioada - Data finalizare</label>
+  <p-calendar id="inDate" [(ngModel)]="rangeDates" selectionMode="range" readonlyInput="true"
+              [monthNavigator]="true" [yearNavigator]="true" yearRange="2017:2030" [showIcon]="true" (onSelect)="onRangeSelect()">
+  </p-calendar>
+</div>
 <div class="content">
   <div class="ui-widget-header" style="padding:4px 10px;border-bottom: 0 none">
     <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
@@ -16,11 +22,17 @@
         <p-multiSelect [options]="columnOptions" [(ngModel)]="cols"></p-multiSelect>
       </div>
       <h4>
-      Colete trimise
+        Reparatii finalizate
       </h4>
+      <h5>Total reparatii pentru intervalul selectat: {{ repairsCount }}</h5>
     </p-header>
     <p-column *ngFor="let column of cols" [field]="column.field" [header]="column.header" [filter]="column.filter" [editable]="column.editable" [sortable]="column.sortable" >
       <ng-container *ngIf="column.field == 'addedDate'">
+        <ng-template let-col let-row="rowData" pTemplate="body">
+          <span [style.color]="row[col.field]">{{row[col.field] | date:"dd-MM-yyyy HH:mm"}}</span>
+        </ng-template>
+      </ng-container>
+      <ng-container *ngIf="column.field == 'repairedDate'">
         <ng-template let-col let-row="rowData" pTemplate="body">
           <span [style.color]="row[col.field]">{{row[col.field] | date:"dd-MM-yyyy HH:mm"}}</span>
         </ng-template>
@@ -141,7 +153,6 @@
         <div class="ui-grid-col-8"><input pInputText id="priceOffer" [(ngModel)]="clientGSM.priceOffer"
                                           (blur)="checkPaymentIsNo(clientGSM, 'priceOffer')"/></div>
       </div>
-
     </div>
     <p-footer>
       <div class="ui-dialog-buttonpane ui-helper-clearfix">

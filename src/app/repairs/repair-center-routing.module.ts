@@ -8,6 +8,7 @@ import { RepairGSMDetailComponent } from './repairGSM/repair-gsm-detail.componen
 import {RepairPfDoneComponent} from './repairs-done/repairs-pf-done/repair-pf-done.component';
 import {RepairGsmDoneComponent} from './repairs-done/repairs-gsm-done/repair-gsm-done.component';
 import {RepairGsmSentComponent} from './repairsGSMSent/repair-gsm-sent.component';
+import {RepairGsmFixedComponent} from './repairs-fixed/repair-gsm-fixed.component';
 
 const repairsCenterRoutes: Routes = [
   {
@@ -33,6 +34,11 @@ const repairsCenterRoutes: Routes = [
       {
         path: 'gsm-sent',
         component: RepairGsmSentComponent,
+        // canActivate: [AuthGuard]
+      },
+      {
+        path: 'gsm-fixed',
+        component: RepairGsmFixedComponent,
         // canActivate: [AuthGuard]
       }
     ],
